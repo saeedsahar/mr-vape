@@ -1,0 +1,30 @@
+application:
+  title: "eCommerce REST API"
+  version: "1.0"
+
+server:
+  port: 8081
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/sb-ecommerce-dev
+    driverClassName: com.mysql.cj.jdbc.Driver
+    username: root  # !exposed
+    password: Soliton@2294  # !exposed
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+#    properties:
+#      hibernate:
+#        format_sql: true
+  messages:
+    basename: validation-messages
+
+web:
+  cors:
+    allowed-origins: "http://localhost:4200"
+    allowed-methods: GET, POST, PATCH, PUT, DELETE, OPTIONS, HEAD
+    max-age: 3600
+    allowed-headers: "Requestor-Type"
+    exposed-headers: "X-Get-Header"
