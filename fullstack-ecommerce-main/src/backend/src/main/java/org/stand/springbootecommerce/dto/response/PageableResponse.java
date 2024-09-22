@@ -1,7 +1,6 @@
 package org.stand.springbootecommerce.dto.response;
 
 import lombok.*;
-import org.stand.springbootecommerce.entity.user.Product;
 
 import java.util.List;
 

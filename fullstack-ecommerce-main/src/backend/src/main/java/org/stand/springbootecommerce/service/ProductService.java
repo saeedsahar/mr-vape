@@ -1,7 +1,7 @@
 package org.stand.springbootecommerce.service;
 
 import org.springframework.data.domain.Page;
-import org.stand.springbootecommerce.entity.user.Product;
+import org.stand.springbootecommerce.entity.Product;
 
 import java.util.List;
 

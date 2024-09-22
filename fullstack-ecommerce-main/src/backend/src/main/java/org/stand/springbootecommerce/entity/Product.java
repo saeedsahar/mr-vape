@@ -1,11 +1,13 @@
-package org.stand.springbootecommerce.entity.user;
+package org.stand.springbootecommerce.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
 import org.hibernate.Hibernate;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Objects;
 
 
@@ -34,6 +36,7 @@ public class Product {
     @Column(name = "description")
     private String description;
 
+
     @NotBlank
     @Size(max = 80)
     @Column(name = "short_description")
@@ -55,9 +58,36 @@ public class Product {
     @Column(name = "image")
     private String image;
 
-    @ManyToOne(fetch = FetchType.LAZY) // FetchType.EAGER
-    @JoinColumn(name = "category_id")
-    private ProductCategory category;
+    @Column(name = "flavour_type")
+    private String flavourType;
+    @Column(name = "bottle_size")
+    private String bottleSize;
+    @Column(name = "nocotine_strength")
+    private String nocotineStrength;
+    @Column(name = "nocotine_type")
+    private String nocotineType;
+    @Column(name = "product_label")
+    private String productLabel;
+    @JsonIgnore
+    @JoinColumn(name = "brand_id", referencedColumnName = "id")
+    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    private Brand brand;
+//    @JsonIgnore
+//    @JoinColumn(name = "category_id", referencedColumnName = "id")
+//    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+//    private Category category;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "product", fetch = FetchType.LAZY)
+    private List<OrderItems> orderItemsList;
+
+    @OneToMany(mappedBy = "productId", fetch = FetchType.LAZY)
+    private List<ProductLabel> productLabelList;
+    @OneToMany(mappedBy = "productId", fetch = FetchType.LAZY)
+    private List<ProductLiquidCapacity> productLiquidCapacityList;
+    @OneToMany(mappedBy = "productId", fetch = FetchType.LAZY)
+    private List<ProductFlavour> productFlavourList;
+    @OneToMany(mappedBy = "productId", fetch = FetchType.LAZY)
+    private List<ProductNicotine> productNicotineList;
 
     @Override
     public boolean equals(Object o) {

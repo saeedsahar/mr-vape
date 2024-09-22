@@ -10,11 +10,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.Page;
 import org.stand.springbootecommerce.dto.UserDTO;
 import org.stand.springbootecommerce.dto.request.ProductRequest;
-import org.stand.springbootecommerce.dto.response.PageableResponse;
 import org.stand.springbootecommerce.dto.response.ProductResponse;
-import org.stand.springbootecommerce.entity.user.Product;
-import org.stand.springbootecommerce.entity.user.ProductCategory;
-import org.stand.springbootecommerce.entity.user.User;
+import org.stand.springbootecommerce.entity.Category;
+import org.stand.springbootecommerce.entity.Product;
+import org.stand.springbootecommerce.entity.User;
 import org.stand.springbootecommerce.service.ProductCategoryService;
 import org.stand.springbootecommerce.service.ProductService;
 
@@ -39,11 +38,11 @@ public class ModelMapperConfig {
         /*
             Converter
         */
-        Converter<Long, ProductCategory> categoryIdToCategory = context -> {
+        Converter<Long, Category> categoryIdToCategory = context -> {
             return productCategoryService.getProductCategoryById(context.getSource());
         };
 
-        Converter<ProductCategory, Long> categoryToCategoryId = context -> {
+        Converter<Category, Long> categoryToCategoryId = context -> {
             return context.getSource().getId();
         };
 
@@ -57,15 +56,15 @@ public class ModelMapperConfig {
         */
         TypeMap<ProductRequest, Product> productPostRequestToProduct = modelMapper.createTypeMap(ProductRequest.class, Product.class);
 
-        productPostRequestToProduct.addMappings(
-                mapper -> mapper.using(categoryIdToCategory).map(ProductRequest::getCategory, Product::setCategory)
-        );
+//        productPostRequestToProduct.addMappings(
+//                mapper -> mapper.using(categoryIdToCategory).map(ProductRequest::getCategory, Product::setCategory)
+//        );
 
         TypeMap<Product, ProductResponse> productToProductResponse = modelMapper.createTypeMap(Product.class, ProductResponse.class);
 
-        productToProductResponse.addMappings(
-                mapper -> mapper.using(categoryToCategoryId).map(Product::getCategory, ProductResponse::setCategoryId)
-        );
+//        productToProductResponse.addMappings(
+//                mapper -> mapper.using(categoryToCategoryId).map(Product::getCategory, ProductResponse::setCategoryId)
+//        );
 
         TypeMap<User, UserDTO> userToUserDTO = modelMapper.createTypeMap(User.class, UserDTO.class);
 

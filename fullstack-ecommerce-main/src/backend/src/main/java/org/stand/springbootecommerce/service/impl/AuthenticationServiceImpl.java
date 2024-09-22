@@ -1,5 +1,6 @@
 package org.stand.springbootecommerce.service.impl;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.validation.Validator;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -17,7 +18,7 @@ import org.stand.springbootecommerce.dto.request.AuthenticationRequest;
 import org.stand.springbootecommerce.dto.request.RegisterRequest;
 import org.stand.springbootecommerce.dto.response.AuthenticationResponse;
 import org.stand.springbootecommerce.dto.response.BaseResponseBody;
-import org.stand.springbootecommerce.entity.user.User;
+import org.stand.springbootecommerce.entity.User;
 import org.stand.springbootecommerce.error.BaseException;
 import org.stand.springbootecommerce.error.UserEmailAlreadyTakenException;
 import org.stand.springbootecommerce.error.UserNotAuthenticatedException;
@@ -95,8 +96,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         );
 
         // Generate JWT token
-        String jwt = jwtService.generateToken(user);
-
+        String jwt;
+        try {
+             jwt = jwtService.generateToken(user);
+        }catch (ExpiredJwtException e){
+            jwt="Expired token";
+        }
         // Create and return success response
         return new AuthenticationResponse(jwt);
     }

@@ -5,7 +5,7 @@ import org.stand.springbootecommerce.dto.request.AuthenticationRequest;
 import org.stand.springbootecommerce.dto.request.RegisterRequest;
 import org.stand.springbootecommerce.dto.response.AuthenticationResponse;
 import org.stand.springbootecommerce.dto.response.BaseResponseBody;
-import org.stand.springbootecommerce.entity.user.User;
+import org.stand.springbootecommerce.entity.User;
 import org.stand.springbootecommerce.error.BaseException;
 import org.stand.springbootecommerce.error.UserNotAuthenticatedException;
 import org.stand.springbootecommerce.error.UserNotFoundException;

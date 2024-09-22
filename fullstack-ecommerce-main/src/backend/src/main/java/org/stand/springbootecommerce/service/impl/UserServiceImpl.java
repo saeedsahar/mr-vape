@@ -5,7 +5,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.stand.springbootecommerce.dto.request.UserUpdateRequest;
-import org.stand.springbootecommerce.entity.user.User;
+import org.stand.springbootecommerce.entity.User;
 import org.stand.springbootecommerce.error.UserNotAuthenticatedException;
 import org.stand.springbootecommerce.error.UserNotFoundException;
 import org.stand.springbootecommerce.repository.UserRepository;

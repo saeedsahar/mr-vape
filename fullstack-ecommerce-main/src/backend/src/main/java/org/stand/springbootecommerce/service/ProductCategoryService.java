@@ -1,11 +1,12 @@
 package org.stand.springbootecommerce.service;
 
-import org.stand.springbootecommerce.entity.user.ProductCategory;
+import org.stand.springbootecommerce.entity.Category;
 
 import java.util.List;
 
 public interface ProductCategoryService {
-    List<ProductCategory> getProductCategories();
-    ProductCategory getProductCategoryById(Long id);
-    ProductCategory addProductCategory(ProductCategory productCategory);
+    List<Category> getProductCategories();
+    Category getProductCategoryById(Long id);
+    Category addProductCategory(Category productCategory);
+    List<Category> getAllCategoriesWithBrands();
 }

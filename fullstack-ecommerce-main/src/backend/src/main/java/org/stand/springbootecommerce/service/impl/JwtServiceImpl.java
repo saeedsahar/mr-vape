@@ -1,10 +1,12 @@
 package org.stand.springbootecommerce.service.impl;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.security.SignatureException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -44,7 +46,7 @@ public class JwtServiceImpl implements JwtService {
                 .setClaims(extraClaims)
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24)) // TODO: not hardcoded and from config
+                .setExpiration(new Date(System.currentTimeMillis() + 1000*60*60*24*7)) // TODO: not hardcoded and from config
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
@@ -63,12 +65,27 @@ public class JwtServiceImpl implements JwtService {
     }
 
     private Claims extractAllClaims(String token) {
-        return Jwts
-                .parserBuilder()
-                .setSigningKey(getSignInKey()) // sign in key to generate or decode a token
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
+        try {
+            return Jwts.parserBuilder()
+                    .setAllowedClockSkewSeconds(60) // Allow 60 seconds clock skew
+                    .setSigningKey(getSignInKey())   // Set the signing key
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();                      // Retrieve claims
+        } catch (ExpiredJwtException e) {
+            // Handle expired token
+            System.out.println("Token expired. Please log in again.");
+            // Here you might redirect the user to the login page or return a specific error response
+            return null; // Or throw a custom exception
+        } catch (SignatureException e) {
+            // Handle invalid signature
+            System.out.println("Invalid token signature.");
+            return null; // Or throw a custom exception
+        } catch (Exception e) {
+            // Handle other exceptions
+            System.out.println("Token validation failed: " + e.getMessage());
+            return null; // Or throw a custom exception
+        }
     }
 
     private Key getSignInKey() {

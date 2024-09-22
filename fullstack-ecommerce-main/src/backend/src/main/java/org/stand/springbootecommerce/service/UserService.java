@@ -1,7 +1,7 @@
 package org.stand.springbootecommerce.service;
 
 import org.stand.springbootecommerce.dto.request.UserUpdateRequest;
-import org.stand.springbootecommerce.entity.user.User;
+import org.stand.springbootecommerce.entity.User;
 import org.stand.springbootecommerce.error.UserNotAuthenticatedException;
 import org.stand.springbootecommerce.error.UserNotFoundException;
 

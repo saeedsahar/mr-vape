@@ -12,8 +12,11 @@ import org.springframework.web.bind.annotation.*;
 import org.stand.springbootecommerce.dto.request.ProductRequest;
 import org.stand.springbootecommerce.dto.response.PageableResponse;
 import org.stand.springbootecommerce.dto.response.ProductResponse;
-import org.stand.springbootecommerce.entity.user.Product;
+import org.stand.springbootecommerce.entity.Product;
 import org.stand.springbootecommerce.service.ProductService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:4200") //TODO: tmp sol
 @RequiredArgsConstructor
@@ -35,7 +38,24 @@ public class ProductController {
             ) throws InterruptedException {
         // TODO: use modelMappings
         Page<Product> productPage = productService.getProducts(query, pageNumber, pageSize);
-        PageableResponse<ProductResponse> pageableResponse = new PageableResponse<ProductResponse>(productPage.getTotalElements(), productPage.getContent().stream().map(product -> modelMapper.map(product, ProductResponse.class)).toList());
+        List<Product> prodList= productPage.getContent().stream().toList();
+        List<ProductResponse> resList=new ArrayList<>();
+        for(Product p:prodList){
+            ProductResponse res=  new ProductResponse();
+                    res.setId(p.getId());
+                    res.setName(p.getName());
+                    res.setImage(p.getImage());
+                    res.setDescription(p.getDescription());
+                    res.setQuantity(p.getQuantity());
+//                    res.setCategoryId(p.getCategory().getId());
+                    res.setPrice(p.getPrice());
+                    res.setShortDescription(p.getShortDescription());
+
+
+            resList.add(res);
+        }
+        new ProductResponse();
+        PageableResponse<ProductResponse> pageableResponse = new PageableResponse<ProductResponse>(productPage.getTotalElements(), resList);
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(pageableResponse);
@@ -59,10 +79,24 @@ public class ProductController {
     // GET api/v1/product/{id}
     @GetMapping("/{id}")
     public ResponseEntity<ProductResponse> getProductById(@PathVariable(name = "id") Long id) {
+        ProductResponse res=  new ProductResponse();
+        Product p=productService.getProductById(id);
+        res.setId(p.getId());
+        res.setName(p.getName());
+        res.setImage(p.getImage());
+        res.setDescription(p.getDescription());
+        res.setQuantity(p.getQuantity());
+//        res.setCategoryId(p.getCategory().getId());
+        res.setPrice(p.getPrice());
+        res.setShortDescription(p.getShortDescription());
+        res.setFlavourType(p.getProductFlavourList());
+        res.setBottleSize(p.getProductLiquidCapacityList());
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(
-                        modelMapper.map(productService.getProductById(id), ProductResponse.class)
+
+        res
+
                 );
     }
 

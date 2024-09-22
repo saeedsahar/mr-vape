@@ -7,8 +7,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import org.stand.springbootecommerce.entity.user.Product;
-import org.stand.springbootecommerce.repository.ProductCategoryRepository;
+import org.stand.springbootecommerce.entity.Product;
+import org.stand.springbootecommerce.repository.CategoryRepository;
 import org.stand.springbootecommerce.repository.ProductRepository;
 import org.stand.springbootecommerce.service.ProductService;
 
@@ -18,7 +18,7 @@ import java.util.*;
 @Service
 public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
-    private final ProductCategoryRepository productCategoryRepository;
+    private final CategoryRepository productCategoryRepository;
     private final Logger LOG = LoggerFactory.getLogger(ProductServiceImpl.class);
 
     @Override
@@ -33,18 +33,28 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> getProductsByCategoryName(String categoryName) {
-        return productRepository.findByCategoryId(
-                productCategoryRepository
-                        .findByName(categoryName)
-                        .orElseThrow(() -> new NoSuchElementException("ProductCategory with name='%s' not found".formatted(categoryName)))
-                        .getId()
-        );
+        return List.of();
     }
 
     @Override
     public List<Product> getProductsByCategoryId(Long categoryId) {
-        return productRepository.findByCategoryId(categoryId);
+        return List.of();
     }
+
+//    @Override
+//    public List<Product> getProductsByCategoryName(String categoryName) {
+//        return productRepository.findByCategoryId(
+//                productCategoryRepository
+//                        .findByName(categoryName)
+//                        .orElseThrow(() -> new NoSuchElementException("ProductCategory with name='%s' not found".formatted(categoryName)))
+//                        .getId()
+//        );
+//    }
+
+//    @Override
+//    public List<Product> getProductsByCategoryId(Long categoryId) {
+//        return productRepository.findByCategoryId(categoryId);
+//    }
 
     @Override
     public Product getProductById(Long id) {
@@ -60,8 +70,14 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Page<Product> searchProducts(String query, Integer pageNumber, Integer pageSize) {
+        if(query.equals("Trending")){
+           return productRepository.findByProductLabelContainingIgnoreCase(query, PageRequest.of(pageNumber, pageSize));
+
+        }
         return productRepository.findByNameContainingIgnoreCase(query, PageRequest.of(pageNumber, pageSize));
     }
+
+
 
     @Override
     public List<Product> searchProducts(String query) {

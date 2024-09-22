@@ -1,4 +1,4 @@
-package org.stand.springbootecommerce.entity.user;
+package org.stand.springbootecommerce.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 @Entity
 @Data
@@ -62,6 +63,8 @@ public class User implements UserDetails {
     @Column(name = "timestamp")
     private LocalDateTime timestamp = LocalDateTime.now();
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY)
+    private List<Orders> ordersList;
     public User(String name, String surname, String email) {
         this.surname = surname;
         this.name = name;
