@@ -6,7 +6,7 @@ import java.util.List;
 
 public class BrandProductDTO {
 
-    private Integer id;
+    private Long id;
     private String name;
     private String image;
     private String description;
@@ -16,7 +16,7 @@ public class BrandProductDTO {
 
     }
 
-    public BrandProductDTO(Integer id, String name, String image, String description, List<Product> productList) {
+    public BrandProductDTO(Long id, String name, String image, String description, List<Product> productList) {
         this.id = id;
         this.name = name;
         this.image = image;
@@ -24,11 +24,11 @@ public class BrandProductDTO {
         this.productList = productList;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

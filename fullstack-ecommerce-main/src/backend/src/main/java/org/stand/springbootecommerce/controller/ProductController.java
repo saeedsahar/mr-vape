@@ -9,10 +9,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.stand.springbootecommerce.dto.ProductLookup;
 import org.stand.springbootecommerce.dto.request.ProductRequest;
 import org.stand.springbootecommerce.dto.response.PageableResponse;
 import org.stand.springbootecommerce.dto.response.ProductResponse;
 import org.stand.springbootecommerce.entity.Product;
+import org.stand.springbootecommerce.service.BrandService;
 import org.stand.springbootecommerce.service.ProductService;
 
 import java.util.ArrayList;
@@ -26,6 +28,7 @@ public class ProductController {
     private final Logger LOG = LoggerFactory.getLogger(ProductController.class);
     private final ProductService productService;
     private final ModelMapper modelMapper;
+    private final BrandService brandService;
 
     // GET api/v1/product
     // GET api/v1/product?q={Abc}
@@ -99,5 +102,7 @@ public class ProductController {
 
                 );
     }
+
+
 
 }

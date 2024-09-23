@@ -29,8 +29,8 @@ import java.util.List;
         private String image;
         @Column(name = "short_description")
         private String shortDescription;
-        @OneToMany(mappedBy = "parentCategoryId")
-        private List<Category> categoryList;
+//        @OneToMany(mappedBy = "parentCategoryId")
+//        private List<Category> categoryList;
 
         public CategoryParent() {
         }
@@ -79,13 +79,13 @@ import java.util.List;
             this.shortDescription = shortDescription;
         }
 
-        public List<Category> getCategoryList() {
-            return categoryList;
-        }
-
-        public void setCategoryList(List<Category> categoryList) {
-            this.categoryList = categoryList;
-        }
+//        public List<Category> getCategoryList() {
+//            return categoryList;
+//        }
+//
+//        public void setCategoryList(List<Category> categoryList) {
+//            this.categoryList = categoryList;
+//        }
 
         @Override
         public int hashCode() {

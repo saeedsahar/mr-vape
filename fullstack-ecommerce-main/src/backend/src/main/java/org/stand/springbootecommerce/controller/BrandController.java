@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.stand.springbootecommerce.dto.ProductLookup;
 import org.stand.springbootecommerce.dto.response.BrandProductDTO;
 import org.stand.springbootecommerce.dto.response.ProductResponse;
 import org.stand.springbootecommerce.entity.Brand;
@@ -42,6 +43,17 @@ public class BrandController {
                 .body(
 
                         res
+
+                );
+    }
+    @GetMapping("/lookup")
+    public ResponseEntity<ProductLookup> getProductLookup() {
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(
+
+                        brandService.getProductLookup()
 
                 );
     }

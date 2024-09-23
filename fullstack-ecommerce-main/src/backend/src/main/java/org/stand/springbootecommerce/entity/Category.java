@@ -46,10 +46,10 @@ public class Category {
 //    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
 //    private List<Product> productList;
 
-    @JsonIgnore
-    @JoinColumn(name = "parent_category_id", referencedColumnName = "id")
-    @ManyToOne
-    private CategoryParent parentCategoryId;
+//    @JsonIgnore
+//    @JoinColumn(name = "parent_category_id", referencedColumnName = "id")
+//    @ManyToOne
+//    private CategoryParent parentCategoryId;
 
 
 

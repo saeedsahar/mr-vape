@@ -29,10 +29,10 @@ public class ProductCategoryController {
 
     // GET api/v1/category
     @GetMapping
-    public ResponseEntity<List<CategoryParent>> getProductCategories() {
+    public ResponseEntity<List<Category>> getProductCategories() {
 //       List<ProductCategory> category= productCategoryService.getProductCategories();
 //       Set<Category> category =brandService.getBrandList().stream().map(p->p.getCategory()).collect(Collectors.toSet());
-        List<CategoryParent> parentList=categoryParentService.getParent();
+        List<Category> parentList=productCategoryService.getProductCategories();
 //        List<ProductCategory> brand=  productCategoryService.getAllCategoriesWithBrands();
 
         return ResponseEntity

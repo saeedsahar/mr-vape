@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.stand.springbootecommerce.dto.ProductLookup;
 import org.stand.springbootecommerce.entity.Product;
 import org.stand.springbootecommerce.repository.CategoryRepository;
 import org.stand.springbootecommerce.repository.ProductRepository;
@@ -83,4 +84,6 @@ public class ProductServiceImpl implements ProductService {
     public List<Product> searchProducts(String query) {
         return productRepository.findByNameContainingIgnoreCase(query);
     }
+
+
 }
