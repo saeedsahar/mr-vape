@@ -7,10 +7,10 @@ server:
 
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/sb-ecommerce-dev
+    url: jdbc:mysql://mr-vape-db.cvagu0gwmi5q.eu-west-2.rds.amazonaws.com/sb-ecommerce-dev
     driverClassName: com.mysql.cj.jdbc.Driver
     username: root  # !exposed
-    password: Soliton@2294  # !exposed
+    password: Malikjee123  # !exposed
   jpa:
     hibernate:
       ddl-auto: none
