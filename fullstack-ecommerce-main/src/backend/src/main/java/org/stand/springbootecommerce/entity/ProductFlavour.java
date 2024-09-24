@@ -22,6 +22,7 @@ public class ProductFlavour  {
 
     @Id
     @Basic(optional = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
     @Column(name = "flavour")

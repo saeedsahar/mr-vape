@@ -1,14 +1,21 @@
 package org.stand.springbootecommerce.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.codec.multipart.FilePart;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.stand.springbootecommerce.dto.ProductLookup;
 import org.stand.springbootecommerce.dto.request.ProductRequest;
 import org.stand.springbootecommerce.dto.response.PageableResponse;
@@ -16,7 +23,9 @@ import org.stand.springbootecommerce.dto.response.ProductResponse;
 import org.stand.springbootecommerce.entity.Product;
 import org.stand.springbootecommerce.service.BrandService;
 import org.stand.springbootecommerce.service.ProductService;
+import org.stand.springbootecommerce.service.S3Service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +38,11 @@ public class ProductController {
     private final ProductService productService;
     private final ModelMapper modelMapper;
     private final BrandService brandService;
+
+
+    private final S3Service s3Service;
+
+
 
     // GET api/v1/product
     // GET api/v1/product?q={Abc}
@@ -65,17 +79,24 @@ public class ProductController {
     }
 
     // POST api/v1/product {ProductRequest}
-    @PostMapping
-    public ResponseEntity<ProductResponse> saveProduct(@Valid @RequestBody ProductRequest productRequest) {
+    @PostMapping(value = "/save")
+    public ResponseEntity<Boolean> saveProduct(@RequestPart("product") String product, @RequestPart("file") List<MultipartFile> file) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        ProductRequest productRequest = objectMapper.readValue(product, ProductRequest.class);
+
+        try {
+            JsonNode jsonNode = objectMapper.readTree(product);
+            productService.saveOrUpdateProduct(productRequest,file);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(
-                        modelMapper.map(
-                                productService.addProduct(
-                                        modelMapper.map(productRequest, Product.class)
-                                ),
-                                ProductResponse.class
-                        )
+                        true
+
                 );
     }
 
@@ -103,6 +124,16 @@ public class ProductController {
                 );
     }
 
-
-
+    @PostMapping("/upload")
+    public ResponseEntity<String> uploadImage(@RequestParam("file") MultipartFile file) {
+        try {
+            String imageUrl = s3Service.uploadImage("mine1", file); // Specify the folder name
+            return ResponseEntity.ok(imageUrl);
+        } catch (IOException e) {
+            return ResponseEntity.status(500).body("Failed to upload image: " + e.getMessage());
+        }
+    }
 }
+
+
+
