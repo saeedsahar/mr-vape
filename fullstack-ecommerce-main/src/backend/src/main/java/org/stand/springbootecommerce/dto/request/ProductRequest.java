@@ -8,7 +8,7 @@ import java.util.List;
 
 @Getter
 public class ProductRequest {
-
+    private Long  id;
     private String name;
 
 
@@ -36,8 +36,8 @@ public class ProductRequest {
         this.flavours = flavours;
     }
 
-
-    public ProductRequest(String name, String description, String short_description, String product_label, BigDecimal price, Long brand_id, List<FlavourDTO> flavours) {
+    public ProductRequest(Long id, String name, String description, String short_description, String product_label, BigDecimal price, Long brand_id, List<FlavourDTO> flavours) {
+        this.id = id;
         this.name = name;
         this.description = description;
         this.short_description = short_description;
@@ -45,6 +45,14 @@ public class ProductRequest {
         this.price = price;
         this.brand_id = brand_id;
         this.flavours = flavours;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getProduct_label() {

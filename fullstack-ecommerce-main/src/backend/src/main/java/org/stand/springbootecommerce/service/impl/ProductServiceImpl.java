@@ -82,10 +82,10 @@ public class ProductServiceImpl implements ProductService {
     public Boolean saveOrUpdateProduct(ProductRequest request, List<MultipartFile> file) {
         if(!request.equals(null)) {
             Product product = new Product();
-//            if(!productRequest.get.equals("")){
-//                product.setId(node.get("id").asLong());  //update
-//
-//            }
+            if(!request.getId().equals(null) ){
+                product.setId(request.getId());  //update
+
+            }
             product.setName(request.getName());
             product.setShortDescription(request.getShort_description());
             product.setDescription(request.getDescription());
@@ -122,7 +122,11 @@ public class ProductServiceImpl implements ProductService {
             List<ProductFlavour> flavourList=new ArrayList<>();
                 for(FlavourDTO p:request.getFlavours()) {
 
-                    ProductFlavour productFlavour = new ProductFlavour();
+
+                        ProductFlavour productFlavour = new ProductFlavour();
+                    if(!request.getId().equals(null) ) {
+                        productFlavour.setId(p.getId());
+                    }
                     productFlavour.setProductId(postProd);
                     productFlavour.setFlavour(p.getFlavour());
                     productFlavour.setQuantity(p.getQuantity());
