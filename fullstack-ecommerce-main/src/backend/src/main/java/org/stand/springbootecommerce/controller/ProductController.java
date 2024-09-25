@@ -67,6 +67,9 @@ public class ProductController {
 //                    res.setCategoryId(p.getCategory().getId());
                     res.setPrice(p.getPrice());
                     res.setShortDescription(p.getShortDescription());
+                    res.setProductLabel(p.getProductLabel());
+                    res.setProductFlavours(p.getProductFlavourList());
+                    res.setProductImages(p.getProductImageList());
 
 
             resList.add(res);
@@ -113,8 +116,9 @@ public class ProductController {
 //        res.setCategoryId(p.getCategory().getId());
         res.setPrice(p.getPrice());
         res.setShortDescription(p.getShortDescription());
-        res.setFlavourType(p.getProductFlavourList());
-        res.setBottleSize(p.getProductLiquidCapacityList());
+        res.setProductLabel(p.getProductLabel());
+        res.setProductFlavours(p.getProductFlavourList());
+        res.setProductImages(p.getProductImageList());
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(

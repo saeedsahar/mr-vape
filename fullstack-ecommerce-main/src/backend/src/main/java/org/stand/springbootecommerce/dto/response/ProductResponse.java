@@ -21,11 +21,11 @@ public class ProductResponse {
     private String name;
 
     @NotBlank
-    @Size(max = 255)
+    @Size(max = 1000)
     private String description;
 
     @NotBlank
-    @Size(max = 80)
+    @Size(max = 150)
     private String shortDescription;
 
     @NotNull
@@ -46,7 +46,8 @@ public class ProductResponse {
 
 
 
-    private List<ProductFlavour> flavourType;
+    private List<ProductFlavour> productFlavours;
+    private List<ProductImage> productImages;
     private List<ProductLiquidCapacity> bottleSize;
     private String nocotineStrength;
     private String nocotineType;

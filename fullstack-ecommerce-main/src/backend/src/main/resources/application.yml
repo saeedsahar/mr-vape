@@ -20,7 +20,10 @@ spring:
 #        format_sql: true
   messages:
     basename: validation-messages
-
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
 web:
   cors:
     allowed-origins: "http://localhost:4200"
@@ -28,3 +31,9 @@ web:
     max-age: 3600
     allowed-headers: "Requestor-Type"
     exposed-headers: "X-Get-Header"
+
+
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB

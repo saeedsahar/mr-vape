@@ -79,10 +79,11 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public Boolean saveOrUpdateProduct(ProductRequest request, List<MultipartFile> file) {
+    public Boolean saveOrUpdateProduct(ProductRequest request, List<MultipartFile> file)  {
+        boolean status=false;
         if(!request.equals(null)) {
             Product product = new Product();
-            if(!request.getId().equals(null) ){
+            if(request.getId()!=null) {
                 product.setId(request.getId());  //update
 
             }
@@ -124,7 +125,7 @@ public class ProductServiceImpl implements ProductService {
 
 
                         ProductFlavour productFlavour = new ProductFlavour();
-                    if(!request.getId().equals(null) ) {
+                    if(request.getId()!=null ) {
                         productFlavour.setId(p.getId());
                     }
                     productFlavour.setProductId(postProd);
@@ -134,9 +135,10 @@ public class ProductServiceImpl implements ProductService {
                 }
             productFlavourRepository.saveAllAndFlush(flavourList);
             productImageRepository.saveAllAndFlush(imageList);
+            status =true;
 
         }
-        return true;
+        return status;
     }
 
     @Override
@@ -145,7 +147,7 @@ public class ProductServiceImpl implements ProductService {
            return productRepository.findByProductLabelContainingIgnoreCase(query, PageRequest.of(pageNumber, pageSize));
 
         }
-        return productRepository.findByNameContainingIgnoreCase(query, PageRequest.of(pageNumber, pageSize));
+        return productRepository.findByNameProdAndBrand(query, PageRequest.of(pageNumber, pageSize));
     }
 
 
