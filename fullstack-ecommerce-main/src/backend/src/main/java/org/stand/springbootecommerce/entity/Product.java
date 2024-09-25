@@ -28,12 +28,12 @@ public class Product {
     private Long id;
 
     @NotBlank
-    @Size(max = 80)
+    @Size(max = 150)
     @Column(name = "name")
     private String name;
 
     @NotBlank
-    @Size(max = 255)
+    @Size(max = 3000)
     @Column(name = "description")
     private String description;
 
