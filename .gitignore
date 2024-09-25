@@ -1,2 +1,8 @@
 */src/frontend/node_modules
 */src/backend/target
+
+*.class
+/fullstack-ecommerce-main/src/backend/target
+/fullstack-ecommerce-main/src/frontend/.angular/cache
+/fullstack-ecommerce-main/src/frontend/node_modules
+fullstack-ecommerce-main/src/backend/src/main/java/org/stand/springbootecommerce/config/S3Config.java

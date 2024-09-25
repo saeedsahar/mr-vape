@@ -1,38 +1,34 @@
 package org.stand.springbootecommerce.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
-/**
- *
- * @author mine
- */
 @Entity
-@Table(name = "product_label")
-public class ProductLabel  {
+@Table(name = "flavours")
+public class Flavours  {
+
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
-    private Integer id;
+    private Long id;
     @Column(name = "name")
     private String name;
     @Column(name = "description")
     private String description;
 
-
-    public ProductLabel() {
+    public Flavours() {
     }
 
-    public ProductLabel(Integer id) {
+    public Flavours(Long id) {
         this.id = id;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -52,8 +48,6 @@ public class ProductLabel  {
         this.description = description;
     }
 
-
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -64,10 +58,10 @@ public class ProductLabel  {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ProductLabel)) {
+        if (!(object instanceof Flavours)) {
             return false;
         }
-        ProductLabel other = (ProductLabel) object;
+        Flavours other = (Flavours) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -76,8 +70,7 @@ public class ProductLabel  {
 
     @Override
     public String toString() {
-        return "org.stand.springbootecommerce.entity.ProductLabel[ id=" + id + " ]";
+        return "org.stand.springbootecommerce.entity.Flavours[ id=" + id + " ]";
     }
 
 }
-

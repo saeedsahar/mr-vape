@@ -22,8 +22,9 @@ public class ProductFlavour  {
 
     @Id
     @Basic(optional = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Integer id;
+    private Long id;
     @Column(name = "flavour")
     private String flavour;
     @Column(name = "image")
@@ -41,15 +42,15 @@ public class ProductFlavour  {
     public ProductFlavour() {
     }
 
-    public ProductFlavour(Integer id) {
+    public ProductFlavour(Long id) {
         this.id = id;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

@@ -6,6 +6,8 @@ import org.stand.springbootecommerce.dto.ProductLookup;
 import org.stand.springbootecommerce.entity.Brand;
 import org.stand.springbootecommerce.repository.BrandRepository;
 import org.stand.springbootecommerce.repository.CategoryRepository;
+import org.stand.springbootecommerce.repository.FlavoursRepository;
+import org.stand.springbootecommerce.repository.ProductLabelsRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,6 +18,11 @@ public class BrandService {
     BrandRepository brandRepository;
     @Autowired
     CategoryRepository categoryRepository;
+
+    @Autowired
+    FlavoursRepository flavoursRepository;
+    @Autowired
+    ProductLabelsRepository productLabelsRepository;
 
 
     public List<Brand> getBrandList(){
@@ -29,6 +36,6 @@ public class BrandService {
     }
     public ProductLookup getProductLookup(){
 
-        return new ProductLookup(categoryRepository.getCategories(),brandRepository.getDistinctBrandID());
+        return new ProductLookup(productLabelsRepository.findAll(),flavoursRepository.findAll(),categoryRepository.getCategories(),brandRepository.getDistinctBrandID());
     }
 }

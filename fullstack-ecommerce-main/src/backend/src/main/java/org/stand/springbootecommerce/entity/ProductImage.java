@@ -1,30 +1,31 @@
 package org.stand.springbootecommerce.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+
+import java.io.Serializable;
 
 /**
  *
  * @author mine
  */
 @Entity
-@Table(name = "product_label")
-public class ProductLabel  {
-
+@Table(name = "product_image")
+public class ProductImage  {
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Column(name = "name")
-    private String name;
-    @Column(name = "description")
-    private String description;
+    @Column(name = "image")
+    private String image;
+    @JoinColumn(name = "product_id", referencedColumnName = "id")
+    @ManyToOne
+    private Product productId;
 
-
-    public ProductLabel() {
+    public ProductImage() {
     }
 
-    public ProductLabel(Integer id) {
+    public ProductImage(Integer id) {
         this.id = id;
     }
 
@@ -36,23 +37,21 @@ public class ProductLabel  {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getImage() {
+        return image;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setImage(String image) {
+        this.image = image;
     }
 
-    public String getDescription() {
-        return description;
+    public Product getProductId() {
+        return productId;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setProductId(Product productId) {
+        this.productId = productId;
     }
-
-
 
     @Override
     public int hashCode() {
@@ -64,10 +63,10 @@ public class ProductLabel  {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ProductLabel)) {
+        if (!(object instanceof ProductImage)) {
             return false;
         }
-        ProductLabel other = (ProductLabel) object;
+        ProductImage other = (ProductImage) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -76,8 +75,7 @@ public class ProductLabel  {
 
     @Override
     public String toString() {
-        return "org.stand.springbootecommerce.entity.ProductLabel[ id=" + id + " ]";
+        return "org.stand.springbootecommerce.entity.ProductImage[ id=" + id + " ]";
     }
 
 }
-

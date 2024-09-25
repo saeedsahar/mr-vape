@@ -7,6 +7,7 @@ import lombok.*;
 import org.hibernate.Hibernate;
 
 import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
@@ -80,14 +81,16 @@ public class Product {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "product", fetch = FetchType.LAZY)
     private List<OrderItems> orderItemsList;
 
-    @OneToMany(mappedBy = "productId", fetch = FetchType.LAZY)
-    private List<ProductLabel> productLabelList;
+
     @OneToMany(mappedBy = "productId", fetch = FetchType.LAZY)
     private List<ProductLiquidCapacity> productLiquidCapacityList;
     @OneToMany(mappedBy = "productId", fetch = FetchType.LAZY)
     private List<ProductFlavour> productFlavourList;
     @OneToMany(mappedBy = "productId", fetch = FetchType.LAZY)
     private List<ProductNicotine> productNicotineList;
+
+    @OneToMany(mappedBy = "productId")
+    private List<ProductImage> productImageList;
 
     @Override
     public boolean equals(Object o) {

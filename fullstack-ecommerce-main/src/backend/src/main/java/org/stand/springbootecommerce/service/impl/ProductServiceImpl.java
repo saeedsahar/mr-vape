@@ -1,26 +1,39 @@
 package org.stand.springbootecommerce.service.impl;
 
 
+import com.fasterxml.jackson.databind.JsonNode;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import org.stand.springbootecommerce.dto.ProductLookup;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+import org.stand.springbootecommerce.dto.request.FlavourDTO;
+import org.stand.springbootecommerce.dto.request.ProductRequest;
+import org.stand.springbootecommerce.entity.Brand;
 import org.stand.springbootecommerce.entity.Product;
-import org.stand.springbootecommerce.repository.CategoryRepository;
-import org.stand.springbootecommerce.repository.ProductRepository;
+import org.stand.springbootecommerce.entity.ProductFlavour;
+import org.stand.springbootecommerce.entity.ProductImage;
+import org.stand.springbootecommerce.repository.*;
 import org.stand.springbootecommerce.service.ProductService;
+import org.stand.springbootecommerce.service.S3Service;
 
+import java.io.IOException;
 import java.util.*;
 
 @RequiredArgsConstructor
 @Service
 public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
+    private final ProductImageRepository productImageRepository;
+    private final ProductFlavourRepository productFlavourRepository;
     private final CategoryRepository productCategoryRepository;
     private final Logger LOG = LoggerFactory.getLogger(ProductServiceImpl.class);
+    private final S3Service s3Service;
+    private final BrandRepository brandRepository;
 
     @Override
     public Page<Product> getProducts(String query, Integer pageNumber, Integer pageSize) {
@@ -65,8 +78,65 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product addProduct(Product product) {
-        return productRepository.save(product);
+    @Transactional
+    public Boolean saveOrUpdateProduct(ProductRequest request, List<MultipartFile> file) {
+        if(!request.equals(null)) {
+            Product product = new Product();
+            if(!request.getId().equals(null) ){
+                product.setId(request.getId());  //update
+
+            }
+            product.setName(request.getName());
+            product.setShortDescription(request.getShort_description());
+            product.setDescription(request.getDescription());
+            product.setProductLabel(request.getProduct_label());
+            product.setPrice(request.getPrice());
+//            Brand brand=new Brand();
+//            brand.setId(request.getBrand_id());
+            Brand brand = brandRepository.findById(request.getBrand_id()).orElseThrow(() -> new EntityNotFoundException("Brand not found"));
+
+            product.setBrand(brand);
+                if(file.size()>0) {
+                    try {
+                        product.setImage(s3Service.uploadImage(request.getName()+"/cover", file.get(0)));
+                    } catch (IOException e){
+                        e.printStackTrace();
+                    }
+                }
+              Product postProd=  productRepository.saveAndFlush(product);
+
+            List<ProductImage> imageList=new ArrayList<>();
+            for(int i=1;i<=file.size()-1;i++){
+                    ProductImage productImage= new ProductImage();
+                    productImage.setProductId(postProd);
+                    try {
+                        productImage.setImage(s3Service.uploadImage(request.getName()+"/others", file.get(i)));
+                    }catch (IOException e){
+                        e.printStackTrace();
+                    }
+
+                imageList.add(productImage);
+
+                }
+
+            List<ProductFlavour> flavourList=new ArrayList<>();
+                for(FlavourDTO p:request.getFlavours()) {
+
+
+                        ProductFlavour productFlavour = new ProductFlavour();
+                    if(!request.getId().equals(null) ) {
+                        productFlavour.setId(p.getId());
+                    }
+                    productFlavour.setProductId(postProd);
+                    productFlavour.setFlavour(p.getFlavour());
+                    productFlavour.setQuantity(p.getQuantity());
+                    flavourList.add(productFlavour);
+                }
+            productFlavourRepository.saveAllAndFlush(flavourList);
+            productImageRepository.saveAllAndFlush(imageList);
+
+        }
+        return true;
     }
 
     @Override
