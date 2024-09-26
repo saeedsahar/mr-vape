@@ -143,7 +143,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Page<Product> searchProducts(String query, Integer pageNumber, Integer pageSize) {
-        if(query.equals("Trending")){
+        if(query.equals("Trending") || query.equals("NEW")){
            return productRepository.findByProductLabelContainingIgnoreCase(query, PageRequest.of(pageNumber, pageSize));
 
         }
