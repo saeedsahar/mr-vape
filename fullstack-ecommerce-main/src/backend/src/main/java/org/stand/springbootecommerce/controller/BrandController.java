@@ -24,7 +24,7 @@ import java.util.Optional;
 @RequestMapping("api/v1/brand")
 public class BrandController {
 
-    private final Logger LOG = LoggerFactory.getLogger(ProductController.class);
+    private final Logger LOG = LoggerFactory.getLogger(BrandController.class);
     private final BrandService brandService;
 
     // GET api/v1/brand/{id}
