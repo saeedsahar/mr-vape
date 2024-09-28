@@ -16,7 +16,7 @@ import org.stand.springbootecommerce.service.UserService;
 
 @RestController
 @RequestMapping("/api/v1/user")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "https://ec2-18-133-243-152.eu-west-2.compute.amazonaws.com")
 @RequiredArgsConstructor
 public class UserController {
 
