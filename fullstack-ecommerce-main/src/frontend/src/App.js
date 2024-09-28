@@ -12,6 +12,7 @@ import Admin from './Pages/Admin/Admin';
 import './assets/css/bootstrap.min.css'; // Ensure all CSS files are imported correctly
 import './assets/css/all.min.css';
 import './assets/css/style.css';
+import Cart from './Pages/Cart/Cart';
 // import 'swiper/swiper-bundle.min.css'; // Make sure the CSS is imported
 // import 'swiper/swiper.min.css';
 
@@ -24,13 +25,13 @@ function App() {
       children: [
         { path: "/", element: <Home /> },
         { id: "products" , path: "/products", element: <Product /> },
-        { path:"/products/:id", element:<ProductDetailPage /> },
+        { id: "productsDetail" , path:"/products/:id", element:<ProductDetailPage /> },
         { path:"/checkout", element:<Checkout/> },
         { path:"/checkout/payment", element:<Payment/> },
         { path:"/about", element:<About/> },
         { path:"/admin", element:<Admin/> },
-        // { id: "order-key", path: "/order", element: <Order key="order-key" /> },
-        {path : "/authenticate" , element : <Authenticate/>}
+        {path : "/authenticate" , element : <Authenticate/>},
+        {path : "/cart" , element : <Cart/>}
       ],
     },
   ]);

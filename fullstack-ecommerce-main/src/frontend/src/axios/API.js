@@ -2,7 +2,7 @@ import axios from "axios";
 import axiosInstance from "./axiosInstance";
 import axiosInstanceAuth from "./axiosInstanceAuth"
 
-export let base_url = "http://localhost:8081";
+export let base_url = "http://localhost:8081"
 
 // export const getCategories = () =>
 //   getRequestsWithoutToken(base_url + "/categories/get");

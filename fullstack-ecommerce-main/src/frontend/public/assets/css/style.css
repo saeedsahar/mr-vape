@@ -36,7 +36,7 @@ CSS TABLE OF CONTENTS
   --primary-color: #fa4f09;
   --secondary-color: #000000;
   --sub-bg: #191919;
-  --heading-color: #ffffff;
+  --heading-color:  #222222;
   --paragraph: #d2d2d2;
   --span: #ffffff;
   --border: #414141;
@@ -45,6 +45,7 @@ CSS TABLE OF CONTENTS
   --pure-white: #ffffff;
   --black: #000000;
   --footer-color: #727272;
+  --input-placeholder: #d2d2d2;
   --border-1px: 1px solid #414141;
   --border-2px: 2px solid #414141;
   --transition: all 0.3s ease-in-out;
@@ -60,8 +61,8 @@ CSS TABLE OF CONTENTS
   --span: #000;
   --border: #d9d9d9;
   --border-light: #221515;
-  --white: #000;
-  --black: #fff;
+  --white: #fff;
+  --black: #000;
   --footer-color: #727272;
   --border-1px: 1px solid #d9d9d9;
   --border-2px: 2px solid #d9d9d9;
@@ -80,8 +81,7 @@ body {
   margin: 0;
   padding: 0;
   font-family: var(--inter);
-  color: var(--paragraph);
-  background-color: var(--black);
+  color: var(--pure-white);
   line-height: 28px;
   font-weight: 400;
   text-transform: capitalize;
@@ -2275,6 +2275,7 @@ input {
   top: 0;
   width: 100%;
   z-index: 99;
+  background-color: #B2B2B2;
 }
 .top__header .top__wrapper {
   display: flex;
@@ -2287,8 +2288,6 @@ input {
 }
 .top__header .top__wrapper .main__logo {
   margin-right: 82px;
-  width: 128px;
-  height: 44px;
   display: block;
 }
 @media screen and (max-width: 500px) {
@@ -2528,10 +2527,13 @@ input {
   }
 }
 
+.pointer {
+  cursor : pointer !important;
+}
+
 .top__header.top-header-one .search__wrp input {
-  background-color: var(--black);
+  background-color: var(--pure-white);
   color: var(--white);
-  border: 1px solid var(--border);
 }
 .top__header.top-header-one .account {
   background-color: var(--black) !important;

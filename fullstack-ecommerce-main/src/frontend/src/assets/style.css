@@ -60,8 +60,8 @@ CSS TABLE OF CONTENTS
   --span: #000;
   --border: #d9d9d9;
   --border-light: #221515;
-  --white: #000;
-  --black: #fff;
+  --white: #fff;
+  --black: #000;
   --footer-color: #727272;
   --border-1px: 1px solid #d9d9d9;
   --border-2px: 2px solid #d9d9d9;
@@ -229,6 +229,9 @@ input {
   margin-top: 50px;
 }
 
+.pointer {
+  cursor : pointer !important
+}
 .mt-55 {
   margin-top: 55px;
 }

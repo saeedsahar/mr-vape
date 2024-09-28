@@ -6,7 +6,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { updateUserData } from '../Authenticate/AuthSlice';
-
+import bannerBImg from "../../assets/images/banner/inner-banner.jpg"
 const Checkout = () => {
   const [shippingMethod, setShippingMethod] = useState('');
   const [errors, setErrors] = useState({});
@@ -41,170 +41,176 @@ const Checkout = () => {
   const totalBill = cartItems.totalPrice
 
   return (
-    <Container maxWidth="lg">
-      <Box component="form" noValidate sx={{ mt: 3 }}>
-        <Grid container spacing={4}>
-          {/* Left Section: Shipping Details (60%) */}
-          <Grid item xs={12} md={7}>
-            <FormControl fullWidth margin="normal">
-              <FormLabel component="legend" sx={{ mb: 2 }}>Shipping Details</FormLabel>
-              <Grid container spacing={2}>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    required
-                    fullWidth
-                    label="Full Name"
-                    name="fullName"
-                    autoComplete="name"
-                    error={!!errors.name}
-                    helperText={errors.name}
-                    value={userauth.name}
-                    onChange={(e) => {
-                        dispatch(updateUserData({key : "name" , value : e.target.value}))
-                    }}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    required
-                    fullWidth
-                    label="Mobile Number"
-                    name="mobile"
-                    type="tel"
-                    autoComplete="tel"
-                    error={!!errors.mobile}
-                    helperText={errors.mobile}
-                    value={userauth.mobile}
-                    onChange={(e) => {
-                        dispatch(updateUserData({key : "mobile" , value : e.target.value}))
-                    }}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    required
-                    fullWidth
-                    label="Email"
-                    name="email"
-                    type="tel"
-                    autoComplete="tel"
-                    error={!!errors.email}
-                    helperText={errors.email}
-                    value={userauth.email}
-                    onChange={(e) => {
-                        dispatch(updateUserData({key : "email" , value : e.target.value}))
-                    }}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    required
-                    fullWidth
-                    label="Postcode"
-                    name="Postcode"
-                    type="tel"
-                    autoComplete="tel"
-                    error={!!errors.postcode}
-                    helperText={errors.postcode}
-                    value={userauth.postcode}
-                    onChange={(e) => {
-                        dispatch(updateUserData({key : "postcode" , value : e.target.value}))
-                    }}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    required
-                    fullWidth
-                    label="Country"
-                    name="country"
-                    autoComplete="country"
-                    error={!!errors.country}
-                    helperText={errors.country}
-                    value={userauth.country}
-                    onChange={(e) => {
-                        dispatch(updateUserData({key : "country" , value : e.target.value}))
-                    }}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    required
-                    fullWidth
-                    label="Town/City"
-                    name="town"
-                    autoComplete="address-level2"
-                    error={!!errors.city}
-                    helperText={errors.city}
-                    value={userauth.city}
-                    onChange={(e) => {
-                        dispatch(updateUserData({key : "city" , value : e.target.value}))
-                    }}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={12}>
-                  <TextField
-                    required
-                    fullWidth
-                    label="Street Address"
-                    name="address"
-                    autoComplete="address-level3"
-                    error={!!errors.shippingAddress}
-                    helperText={errors.shippingAddress}
-                    value={userauth.shippingAddress}
-                    onChange={(e) => {
-                        dispatch(updateUserData({key : "shippingAddress" , value : e.target.value}))
-                    }}
-                  />
-                </Grid>
-              </Grid>
-            </FormControl>
+<main>
+  {/* Page banner area start here */}
+  <section
+    className="page-banner bg-image pt-130 pb-130"
+    style={{ backgroundImage: `url(${bannerBImg})` }}
+  >
+    <div className="container">
+      <h2
+        className="wow fadeInUp mb-15"
+        data-wow-duration="1.1s"
+        data-wow-delay=".1s"
+      >
+        Checkout Page
+      </h2>
+      <div
+        className="breadcrumb-list wow fadeInUp"
+        data-wow-duration="1.3s"
+        data-wow-delay=".3s"
+      >
+        <a href="index.html" className="primary-hover">
+          <i className="fa-solid fa-house me-1" /> Home{" "}
+          <i className="fa-regular text-white fa-angle-right" />
+        </a>
+        <span>Checkout</span>
+      </div>
+    </div>
+  </section>
+  {/* Page banner area end here */}
+  {/* Checkout area start here */}
+  <section className="checkout-area pt-130 pb-130">
+    <div className="container">
+      <div className="row g-4">
+        <div className="col-lg-8">
+          <div className="checkout__item-left text-dark border">
+            <h3 className="mb-40">Billing Details</h3>
+            <label className="mb-10" htmlFor="name">
+              Your Name *
+            </label>
+            <input className="mb-20" id="name" type="text" />
+            <label className="mb-10" htmlFor="email">
+              Email Address *
+            </label>
+            <input className="mb-20" id="email" type="email" />
+            <label className="mb-10" htmlFor="companyName">
+              Company Name (Optional)
+            </label>
+            <input className="mb-20" id="companyName" type="text" />
+            <h5 className="mb-10">Country / Region *</h5>
+            <select className="mb-20" name="subject">
+              <option value={0}>United state america</option>
+              <option value={1}>United Kingdom</option>
+              <option value={2}>Australia</option>
+              <option value={3}>Germany</option>
+              <option value={4}>France</option>
+            </select>
+            <label className="mb-10" htmlFor="streetAddress">
+              Street Address *
+            </label>
+            <input
+              placeholder="1837 E Homer M Adams Pkwy"
+              className="mb-10"
+              id="streetAddress"
+              type="text"
+            />
+            <input className="mb-20" id="streetAddress2" type="text" />
+            <label className="mb-10" htmlFor="townName">
+              Town / City *
+            </label>
+            <input className="mb-20" id="townName" type="text" />
+            <h5 className="mb-10">State *</h5>
+            <select className="mb-20" name="subject">
+              <option value={0}>Georgia / ohio / new york</option>
+              <option value={1}>Georgia</option>
+              <option value={2}>Ohio</option>
+              <option value={3}>New York</option>
+              <option value={4}>Texas</option>
+            </select>
+            <label className="mb-10" htmlFor="zipCode">
+              ZIP Code *
+            </label>
+            <input className="mb-20" id="zipCode" type="number" />
+            <label className="mb-10" htmlFor="phone">
+              Phone *
+            </label>
+            <input className="mb-20" id="phone" type="text" />
+            <div className="radio-btn">
+              <span />
+              <a className="ml-10 fw-bold" href="register.html">
+                Create An Account?
+              </a>
+            </div>
+            <div className="radio-btn mt-2 mb-30">
+              <span className="opacity-75" />
+              <p style={{color : "black"}}>Ship To A Different Address?</p>
+            </div>
+            <label className="mb-10" htmlFor="phone">
+              Order Notes (Optional)
+            </label>
+            <textarea
+              placeholder="Note About Your Order . . ."
+              name="notes"
+              id="notes"
+              defaultValue={""}
+            />
+          </div>
+        </div>
+        <div className="col-lg-4">
+          <div className="checkout__item-right border">
+            <h3 className="mb-40">Your Order</h3>
+            <ul>
+              <li className="bor-bottom pb-4">
+                <h4>Products</h4>
+                <h4>Subtotal</h4>
+              </li>
+              <li className="bor-bottom py-4">
+                <a href="#">Secretary desk</a> <span>$15.00</span>
+              </li>
+              <li className="bor-bottom py-4">
+                <a href="#">Secretary desk</a> <span>$15.00</span>
+              </li>
+              <li className="bor-bottom py-4">
+                <a href="#">Secretary desk</a> <span>$15.00</span>
+              </li>
+              <li className="bor-bottom py-4">
+                <a href="#">Secretary desk</a> <span>$15.00</span>
+              </li>
+              <li className="bor-bottom py-4">
+                <a href="#">Secretary desk</a> <span>$15.00</span>
+              </li>
+              <li className="bor-bottom py-4">
+                <h4>Subtotal</h4>
+                <h4>$999.00</h4>
+              </li>
+            </ul>
+            <div className="py-4 bor-bottom">
+              <h5 className="mb-10">Shipping Address</h5>
+              <span>
+                2801 Lafayette Blvd, Norfolk, Vermont <br />
+                23509, united state
+              </span>
+            </div>
+            <div className="radio-btn mt-30">
+              <span className="opacity-75" />
+              <p>Direct Bank Transfer</p>
+            </div>
+            <div className="radio-btn mt-2">
+              <span />
+              <a className="ml-10 fw-bold" href="#0">
+                Check Payments
+              </a>
+            </div>
+            <div className="radio-btn mt-2 pb-30 bor-bottom">
+              <span className="opacity-75" />
+              <p>Cash On Delivery</p>
+            </div>
+            <p className="pt-30 bor-top">
+              Your personal data will be used to process your order, support
+              your experience throughout this website.
+            </p>
+            <a href="#0" className="btn-one mt-35">
+              <span style={{color : "white"}}>Place Order</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  {/* Checkout area end here */}
+</main>
 
-            <FormControl component="fieldset" fullWidth margin="normal">
-              <FormLabel component="legend" sx={{ mb: 2 }}>Shipping Method</FormLabel>
-              <RadioGroup value={shippingMethod} onChange={handleShippingMethodChange}>
-                <FormControlLabel value="standard" control={<Radio />} label="Standard Shipping" />
-                <FormControlLabel value="express" control={<Radio />} label="Express Shipping" />
-                <FormControlLabel value="overnight" control={<Radio />} label="Overnight Shipping" />
-              </RadioGroup>
-            </FormControl>
-
-            <Button
-            //   type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              sx={{ mt: 3 }}
-              onClick={() =>  {
-                if (validateFields()) {
-                navigate("/checkout/payment");
-              }}
-            }
-            >
-              Payment
-            </Button>
-          </Grid>
-
-          {/* Right Section: Order Summary (40%) */}
-          <Grid item xs={12} md={5}>
-            <Box sx={{ p: 2, border: '1px solid #ccc', borderRadius: 2 }}>
-              <Typography variant="h6" gutterBottom>Order Summary</Typography>
-              <List>
-                {orderItems.map((item, index) => (
-                  <ListItem key={index} disableGutters>
-                    <ListItemText primary={`${item.name} x ${item.quantity}`} /> 
-                    <Typography variant="body2">${item.price * item.quantity}</Typography>
-                  </ListItem>
-                ))}
-              </List>
-              <Box sx={{ mt: 2 }}>
-                <Typography variant="h6">Total Bill: ${totalBill}</Typography>
-              </Box>
-            </Box>
-          </Grid>
-        </Grid>
-      </Box>
-    </Container>
   );
 };
 

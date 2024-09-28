@@ -1,9 +1,10 @@
 // Top header area start here ***
 .top__header {
-	position: absolute;
-	top     : 0;
-	width   : 100%;
-	z-index : 99;
+	position        : absolute;
+	top             : 0;
+	width           : 100%;
+	z-index         : 99;
+	background-color: #B2B2B2;
 
 	.top__wrapper {
 		@include flex;
@@ -13,10 +14,10 @@
 		}
 
 		.main__logo {
-			margin-right: 82px;
-			width       : 128px;
-			height      : 44px;
-			display     : block;
+			margin-right   : 82px;
+			// width       : 128px;
+			// height      : 44px;
+			display        : block;
 
 			@media screen and (max-width: 500px) {
 				display: none;
@@ -286,9 +287,8 @@
 .top__header.top-header-one {
 	.search__wrp {
 		input {
-			background-color: var(--black);
+			background-color: var(--pure-white);
 			color           : var(--white);
-			border          : 1px solid var(--border);
 		}
 	}
 
@@ -313,8 +313,9 @@
 	width           : 100%;
 	z-index         : 9;
 	position        : absolute;
-	top             : 114px;
+	top             : 120px;
 	left            : 0;
+	color           : var(--pure-white);
 	background-color: #191919;
 
 	@include breakpoint(max-xl) {
@@ -341,12 +342,12 @@
 }
 
 .header-wrapper {
-	display        : flex;
-	flex-wrap      : wrap;
-	align-items    : center;
-	justify-content: space-between;
-	transition     : var(--transition);
-	padding        : 10px 0;
+	display           : flex;
+	flex-wrap         : wrap;
+	align-items       : center;
+	justify-content   : space-between;
+	transition        : var(--transition);
+	// padding        : 10px 0;
 
 	.main-menu {
 		position   : relative;
@@ -392,7 +393,7 @@
 
 				@media (min-width: 992px) {
 					position        : absolute;
-					top             : 100%;
+					top             : 80%;
 					left            : -10px;
 					z-index         : 999;
 					width           : 180px;

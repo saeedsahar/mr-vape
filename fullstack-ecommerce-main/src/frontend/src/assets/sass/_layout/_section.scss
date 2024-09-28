@@ -1598,9 +1598,9 @@
 	}
 
 	&__item {
-		padding      : 65px;
-		border       : var(--border-1px);
-		border-radius: 10px;
+		padding         : 65px;
+		// border       : var(--border-1px);
+		border-radius   : 10px;
 	}
 
 	&__form {
@@ -1610,7 +1610,7 @@
 				border          : none;
 				border-bottom   : var(--border-1px);
 				background-color: transparent;
-				color           : var(--white);
+				color           : var(--black);
 				border-radius   : 0px;
 
 				&:focus {
@@ -1618,8 +1618,7 @@
 				}
 
 				&::placeholder {
-					color      : var(--white);
-					font-weight: 400;
+					color      : var(--input-placeholder);
 				}
 			}
 
@@ -1642,7 +1641,7 @@
 			}
 
 			p {
-				color: var(--white);
+				color: var(--black);
 			}
 
 			span {
@@ -1651,7 +1650,7 @@
 		}
 
 		.or {
-			color      : var(--white);
+			color      : var(--black);
 			text-align : center;
 			display    : block;
 			font-weight: 500;
@@ -1708,14 +1707,12 @@
 		.main-menu {
 			li {
 				a {
-					color: var(--black);
+					color: var(--pure-black);
 				}
 
 				.sub-menu {
 					li {
 						a {
-							color: var(--white);
-
 							&:hover {
 								color: var(--primary-color);
 							}

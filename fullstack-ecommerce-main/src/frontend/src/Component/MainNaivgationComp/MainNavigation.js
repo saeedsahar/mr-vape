@@ -1,229 +1,225 @@
-import React from "react";
-import { NavLink, useNavigate } from "react-router-dom";
-import { useSelector } from 'react-redux'
-import Cart from "../Cart/Cart"
-import {useDispatch} from "react-redux"
-import { openCart } from "../Cart/CartSlice";
+import React, { useEffect, useState, useCallback } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import logo from "../../assets/images/logo/logo.svg";
-function MainNavigation(props) {
+import {
+  setBrandId,
+  setCategoryId,
+  setQuery,
+} from "../../Pages/Product/ProductSlice";
+import { base_url, getRequests } from "../../axios/API";
+import { setMenu } from "../../Pages/HomeSlice";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
+import { setSnackBar } from "./MainNavSlice";
 
+function MainNavigation(props) {
   console.log("[MainNavigation.js]");
   const containerRef = React.useRef(null);
-  let navigate = useNavigate()
-  let isLogged =  useSelector((state) => state.auth.isLogged)
-  let currentUser = useSelector((state) => state.auth.name)
-  let cartState = useSelector((state) => state.cart.open)
-  let cartStates = useSelector((state) => state.cart)
-  let dispatch = useDispatch()
+  const searchValueRef = React.useRef(null);
+
+  const [searchValue, setSearchValue] = useState("");
+
+  let navigate = useNavigate();
+  let isLogged = useSelector((state) => state.auth.isLogged);
+  let currentUser = useSelector((state) => state.auth.name);
+  let cartStates = useSelector((state) => state.cart);
+  let homeStates = useSelector((state) => state.home);
+  let mainNavStates = useSelector((state) => state.mainNav);
+  let dispatch = useDispatch();
+  let location = useLocation();
+
+  const getMenu = async () => {
+    try {
+      const response = await getRequests(`${base_url}/api/v1/category`);
+      let data = response.data;
+      dispatch(setMenu(data));
+    } catch (error) {
+      console.error("Error fetching menu", error);
+      dispatch(setMenu([]));
+    }
+  };
+
+  useEffect(() => {
+    homeStates?.menu?.length <= 0 && getMenu();
+  }, []);
+
+  const handleSearch = (value) => {
+    if (value) {
+      if (location.pathname !== "/products") {
+        navigate("/products");
+      }
+      dispatch(setQuery(value));
+      setSearchValue(value);
+      searchValueRef.current = value;
+    } else {
+      // navigate("/")
+      dispatch(setQuery(""));
+      setSearchValue("");
+    }
+  };
+
+  const onSearchChange = (e) => {
+    const value = e.target.value;
+    handleSearch(value);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    dispatch(setSnackBar({ open: false, message: "", type: "" }));
+  };
 
   return (
-  <>
-  <Cart containerRef={containerRef}/>
-  <div className="top__header black-area pt-30 pb-30">
-
-    <div className="container">
-      <div className="top__wrapper">
-        <a className="main__logo">
-          <img onClick={() => navigate("/")} src={logo} alt="logo__image" />
-        </a>
-        <div className="search__wrp">
-          <input placeholder="Search for" aria-label="Search" />
-          <button>
-            <i className="fa-solid fa-search" />
-          </button>
-        </div>
-        <div className="account__wrap">
-          <div className="account d-flex align-items-center">
-            <div className="user__icon">
-              <a href="#0">
-                <i className="fa-regular fa-user" />
-              </a>
-            </div>
-           <a href="#0" className="acc__cont">
-            {isLogged ?  <span className="text-white">{currentUser}</span> :  
-            <span onClick={() => navigate("/authenticate")} className="text-white">My Account</span>}
+    <>
+      <div
+        className="top__header black-area pt-30 pb-30"
+        style={{ backgroundColor: "#B2B2B2" }}
+      >
+        <div className="container">
+          <div className="top__wrapper">
+            <a className="main__logo">
+              <img onClick={() => navigate("/")} src={logo} alt="logo__image" />
             </a>
-          </div>
-          <div className="cart d-flex align-items-center" onClick={() => dispatch(openCart(!cartState))} ref={containerRef}>
-            <span className="cart__icon">
-              <i className="fa-regular fa-cart-shopping" />
-            </span>
-            <a href="#0" className="c__one">
-              <span className="text-white">£{cartStates.totalPrice}</span>
-            </a>
-            <span className="one text-white">{cartStates.total}</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <header className="header-section black-area">
-    <div className="container">
-      <div className="header-wrapper">
-        <div className="header-bar d-lg-none">
-          <span />
-          <span />
-          <span />
-        </div>
-        <ul className="main-menu">
-          <li>
-            <a href="#0">
-              Top Products
-              <i className="fa-regular fa-angle-down" />
-            </a>
-            <ul className="sub-menu">
-              <li className="subtwohober">
-                <a href="#">Mega Box</a>
-              </li>
-              <li className="subtwohober">
-                <a href="#">Rocket X</a>
-              </li>
-              <li className="subtwohober">
-                <a href="#">Alien Max</a>
-              </li>
-              <li className="subtwohober">
-                <a href="#">Black &amp; Golden</a>
-              </li>
-              <li className="subtwohober">
-                <a href="#">Falcon X</a>
-              </li>
-              <li className="subtwohober">
-                <a href="#">Infinity Box</a>
-              </li>
-            </ul>
-          </li>
-          <li>
-            <a href="#">E-Liquid</a>
-          </li>
-          <li>
-            <a href="#0">
-              Disposeable Vapes <i className="fa-regular fa-angle-down" />
-            </a>
-            <ul className="sub-menu">
-              <li className="subtwohober">
-                <a href="#">Mega Box</a>
-              </li>
-              <li className="subtwohober">
-                <a href="#">Rocket X</a>
-              </li>
-              <li className="subtwohober">
-                <a href="#">Alien Max</a>
-              </li>
-              <li className="subtwohober">
-                <a href="#">Black &amp; Golden</a>
-              </li>
-              <li className="subtwohober">
-                <a href="#">Falcon X</a>
-              </li>
-              <li className="subtwohober">
-                <a href="#">Infinity Box</a>
-              </li>
-            </ul>
-          </li>
-          <li>
-            <a href="#0">
-              Nic Salts <i className="fa-regular fa-angle-down" />
-            </a>
-            <ul className="sub-menu">
-              <li className="subtwohober">
-                <a href="#">Mega Box</a>
-              </li>
-              <li className="subtwohober">
-                <a href="#">Rocket X</a>
-              </li>
-              <li className="subtwohober">
-                <a href="#">Alien Max</a>
-              </li>
-              <li className="subtwohober">
-                <a href="#">Black &amp; Golden</a>
-              </li>
-              <li className="subtwohober">
-                <a href="#">Falcon X</a>
-              </li>
-              <li className="subtwohober">
-                <a href="#">Infinity Box</a>
-              </li>
-            </ul>
-          </li>
-          <li>
-            <a href="#">Vape Kits</a>
-          </li>
-          <li>
-          <NavLink to="/" className={({ isActive }) => isActive ? "nav-link-active" : "nav-link"}>Home</NavLink>
-          </li>
-          <li>
-          <NavLink to="/about" className={({ isActive }) => isActive ? "nav-link-active" : "nav-link"}>About</NavLink>
-          </li>
-          <li>
-          <NavLink to="/admin" className={({ isActive }) => isActive ? "nav-link-active" : "nav-link"}>Admin</NavLink>
-
-          </li>
-          <li>
-            <a href="#">Coils</a>
-          </li>
-          <li>
-            <a href="#">Tanks</a>
-          </li>
-          <li>
-            <a href="#">Wholesale</a>
-          </li>
-          <li>
-            <a href="#">Accessories</a>
-          </li>
-          <li>
-            <a href="#">Clearence</a>
-          </li>
-        </ul>
-    
-      </div>
-    </div>
- 
-  </header>
-
-{/* End here */}
-    {/* <div className="toolbar mat-elevation-z8 " style={{ width: "100%" }}>
-
-      <nav style={{marginLeft : "10px"}}>
-        <NavLink to="/" className={({ isActive }) => isActive ? "nav-link-active" : "nav-link"}>Home</NavLink>
-        <NavLink to="/products" className={({ isActive }) => isActive ? "nav-link-active" : "nav-link"}>Products</NavLink>
-        <NavLink to="/about" className={({ isActive }) => isActive ? "nav-link-active" : "nav-link"}>About</NavLink>
-        <NavLink to="/admin" className={({ isActive }) => isActive ? "nav-link-active" : "nav-link"}>Admin</NavLink>
-        <NavLink to="/sheesha" className={({ isActive }) => isActive ? "nav-link-active" : "nav-link"}>Sheesha</NavLink>
-      </nav>
-
-      <span className="spacer"></span>
-      <div className="auth-info-container">
-        {!isLogged ? (
-          <NavLink to="/authenticate" className="nav-link auth-button">Authenticate</NavLink>
-        ) : (
-          <div className="container">
-            <small>{currentUser}</small>
-            <button className="icon-button">
-           
-            </button>
-            <div className="profile-menu">
-              <NavLink to="/profile" className="menu-item">
-         
-              </NavLink>
-              <NavLink to="/settings" className="menu-item">
-               
-              </NavLink>
-              <button onClick={() => alert("Logging out")} className="menu-item">
-                Logout
+            <div className="search__wrp">
+              <input
+                placeholder="Search for"
+                aria-label="Search"
+                onChange={onSearchChange}
+                value={searchValue}
+                style={{ color: "black" }}
+              />
+              <button>
+                <i className="fa-solid fa-search" />
               </button>
             </div>
+            <div className="account__wrap">
+              <div className="account d-flex align-items-center">
+                <div className="user__icon">
+                  <a>
+                    <i className="fa-regular fa-user" />
+                  </a>
+                </div>
+                <a className="acc__cont">
+                  {isLogged ? (
+                    <span className="text-white">{currentUser}</span>
+                  ) : (
+                    <span
+                      onClick={() => navigate("/authenticate")}
+                      className="text-white"
+                    >
+                      My Account
+                    </span>
+                  )}
+                </a>
+              </div>
+              <div
+                className="cart d-flex align-items-center"
+                onClick={() => navigate("/cart")}
+                ref={containerRef}
+              >
+                <span className="cart__icon">
+                  <i className="fa-regular fa-cart-shopping" />
+                </span>
+                <a className="c__one">
+                  <span className="text-white">£{cartStates.totalPrice}</span>
+                </a>
+                <span className="one text-white">{cartStates.total}</span>
+              </div>
+            </div>
           </div>
-        )}
+        </div>
       </div>
-
-      <div className="cart-info-container">
-        <button className="small-button" onClick={() => dispatch(openCart(!cartState))} ref={containerRef}>
-          Cart
-           </button >
-      </div>
-      
-    </div>
-    <Cart containerRef={containerRef}/> */}
+      <header className="header-section black-area">
+        <div className="container">
+          <div className="header-wrapper">
+            <div className="header-bar d-lg-none">
+              <span />
+              <span />
+              <span />
+            </div>
+            <ul className="main-menu pointer">
+              {homeStates.menu?.map((menuEle) => {
+                let hasSubMenu = menuEle.brandList.length > 0;
+                return (
+                  <li className="pointer">
+                    <a
+                      onClick={() => {
+                        dispatch(setCategoryId(menuEle.id));
+                        navigate("/products");
+                      }}
+                    >
+                      {menuEle.name}
+                      {hasSubMenu && <i className="fa-regular fa-angle-down" />}
+                    </a>
+                    {hasSubMenu && (
+                      <ul className="sub-menu">
+                        {menuEle.brandList?.map((subMenuEle) => {
+                          return (
+                            <li className="subtwohober pointer">
+                              <a
+                                onClick={() => {
+                                  dispatch(setBrandId(subMenuEle.id));
+                                  navigate("/products");
+                                }}
+                              >
+                                {subMenuEle.name}
+                              </a>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    )}
+                  </li>
+                );
+              })}
+              <li>
+                <a onClick={() => navigate("/products")}>
+                  Top Products
+                  {/* <i className="fa-regular fa-angle-down" /> */}
+                </a>
+                {/* <ul className="sub-menu">
+              <li className="subtwohober">
+                <a href="#">Mega Box</a>
+              </li>
+              <li className="subtwohober">
+                <a href="#">Rocket X</a>
+              </li>
+              <li className="subtwohober">
+                <a href="#">Alien Max</a>
+              </li>
+              <li className="subtwohober">
+                <a href="#">Black &amp; Golden</a>
+              </li>
+              <li className="subtwohober">
+                <a href="#">Falcon X</a>
+              </li>
+              <li className="subtwohober">
+                <a href="#">Infinity Box</a>
+              </li>
+            </ul> */}
+              </li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <Snackbar
+        open={mainNavStates.open}
+        autoHideDuration={6000}
+        onClose={handleClose}
+      >
+        <Alert
+          onClose={handleClose}
+          severity={mainNavStates.type}
+          variant="filled"
+          sx={{ width: "100%" }}
+        >
+          {mainNavStates.message}{" "}
+        </Alert>
+      </Snackbar>
     </>
   );
 }
