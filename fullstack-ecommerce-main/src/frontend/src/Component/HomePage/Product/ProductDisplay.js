@@ -1,0 +1,42 @@
+import React from "react";
+import { useNavigate } from "react-router-dom";
+
+function ProductDisplay(props) {
+  let navigate = useNavigate();
+  return (
+    <div className="col-xxl-3 col-xl-4 col-md-6">
+      <div className="product__item bor">
+        <a className="wishlist">
+          <i className="fa-regular fa-heart" />
+        </a>
+        <a className="product__image pt-20 d-block">
+          <img className="font-image" src={props.product.image} alt="image" />
+          <img className="back-image" src={props.product.image} alt="image" />
+        </a>
+        <div className="product__content">
+          <h4 className="mb-15">
+            <a className="primary-hover">{props.product.name}</a>
+          </h4>
+          <del>£{props.product.price}</del>
+          <span className="primary-color ml-10">£{props.product.price}</span>
+          <div className="star mt-20">
+            <i className="fa-solid fa-star" />
+            <i className="fa-solid fa-star" />
+            <i className="fa-solid fa-star" />
+            <i className="fa-solid fa-star" />
+            <i className="fa-solid fa-star" />
+          </div>
+        </div>
+        <a
+          className="product__cart d-block bor-top"
+          onClick={() => navigate(`/products/${props.product.id}`)}
+        >
+          <i className="fa-regular fa-cart-shopping primary-color me-1" />
+          <span>Shop Now</span>
+        </a>
+      </div>
+    </div>
+  );
+}
+
+export default ProductDisplay;
