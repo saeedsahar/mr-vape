@@ -2,12 +2,18 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { CircularProgress, Button, Icon } from "@mui/material";
 import { base_url, getRequests } from "../../axios/API";
-import { addItemQuantity } from "../../Pages/Cart/CartSlice";
+import {
+  addItemQuantity,
+  decreaseItemQuantity,
+} from "../../Pages/Cart/CartSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { setSnackBar } from "../../Component/MainNaivgationComp/MainNavSlice";
 import bannerBImg from "../../assets/images/banner/inner-banner.jpg";
 import { SwiperSlide } from "swiper/react";
 import { SwiperComponentCustom } from "../../Component/Swiper/Swiper";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
+
 function ProductDetailPage(props) {
   const { id } = useParams();
   const [status, setStatus] = useState("pending");
@@ -62,12 +68,17 @@ function ProductDetailPage(props) {
     return (
       <SwiperSlide>
         {" "}
-        <div style={{paddingTop : "12px" , paddingBottom : "10px" , cursor : "pointer"}} onClick={() => {
-          setSelectedFlavour(item)
-        }}>
-          {/* <img src={item.image} alt="image" /> */}
+        <div
+          style={{
+            paddingTop: "12px",
+            paddingBottom: "10px",
+            cursor: "pointer",
+          }}
+          onClick={() => {
+            setSelectedFlavour(item);
+          }}
+        >
           <img src={item.productImage} alt="image" />
-          <span style={{fontSize : "11px"}}>{item.flavour}</span>
         </div>
       </SwiperSlide>
     );
@@ -78,11 +89,18 @@ function ProductDetailPage(props) {
     // Add your logic for adding the product to the cart
   };
 
+  let currentFlavQuantity = cartStates?.items?.filter(
+    (ele) => ele.id == selectedFlavour?.id
+  )[0]?.quantity;
+  if (!currentFlavQuantity) {
+    currentFlavQuantity = 0;
+  }
+
   if (status === "pending") {
     return (
       <main style={{ marginTop: "200px" }}>
         <section className="banner-two banner-two-light black-area">
-          <div>
+          <div style={{ textAlign: "center" }}>
             <CircularProgress />
           </div>
         </section>
@@ -127,10 +145,6 @@ function ProductDetailPage(props) {
         {/* Shop single area start here */}
         <section className="shop-single pt-130 pb-130">
           <div className="container">
-            <div>
-              <span style={{fontWeight : "600"}}>Product Name : </span>
-              <span>{product.name}</span>
-            </div>
             {/* product-details area start here */}
             <div className="product-details-single pb-40">
               <div className="row g-4">
@@ -151,7 +165,7 @@ function ProductDetailPage(props) {
                 <div className="col-lg-7">
                   <div className="content h24">
                     <h3 className="pb-2 primary-color">
-                      {selectedFlavour.flavour}
+                      {selectedFlavour.productName}
                     </h3>
                     <div className="star primary-color pb-2">
                       <span>
@@ -196,13 +210,21 @@ function ProductDetailPage(props) {
                       <div className="details-area">
                         <div className="category flex-wrap mt-4 d-flex py-3 bor-top bor-bottom">
                           <h4 className="pe-3">Categories :</h4>
-                          <a className="primary-hover">Vape</a>
-                          <span className="px-2">|</span>
-                          <a className="primary-hover">Pod</a>
-                          <span className="px-2">|</span>
-                          <a className="primary-hover">Smoke</a>
-                          <span className="px-2">|</span>
-                          <a className="primary-hover">Accessories</a>
+                          <Select
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            value={selectedFlavour.flavour}
+                            label="Flavours"
+                            onChange={(e) => {
+                              console.log(e.target.value);
+                              
+                              setSelectedFlavour(product.productFlavours?.filter(fla => fla.flavour == e.target.value)[0])
+                            }}
+                          > {product.productFlavours?.map(fla => {
+                              return <MenuItem value={fla.flavour}>{fla.flavour}</MenuItem>
+                          })
+                          }
+                          </Select>
                         </div>
                         <div className="d-flex flex-wrap py-3 bor-bottom">
                           <h4 className="pe-3">Tags :</h4>
@@ -244,17 +266,40 @@ function ProductDetailPage(props) {
                                 type="button"
                                 defaultValue="-"
                                 className="qtyminus minus"
+                                onClick={() => {
+                                  dispatch(
+                                    decreaseItemQuantity(selectedFlavour)
+                                  );
+                                  dispatch(
+                                    setSnackBar({
+                                      open: true,
+                                      message: "Item Removed from Cart!",
+                                      type: "success",
+                                    })
+                                  );
+                                }}
                               />
                               <input
                                 type="text"
                                 name="quantity"
-                                defaultValue={0}
+                                defaultValue={currentFlavQuantity}
+                                value={currentFlavQuantity}
                                 className="qty"
                               />
                               <input
                                 type="button"
                                 defaultValue="+"
                                 className="qtyplus plus"
+                                onClick={() => {
+                                  dispatch(addItemQuantity(selectedFlavour));
+                                  dispatch(
+                                    setSnackBar({
+                                      open: true,
+                                      message: "Item Added to Cart!",
+                                      type: "success",
+                                    })
+                                  );
+                                }}
                               />
                             </form>
                           </div>
@@ -265,10 +310,19 @@ function ProductDetailPage(props) {
                             />
                           </div>
                         </div>
-                        <a className="d-block text-center btn-two mt-40"    onClick={() => {
-                          dispatch(addItemQuantity(selectedFlavour))
-                          dispatch(setSnackBar({open : true , message : "Item Added to Cart!" , type : "success"}))}}
-                            >
+                        <a
+                          className="d-block text-center btn-two mt-40"
+                          onClick={() => {
+                            dispatch(addItemQuantity(selectedFlavour));
+                            dispatch(
+                              setSnackBar({
+                                open: true,
+                                message: "Item Added to Cart!",
+                                type: "success",
+                              })
+                            );
+                          }}
+                        >
                           <span>
                             <i className="fa-solid fa-basket-shopping pe-2" />
                             add to cart

@@ -4,9 +4,10 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import { Autoplay } from 'swiper/modules';
 import Avatar from '@mui/material/Avatar';
+import { useNavigate } from "react-router-dom";
 
 function SwiperComponent(props) {
-
+  let navigate = useNavigate()
   return (
     <Swiper
     slidesPerView={props.slidesPerView}
@@ -24,7 +25,8 @@ function SwiperComponent(props) {
   >
     {props.swiperProduct?.map(product => {
         return <>
-        <SwiperSlide> <div className="category__item category-two__item text-center">
+        <SwiperSlide> <div className="category__item category-two__item text-center pointer" 
+        onClick={() => navigate(`/products/${product.id}`)}>
                 <a className="category__image d-block">
                 <Avatar alt="Remy Sharp" src={product.image} 
                   sx={{ width: 210, height: 210 }}/>
@@ -45,11 +47,11 @@ export const SwiperComponentCustom = (props) => {
       <Swiper
       slidesPerView={props.slidesPerView}
       spaceBetween={100}
-      autoplay={{
-          delay: 2500,
-          disableOnInteraction: false,
-        }}
-        loop={true}
+      // autoplay={{
+      //     delay: 2500,
+      //     disableOnInteraction: false,
+      //   }}
+        // loop={true}
       modules={[Autoplay]}
       className="mySwiper"
     >

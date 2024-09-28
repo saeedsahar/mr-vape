@@ -41,7 +41,7 @@ const Checkout = () => {
   const totalBill = cartItems.totalPrice
 
   return (
-<main>
+  <main>
   {/* Page banner area start here */}
   <section
     className="page-banner bg-image pt-130 pb-130"
@@ -49,7 +49,7 @@ const Checkout = () => {
   >
     <div className="container">
       <h2
-        className="wow fadeInUp mb-15"
+        className="wow text-white fadeInUp mb-15"
         data-wow-duration="1.1s"
         data-wow-delay=".1s"
       >
@@ -74,8 +74,8 @@ const Checkout = () => {
     <div className="container">
       <div className="row g-4">
         <div className="col-lg-8">
-          <div className="checkout__item-left text-dark border">
-            <h3 className="mb-40">Billing Details</h3>
+          <div className="checkout__item-left text-dark bor mb-30">
+            <h3 className="mb-40 fw-semibold">Billing Details</h3>
             <label className="mb-10" htmlFor="name">
               Your Name *
             </label>
@@ -88,7 +88,7 @@ const Checkout = () => {
               Company Name (Optional)
             </label>
             <input className="mb-20" id="companyName" type="text" />
-            <h5 className="mb-10">Country / Region *</h5>
+            <label className="mb-10 d-block">Country / Region *</label>
             <select className="mb-20" name="subject">
               <option value={0}>United state america</option>
               <option value={1}>United Kingdom</option>
@@ -110,15 +110,15 @@ const Checkout = () => {
               Town / City *
             </label>
             <input className="mb-20" id="townName" type="text" />
-            <h5 className="mb-10">State *</h5>
-            <select className="mb-20" name="subject">
+            <label className="mb-10 d-block">State *</label>
+            <select className="mb-20" id="state" name="subject">
               <option value={0}>Georgia / ohio / new york</option>
               <option value={1}>Georgia</option>
               <option value={2}>Ohio</option>
               <option value={3}>New York</option>
               <option value={4}>Texas</option>
             </select>
-            <label className="mb-10" htmlFor="zipCode">
+            <label className="mb-10 d-block" htmlFor="zipCode">
               ZIP Code *
             </label>
             <input className="mb-20" id="zipCode" type="number" />
@@ -126,15 +126,19 @@ const Checkout = () => {
               Phone *
             </label>
             <input className="mb-20" id="phone" type="text" />
-            <div className="radio-btn">
-              <span />
-              <a className="ml-10 fw-bold" href="register.html">
-                Create An Account?
-              </a>
-            </div>
-            <div className="radio-btn mt-2 mb-30">
-              <span className="opacity-75" />
-              <p style={{color : "black"}}>Ship To A Different Address?</p>
+            <div className="d-flex justify-content-between mb-30">
+              <div className="radio-btn">
+                <span className="opacity-75" />
+                <p>Ship To A Different Address?</p>
+              </div>
+              <div className="login-link ">
+                <a
+                  className="ml-auto text-decoration-underline primary-color"
+                  href="register.html"
+                >
+                  Create An Account?
+                </a>
+              </div>
             </div>
             <label className="mb-10" htmlFor="phone">
               Order Notes (Optional)
@@ -146,29 +150,104 @@ const Checkout = () => {
               defaultValue={""}
             />
           </div>
+          <div className="checkout__item-left text-dark bor shipping-address">
+            <h3 className="mb-40 fw-semibold">Shipping Methods</h3>
+            <div className="shipping-address--item">
+              <label className="plan mb-20" htmlFor="basic1">
+                <input defaultChecked="" type="radio" name="plan" id="basic1" />
+                <div className="plan-content">
+                  <div className="plan-details">
+                    <span>Royal Mail Tracked 24</span>
+                    <p>
+                      <strong>Delivery tomorrow,</strong> Sep 26th
+                    </p>
+                  </div>
+                </div>
+              </label>
+              <label className="plan  mb-20" htmlFor="basic2">
+                <input type="radio" id="basic2" name="plan" />
+                <div className="plan-content">
+                  <div className="plan-details">
+                    <span>DPD Local Pickup</span>
+                    <p>
+                      <strong>Delivery tomorrow,</strong> Sep 26th
+                    </p>
+                  </div>
+                </div>
+              </label>
+              <label className="plan  mb-20" htmlFor="basic3">
+                <input type="radio" id="basic3" name="plan" />
+                <div className="plan-content">
+                  <div className="plan-details">
+                    <span>DPD Local</span>
+                    <p>
+                      <strong>Delivery tomorrow,</strong> Sep 26th
+                    </p>
+                  </div>
+                </div>
+              </label>
+              <label className="plan  mb-20" htmlFor="basic4">
+                <input type="radio" id="basic4" name="plan" />
+                <div className="plan-content">
+                  <div className="plan-details">
+                    <span>Royal Mail Special Delivery</span>
+                    <p>
+                      <strong>Delivery tomorrow,</strong> Sep 26th
+                    </p>
+                  </div>
+                </div>
+              </label>
+              {/* <label class="plan" for="basic3">
+                              <input checked type="radio" name="basic3" id="basic3" />
+                              <div class="plan-content">
+                                  <div class="plan-details">
+                                      <span>DPD Local</span>
+                                      <p><strong>Delievery tomorrow,</strong> Sep 26th</p>
+                                  </div>
+                              </div>
+                          </label>
+                          <label class="plan" for="basic4">
+                              <input checked type="radio" name="basic4" id="basic4" />
+                              <div class="plan-content">
+                                  <div class="plan-details">
+                                      <span>Royal Mail Special Delivery</span>
+                                      <p><strong>Delievery tomorrow,</strong> Sep 26th</p>
+                                  </div>
+                              </div>
+                          </label> */}
+            </div>
+            <a  className="btn-one mt-35 pointer" onClick={() => navigate("/products")}>
+              <span>Continue Shopping</span>
+            </a>
+          </div>
         </div>
         <div className="col-lg-4">
-          <div className="checkout__item-right border">
-            <h3 className="mb-40">Your Order</h3>
+          <div className="checkout__item-right bor">
+            <h3 className="mb-40 fw-semibold">Your Order</h3>
             <ul>
               <li className="bor-bottom pb-4">
                 <h4>Products</h4>
                 <h4>Subtotal</h4>
               </li>
               <li className="bor-bottom py-4">
-                <a href="#">Secretary desk</a> <span>$15.00</span>
+                <a href="#">Secretary desk</a>
+                <span>$15.00</span>
               </li>
               <li className="bor-bottom py-4">
-                <a href="#">Secretary desk</a> <span>$15.00</span>
+                <a href="#">Secretary desk</a>
+                <span>$15.00</span>
               </li>
               <li className="bor-bottom py-4">
-                <a href="#">Secretary desk</a> <span>$15.00</span>
+                <a href="#">Secretary desk</a>
+                <span>$15.00</span>
               </li>
               <li className="bor-bottom py-4">
-                <a href="#">Secretary desk</a> <span>$15.00</span>
+                <a href="#">Secretary desk</a>
+                <span>$15.00</span>
               </li>
               <li className="bor-bottom py-4">
-                <a href="#">Secretary desk</a> <span>$15.00</span>
+                <a href="#">Secretary desk</a>
+                <span>$15.00</span>
               </li>
               <li className="bor-bottom py-4">
                 <h4>Subtotal</h4>
@@ -176,32 +255,29 @@ const Checkout = () => {
               </li>
             </ul>
             <div className="py-4 bor-bottom">
-              <h5 className="mb-10">Shipping Address</h5>
-              <span>
-                2801 Lafayette Blvd, Norfolk, Vermont <br />
-                23509, united state
-              </span>
+              <h5 className="mb-10 fw-semibold">Shipping Address</h5>
+              <p>2801 Lafayette Blvd, Norfolk, Vermont 23509, united state</p>
             </div>
             <div className="radio-btn mt-30">
-              <span className="opacity-75" />
+              <span />
               <p>Direct Bank Transfer</p>
             </div>
             <div className="radio-btn mt-2">
               <span />
-              <a className="ml-10 fw-bold" href="#0">
+              <a className="ml-10" href="#0">
                 Check Payments
               </a>
             </div>
             <div className="radio-btn mt-2 pb-30 bor-bottom">
-              <span className="opacity-75" />
+              <span />
               <p>Cash On Delivery</p>
             </div>
             <p className="pt-30 bor-top">
               Your personal data will be used to process your order, support
               your experience throughout this website.
             </p>
-            <a href="#0" className="btn-one mt-35">
-              <span style={{color : "white"}}>Place Order</span>
+            <a  className="btn-one mt-35">
+              <span>Place Order</span>
             </a>
           </div>
         </div>
@@ -210,6 +286,7 @@ const Checkout = () => {
   </section>
   {/* Checkout area end here */}
 </main>
+
 
   );
 };

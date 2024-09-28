@@ -140,7 +140,9 @@ function Product(props) {
       <section className="banner-two banner-two-light black-area">
      
         {productState.loading ? (
+          <div style={{textAlign : "center"}}>
           <CircularProgress style={{ margin: "auto", marginTop: "100px" }} />
+          </div>
         ) : (
           <div className="tab-content">
             <div id="latest-item" className="tab-pane fade show active">

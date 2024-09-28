@@ -81,10 +81,10 @@ body {
   margin: 0;
   padding: 0;
   font-family: var(--inter);
-  color: var(--pure-white);
   line-height: 28px;
   font-weight: 400;
   text-transform: capitalize;
+  font-size: 14px;
 }
 
 h1,
@@ -96,7 +96,7 @@ h6 {
   margin: 0;
   padding: 0;
   color: var(--heading-color);
-  font-family: var(--prosto-one);
+  font-family: var(--inter);
 }
 
 h1 {
@@ -136,13 +136,16 @@ h6 {
 p {
   margin: 0;
   padding: 0;
-  line-height: 28px;
-  font-size: 16px;
+  line-height: 1.8;
+  color: #333;
 }
 
 span {
   display: inline-block;
-  color: var(--span);
+}
+
+.font-poppins {
+  font-family: var(--poppins);
 }
 
 del {
@@ -181,7 +184,7 @@ input {
 }
 
 ::placeholder {
-  color: var(--span);
+  color: #333;
 }
 
 ::selection {
@@ -1627,6 +1630,7 @@ input {
 
 .btn-one-light, .btn-two {
   background-color: var(--white);
+  outline: 1px solid var(--primary-color);
   color: var(--primary-color);
 }
 .btn-one-light:hover, .btn-two:hover {
@@ -1901,6 +1905,9 @@ input {
   color: var(--black);
   margin-left: 10px;
   font-size: 14px;
+}
+.pointer {
+  cursor: pointer !important;
 }
 .radio-btn span {
   width: 20px;
@@ -2310,9 +2317,6 @@ input {
   font-weight: 500;
   border: none;
   text-transform: capitalize;
-}
-.top__header .top__wrapper .search__wrp input::placeholder {
-  color: #a6a6a6;
 }
 .top__header .top__wrapper .search__wrp button {
   position: absolute;
@@ -3116,6 +3120,7 @@ input {
 }
 .page-banner .breadcrumb-list a,
 .page-banner .breadcrumb-list span {
+  color: var(--pure-white);
   font-size: 14px;
   font-weight: 600;
 }
@@ -3318,16 +3323,15 @@ input {
   padding: 30px;
   border-radius: 10px;
 }
-.checkout__item-left input {
+.checkout__item-left input:not([type=radio]) {
   width: 100%;
   padding: 15px 20px;
   border: 1px solid var(--border);
   transition: var(--transition);
   border-radius: 10px;
-  color: var(--white);
   background-color: transparent;
 }
-.checkout__item-left input:focus {
+.checkout__item-left input:not([type=radio]):focus {
   border: 1px solid var(--primary-color);
 }
 .checkout__item-left label {
@@ -3362,7 +3366,6 @@ input {
   height: 200px;
   resize: none;
   transition: var(--transition);
-  color: var(--white);
   background-color: transparent;
 }
 .checkout__item-left textarea::placeholder {
@@ -3622,7 +3625,6 @@ input {
   padding: 8px 15px;
   background-color: transparent;
   border-radius: 10px;
-  color: var(--white);
 }
 @media screen and (max-width: 575px) {
   .shop-single .cart-wrp .discount {
@@ -3640,7 +3642,7 @@ input {
   content: "";
   width: 30px;
   height: 30px;
-  background-color: var(--black);
+  background-color: var(--pure-white);
   border-left: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
   transform: rotate(45deg);
@@ -4504,6 +4506,70 @@ input {
 .ns-head .nice-select::after {
   border-bottom: 2px solid var(--black) !important;
   border-right: 2px solid var(--black) !important;
+}
+
+.shipping-address--item .plan input[type=radio] {
+  position: absolute;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.shipping-address--item .plan {
+  cursor: pointer;
+  width: 100%;
+  position: relative;
+}
+
+.shipping-address--item .plan .plan-content {
+  display: flex;
+  padding: 15px 50px;
+  border: var(--border-1px);
+  border-radius: 10px;
+  transition: box-shadow 0.4s;
+  position: relative;
+}
+
+.shipping-address--item .plan .plan-details span {
+  display: block;
+  font-weight: 600;
+}
+
+.shipping-address--item .plan .plan-details p {
+  color: #646a79;
+  font-weight: 400;
+}
+
+.shipping-address--item .plan input[type=radio] + .plan-content:after {
+  content: "";
+  position: absolute;
+  height: 16px;
+  width: 16px;
+  background: var(--white);
+  left: 20px;
+  top: 25px;
+  border-radius: 100%;
+  border: 5px solid var(--primary-color);
+}
+
+.shipping-address--item .plan input[type=radio]:checked + .plan-content:after {
+  content: "";
+  position: absolute;
+  height: 16px;
+  width: 16px;
+  background: var(--white);
+  left: 20px;
+  top: 25px;
+  border-radius: 100%;
+  border: 5px solid var(--primary-color);
+}
+
+.shipping-address--item .plan input[type=radio]:checked + .plan-content {
+  border: 1px solid var(--primary-color);
+  background-color: rgb(254.5717131474, 239.9243027888, 233.9282868526);
+  -webkit-transition: ease-in 0.3s;
+  -o-transition: ease-in 0.3s;
+  transition: ease-in 0.3s;
 }
 
 .footer-area {

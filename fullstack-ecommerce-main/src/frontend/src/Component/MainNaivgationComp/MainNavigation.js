@@ -13,6 +13,7 @@ import { setMenu } from "../../Pages/HomeSlice";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 import { setSnackBar } from "./MainNavSlice";
+import { colors } from "@mui/material";
 
 function MainNavigation(props) {
   console.log("[MainNavigation.js]");
@@ -82,7 +83,7 @@ function MainNavigation(props) {
         <div className="container">
           <div className="top__wrapper">
             <a className="main__logo">
-              <img onClick={() => navigate("/")} src={logo} alt="logo__image" />
+              <img className="pointer" style={{width : "185px"}} onClick={() => navigate("/")} src={"https://mrvape-frontend.s3.eu-west-2.amazonaws.com/VapePlanet+Logo.png"} alt="logo__image" />
             </a>
             <div className="search__wrp">
               <input
@@ -159,8 +160,10 @@ function MainNavigation(props) {
                       <ul className="sub-menu">
                         {menuEle.brandList?.map((subMenuEle) => {
                           return (
-                            <li className="subtwohober pointer">
+                            <li className="subtwohober pointer" style={{color : "#000"}}>
                               <a
+                              className="pointer"
+                              style={{color : "#000"}}
                                 onClick={() => {
                                   dispatch(setBrandId(subMenuEle.id));
                                   navigate("/products");
