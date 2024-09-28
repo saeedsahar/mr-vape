@@ -104,8 +104,16 @@
 <!--		</dependency>-->
 
 
-
-
+		<dependency>
+			<groupId>com.squareup.okhttp3</groupId>
+			<artifactId>okhttp</artifactId>
+			<version>4.12.0</version>  <!-- You can check for the latest version -->
+		</dependency>
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20210307</version>  <!-- Latest stable version -->
+		</dependency>
 	</dependencies>
 
 	<build>
