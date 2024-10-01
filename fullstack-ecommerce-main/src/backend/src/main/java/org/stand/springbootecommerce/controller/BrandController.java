@@ -18,13 +18,13 @@ import org.stand.springbootecommerce.service.ProductService;
 import javax.swing.text.html.Option;
 import java.util.Optional;
 
-@CrossOrigin(origins = "http://localhost:4200") //TODO: tmp sol
+@CrossOrigin(origins = "https://ec2-18-133-243-152.eu-west-2.compute.amazonaws.com")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("api/v1/brand")
 public class BrandController {
 
-    private final Logger LOG = LoggerFactory.getLogger(ProductController.class);
+    private final Logger LOG = LoggerFactory.getLogger(BrandController.class);
     private final BrandService brandService;
 
     // GET api/v1/brand/{id}
