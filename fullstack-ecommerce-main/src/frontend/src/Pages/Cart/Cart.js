@@ -136,22 +136,35 @@ function Cart(props) {
                     {cartStates.totalPrice.toFixed(2)}
                   </div>
                 </div>
-                <div className="pointer">
-                  <a
-                    className="btn-one pointer"
-                    data-animation="fadeInUp"
-                    data-delay="1.8s"
-                    onClick={() => {if(cartStates.total > 0) navigate("/checkout")}}
-                  >
-                    <span className="pointer">Checkout </span>
-                  </a>
+                <div style={{ display: "flex", justifyContent: "right" }}>
+                  <div className="pointer" style={{ marginRight: "10px" }}>
+                    <a
+                      className="btn-one pointer"
+                      data-animation="fadeInUp"
+                      data-delay="1.8s"
+                      onClick={() => navigate("/products")}
+                    >
+                      <span className="pointer">Continue Shopping </span>
+                    </a>
+                  </div>
+                  <div className="pointer">
+                    <a
+                      className="btn-one pointer"
+                      data-animation="fadeInUp"
+                      data-delay="1.8s"
+                      onClick={() => {
+                        if (cartStates.total > 0) navigate("/checkout");
+                      }}
+                    >
+                      <span className="pointer">Checkout </span>
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </section>
         {/* cart page area end here */}
-     
       </main>
     </>
   );

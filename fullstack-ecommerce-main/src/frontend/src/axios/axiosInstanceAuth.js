@@ -6,12 +6,15 @@ let axiosInstanceAuth = axios.create({
   headers: {
     "Access-Control-Allow-Origin": "*",
     "Content-Type": "application/json",
-    Authorization: "Bearer " + localStorage.getItem("accessToken"),
+    // Authorization: "Bearer " + localStorage.getItem("accessToken"),
   },
 });
 
 axiosInstanceAuth.interceptors.request.use(
   (config) => {
+    config.headers.Authorization = `Bearer ${localStorage.getItem(
+      "accessToken"
+    )}`;
     return config;
   },
   (error) => Promise.reject(error)

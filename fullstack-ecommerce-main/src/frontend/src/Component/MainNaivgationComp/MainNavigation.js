@@ -21,6 +21,8 @@ function MainNavigation(props) {
   const searchValueRef = React.useRef(null);
 
   const [searchValue, setSearchValue] = useState("");
+  const [openSearchBar, setOpenSearchBar] = useState(false);
+  const [appWidth, setAppWidth] = useState(window.innerWidth);
 
   let navigate = useNavigate();
   let isLogged = useSelector((state) => state.auth.isLogged);
@@ -41,6 +43,20 @@ function MainNavigation(props) {
       dispatch(setMenu([]));
     }
   };
+
+  const handleResize = () => {
+    setAppWidth(window.innerWidth);
+  };
+
+  useEffect(() => {
+    // Add event listener to handle window resizing
+    window.addEventListener("resize", handleResize);
+
+    // Clean up the event listener on component unmount
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   useEffect(() => {
     homeStates?.menu?.length <= 0 && getMenu();
@@ -83,7 +99,15 @@ function MainNavigation(props) {
         <div className="container">
           <div className="top__wrapper">
             <a className="main__logo">
-              <img className="pointer" style={{width : "185px"}} onClick={() => navigate("/")} src={"https://mrvape-frontend.s3.eu-west-2.amazonaws.com/VapePlanet+Logo.png"} alt="logo__image" />
+              <img
+                className="pointer"
+                style={{ width: "185px" }}
+                onClick={() => navigate("/")}
+                src={
+                  "https://mrvape-frontend.s3.eu-west-2.amazonaws.com/VapePlanet+Logo.png"
+                }
+                alt="logo__image"
+              />
             </a>
             <div className="search__wrp">
               <input
@@ -93,10 +117,28 @@ function MainNavigation(props) {
                 value={searchValue}
                 style={{ color: "black" }}
               />
-              <button>
+              <button
+                id="search-icon"
+                onClick={() => setOpenSearchBar(!openSearchBar)}
+              >
                 <i className="fa-solid fa-search" />
               </button>
             </div>
+            {openSearchBar && appWidth < 1200 ? (
+              <input
+                placeholder="Search for"
+                aria-label="Search"
+                onChange={onSearchChange}
+                value={searchValue}
+                style={{
+                  color: "black",
+                  borderRadius: "10px",
+                  paddingLeft: "10px",
+                  width: "50%",
+                  marginRight: "15px",
+                }}
+              />
+            ) : null}
             <div className="account__wrap">
               <div className="account d-flex align-items-center">
                 <div className="user__icon">
@@ -118,7 +160,7 @@ function MainNavigation(props) {
                 </a>
               </div>
               <div
-                className="cart d-flex align-items-center"
+                className="cart d-flex align-items-center pointer"
                 onClick={() => navigate("/cart")}
                 ref={containerRef}
               >
@@ -160,10 +202,13 @@ function MainNavigation(props) {
                       <ul className="sub-menu">
                         {menuEle.brandList?.map((subMenuEle) => {
                           return (
-                            <li className="subtwohober pointer" style={{color : "#000"}}>
+                            <li
+                              className="subtwohober pointer"
+                              style={{ color: "#000" }}
+                            >
                               <a
-                              className="pointer"
-                              style={{color : "#000"}}
+                                className="pointer"
+                                style={{ color: "#000" }}
                                 onClick={() => {
                                   dispatch(setBrandId(subMenuEle.id));
                                   navigate("/products");

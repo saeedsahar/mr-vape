@@ -28,7 +28,7 @@ function ProductDisplay(props) {
           </div>
         </div>
         <a
-          className="product__cart d-block bor-top"
+          className="product__cart d-block bor-top pointer"
           onClick={() => navigate(`/products/${props.product.id}`)}
         >
           <i className="fa-regular fa-cart-shopping primary-color me-1" />
