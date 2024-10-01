@@ -217,13 +217,22 @@ function ProductDetailPage(props) {
                             label="Flavours"
                             onChange={(e) => {
                               console.log(e.target.value);
-                              
-                              setSelectedFlavour(product.productFlavours?.filter(fla => fla.flavour == e.target.value)[0])
+
+                              setSelectedFlavour(
+                                product.productFlavours?.filter(
+                                  (fla) => fla.flavour == e.target.value
+                                )[0]
+                              );
                             }}
-                          > {product.productFlavours?.map(fla => {
-                              return <MenuItem value={fla.flavour}>{fla.flavour}</MenuItem>
-                          })
-                          }
+                          >
+                            {" "}
+                            {product.productFlavours?.map((fla) => {
+                              return (
+                                <MenuItem value={fla.flavour}>
+                                  {fla.flavour}
+                                </MenuItem>
+                              );
+                            })}
                           </Select>
                         </div>
                         <div className="d-flex flex-wrap py-3 bor-bottom">
@@ -270,13 +279,15 @@ function ProductDetailPage(props) {
                                   dispatch(
                                     decreaseItemQuantity(selectedFlavour)
                                   );
-                                  dispatch(
-                                    setSnackBar({
-                                      open: true,
-                                      message: "Item Removed from Cart!",
-                                      type: "success",
-                                    })
-                                  );
+                                  // if (selectedFlavour.quantity > 0) {
+                                  // dispatch(
+                                  //   setSnackBar({
+                                  //     open: true,
+                                  //     message: "Item Removed from Cart!",
+                                  //     type: "success",
+                                  //   })
+                                  // );
+                                  // }
                                 }}
                               />
                               <input
@@ -292,13 +303,13 @@ function ProductDetailPage(props) {
                                 className="qtyplus plus"
                                 onClick={() => {
                                   dispatch(addItemQuantity(selectedFlavour));
-                                  dispatch(
-                                    setSnackBar({
-                                      open: true,
-                                      message: "Item Added to Cart!",
-                                      type: "success",
-                                    })
-                                  );
+                                  // dispatch(
+                                  //   setSnackBar({
+                                  //     open: true,
+                                  //     message: "Item Added to Cart!",
+                                  //     type: "success",
+                                  //   })
+                                  // );
                                 }}
                               />
                             </form>

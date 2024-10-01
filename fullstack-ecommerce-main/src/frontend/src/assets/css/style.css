@@ -4391,8 +4391,8 @@ input {
   transition: var(--transition);
 }
 .login__form form button:hover {
-  background-color: var(--black);
-  color: var(--primary-color);
+  background-color: var(--primary-color) !important;
+  /* color: var(--primary-color) !important; */
 }
 .login__form .radio-btn .radio-btn-active {
   background-color: var(--primary-color);
