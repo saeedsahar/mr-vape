@@ -19,4 +19,8 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
 
     @Query("SELECT new org.stand.springbootecommerce.dto.LookUP(c.id,c.name)  FROM Category c")
     List<LookUP> getCategories();
+
+
+    @Query("SELECT DISTINCT c.id FROM Category c")
+    List<Long> findDistinctIds();
 }

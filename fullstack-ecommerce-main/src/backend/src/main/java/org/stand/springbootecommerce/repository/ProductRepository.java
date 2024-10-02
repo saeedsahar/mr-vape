@@ -23,6 +23,10 @@ Page<Product> findByNameProdAndBrand(
     Page<Product> findByNameContainingIgnoreCase(String query, Pageable pageable);
     Page<Product> findByProductLabelContainingIgnoreCase(String query, Pageable pageable);
     List<Product> findByNameContainingIgnoreCase(String query);
+
+    @Query("select p from Product p where p.brand.id in (:ids)")
+    List<Product> getListofProductByBrandIds(@Param("ids") List<Long> ids);
+
 //    Page<Product> findByCategoryNameContainingIgnoreCase(String query, Pageable pageable);
 //    List<Product> findByCategoryNameContainingIgnoreCase(String query);
 
