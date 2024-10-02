@@ -2,7 +2,7 @@ import axios from "axios";
 import axiosInstance from "./axiosInstance";
 import axiosInstanceAuth from "./axiosInstanceAuth"
 
-export let base_url = "http://localhost:8081"
+export let base_url = "https://thevapor.co.uk"
 // http://ec2-18-133-243-152.eu-west-2.compute.amazonaws.com:8080/api/v1/product?q=Trending&pageNumber=0&pageSize=20
 
 // export const getCategories = () =>
