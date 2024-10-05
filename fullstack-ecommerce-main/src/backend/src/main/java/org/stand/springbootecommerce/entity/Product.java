@@ -53,6 +53,10 @@ public class Product {
     @Column(name = "price", precision = 10, scale = 2)
     private BigDecimal price;
 
+    @Positive
+    @Column(name = "was_price", precision = 10, scale = 2)
+    private BigDecimal wasPrice;
+
     @NotBlank
     @Size(max = 255)
     // @Pattern(regexp = "^https?://.*\\.(png|jpg|jpeg)$")
