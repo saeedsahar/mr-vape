@@ -36,6 +36,10 @@ public class ProductResponse {
     @Positive
     private BigDecimal price;
 
+    @NotNull
+    @Positive
+    private BigDecimal wasPrice;
+
     @NotBlank
     @Size(max = 255)
     // @Pattern(regexp = "^https?://.*\\.(png|jpg|jpeg)$")

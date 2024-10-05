@@ -42,8 +42,6 @@ public class ProductController {
 
     private final S3Service s3Service;
 
-
-
     // GET api/v1/product
     // GET api/v1/product?q={Abc}
     @GetMapping
@@ -70,6 +68,8 @@ public class ProductController {
                     res.setProductLabel(p.getProductLabel());
                     res.setProductFlavours(p.getProductFlavourList());
                     res.setProductImages(p.getProductImageList());
+                    res.setProductImages(p.getProductImageList());
+                    res.setWasPrice(p.getWasPrice());
 
 
             resList.add(res);
@@ -119,6 +119,7 @@ public class ProductController {
         res.setProductLabel(p.getProductLabel());
         res.setProductFlavours(p.getProductFlavourList());
         res.setProductImages(p.getProductImageList());
+        res.setWasPrice(p.getWasPrice());
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(
