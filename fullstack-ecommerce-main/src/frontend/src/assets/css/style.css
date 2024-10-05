@@ -81,7 +81,8 @@ body {
   margin: 0;
   padding: 0;
   font-family: var(--inter);
-  color: var(--pure-white);
+  color: var(--paragraph);
+  /* background-color: var(--black); */
   line-height: 28px;
   font-weight: 400;
   text-transform: capitalize;
@@ -229,6 +230,9 @@ input {
   margin-top: 50px;
 }
 
+.pointer {
+  cursor : pointer !important
+}
 .mt-55 {
   margin-top: 55px;
 }
@@ -1492,6 +1496,10 @@ input {
 
 .border-none {
   border: none !important;
+}
+
+.text-justify {
+  text-align: justify;
 }
 
 .image img {
