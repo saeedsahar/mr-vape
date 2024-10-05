@@ -8,20 +8,22 @@ import org.springframework.web.bind.annotation.*;
 import org.stand.springbootecommerce.dto.CategoryParentDTO;
 import org.stand.springbootecommerce.entity.Category;
 import org.stand.springbootecommerce.entity.CategoryParent;
+import org.stand.springbootecommerce.entity.Product;
 import org.stand.springbootecommerce.service.BrandService;
 import org.stand.springbootecommerce.service.CategoryParentService;
 import org.stand.springbootecommerce.service.ProductCategoryService;
+import org.stand.springbootecommerce.service.impl.ProductCategoryServiceImpl;
 
 import java.util.List;
 
 
-@CrossOrigin(origins = "https://ec2-18-133-243-152.eu-west-2.compute.amazonaws.com")
+@CrossOrigin(origins = {"http://localhost:4200", "https://vapeplanet.co.uk", "https://www.vapeplanet.co.uk"})
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("api/v1/category")
 public class ProductCategoryController {
 
-    private final ProductCategoryService productCategoryService;
+    private final ProductCategoryServiceImpl productCategoryService;
     private final BrandService brandService;
     private final CategoryParentService categoryParentService;
 
@@ -42,13 +44,13 @@ public class ProductCategoryController {
 
     // GET api/v1/category/{id}
     @GetMapping("/{id}")
-    public ResponseEntity<Category> getProductCategoryById(@PathVariable(name = "id") Long id) {
+    public ResponseEntity<List<Product>> getProductCategoryById(@PathVariable(name = "id") Long id) {
 
-        Category category =brandService.getBrandById(id).get().getCategory();
+        List<Product> products =productCategoryService.getCategoriesProductList(id);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(category);
+                .body(products);
     }
 
     // POST api/v1/category {ProductCategory}
