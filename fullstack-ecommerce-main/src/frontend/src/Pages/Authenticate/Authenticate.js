@@ -120,7 +120,10 @@ function Authenticate(props) {
             <div className="row g-4">
               <div className="col-xxl-8">
                 <div className="login__image">
-                  <img src="assets/images/login/login-image1.jpg" alt="image" />
+                  <img
+                    src="https://mrvape-frontend.s3.eu-west-2.amazonaws.com/sign-in.jpeg"
+                    alt="image"
+                  />
                   <div className="btn-wrp">
                     <a style={{ color: "white" }} className="active">
                       Sign In

@@ -116,11 +116,13 @@ function ProductDetailPage(props) {
         {/* Page banner area start here */}
         <section
           className="page-banner bg-image pt-130 pb-130"
-          style={{ backgroundImage: `url(${bannerBImg})` }}
+          style={{
+            backgroundImage: `url(https://mrvape-frontend.s3.eu-west-2.amazonaws.com/detail1.png)`,
+          }}
         >
           <div className="container">
             <h2
-              className="wow fadeInUp text-white mb-15"
+              className="wow fadeInUp text-white mb-15 color-black"
               data-wow-duration="1.1s"
               data-wow-delay=".1s"
             >
@@ -131,15 +133,16 @@ function ProductDetailPage(props) {
               data-wow-duration="1.3s"
               data-wow-delay=".3s"
             >
-              <a className="primary-hover">
-                <i className="fa-solid fa-house me-1" /> Home{" "}
-                <i className="fa-regular text-white fa-angle-right" />
+              <a className="primary-hover color-black">
+                <i className="fa-solid fa-house me-1 color-black" /> Home{" "}
+                <i className="fa-regular text-white fa-angle-right color-black" />
               </a>
-              <a href="shop.html" className="primary-hover">
+              <a href="shop.html" className="primary-hover color-black">
                 {" "}
-                shop <i className="fa-regular text-white fa-angle-right" />
+                shop{" "}
+                <i className="fa-regular text-white fa-angle-right color-black" />
               </a>
-              <span>Shop Details</span>
+              <span className="color-black">Shop Details</span>
             </div>
           </div>
         </section>
