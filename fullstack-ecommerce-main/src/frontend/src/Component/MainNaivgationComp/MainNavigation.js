@@ -345,6 +345,7 @@ function MainNavigation(props) {
                           <ListItem
                             key={index}
                             style={{
+                              color: "black",
                               cursor: "pointer", // Pointer cursor on hover
                               padding: "10px",
                               transition: "background-color 0.2s ease", // Smooth hover effect

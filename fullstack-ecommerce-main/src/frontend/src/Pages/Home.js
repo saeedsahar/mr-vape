@@ -31,6 +31,7 @@ function Home(props) {
   let dispatch = useDispatch();
   const [productType, setProductType] = useState("Trending");
   const [selectedBannerImage, setSelectedBannerImage] = useState(
+    // "https://mrvape-frontend.s3.eu-west-2.amazonaws.com/Skywalker-mob.jpg"
     bannerImages[0]
   );
 
@@ -152,11 +153,12 @@ function Home(props) {
       <main>
         {/* Banner area start here */}
         <section className="banner-two banner-two-light black-area">
-          <div className="swiper banner-two__slider">
+          <div className="swiper banner-two__slider banner-media-class">
             <div className="swiper-wrapper">
               <div className="swiper-slide">
                 <img
                   src={selectedBannerImage}
+                  style={{ objectFit: "cover", width: "100%", height: "auto" }}
                   alt="banner"
                   className="hero-banner"
                 />

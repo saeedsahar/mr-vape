@@ -208,7 +208,7 @@ function Product(props) {
                     );
                   })}
                 </div>
-                <div className="col-10">
+                <div className="col-10 product-display-page-filter">
                   <div className="row g-4">
                     {productState.products?.map((product) => {
                       return <ProductDisplay product={product} />;
