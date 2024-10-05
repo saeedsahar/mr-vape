@@ -78,7 +78,7 @@ function Cart(props) {
                     <img src={item.productImage} alt={item.flavour} />
                     <h4 className="ps-4 text-capitalize">{`${item.productName} - ${item.flavour}`}</h4>
                   </div>
-                  <div className="product-price">{item.price.toFixed(2)}</div>
+                  <div className="product-price">£{item.price.toFixed(2)}</div>
                   <div className="product-quantity">
                     <div className="product-quantity">
                       <IconButton
@@ -104,7 +104,7 @@ function Cart(props) {
                     </div>
                   </div>
                   <div className="product-line-price">
-                    {item.price * item.quantity}
+                    £{item.price * item.quantity}
                   </div>
                   <div className="product-removal">
                     <button
@@ -127,13 +127,14 @@ function Cart(props) {
               >
                 <div className="totals-item theme-color float-end mt-20">
                   <span className="fw-bold text-uppercase py-2">
-                    cart total =
+                    cart total :
                   </span>
                   <div
                     className="totals-value d-inline py-2 pe-2"
                     id="cart-subtotal"
+                    style={{ fontWeight: "600" }}
                   >
-                    {cartStates.totalPrice.toFixed(2)}
+                    £{cartStates.totalPrice.toFixed(2)}
                   </div>
                 </div>
                 <div style={{ display: "flex", justifyContent: "right" }}>

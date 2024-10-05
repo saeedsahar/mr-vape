@@ -23,9 +23,17 @@ import { SwiperSlide } from "swiper/react";
 
 function Home(props) {
   console.log("[Home.js]");
+  const bannerImages = [
+    "https://mrvape-frontend.s3.eu-west-2.amazonaws.com/Shisha.jpg",
+    "https://mrvape-frontend.s3.eu-west-2.amazonaws.com/Skywalker.jpg",
+  ];
   const navigate = useNavigate();
   let dispatch = useDispatch();
   const [productType, setProductType] = useState("Trending");
+  const [selectedBannerImage, setSelectedBannerImage] = useState(
+    bannerImages[0]
+  );
+
   let productState = useSelector((state) => state.product);
 
   const setProductListType = (type) => {
@@ -85,23 +93,9 @@ function Home(props) {
       <SwiperSlide>
         <div className="swiper-slide">
           <div className="brand__item bor radius-10 text-center p-4">
-            <img src={item.image} alt="icon" />
+            <img style={{ width: "150px" }} src={item.image} alt="icon" />
           </div>
         </div>
-      </SwiperSlide>
-    );
-  };
-
-  const customSwiperBanner = (item) => {
-    return (
-      <SwiperSlide>
-        <div
-            className="banner-two__shape-left d-none d-lg-block wow bounceInLeft"
-            data-wow-duration="1s"
-            data-wow-delay=".5s"
-          >
-            <img src={item} alt="shape" />
-          </div>
       </SwiperSlide>
     );
   };
@@ -110,126 +104,155 @@ function Home(props) {
     return (
       <SwiperSlide>
         {" "}
-        <div className="swiper-slide">
-          <div className="gallery__item">
-            <div className="off-tag">
-              {item.discount} <br />
-              off
+        <div className="" style={{ paddingLeft: "10px", paddingRight: "10px" }}>
+          <div className="product__item bor">
+            <a className="wishlist">
+              <i className="fa-regular fa-heart" />
+            </a>
+            <a className="product__image pt-20 d-block">
+              <img className="font-image" src={item.image} alt="image" />
+              <img className="back-image" src={item.image} alt="image" />
+            </a>
+            <div className="product__content">
+              <h4 className="mb-15">
+                <a className="primary-hover">{item.name}</a>
+              </h4>
+              <del>£{item.price}</del>
+              <span className="primary-color ml-10">£{item.price}</span>
+              <div className="star mt-20">
+                <i className="fa-solid fa-star" />
+                <i className="fa-solid fa-star" />
+                <i className="fa-solid fa-star" />
+                <i className="fa-solid fa-star" />
+                <i className="fa-solid fa-star" />
+              </div>
             </div>
-            <div className="gallery__image image">
-              <img src="assets/images/gallery/gallery-image1.jpg" alt="image" />
-            </div>
-            <div className="gallery__content">
-              <h3 className="mb-10">
-                <a>{item.title}</a>
-              </h3>
-              <p>{item.description}</p>
-              <a  className="btn-two mt-25">
-                <span>Shop Now</span>
-              </a>
-            </div>
+            <a
+              className="product__cart d-block bor-top pointer"
+              onClick={() => navigate(`/products/${item.id}`)}
+            >
+              <i className="fa-regular fa-cart-shopping primary-color me-1" />
+              <span>Shop Now</span>
+            </a>
           </div>
         </div>
       </SwiperSlide>
     );
   };
 
- {/* <SwiperComponentCustom slidesPerView={1} swiperProduct={[
+  {
+    /* <SwiperComponentCustom slidesPerView={1} swiperProduct={[
     "https://mrvape-frontend.s3.eu-west-2.amazonaws.com/Skywalker.jpg" , "https://mrvape-frontend.s3.eu-west-2.amazonaws.com/Shisha.jpg"
      ]}
-     customSwiperProduct={customSwiperBanner}/> */}
- 
+     customSwiperProduct={customSwiperBanner}/> */
+  }
+
   return (
     <>
       <main>
         {/* Banner area start here */}
         <section className="banner-two banner-two-light black-area">
-       
-  <div
-    className="banner-two__shape-left d-none d-lg-block wow bounceInLeft"
-    data-wow-duration="1s"
-    data-wow-delay=".5s"
-  >
-    <img src="assets/images/shape/vape1.png" alt="shape" />
-  </div>
-  <div
-    className="banner-two__shape-right d-none d-lg-block wow bounceInRight"
-    data-wow-duration="1s"
-    data-wow-delay=".1s"
-  >
-    <img
-      className="sway_Y__animation "
-      src="assets/images/shape/vape2.png"
-      alt="shape"
-    />
-  </div>
-  <div className="swiper banner-two__slider">
-    <div className="swiper-wrapper">
-      <div className="swiper-slide">
-        <div
-          className="slide-bg"
-          
-          // style={{ backgroundImage: `url(${"https://mrvape-frontend.s3.eu-west-2.amazonaws.com/Skywalker.jpg"})` }}
-
-        />
-        <div className="container">
-          <div className="banner-two__content">
-            <h4 data-animation="fadeInUp" data-delay="1s">
-              <img src="assets/images/icon/fire.svg" alt="icon" /> GET{" "}
-              <span className="primary-color">25% OFF</span> NOW
-            </h4>
-            <h1 data-animation="fadeInUp" data-delay="1.3s">
-              Find everything <br />
-              for <span className="primary-color">vaping</span>
-            </h1>
-            <p className="mt-40" data-animation="fadeInUp" data-delay="1.5s">
-              Sell globally in minutes with localized currencies languages, and{" "}
-              <br /> experie in every market. only a variety of vaping products
-            </p>
-            <div
-              className="banner-two__info mt-30"
-              data-animation="fadeInUp"
-              data-delay="1.7s"
-            >
-              <span className="mb-10">Starting Price</span>
-              <h3>£ 99.00</h3>
-            </div>
-            <div className="btn-wrp mt-65">
-              <a
-                href="shop.html"
-                className="btn-one"
-                data-animation="fadeInUp"
-                data-delay="1.8s"
-              >
-                <span>Shop Now </span>
-              </a>
-              <a
-                className="btn-one-light ml-20"
-                href="shop-single.html"
-                data-animation="fadeInUp"
-                data-delay="1.9s"
-              >
-                <span>View Details</span>
-              </a>
+          <div className="swiper banner-two__slider">
+            <div className="swiper-wrapper">
+              <div className="swiper-slide">
+                <img
+                  src={selectedBannerImage}
+                  alt="banner"
+                  className="hero-banner"
+                />
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div className="banner-two__arry-btn">
-    <button className="arry-prev mb-15 banner-two__arry-prev">
-      <i className="fa-light text-white fa-chevron-left" />
-    </button>
-    <button className="arry-next active banner-two__arry-next">
-      <i className="fa-light text-white fa-chevron-right" />
-    </button>
-  </div>
-</section>
+          <div className="banner-two__arry-btn">
+            <button
+              className="arry-prev mb-15 banner-two__arry-prev"
+              onClick={() => setSelectedBannerImage(bannerImages[0])}
+            >
+              <i className="fa-light text-white fa-chevron-left" />
+            </button>
+            <button
+              className="arry-next active banner-two__arry-next"
+              onClick={() => setSelectedBannerImage(bannerImages[1])}
+            >
+              <i className="fa-light text-white fa-chevron-right" />
+            </button>
+          </div>
+        </section>
+        {/* Widget Block 1 */}
 
+        <section className="bg-dark py-4">
+          <div className="container">
+            <div className="row">
+              <div className="col-12 text-center">
+                <div className="trustpilot-widget  text-white ">
+                  Add trustpilot widget here
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        {/* Widget Block 2 */}
+
+        <section className="bg-dark py-4">
+          <div className="container">
+            <div className="row">
+              <div className="col text-center">
+                <h6 className="text-white fw-bold">Free Delivery</h6>
+              </div>
+
+              <div className="col text-center">
+                <h6 className="text-white fw-bold">Free Shipping</h6>
+              </div>
+
+              <div className="col text-center">
+                <h6 className="text-white fw-bold">Same day dispatch</h6>
+              </div>
+
+              <div className="col text-center">
+                <h6 className="text-white fw-bold">
+                  Trusted by 1000+ customers
+                </h6>
+              </div>
+
+              <div className="col text-center">
+                <h6 className="text-white fw-bold">
+                  Trusted by 1000+ customers
+                </h6>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section className=" bg-image category-area black-area category-two pb-60 pt-80">
+          <div className="container">
+            <div className="bor-bottom pb-50">
+              <div
+                className="sub-title text-center wow fadeInUp"
+                data-wow-delay=".1s"
+              >
+                <h3 style={{ fontWeight: "600" }}>
+                  <span className="title-icon" /> Vape Planet ©{" "}
+                  <span className="title-icon" />
+                </h3>
+                <span style={{ fontWeight: "500", padding: "5px 50px" }}>
+                  Your Premier Online Vape Store in the UK
+                </span>
+                <b />
+                <span>
+                  {" "}
+                  Welcome to Vape Planet, your trusted source for premium vaping
+                  products. We offer a wide range of disposable vapes,
+                  e-liquids, vape kits, coils, and tanks, all meeting strict
+                  safety standards. Whether you're new to vaping or an
+                  experienced vaper, our curated selection has something to suit
+                  your needs.{" "}
+                </span>
+              </div>
+            </div>
+          </div>
+        </section>
         {/* Banner area end here */}
         {/* Category area start here */}
-        <section className="category-area black-area category-two pb-130 pt-130">
+        <section className="category-area black-area category-two pb-130 pt-30">
           <div className="container">
             <div className="bor-bottom pb-130">
               <div
@@ -248,6 +271,7 @@ function Home(props) {
             </div>
           </div>
         </section>
+
         {/* Category area end here */}
         {/* View area start here */}
         <section className="view-area">
@@ -261,7 +285,13 @@ function Home(props) {
               <div className="col-lg-6 wow fadeInLeft" data-wow-delay=".1s">
                 <div className="view__left-item">
                   <div className="image">
-                    <img src="assets/images/view/view-image1.jpg" alt="image" />
+                    <img
+                      // src="assets/images/view/view-image1.jpg"
+                      src={
+                        "https://mrvape-frontend.s3.eu-west-2.amazonaws.com/eliquid.jpg"
+                      }
+                      alt="image"
+                    />
                   </div>
                   <div className="view__left-content sub-bg">
                     <h2>
@@ -297,7 +327,7 @@ function Home(props) {
                   <div className="view__content">
                     <h3>
                       <a className="primary-hover" href="shop-single.html">
-                        new to vapeing?
+                        The finest disposable
                       </a>
                     </h3>
                     <p>Whereas recognition of the inherent dignity</p>
@@ -306,14 +336,17 @@ function Home(props) {
                     </a>
                   </div>
                   <div className="view__image">
-                    <img src="assets/images/view/view-image2.jpg" alt="image" />
+                    <img
+                      src="https://mrvape-frontend.s3.eu-west-2.amazonaws.com/disposable+copy.png"
+                      alt="image"
+                    />
                   </div>
                 </div>
                 <div className="view__item wow fadeInUp" data-wow-delay=".3s">
                   <div className="view__content">
                     <h3>
                       <a className="primary-hover" href="shop-single.html">
-                        Vap mode
+                        Top-quality vape kits
                       </a>
                     </h3>
                     <p>Whereas recognition of the inherent dignity</p>
@@ -322,7 +355,10 @@ function Home(props) {
                     </a>
                   </div>
                   <div className="view__image">
-                    <img src="assets/images/view/view-image3.jpg" alt="image" />
+                    <img
+                      src="https://mrvape-frontend.s3.eu-west-2.amazonaws.com/vapekits.png"
+                      alt="image"
+                    />
                   </div>
                 </div>
               </div>
@@ -331,7 +367,7 @@ function Home(props) {
         </section>
         {/* View area end here */}
         {/* Product area start here */}
-        <section className="product-area pt-130 pb-130 mt-130">
+        <section className="product-area pt-80 pb-80 mt-130">
           <div className="container">
             <div className="product__wrp pb-30 mb-65 bor-bottom d-flex flex-wrap align-items-center justify-content-xl-between justify-content-center">
               <div
@@ -339,7 +375,7 @@ function Home(props) {
                 data-wow-delay=".1s"
               >
                 <span className="title-icon mr-10" />
-                <h2>latest arrival products</h2>
+                <h2>Explore the Latest in Vaping Trends</h2>
               </div>
               <ul className="nav nav-pills mt-4 mt-xl-0">
                 <li className="nav-item wow fadeInUp" data-wow-delay=".1s">
@@ -383,66 +419,7 @@ function Home(props) {
             <ProductList />
           </div>
         </section>
-        {/* Product area end here */}
-        {/* Discount area start here */}
-        <section
-          className="discount-area bg-image black-area"
-          style={{ backgroundImage: `url(${bImg})` }}
-        >
-          <div className="container">
-            <div className="row align-items-center">
-              <div className="col-lg-6">
-                <div className="image mb-5 mb-lg-0">
-                  <img
-                    src="assets/images/discount/discount-image2.png"
-                    alt="image"
-                  />
-                </div>
-              </div>
-              <div className="col-lg-6">
-                <div className="discount__item ps-0 pb-5 pb-lg-0 ps-lg-5">
-                  <div className="section-header">
-                    <div
-                      className="section-title-icon wow fadeInUp"
-                      data-wow-delay=".1s"
-                    >
-                      <span className="title-icon mr-10" />
-                      <h2 className="text-white">find your best favourite</h2>
-                    </div>
-                    <p
-                      className="mt-30 mb-55 wow fadeInUp text-white lightPara-color"
-                      data-wow-delay=".2s"
-                    >
-                      Sell globally in minutes with localized currencies
-                      languages, and
-                      <br />
-                      experie in every market. only a variety of vaping products
-                    </p>
-                    <a
-                      className="btn-one wow fadeInUp"
-                      data-wow-delay=".3s"
-                      href="shop.html"
-                    >
-                      <span>Shop Now</span>
-                    </a>
-                    <a
-                      className="off-btn wow fadeInUp text-white"
-                      data-wow-delay=".4s"
-                      href="#0"
-                    >
-                      <img
-                        className="mr-10"
-                        src="assets/images/icon/fire.svg"
-                        alt="icon"
-                      />{" "}
-                      GET <span className="primary-color">25% OFF</span> NOW
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+
         {/* Discount area end here */}
         {/* Get now area start here */}
         <section className="get-now-area pt-130 pb-130">
@@ -458,7 +435,7 @@ function Home(props) {
                   data-wow-delay=".2s"
                 >
                   <span className="title-icon mr-10" />
-                  <h2>latest arrival products</h2>
+                  <h2>coming soon products</h2>
                 </div>
                 <div className="get-now__content">
                   <div
@@ -515,32 +492,26 @@ function Home(props) {
                   <div className="get-bg-image">
                     <img src="assets/images/shop/get-bg.png" alt="image" />
                   </div>
-                  <div className="swiper get__slider">
+                  {/* <div className="swiper get__slider">
                     <div className="swiper-wrapper">
-                      <div className="swiper-slide">
-                        <div className="image">
-                          <img
-                            src="assets/images/shop/get-image.png"
-                            alt="image"
-                          />
-                        </div>
+                      <div className="swiper-slide"> */}
+                  <div className="image">
+                    <img
+                      src={
+                        "https://mrvape-frontend.s3.eu-west-2.amazonaws.com/coming-soon+copy.png"
+                      }
+                      alt="image"
+                    />
+                    {/* </div>
                       </div>
-                      <div className="swiper-slide">
-                        <div className="image">
-                          <img
-                            src="assets/images/shop/get-image2.png"
-                            alt="image"
-                          />
-                        </div>
-                      </div>
-                    </div>
+                    </div> */}
                   </div>
-                  <button className="get-now-arry get-now__arry-left">
+                  {/* <button className="get-now-arry get-now__arry-left">
                     <i className="fa-light fa-chevron-left" />
                   </button>
                   <button className="get-now-arry get-now__arry-right text-warning">
                     <i className="fa-light fa-chevron-right" />
-                  </button>
+                  </button> */}
                 </div>
               </div>
             </div>
@@ -586,48 +557,7 @@ function Home(props) {
         <section className="gallery-area gallery-light black-area">
           <SwiperComponentCustom
             slidesPerView={5}
-            swiperProduct={[
-              {
-                discount: "50",
-                title: "best e-lequid",
-                description: "Best E liquids from our huge collection",
-              },
-              {
-                discount: "50",
-                title: "best vape flavours",
-                description: "Best E liquids from our huge collection",
-              },
-              {
-                discount: "50",
-                title: "Battery And Charger Kit",
-                description: "Best E liquids from our huge collection",
-              },
-              {
-                discount: "50",
-                title: "best vape tanks",
-                description: "Best E liquids from our huge collection",
-              },
-              {
-                discount: "50",
-                title: "POP Extra Strawberry",
-                description: "Best E liquids from our huge collection",
-              },
-              {
-                discount: "50",
-                title: "best e-lequid",
-                description: "Best E liquids from our huge collection",
-              },
-              {
-                discount: "50",
-                title: "best vape tanks",
-                description: "Best E liquids from our huge collection",
-              },
-              {
-                discount: "50",
-                title: "POP Extra Strawberry",
-                description: "Best E liquids from our huge collection",
-              },
-            ]}
+            swiperProduct={productState.trendingProducts}
             customSwiperProduct={customSwiperProductOff}
           />
         </section>
@@ -644,12 +574,12 @@ function Home(props) {
             <SwiperComponentCustom
               slidesPerView={5}
               swiperProduct={[
-                { image: "assets/images/brand/brand1.png" },
-                { image: "assets/images/brand/brand2.png" },
-                { image: "assets/images/brand/brand3.png" },
-                { image: "assets/images/brand/brand4.png" },
-                { image: "assets/images/brand/brand5.png" },
-                { image: "assets/images/brand/brand6.png" },
+                { image: "assets/images/brand/Geek-Bar.webp" },
+                { image: "assets/images/brand/Magic-Bar.webp" },
+                { image: "assets/images/brand/lost-mary.webp" },
+                { image: "assets/images/brand/Kingston.webp" },
+                { image: "assets/images/brand/JNR-Logo.webp" },
+                { image: "assets/images/brand/hayati-logo.webp" },
               ]}
               customSwiperProduct={customSwiperProduct}
             />

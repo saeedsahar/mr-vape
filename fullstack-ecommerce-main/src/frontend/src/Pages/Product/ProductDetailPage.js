@@ -19,6 +19,7 @@ function ProductDetailPage(props) {
   const [status, setStatus] = useState("pending");
   const [product, setProduct] = useState(null);
   const [selectedFlavour, setSelectedFlavour] = useState(null);
+  const [selectedProductImage, setSelectedProductImage] = useState("");
   const [category, setCategory] = useState(null);
   let cartStates = useSelector((state) => state.cart);
   let dispatch = useDispatch();
@@ -59,6 +60,7 @@ function ProductDetailPage(props) {
         flav.productImage = data.data.image;
       });
       setProduct(data.data);
+      setSelectedProductImage(data.data.image);
       setSelectedFlavour(data.data.productFlavours[0]);
       setStatus("success");
     });
@@ -75,10 +77,10 @@ function ProductDetailPage(props) {
             cursor: "pointer",
           }}
           onClick={() => {
-            setSelectedFlavour(item);
+            setSelectedProductImage(item.image);
           }}
         >
-          <img src={item.productImage} alt="image" />
+          <img src={item.image} alt="image" />
         </div>
       </SwiperSlide>
     );
@@ -151,12 +153,12 @@ function ProductDetailPage(props) {
                 <div className="col-lg-5">
                   <div className="image img">
                     <div className="swiper shop-single-slide">
-                      <img src={product.image} alt="image" />
+                      <img src={selectedProductImage} alt="image" />
                     </div>
 
                     <SwiperComponentCustom
                       slidesPerView={4}
-                      swiperProduct={product.productFlavours}
+                      swiperProduct={product.productImages}
                       customSwiperProduct={customSwiperProductOff}
                     />
                   </div>
@@ -209,7 +211,9 @@ function ProductDetailPage(props) {
                     <div className="col-lg-8">
                       <div className="details-area">
                         <div className="category flex-wrap mt-4 d-flex py-3 bor-top bor-bottom">
-                          <h4 className="pe-3">Categories :</h4>
+                          <h4 style={{ alignSelf: "center" }} className="pe-3">
+                            Categories :
+                          </h4>
                           <Select
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
@@ -334,7 +338,7 @@ function ProductDetailPage(props) {
                             );
                           }}
                         >
-                          <span>
+                          <span className="pointer">
                             <i className="fa-solid fa-basket-shopping pe-2" />
                             add to cart
                           </span>
@@ -679,151 +683,3 @@ function ProductDetailPage(props) {
 }
 
 export default ProductDetailPage;
-
-{
-  /* // <main style={{ marginTop: "200px" }}> */
-}
-{
-  /* //   <section className="banner-two banner-two-light black-area">
-      //     <div className="container">
-      //       {/* Breadcrumb */
-}
-{
-  /* //       <i className="gray">
-      //         {category?.name || "..."} / {product.name}
-      //       </i>
-      //       {/* Product */
-}
-{
-  /* //       <div className="product-container"> */
-}
-{
-  /* Product Image */
-}
-{
-  /* //         <div className="product-image"> */
-}
-{
-  /* //           <img */
-}
-{
-  /* //             style={{ width: "110px", height: "110px" }}
-      //             src={product.image}
-      //             alt={product.name}
-      //           />
-      //         </div> */
-}
-{
-  /* Product Short Details */
-}
-{
-  /* //         <div className="product-short-details">
-      //           <h2 className="product-name">{product.name}</h2>
-      //           <div className="gray">{category?.name || "..."}</div> */
-}
-{
-  /* Short Description */
-}
-{
-  /* //           <div className="product-short-description">
-      //             {product.shortDescription}
-      //           </div> */
-}
-{
-  /* Full Description */
-}
-{
-  /* //           <div */
-}
-{
-  /* //             className="product-description"
-      //             dangerouslySetInnerHTML={{
-      //               __html: product.description,
-      //             }}
-      //           />
-      //           <hr />
-      //           <div className="product-footer"> */
-}
-{
-  /* Price and Stock */
-}
-{
-  /* {product.quantity >= 1 ? ( */
-}
-{
-  /* //             <span className="price">
-      //               <h3>€{product.price.toFixed(2)}</h3>
-      //             </span> */
-}
-{
-  /* ) : (
-      //           <span className="text-danger">
-      //             <h4>Out of Stock</h4>
-      //           </span>
-      //         )} */
-}
-{
-  /* Add to Cart Button */
-}
-{
-  /* <div style={{ display: "grid" }}>
-                     {product.productFlavours?.map((flavour) => { */
-}
-{
-  /* //                 return (
-      //                   <>
-      //                     <div
-      //                       style={{
-      //                         display: "grid",
-      //                         border: "2px solid red",
-      //                         borderRadius: "5px",
-      //                         padding: "5px",
-      //                         margin: "5px",
-      //                       }}
-      //                     >
-      //                       <div>
-      //                         {" "}
-      //                         <span style={{ marginRight: "5px" }}>
-      //                           Flavour Name :{" "}
-      //                         </span>{" "}
-      //                         <span>{flavour.flavour}</span>
-      //                       </div>
-      //                       <div>
-      //                         <span style={{ marginRight: "5px" }}>
-      //                           Quantity :{" "}
-      //                         </span>
-      //                         <span>{flavour.quantity}</span>
-      //                       </div>
-      //                       <div>
-      //                         {" "}
-      //                         <img
-      //                           style={{ width: "110px", height: "110px" }}
-      //                           src={flavour.image}
-      //                         />
-      //                       </div>
-      //                       <Button
-      //                         variant="contained"
-      //                         color="primary"
-      //                         // startIcon={<Icon>shopping_cart</Icon>}
-      //                         disabled={shouldAddButtonDisable(
-      //                           product,
-      //                           flavour
-      //                         )}
-      //                         onClick={() => {
-      //                         dispatch(addItemQuantity(flavour))
-      //                         dispatch(setSnackBar({open : true , message : "Item Added to Cart!" , type : "success"}))}}
-      //                       >
-      //                         Add to Cart
-      //                       </Button>
-      //                     </div>
-      //                   </>
-      //                 );
-      //               })}
-      //             </div>
-      //           </div>
-      //         </div>
-      //       </div>
-      //     </div>
-      //   </section>
-      // </main> */
-}

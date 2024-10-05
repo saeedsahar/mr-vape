@@ -24,15 +24,13 @@ CSS TABLE OF CONTENTS
     4.04 --> footer
 
 ------------------------------------------------------------------*/
-@import url("https://fonts.googleapis.com/css2?family=Prosto+One&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 :root {
-  --montserrat: "Montserrat", sans-serif;
-  --prosto-one: var(--montserrat);
-  --poppins: "Poppins", sans-serif;
   --inter: "Inter", sans-serif;
+  --poppins: "Poppins", sans-serif;
+  --montserrat: var(--inter);
+  --prosto-one: var(--montserrat);
   --primary-color: #fa4f09;
   --secondary-color: #000000;
   --sub-bg: #191919;
@@ -81,10 +79,10 @@ body {
   margin: 0;
   padding: 0;
   font-family: var(--inter);
+  color: var(--white);
   line-height: 28px;
   font-weight: 400;
   text-transform: capitalize;
-  font-size: 14px;
 }
 
 h1,
@@ -96,7 +94,7 @@ h6 {
   margin: 0;
   padding: 0;
   color: var(--heading-color);
-  font-family: var(--inter);
+   font-family: var(--prosto-one);
 }
 
 h1 {
@@ -136,17 +134,15 @@ h6 {
 p {
   margin: 0;
   padding: 0;
-  line-height: 1.8;
-  color: #333;
+   line-height: 28px;
+  font-size: 16px;
 }
 
 span {
   display: inline-block;
+    color: var(--span);
 }
 
-.font-poppins {
-  font-family: var(--poppins);
-}
 
 del {
   color: #727272;
@@ -184,7 +180,7 @@ input {
 }
 
 ::placeholder {
-  color: #333;
+  color: var(--span);
 }
 
 ::selection {
@@ -1630,7 +1626,6 @@ input {
 
 .btn-one-light, .btn-two {
   background-color: var(--white);
-  outline: 1px solid var(--primary-color);
   color: var(--primary-color);
 }
 .btn-one-light:hover, .btn-two:hover {
@@ -3120,7 +3115,6 @@ input {
 }
 .page-banner .breadcrumb-list a,
 .page-banner .breadcrumb-list span {
-  color: var(--pure-white);
   font-size: 14px;
   font-weight: 600;
 }
@@ -3323,15 +3317,16 @@ input {
   padding: 30px;
   border-radius: 10px;
 }
-.checkout__item-left input:not([type=radio]) {
+.checkout__item-left input {
   width: 100%;
   padding: 15px 20px;
   border: 1px solid var(--border);
   transition: var(--transition);
   border-radius: 10px;
+  color: var(--white);
   background-color: transparent;
 }
-.checkout__item-left input:not([type=radio]):focus {
+.checkout__item-left input:focus {
   border: 1px solid var(--primary-color);
 }
 .checkout__item-left label {
@@ -3366,6 +3361,7 @@ input {
   height: 200px;
   resize: none;
   transition: var(--transition);
+  color: var(--white);
   background-color: transparent;
 }
 .checkout__item-left textarea::placeholder {
@@ -3625,6 +3621,7 @@ input {
   padding: 8px 15px;
   background-color: transparent;
   border-radius: 10px;
+  color: var(--white);
 }
 @media screen and (max-width: 575px) {
   .shop-single .cart-wrp .discount {
@@ -3642,7 +3639,7 @@ input {
   content: "";
   width: 30px;
   height: 30px;
-  background-color: var(--pure-white);
+  background-color: var(--black);
   border-left: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
   transform: rotate(45deg);
@@ -4391,8 +4388,8 @@ input {
   transition: var(--transition);
 }
 .login__form form button:hover {
-  background-color: var(--primary-color) !important;
-  /* color: var(--primary-color) !important; */
+  background-color: var(--black);
+  color: var(--primary-color);
 }
 .login__form .radio-btn .radio-btn-active {
   background-color: var(--primary-color);
@@ -4898,4 +4895,31 @@ input {
   }
 }
 
+.custom-scrollbar {
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: #c1c1c1 transparent; /* Firefox */
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px; /* Minimal width */
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #c1c1c1; /* Thumb color */
+  border-radius: 10px; /* Rounded edges */
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: #a8a8a8; /* Darker on hover */
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent; /* Transparent track */
+}
+
+@media screen and (max-width: 1000px) {
+.product-page-filter {
+  display: inline-table;
+}
+}
 /*# sourceMappingURL=style.css.map */

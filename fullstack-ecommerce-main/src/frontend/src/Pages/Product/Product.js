@@ -4,15 +4,20 @@ import { useNavigate } from "react-router-dom";
 import { getRequests, base_url } from "../../axios/API";
 import { useDispatch, useSelector } from "react-redux";
 import ProductDisplay from "../../Component/HomePage/Product/ProductDisplay";
-import { setLoading, setProducts, setTrendingProducts } from "./ProductSlice";
-import SwiperComponent, {
-  SwiperComponentCustom,
-} from "../../Component/Swiper/Swiper";
+import {
+  setBrandId,
+  setCategoryId,
+  setLoading,
+  setProducts,
+  setTrendingProducts,
+} from "./ProductSlice";
+import { SwiperComponentCustom } from "../../Component/Swiper/Swiper";
 import { SwiperSlide } from "swiper/react";
 
 function Product(props) {
   const navigate = useNavigate();
   let dispatch = useDispatch();
+  let homeStates = useSelector((state) => state.home);
   let productState = useSelector((state) => state.product);
 
   useEffect(() => {
@@ -109,57 +114,33 @@ function Product(props) {
       <SwiperSlide>
         <div className="swiper-slide">
           <div className="brand__item bor radius-10 text-center p-4">
-            <img src={item.image} alt="icon" />
+            <img style={{ width: "150px" }} src={item.image} alt="icon" />
           </div>
         </div>
       </SwiperSlide>
     );
   };
 
-  // const handlePageChange = (event, newPageIndex) => {
-  //   setPageIndex(newPageIndex);
-  //   window.scrollTo({ top: 0, behavior: 'smooth' });
-  // };
-
-  // const handlePageSizeChange = (event) => {
-  //   setPageSize(event.target.value);
-  //   setPageIndex(0); // Reset to first page when changing page size
-  // };
-
-  // const handleQueryChange = (newQuery) => {
-  //   setQuery(newQuery);
-  //   setPageIndex(0); // Reset to first page when searching
-  // };
-
-  // const selectProduct = (id) => {
-  //   navigate(`/products/${id}`);
-  // };
-
-  // const shouldAddButtonDisable = (product) => {
-  //   let item = cartStates.items.filter(ele => ele.id == product.id)
-  //   if(item.length <= 0) return false
-
-  //   return item[0].availableQuantity <= 0
-  // }
-
   return (
     <main>
       <section className=" page-banner bg-image category-area black-area category-two pb-60 pt-80">
         <div className="container">
-          <div className="bor-bottom pb-100">
+          <div className="bor-bottom pb-50">
             <div
-              className="sub-title text-center mb-65 wow fadeInUp"
+              className="sub-title text-center wow fadeInUp"
               data-wow-delay=".1s"
             >
               <h3>
-                <span className="title-icon" /> Trending Products{" "}
+                <span className="title-icon" /> E-Liquid{" "}
                 <span className="title-icon" />
               </h3>
+              <span style={{ fontWeight: "500", padding: "5px 50px" }}>
+                Our premium collection offers a diverse range of meticulously
+                crafted e-liquids, ensuring a delightful vaping experience for
+                every palate. Explore a world of rich flavors and superior
+                quality that elevates your vaping journey.{" "}
+              </span>
             </div>
-            <SwiperComponent
-              slidesPerView={5}
-              swiperProduct={productState.trendingProducts}
-            />
           </div>
         </div>
       </section>
@@ -169,12 +150,71 @@ function Product(props) {
             <CircularProgress style={{ margin: "auto", marginTop: "100px" }} />
           </div>
         ) : (
-          <div className="tab-content">
+          <div className="tab-content container">
             <div id="latest-item" className="tab-pane fade show active">
               <div className="row g-4">
-                {productState.products?.map((product) => {
-                  return <ProductDisplay product={product} />;
-                })}
+                <div className="col-2 product-page-filter" id="filter products">
+                  {homeStates.menu?.map((menuEle, i) => {
+                    let hasSubMenu = menuEle.brandList.length > 0;
+                    return (
+                      <div class="accordion" id={i}>
+                        <div class="accordion-item">
+                          <div class="accordion-header">
+                            <button
+                              class="accordion-button collapsed"
+                              type="button"
+                              data-bs-toggle="collapse"
+                              data-bs-target={`#flush-${i}`}
+                              aria-expanded="false"
+                              aria-controls={`flush-${i}`}
+                              onClick={() => {
+                                if (!hasSubMenu)
+                                  dispatch(setCategoryId(menuEle.id));
+                              }}
+                            >
+                              {menuEle.name}
+                            </button>
+                          </div>
+                          {hasSubMenu &&
+                            menuEle.brandList?.map((subMenuEle) => {
+                              return (
+                                <>
+                                  <div
+                                    id={`flush-${i}`}
+                                    class="accordion-collapse collapse pointer"
+                                    data-bs-parent={`${i}`}
+                                  >
+                                    <div class="accordion-body">
+                                      <ul>
+                                        <li className="pointer">
+                                          <a
+                                            onClick={() => {
+                                              dispatch(
+                                                setBrandId(subMenuEle.id)
+                                              );
+                                            }}
+                                          >
+                                            {subMenuEle.name}
+                                          </a>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  </div>
+                                </>
+                              );
+                            })}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+                <div className="col-10">
+                  <div className="row g-4">
+                    {productState.products?.map((product) => {
+                      return <ProductDisplay product={product} />;
+                    })}
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -191,12 +231,12 @@ function Product(props) {
           <SwiperComponentCustom
             slidesPerView={5}
             swiperProduct={[
-              { image: "assets/images/brand/brand1.png" },
-              { image: "assets/images/brand/brand2.png" },
-              { image: "assets/images/brand/brand3.png" },
-              { image: "assets/images/brand/brand4.png" },
-              { image: "assets/images/brand/brand5.png" },
-              { image: "assets/images/brand/brand6.png" },
+              { image: "assets/images/brand/Geek-Bar.webp" },
+              { image: "assets/images/brand/Magic-Bar.webp" },
+              { image: "assets/images/brand/lost-mary.webp" },
+              { image: "assets/images/brand/Kingston.webp" },
+              { image: "assets/images/brand/JNR-Logo.webp" },
+              { image: "assets/images/brand/hayati-logo.webp" },
             ]}
             customSwiperProduct={customSwiperProduct}
           />

@@ -13,16 +13,29 @@ import { setMenu } from "../../Pages/HomeSlice";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 import { setSnackBar } from "./MainNavSlice";
+import {
+  InputAdornment,
+  Popper,
+  List,
+  ListItem,
+  Skeleton,
+} from "@mui/material";
+import { Search } from "@mui/icons-material";
 import { colors } from "@mui/material";
 
 function MainNavigation(props) {
   console.log("[MainNavigation.js]");
   const containerRef = React.useRef(null);
-  const searchValueRef = React.useRef(null);
 
   const [searchValue, setSearchValue] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [noResults, setNoResults] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
   const [openSearchBar, setOpenSearchBar] = useState(false);
   const [appWidth, setAppWidth] = useState(window.innerWidth);
+
+  const searchWrapperRef = React.useRef(null); // Ref for search wrapper
 
   let navigate = useNavigate();
   let isLogged = useSelector((state) => state.auth.isLogged);
@@ -32,6 +45,22 @@ function MainNavigation(props) {
   let mainNavStates = useSelector((state) => state.mainNav);
   let dispatch = useDispatch();
   let location = useLocation();
+
+  // Function to handle closing popper on clicking outside or pressing Escape
+  const handleClickOutside = (event) => {
+    if (
+      searchWrapperRef.current &&
+      !searchWrapperRef.current.contains(event.target)
+    ) {
+      setAnchorEl(null); // Close dropdown
+    }
+  };
+
+  const handleKeyDown = (event) => {
+    if (event.key === "Escape") {
+      setAnchorEl(null); // Close dropdown on pressing Escape
+    }
+  };
 
   const getMenu = async () => {
     try {
@@ -49,6 +78,22 @@ function MainNavigation(props) {
   };
 
   useEffect(() => {
+    if (anchorEl) {
+      document.addEventListener("mousedown", handleClickOutside);
+      document.addEventListener("keydown", handleKeyDown);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleKeyDown);
+    }
+
+    // Cleanup listeners when the dropdown is closed or on component unmount
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [anchorEl]);
+
+  useEffect(() => {
     // Add event listener to handle window resizing
     window.addEventListener("resize", handleResize);
 
@@ -62,24 +107,44 @@ function MainNavigation(props) {
     homeStates?.menu?.length <= 0 && getMenu();
   }, []);
 
-  const handleSearch = (value) => {
-    if (value) {
-      if (location.pathname !== "/products") {
-        navigate("/products");
-      }
-      dispatch(setQuery(value));
+  const handleSearch = (e, value) => {
+    if (value.trim()) {
+      setAnchorEl(e.currentTarget); // Show dropdown under the input field
       setSearchValue(value);
-      searchValueRef.current = value;
+      searchAPI(value);
     } else {
-      // navigate("/")
-      dispatch(setQuery(""));
-      setSearchValue("");
+      setSearchResults([]);
+      setSearchValue(value);
+      setNoResults(false);
+      setAnchorEl(null); // Hide dropdown if input is empty
+    }
+  };
+
+  const searchAPI = async (query) => {
+    setLoading(true);
+    setNoResults(false);
+
+    try {
+      const response = await getRequests(
+        `${base_url}/api/v1/product?q=${query}&pageNumber=${0}&pageSize=${20}`
+      ); // Assuming productService.products$ returns list and total
+      let { list, total } = response.data;
+      setSearchResults(list);
+      setNoResults(list.length === 0);
+      // dispatch(setProducts({ products: list, length: total }));
+    } catch (error) {
+      console.error("Error fetching products", error);
+      setLoading(false);
+      setNoResults(true);
+    } finally {
+      setLoading(false);
+      // setNoResults(true);
     }
   };
 
   const onSearchChange = (e) => {
     const value = e.target.value;
-    handleSearch(value);
+    handleSearch(e, value);
   };
 
   const handleClose = (event, reason) => {
@@ -92,30 +157,140 @@ function MainNavigation(props) {
 
   return (
     <>
-      <div
-        className="top__header black-area pt-30 pb-30"
-        style={{ backgroundColor: "#B2B2B2" }}
-      >
+      <div className="top__header black-area pt-30 pb-30">
         <div className="container">
           <div className="top__wrapper">
             <a className="main__logo">
+              <button
+                class="px-2 d-lg-none"
+                data-bs-toggle="offcanvas"
+                data-bs-target="#offcanvasExample"
+                aria-controls="offcanvasExample"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="28"
+                  height="28"
+                  fill="currentColor"
+                  class="bi bi-list"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"
+                  />
+                </svg>
+              </button>
+              <div
+                class="offcanvas offcanvas-start"
+                tabindex="-1"
+                id="offcanvasExample"
+                aria-labelledby="offcanvasExampleLabel"
+              >
+                <div class="offcanvas-header">
+                  <h5 class="offcanvas-title" id="offcanvasExampleLabel">
+                    Popular Categories
+                  </h5>
+                  <button
+                    type="button"
+                    class="text-white"
+                    data-bs-dismiss="offcanvas"
+                    aria-label="Close"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="18"
+                      height="18"
+                      fill="currentColor"
+                      class="bi bi-x-circle-fill"
+                      viewBox="0 0 16 16"
+                    >
+                      <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z" />
+                    </svg>
+                  </button>
+                </div>
+                <div class="offcanvas-body p-0">
+                  {homeStates.menu?.map((menuEle, i) => {
+                    let hasSubMenu = menuEle.brandList.length > 0;
+
+                    return (
+                      <>
+                        <div class="accordion" id={i}>
+                          <div class="accordion-item">
+                            <div class="accordion-header">
+                              <button
+                                class="accordion-button collapsed"
+                                type="button"
+                                data-bs-toggle="collapse"
+                                data-bs-target={`#flush-${i}`}
+                                aria-expanded="false"
+                                aria-controls={`flush-${i}`}
+                                onClick={() => {
+                                  if (!hasSubMenu) {
+                                    dispatch(setCategoryId(menuEle.id));
+                                    navigate("/products");
+                                  }
+                                }}
+                              >
+                                {menuEle.name}
+                              </button>
+                            </div>
+                            {hasSubMenu
+                              ? menuEle.brandList?.map((subMenuEle) => {
+                                  return (
+                                    <>
+                                      <div
+                                        id={`flush-${i}`}
+                                        class="accordion-collapse collapse"
+                                        data-bs-parent={`${i}`}
+                                      >
+                                        <div class="accordion-body">
+                                          <ul>
+                                            <li className="pointer">
+                                              <a
+                                                onClick={() => {
+                                                  dispatch(
+                                                    setBrandId(subMenuEle.id)
+                                                  );
+                                                  navigate("/products");
+                                                }}
+                                              >
+                                                {subMenuEle.name}
+                                              </a>
+                                            </li>
+                                          </ul>
+                                        </div>
+                                      </div>
+                                    </>
+                                  );
+                                })
+                              : ""}
+                          </div>
+                        </div>
+                      </>
+                    );
+                  })}
+                </div>
+              </div>
+
               <img
-                className="pointer"
-                style={{ width: "185px" }}
+                className="pointer img-fluid"
                 onClick={() => navigate("/")}
                 src={
                   "https://mrvape-frontend.s3.eu-west-2.amazonaws.com/VapePlanet+Logo.png"
                 }
+                style={{ width: "185px" }}
                 alt="logo__image"
               />
             </a>
-            <div className="search__wrp">
+            <div className="search__wrp" ref={searchWrapperRef}>
               <input
                 placeholder="Search for"
                 aria-label="Search"
                 onChange={onSearchChange}
                 value={searchValue}
                 style={{ color: "black" }}
+                onClick={(e) => setAnchorEl(e.currentTarget)}
               />
               <button
                 id="search-icon"
@@ -123,6 +298,78 @@ function MainNavigation(props) {
               >
                 <i className="fa-solid fa-search" />
               </button>
+              {/* Dropdown Suggestions */}
+              <Popper
+                open={Boolean(anchorEl && searchValue.trim())}
+                anchorEl={anchorEl}
+                placement="bottom-start"
+                style={{ zIndex: 1300 }}
+                modifiers={{
+                  preventOverflow: {
+                    enabled: true,
+                    boundariesElement: "viewport",
+                  },
+                }}
+                onMouseDown={(e) => e.stopPropagation()}
+              >
+                <div
+                  style={{
+                    width: anchorEl ? anchorEl.clientWidth : "100%",
+                    backgroundColor: "#fff",
+                    borderBottomLeftRadius: "20px", // Match with input's bottom left
+                    borderBottomRightRadius: "20px", // Match with input's bottom right
+                    borderTop: "none", // Remove top border to blend with input
+                    boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+                    maxHeight: "300px",
+                    overflowY: "auto",
+                    padding: "10px 0", // Padding to avoid cutting off list items
+                    borderRadius: "10px",
+                  }}
+                  className="custom-scrollbar"
+                >
+                  {/* Loading State */}
+                  {loading ? (
+                    <div>
+                      <Skeleton variant="text" width="100%" height={30} />
+                      <Skeleton variant="text" width="100%" height={30} />
+                      <Skeleton variant="text" width="100%" height={30} />
+                    </div>
+                  ) : (
+                    <List>
+                      {/* No Data Found */}
+                      {noResults ? (
+                        <ListItem>No data found</ListItem>
+                      ) : (
+                        // Render Search Results
+                        searchResults.map((item, index) => (
+                          <ListItem
+                            key={index}
+                            style={{
+                              cursor: "pointer", // Pointer cursor on hover
+                              padding: "10px",
+                              transition: "background-color 0.2s ease", // Smooth hover effect
+                            }}
+                            onMouseEnter={(e) =>
+                              (e.currentTarget.style.backgroundColor =
+                                "#f0f0f0")
+                            }
+                            onMouseLeave={(e) =>
+                              (e.currentTarget.style.backgroundColor =
+                                "transparent")
+                            }
+                            onClick={() => {
+                              navigate(`/products/${item.id}`);
+                              setAnchorEl(null);
+                            }}
+                          >
+                            {item.name} {/* Assuming each result has a name */}
+                          </ListItem>
+                        ))
+                      )}
+                    </List>
+                  )}
+                </div>
+              </Popper>
             </div>
             {openSearchBar && appWidth < 1200 ? (
               <input
@@ -141,7 +388,10 @@ function MainNavigation(props) {
             ) : null}
             <div className="account__wrap">
               <div className="account d-flex align-items-center">
-                <div className="user__icon">
+                <div
+                  className="user__icon"
+                  onClick={() => !isLogged && navigate("/authenticate")}
+                >
                   <a>
                     <i className="fa-regular fa-user" />
                   </a>
@@ -160,7 +410,7 @@ function MainNavigation(props) {
                 </a>
               </div>
               <div
-                className="cart d-flex align-items-center pointer"
+                className="cart d-flex align-items-center justify-content-between"
                 onClick={() => navigate("/cart")}
                 ref={containerRef}
               >
@@ -170,7 +420,9 @@ function MainNavigation(props) {
                 <a className="c__one">
                   <span className="text-white">£{cartStates.totalPrice}</span>
                 </a>
-                <span className="one text-white">{cartStates.total}</span>
+                <span className="one text-white" style={{ fontWeight: "600" }}>
+                  {cartStates.total}
+                </span>
               </div>
             </div>
           </div>
@@ -179,11 +431,6 @@ function MainNavigation(props) {
       <header className="header-section black-area">
         <div className="container">
           <div className="header-wrapper">
-            <div className="header-bar d-lg-none">
-              <span />
-              <span />
-              <span />
-            </div>
             <ul className="main-menu pointer">
               {homeStates.menu?.map((menuEle) => {
                 let hasSubMenu = menuEle.brandList.length > 0;
@@ -224,32 +471,6 @@ function MainNavigation(props) {
                   </li>
                 );
               })}
-              <li>
-                <a onClick={() => navigate("/products")}>
-                  Top Products
-                  {/* <i className="fa-regular fa-angle-down" /> */}
-                </a>
-                {/* <ul className="sub-menu">
-              <li className="subtwohober">
-                <a href="#">Mega Box</a>
-              </li>
-              <li className="subtwohober">
-                <a href="#">Rocket X</a>
-              </li>
-              <li className="subtwohober">
-                <a href="#">Alien Max</a>
-              </li>
-              <li className="subtwohober">
-                <a href="#">Black &amp; Golden</a>
-              </li>
-              <li className="subtwohober">
-                <a href="#">Falcon X</a>
-              </li>
-              <li className="subtwohober">
-                <a href="#">Infinity Box</a>
-              </li>
-            </ul> */}
-              </li>
             </ul>
           </div>
         </div>
