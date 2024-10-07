@@ -14,6 +14,15 @@ import { SwiperComponentCustom } from "../../Component/Swiper/Swiper";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 
+import { FreeMode, Navigation, Thumbs } from "swiper/modules";
+import { Swiper } from "swiper/react";
+
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/free-mode";
+import "swiper/css/navigation";
+import "swiper/css/thumbs";
+
 function ProductDetailPage(props) {
   const { id } = useParams();
   const [status, setStatus] = useState("pending");
@@ -23,6 +32,8 @@ function ProductDetailPage(props) {
   const [category, setCategory] = useState(null);
   let cartStates = useSelector((state) => state.cart);
   let dispatch = useDispatch();
+
+  const [thumbsSwiper, setThumbsSwiper] = useState(null);
 
   const shouldAddButtonDisable = (product, flavour) => {
     let item = cartStates.items.filter((ele) => ele.id == flavour.id);
@@ -154,7 +165,52 @@ function ProductDetailPage(props) {
             <div className="product-details-single pb-40">
               <div className="row g-4">
                 <div className="col-lg-5">
-                  <div className="image img">
+                  <Swiper
+                    style={{
+                      "--swiper-navigation-color": "#fff",
+                      "--swiper-pagination-color": "#fff",
+                      height: "520px",
+                      marginBottom: "20px",
+                      objectFit: "cover",
+                    }}
+                    spaceBetween={10}
+                    navigation={true}
+                    thumbs={{ swiper: thumbsSwiper }}
+                    modules={[FreeMode, Navigation, Thumbs]}
+                    className="mySwiper2"
+                    // style={{height : "520px"}}
+                  >
+                    {product.productImages?.map((item) => {
+                      return (
+                        <SwiperSlide>
+                          <img src={item.image} />
+                        </SwiperSlide>
+                      );
+                    })}
+                  </Swiper>
+                  <Swiper
+                    onSwiper={setThumbsSwiper}
+                    spaceBetween={20}
+                    slidesPerView={4}
+                    freeMode={true}
+                    watchSlidesProgress={true}
+                    modules={[FreeMode, Navigation, Thumbs]}
+                    className="mySwiper"
+                    style={{ height: "100px", objectFit: "cover" }}
+                  >
+                    {product.productImages?.map((item) => {
+                      return (
+                        <SwiperSlide>
+                          <img
+                            style={{ height: "100px", objectFit: "cover" }}
+                            src={item.image}
+                          />
+                        </SwiperSlide>
+                      );
+                    })}
+                  </Swiper>
+
+                  {/* <div className="image img">
                     <div className="swiper shop-single-slide">
                       <img src={selectedProductImage} alt="image" />
                     </div>
@@ -163,8 +219,10 @@ function ProductDetailPage(props) {
                       slidesPerView={4}
                       swiperProduct={product.productImages}
                       customSwiperProduct={customSwiperProductOff}
+                      thumbNail={true}
                     />
-                  </div>
+                  
+                  </div> */}
                 </div>
 
                 <div className="col-lg-7">
