@@ -1,19 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  IconButton,
-  Button,
-  Icon,
-} from "@mui/material";
 import "./Cart.css"; // Assuming the CSS is placed here
-import Slide from "@mui/material/Slide";
 import { useDispatch, useSelector } from "react-redux";
+import { Button, ButtonGroup, Icon, IconButton } from "@mui/material";
 import {
   incrementItemQuantity,
   decreaseItemQuantity,
@@ -64,8 +53,8 @@ function Cart(props) {
         {/* cart page area start here */}
         <section className="cart-page pt-130 pb-130">
           <div className="container">
-            <div className="shopping-cart radius-10 bor text-dark">
-              <div className="column-labels py-3 px-4 d-flex justify-content-between align-items-center fw-bold text-dark text-uppercase">
+            <div className="shopping-cart radius-10 bor text-dark mobile-view">
+              <div className="bg-light column-labels py-3 px-4 d-none d-md-flex justify-content-between align-items-center fw-bold text-dark text-uppercase">
                 <label className="product-details">Product</label>
                 <label className="product-price">Price</label>
                 <label className="product-quantity">Quantity</label>
@@ -73,93 +62,78 @@ function Cart(props) {
                 <label className="product-removal">Edit</label>
               </div>
               {cartStates.items.map((item, index) => (
-                <div className="product p-4 bor-top bor-bottom d-flex justify-content-between align-items-center">
-                  <div className="product-details d-flex align-items-center">
-                    <img src={item.productImage} alt={item.flavour} />
+                <div className="product p-4 bor-top bor-bottom d-flex flex-md-row flex-column justify-content-center align-content-center justify-content-md-between align-items-md-center">
+                  <div className="product-details d-flex align-items-center justify-content-center justify-content-md-start">
+                    <img
+                      src={item.productImage}
+                      alt={item.flavour}
+                      className="img-thumbnail"
+                    />
                     <h4 className="ps-4 text-capitalize">{`${item.productName} - ${item.flavour}`}</h4>
                   </div>
-                  <div className="product-price">£{item.price.toFixed(2)}</div>
-                  <div className="product-quantity">
+                  <div className="product-price">
+                    <span className="d-inline-block d-md-none me-2 fw-bold">
+                      Price:
+                    </span>
+                    <span className="w-10">£{item.price.toFixed(2)}</span>
+                  </div>
+                  <div className="quantity-wrapper">
+                    <span className="d-inline-block d-md-none me-2 fw-bold">
+                      Quantity:
+                    </span>
                     <div className="product-quantity">
-                      <IconButton
-                        onClick={() => dispatch(decreaseItemQuantity(item))}
-                      >
-                        <Icon className={"item-decrease"}>-</Icon>
-                      </IconButton>
-                      <span className="item-quantity">{item.quantity}</span>
-                      <IconButton
-                        onClick={() => dispatch(incrementItemQuantity(item))}
-                        disabled={item.availableQuantity <= 0}
-                      >
-                        <Icon
-                          className={
-                            item.availableQuantity <= 0
-                              ? "item-quantity-disabled"
-                              : "item-increase"
-                          }
+                      <ButtonGroup variant="outlined">
+                        <Button
+                          onClick={() => dispatch(decreaseItemQuantity(item))}
+                        >
+                          -
+                        </Button>
+                        <Button>{item.quantity}</Button>
+                        <Button
+                          onClick={() => dispatch(incrementItemQuantity(item))}
                         >
                           +
-                        </Icon>
-                      </IconButton>
+                        </Button>
+                      </ButtonGroup>
                     </div>
                   </div>
                   <div className="product-line-price">
-                    £{item.price * item.quantity}
+                    <span className="d-inline-block d-md-none me-2 fw-bold">
+                      Total:{" "}
+                    </span>{" "}
+                    <span className="w-10">£{item.price * item.quantity}</span>
                   </div>
                   <div className="product-removal">
                     <button
                       className="remove-product"
                       onClick={() => dispatch(removeItem(item))}
                     >
-                      <i className="fa-solid fa-x heading-color" />
+                      <i class="fa-regular fa-xmark heading-color"></i>
                     </button>
                   </div>
                 </div>
               ))}
-              <div
-                className="totals"
-                style={{
-                  display: "grid",
-                  textAlign: "right",
-                  paddingRight: "10px",
-                  paddingBottom: "10px",
-                }}
-              >
-                <div className="totals-item theme-color float-end mt-20">
+              <div className="total-section">
+                <div className="totals-item">
                   <span className="fw-bold text-uppercase py-2">
-                    cart total :
+                    Cart Total =
                   </span>
-                  <div
-                    className="totals-value d-inline py-2 pe-2"
-                    id="cart-subtotal"
-                    style={{ fontWeight: "600" }}
-                  >
+                  <span className="totals-value d-inline py-2 pe-2">
+                    {" "}
                     £{cartStates.totalPrice.toFixed(2)}
-                  </div>
+                  </span>
                 </div>
-                <div style={{ display: "flex", justifyContent: "right" }}>
-                  <div className="pointer" style={{ marginRight: "10px" }}>
-                    <a
-                      className="btn-one pointer"
-                      data-animation="fadeInUp"
-                      data-delay="1.8s"
-                      onClick={() => navigate("/products")}
-                    >
-                      <span className="pointer">Continue Shopping </span>
-                    </a>
-                  </div>
-                  <div className="pointer">
-                    <a
-                      className="btn-one pointer"
-                      data-animation="fadeInUp"
-                      data-delay="1.8s"
-                      onClick={() => {
-                        if (cartStates.total > 0) navigate("/checkout");
-                      }}
-                    >
-                      <span className="pointer">Checkout </span>
-                    </a>
-                  </div>
+                <div className="pointer">
+                  <button
+                    className="btn-one"
+                    data-animation="fadeInUp"
+                    data-delay="1.8s"
+                    onClick={() => {
+                      if (cartStates.total > 0) navigate("/checkout");
+                    }}
+                  >
+                    <span>Checkout</span>
+                  </button>
                 </div>
               </div>
             </div>

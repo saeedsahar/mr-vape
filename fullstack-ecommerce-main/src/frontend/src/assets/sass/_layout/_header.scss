@@ -1,9 +1,6 @@
 // Top header area start here ***
 .top__header {
-	position        : absolute;
-	top             : 0;
 	width           : 100%;
-	z-index         : 99;
 	background-color: #B2B2B2;
 
 	.top__wrapper {
@@ -329,25 +326,8 @@
 
 .header-section {
 	width           : 100%;
-	z-index         : 9;
-	position        : absolute;
-	top             : 118px;
-	left            : 0;
 	color           : var(--pure-white);
 	background-color: #191919;
-
-	// @include breakpoint(max-xl) {
-	// 	top: 88px;
-	// }
-
-	@include breakpoint(max-lg) {
-		padding-block: 10px;
-		top          : 88px;
-	}
-
-	@include breakpoint(max-md) {
-		top: 73px;
-	}
 }
 
 .menu-fixed {
@@ -935,4 +915,8 @@
 		}
 
 	}
+}
+
+.mobile-navigation {
+	max-width: 90%;
 }

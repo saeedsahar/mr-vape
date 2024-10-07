@@ -10,7 +10,7 @@ body {
 	margin        : 0;
 	padding       : 0;
 	font-family   : var(--inter);
-	color         : var(--pure-white);
+	color         : var(--white);
 	line-height   : 28px;
 	font-weight   : 400;
 	text-transform: capitalize;
@@ -83,6 +83,12 @@ a {
 	display        : inline-block;
 	color          : var(--heading-color);
 	transition     : var(--transition);
+	cursor         : pointer !important;
+}
+
+button,
+.btn {
+	cursor: pointer;
 }
 
 a:hover {
