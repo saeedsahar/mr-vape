@@ -218,22 +218,39 @@ function MainNavigation(props) {
                         <div class="accordion" id={i}>
                           <div class="accordion-item">
                             <div class="accordion-header">
-                              <button
-                                class="accordion-button collapsed"
-                                type="button"
-                                data-bs-toggle="collapse"
-                                data-bs-target={`#flush-${i}`}
-                                aria-expanded="false"
-                                aria-controls={`flush-${i}`}
-                                onClick={() => {
-                                  if (!hasSubMenu) {
+                              {hasSubMenu ? (
+                                <button
+                                  className={`${
+                                    !hasSubMenu ? "accordion-custom-button" : ""
+                                  } accordion-button collapsed`}
+                                  type="button"
+                                  data-bs-toggle="collapse"
+                                  data-bs-target={`#flush-${i}`}
+                                  aria-expanded="false"
+                                  aria-controls={`flush-${i}`}
+                                >
+                                  {menuEle.name}
+                                </button>
+                              ) : (
+                                <li
+                                  type="button"
+                                  className="pointer"
+                                  data-bs-dismiss="offcanvas"
+                                  aria-label="Close"
+                                  style={{
+                                    padding: "10px 15px 10px 10px",
+                                    fontSize: "14px",
+                                    fontWeight: "500",
+                                    borderRadius: "0px",
+                                  }}
+                                  onClick={() => {
                                     dispatch(setCategoryId(menuEle.id));
                                     navigate("/products");
-                                  }
-                                }}
-                              >
-                                {menuEle.name}
-                              </button>
+                                  }}
+                                >
+                                  <a>{menuEle.name}</a>
+                                </li>
+                              )}
                             </div>
                             {hasSubMenu
                               ? menuEle.brandList?.map((subMenuEle) => {
@@ -246,7 +263,11 @@ function MainNavigation(props) {
                                       >
                                         <div class="accordion-body">
                                           <ul>
-                                            <li className="pointer">
+                                            <li
+                                              className="pointer"
+                                              data-bs-dismiss="offcanvas"
+                                              aria-label="Close"
+                                            >
                                               <a
                                                 onClick={() => {
                                                   dispatch(

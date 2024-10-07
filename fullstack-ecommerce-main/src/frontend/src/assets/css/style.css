@@ -4850,3 +4850,15 @@ input {
   }
 }
 
+.accordion-custom-button::after {
+  content: none !important;
+  background-image: none !important;
+}
+.accordion-button:not(.collapsed) {
+  background-color: white !important;
+}
+
+.offcanvas .accordion .accordion-button:not(.collapsed) {
+  background-color: white !important;
+  color: black !important;
+}

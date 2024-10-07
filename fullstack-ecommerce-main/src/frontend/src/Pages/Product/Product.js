@@ -161,7 +161,9 @@ function Product(props) {
                         <div class="accordion-item">
                           <div class="accordion-header">
                             <button
-                              class="accordion-button collapsed"
+                              className={`${
+                                !hasSubMenu ? "accordion-custom-button" : ""
+                              } accordion-button collapsed`}
                               type="button"
                               data-bs-toggle="collapse"
                               data-bs-target={`#flush-${i}`}
