@@ -319,7 +319,6 @@ function MainNavigation(props) {
               >
                 <i className="fa-solid fa-search" />
               </button>
-              {/* Dropdown Suggestions */}
               <Popper
                 open={Boolean(anchorEl && searchValue.trim())}
                 anchorEl={anchorEl}
@@ -453,6 +452,92 @@ function MainNavigation(props) {
       <header className="header-section black-area">
         <div className="container">
           <div className="header-wrapper">
+            <div className="search__wrp d-lg-none py-2">
+              <div className="search-area">
+                <input
+                  placeholder="Search for"
+                  aria-label="Search"
+                  onChange={onSearchChange}
+                  value={searchValue}
+                  style={{ color: "black" }}
+                />
+                <button>
+                  <i className="fa-solid fa-search" />
+                </button>
+              </div>
+              <Popper
+                open={Boolean(anchorEl && searchValue.trim())}
+                anchorEl={anchorEl}
+                placement="bottom-start"
+                style={{ zIndex: 1300 }}
+                modifiers={{
+                  preventOverflow: {
+                    enabled: true,
+                    boundariesElement: "viewport",
+                  },
+                }}
+                onMouseDown={(e) => e.stopPropagation()}
+              >
+                <div
+                  style={{
+                    width: anchorEl ? anchorEl.clientWidth : "100%",
+                    backgroundColor: "#fff",
+                    borderBottomLeftRadius: "20px", // Match with input's bottom left
+                    borderBottomRightRadius: "20px", // Match with input's bottom right
+                    borderTop: "none", // Remove top border to blend with input
+                    boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+                    maxHeight: "300px",
+                    overflowY: "auto",
+                    padding: "10px 0", // Padding to avoid cutting off list items
+                    borderRadius: "10px",
+                  }}
+                  className="custom-scrollbar"
+                >
+                  {/* Loading State */}
+                  {loading ? (
+                    <div>
+                      <Skeleton variant="text" width="100%" height={30} />
+                      <Skeleton variant="text" width="100%" height={30} />
+                      <Skeleton variant="text" width="100%" height={30} />
+                    </div>
+                  ) : (
+                    <List>
+                      {/* No Data Found */}
+                      {noResults ? (
+                        <ListItem>No data found</ListItem>
+                      ) : (
+                        // Render Search Results
+                        searchResults.map((item, index) => (
+                          <ListItem
+                            key={index}
+                            style={{
+                              color: "black",
+                              cursor: "pointer", // Pointer cursor on hover
+                              padding: "10px",
+                              transition: "background-color 0.2s ease", // Smooth hover effect
+                            }}
+                            onMouseEnter={(e) =>
+                              (e.currentTarget.style.backgroundColor =
+                                "#f0f0f0")
+                            }
+                            onMouseLeave={(e) =>
+                              (e.currentTarget.style.backgroundColor =
+                                "transparent")
+                            }
+                            onClick={() => {
+                              navigate(`/products/${item.id}`);
+                              setAnchorEl(null);
+                            }}
+                          >
+                            {item.name} {/* Assuming each result has a name */}
+                          </ListItem>
+                        ))
+                      )}
+                    </List>
+                  )}
+                </div>
+              </Popper>
+            </div>
             <ul className="main-menu pointer">
               {homeStates.menu?.map((menuEle) => {
                 let hasSubMenu = menuEle.brandList.length > 0;

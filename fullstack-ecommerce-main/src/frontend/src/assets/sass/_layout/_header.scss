@@ -72,30 +72,30 @@
 
 			@include breakpoint(max-xxl) {
 				input {
-					width: 300px;
+					width: 100%;
 				}
 			}
 
 			@include breakpoint(max-xl) {
-				input {
-					display: none;
-				}
+				// input {
+				// 	display: none;
+				// }
 
-				button {
-					position       : initial;
-					background     : var(--primary-color);
-					border-radius  : 50%;
-					width          : 40px;
-					height         : 40px;
-					display        : flex;
-					align-items    : center;
-					justify-content: center;
+				// button {
+				// 	position       : initial;
+				// 	background     : var(--primary-color);
+				// 	border-radius  : 50%;
+				// 	width          : 40px;
+				// 	height         : 40px;
+				// 	display        : flex;
+				// 	align-items    : center;
+				// 	justify-content: center;
 
-					i {
-						color    : var(--white);
-						font-size: 14px;
-					}
-				}
+				// 	i {
+				// 		color    : var(--white);
+				// 		font-size: 14px;
+				// 	}
+				// }
 			}
 
 			@include breakpoint(max-lg) {
@@ -381,7 +381,7 @@
 		button {
 			position: absolute;
 			left    : 20px;
-			top     : 10px;
+			top     : 18px;
 
 			i {
 				color    : var(--primary-color);

@@ -58,8 +58,8 @@ function Cart(props) {
                 <label className="product-details">Product</label>
                 <label className="product-price">Price</label>
                 <label className="product-quantity">Quantity</label>
-                <label className="product-line-price">Total</label>
-                <label className="product-removal">Edit</label>
+                {/* <label className="product-line-price">Total</label> */}
+                <label className="product-removal"></label>
               </div>
               {cartStates.items.map((item, index) => (
                 <div className="product p-4 bor-top bor-bottom d-flex flex-md-row flex-column justify-content-center align-content-center justify-content-md-between align-items-md-center">
@@ -97,12 +97,12 @@ function Cart(props) {
                       </ButtonGroup>
                     </div>
                   </div>
-                  <div className="product-line-price">
+                  {/* <div className="product-line-price">
                     <span className="d-inline-block d-md-none me-2 fw-bold">
                       Total:{" "}
                     </span>{" "}
                     <span className="w-10">£{item.price * item.quantity}</span>
-                  </div>
+                  </div> */}
                   <div className="product-removal">
                     <button
                       className="remove-product"

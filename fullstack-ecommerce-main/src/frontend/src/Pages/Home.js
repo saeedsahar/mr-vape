@@ -4,6 +4,7 @@ import WOW from "wowjs";
 import bgImage from "../assets/images/bg/view-bg.jpg";
 import bImg from "../assets/images/bg/discount-bg2.jpg";
 import bannerBImg from "../assets/images/banner/banner-two-image1.jpg";
+import trustPilotWidget from "../assets/images/logo/widget-1.jpg";
 // import ProductDisplay from "../Component/HomePage/Product/ProductDisplay";
 import Product from "./Product/Product";
 import { useDispatch, useSelector } from "react-redux";
@@ -150,12 +151,12 @@ function Home(props) {
 
   return (
     <>
-      <section className="bg-dark py-4">
+      <section className="bg-white py-2 pb-3">
         <div className="container">
           <div className="row">
             <div className="col-12 text-center">
-              <div className="trustpilot-widget  text-white ">
-                Add trustpilot widget here
+              <div className="trustpilot-widget">
+                <img src={trustPilotWidget} alt="trust pilot widget" className="img-fluid" /> 
               </div>
             </div>
           </div>
@@ -193,7 +194,7 @@ function Home(props) {
         </section>
         {/* Widget Block 2 */}
 
-        <section className="bg-dark py-5">
+        <section className="bg-dark py-3">
           <div className="container">
             <div className="row">
               <div className="col text-center">
