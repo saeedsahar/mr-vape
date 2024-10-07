@@ -244,8 +244,13 @@ function MainNavigation(props) {
                                     borderRadius: "0px",
                                   }}
                                   onClick={() => {
-                                    dispatch(setCategoryId(menuEle.id));
-                                    navigate("/products");
+                                    if (menuEle.id == 1) {
+                                      dispatch(setQuery("Trending"));
+                                      navigate("/products");
+                                    } else {
+                                      dispatch(setCategoryId(menuEle.id));
+                                      navigate("/products");
+                                    }
                                   }}
                                 >
                                   <a>{menuEle.name}</a>
@@ -460,8 +465,13 @@ function MainNavigation(props) {
                   <li className="pointer">
                     <a
                       onClick={() => {
-                        dispatch(setCategoryId(menuEle.id));
-                        navigate("/products");
+                        if (menuEle.id == 1) {
+                          dispatch(setQuery("Trending"));
+                          navigate("/products");
+                        } else {
+                          dispatch(setCategoryId(menuEle.id));
+                          navigate("/products");
+                        }
                       }}
                     >
                       {menuEle.name}

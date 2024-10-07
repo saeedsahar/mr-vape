@@ -36,6 +36,8 @@ export const productSlice = createSlice({
     },
     setQuery: (state, action) => {
       state.query = action.payload;
+      state.categoryId = "";
+      state.brandId = "";
       state.pageIndex = 0;
     },
     setLoading: (state, action) => {

@@ -11,6 +11,7 @@ import {
   setProducts,
   setTrendingProducts,
 } from "./ProductSlice";
+import "./Product.css";
 import { SwiperComponentCustom } from "../../Component/Swiper/Swiper";
 import { SwiperSlide } from "swiper/react";
 
@@ -29,11 +30,13 @@ function Product(props) {
       fetchProductsByCategory(productState.categoryId);
       setMainTitle(tile[0]?.name);
     } else if (productState.brandId && productState.brandId != "") {
-      let tile = "";
+      let tile = [];
       homeStates.menu?.forEach((category) => {
-        tile = category?.brandList?.filter(
-          (item) => item.id == productState.brandId
-        );
+        if (tile?.length <= 0) {
+          tile = category?.brandList?.filter(
+            (item) => item.id == productState.brandId
+          );
+        }
       });
       fetchProductsByBrand(productState.brandId);
       setMainTitle(tile[0]?.name);
@@ -44,7 +47,7 @@ function Product(props) {
         productState.pageSize
       );
       setMainTitle(
-        `Search Results for ${productState.query} items at Ninja Vapes UK`
+        `Search Results for ${productState.query} items at VapePlanet UK`
       );
     }
   }, [
@@ -147,7 +150,7 @@ function Product(props) {
             >
               <h3>
                 <span className="title-icon" />
-                {} <span className="title-icon" />
+                {mainTile} <span className="title-icon" />
               </h3>
               <span style={{ fontWeight: "500", padding: "5px 50px" }}>
                 Our premium collection offers a diverse range of meticulously

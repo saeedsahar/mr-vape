@@ -25,7 +25,9 @@ function Cart(props) {
         {/* Page banner area start here */}
         <section
           className="page-banner bg-image pt-130 pb-130"
-          style={{ backgroundImage: `url(${bannerBImg})` }}
+          style={{
+            backgroundImage: `url(https://mrvape-frontend.s3.eu-west-2.amazonaws.com/cart-header.jpeg)`,
+          }}
           // data-background="assets/images/banner/inner-banner.jpg"
         >
           <div className="container">

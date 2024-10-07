@@ -89,7 +89,9 @@ function Authenticate(props) {
       {/* Page banner area */}
       <section
         className="page-banner bg-image pt-130 pb-130"
-        style={{ backgroundImage: `url(${bannerBImg})` }}
+        style={{
+          backgroundImage: `url(https://mrvape-frontend.s3.eu-west-2.amazonaws.com/sign-in-header+copy.png)`,
+        }}
       >
         <div className="container">
           <h2
