@@ -306,7 +306,7 @@ function MainNavigation(props) {
             </a>
             <div className="search__wrp" ref={searchWrapperRef}>
               <input
-                placeholder="Search for"
+                placeholder="Search Products"
                 aria-label="Search"
                 onChange={onSearchChange}
                 value={searchValue}
@@ -395,7 +395,7 @@ function MainNavigation(props) {
             </div>
             {openSearchBar && appWidth < 1200 ? (
               <input
-                placeholder="Search for"
+                placeholder="Search Products"
                 aria-label="Search"
                 onChange={onSearchChange}
                 value={searchValue}
