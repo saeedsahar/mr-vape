@@ -150,6 +150,17 @@ function Home(props) {
 
   return (
     <>
+      <section className="bg-dark py-4">
+        <div className="container">
+          <div className="row">
+            <div className="col-12 text-center">
+              <div className="trustpilot-widget  text-white ">
+                Add trustpilot widget here
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
       <main>
         {/* Banner area start here */}
         <section className="banner-two banner-two-light black-area">
@@ -165,7 +176,7 @@ function Home(props) {
               </div>
             </div>
           </div>
-          <div className="banner-two__arry-btn">
+          {/* <div className="banner-two__arry-btn">
             <button
               className="arry-prev mb-15 banner-two__arry-prev"
               onClick={() => setSelectedBannerImage(bannerImages[0])}
@@ -178,48 +189,48 @@ function Home(props) {
             >
               <i className="fa-light text-white fa-chevron-right" />
             </button>
-          </div>
-        </section>
-        {/* Widget Block 1 */}
-
-        <section className="bg-dark py-4">
-          <div className="container">
-            <div className="row">
-              <div className="col-12 text-center">
-                <div className="trustpilot-widget  text-white ">
-                  Add trustpilot widget here
-                </div>
-              </div>
-            </div>
-          </div>
+          </div> */}
         </section>
         {/* Widget Block 2 */}
 
-        <section className="bg-dark py-4">
+        <section className="bg-dark py-5">
           <div className="container">
             <div className="row">
               <div className="col text-center">
-                <h6 className="text-white fw-bold">Free Delivery</h6>
+                <div className="icon text-white mb-2">
+                  <i class="fa-light fa-truck-fast fa-xl"></i>
+                </div>
+                <h6 className="text-white fw-bold">Fast Delivery</h6>
               </div>
 
               <div className="col text-center">
+                <div className="icon text-white mb-2">
+                  <i class="fa-light fa-dolly fa-xl"></i>
+                </div>
                 <h6 className="text-white fw-bold">Free Shipping</h6>
               </div>
 
               <div className="col text-center">
+                <div className="icon text-white mb-2">
+                  <i class="fa-light fa-truck-container fa-xl"></i>
+                </div>
                 <h6 className="text-white fw-bold">Same day dispatch</h6>
               </div>
 
               <div className="col text-center">
+                <div className="icon text-white mb-2">
+                  <i class="fa-light fa-user-group fa-xl"></i>
+                </div>
                 <h6 className="text-white fw-bold">
                   Trusted by 1000+ customers
                 </h6>
               </div>
 
               <div className="col text-center">
-                <h6 className="text-white fw-bold">
-                  Trusted by 1000+ customers
-                </h6>
+                <div className="icon text-white mb-2">
+                  <i class="fa-light fa-headset fa-xl"></i>
+                </div>
+                <h6 className="text-white fw-bold">24/7 Support</h6>
               </div>
             </div>
           </div>

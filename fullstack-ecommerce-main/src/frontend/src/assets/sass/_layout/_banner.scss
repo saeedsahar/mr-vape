@@ -194,15 +194,21 @@
 
 // Page banner area start here ***
 .page-banner {
-	margin-top: 178px;
 	text-align: center;
 
 	.breadcrumb-list {
 
 		a,
 		span {
-			font-size  : 14px;
-			font-weight: 600;
+			margin-right: 6px;
+			color       : var(--pure-white);
+			font-size   : 14px;
+			font-weight : 600;
+			cursor      : pointer;
+
+			&:hover {
+				color: var(--primary-color);
+			}
 		}
 	}
 }

@@ -182,7 +182,7 @@ function MainNavigation(props) {
                 </svg>
               </button>
               <div
-                class="offcanvas offcanvas-start"
+                class="offcanvas offcanvas-start mobile-navigation"
                 tabindex="-1"
                 id="offcanvasExample"
                 aria-labelledby="offcanvasExampleLabel"

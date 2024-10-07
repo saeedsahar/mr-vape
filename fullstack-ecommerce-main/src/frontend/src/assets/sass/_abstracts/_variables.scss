@@ -1,10 +1,10 @@
 :root {
 	// Font family ***
 	// --prosto-one: "Prosto One", sans-serif;
-	--montserrat: "Montserrat", sans-serif;
-	--prosto-one: var(--montserrat);
-	--poppins   : "Poppins", sans-serif;
 	--inter     : "Inter", sans-serif;
+	--poppins   : "Poppins", sans-serif;
+	--montserrat: var(--inter);
+	--prosto-one: var(--montserrat);
 
 	// Colors ***
 	--primary-color    : #fa4f09;
