@@ -244,8 +244,13 @@ function MainNavigation(props) {
                                     borderRadius: "0px",
                                   }}
                                   onClick={() => {
-                                    dispatch(setCategoryId(menuEle.id));
-                                    navigate("/products");
+                                    if (menuEle.id == 1) {
+                                      dispatch(setQuery("Trending"));
+                                      navigate("/products");
+                                    } else {
+                                      dispatch(setCategoryId(menuEle.id));
+                                      navigate("/products");
+                                    }
                                   }}
                                 >
                                   <a>{menuEle.name}</a>
@@ -306,7 +311,7 @@ function MainNavigation(props) {
             </a>
             <div className="search__wrp" ref={searchWrapperRef}>
               <input
-                placeholder="Search for"
+                placeholder="Search Products"
                 aria-label="Search"
                 onChange={onSearchChange}
                 value={searchValue}
@@ -394,7 +399,7 @@ function MainNavigation(props) {
             </div>
             {openSearchBar && appWidth < 1200 ? (
               <input
-                placeholder="Search for"
+                placeholder="Search Products"
                 aria-label="Search"
                 onChange={onSearchChange}
                 value={searchValue}
@@ -545,8 +550,13 @@ function MainNavigation(props) {
                   <li className="pointer">
                     <a
                       onClick={() => {
-                        dispatch(setCategoryId(menuEle.id));
-                        navigate("/products");
+                        if (menuEle.id == 1) {
+                          dispatch(setQuery("Trending"));
+                          navigate("/products");
+                        } else {
+                          dispatch(setCategoryId(menuEle.id));
+                          navigate("/products");
+                        }
                       }}
                     >
                       {menuEle.name}

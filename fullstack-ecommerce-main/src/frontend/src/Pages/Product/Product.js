@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { CircularProgress } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { getRequests, base_url } from "../../axios/API";
@@ -11,6 +11,7 @@ import {
   setProducts,
   setTrendingProducts,
 } from "./ProductSlice";
+import "./Product.css";
 import { SwiperComponentCustom } from "../../Component/Swiper/Swiper";
 import { SwiperSlide } from "swiper/react";
 
@@ -19,17 +20,34 @@ function Product(props) {
   let dispatch = useDispatch();
   let homeStates = useSelector((state) => state.home);
   let productState = useSelector((state) => state.product);
+  const [mainTile, setMainTitle] = useState("Search results");
 
   useEffect(() => {
     if (productState.categoryId && productState.categoryId != "") {
+      let tile = homeStates.menu?.filter(
+        (item) => item.id == productState.categoryId
+      );
       fetchProductsByCategory(productState.categoryId);
+      setMainTitle(tile[0]?.name);
     } else if (productState.brandId && productState.brandId != "") {
+      let tile = [];
+      homeStates.menu?.forEach((category) => {
+        if (tile?.length <= 0) {
+          tile = category?.brandList?.filter(
+            (item) => item.id == productState.brandId
+          );
+        }
+      });
       fetchProductsByBrand(productState.brandId);
+      setMainTitle(tile[0]?.name);
     } else {
       fetchProducts(
         productState.query,
         productState.pageIndex,
         productState.pageSize
+      );
+      setMainTitle(
+        `Search Results for ${productState.query} items at VapePlanet UK`
       );
     }
   }, [
@@ -131,8 +149,8 @@ function Product(props) {
               data-wow-delay=".1s"
             >
               <h3>
-                <span className="title-icon" /> E-Liquid{" "}
                 <span className="title-icon" />
+                {mainTile} <span className="title-icon" />
               </h3>
               <span style={{ fontWeight: "500", padding: "5px 50px" }}>
                 Our premium collection offers a diverse range of meticulously
