@@ -133,6 +133,17 @@ function Cart(props) {
                     data-animation="fadeInUp"
                     data-delay="1.8s"
                     onClick={() => {
+                      navigate("/product");
+                    }}
+                    style={{ marginRight: "5px" }}
+                  >
+                    <span>Continue Shopping</span>
+                  </button>
+                  <button
+                    className="btn-one"
+                    data-animation="fadeInUp"
+                    data-delay="1.8s"
+                    onClick={() => {
                       if (cartStates.total > 0) navigate("/checkout");
                     }}
                   >
