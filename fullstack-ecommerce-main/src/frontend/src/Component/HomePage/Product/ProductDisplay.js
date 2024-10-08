@@ -10,13 +10,13 @@ function ProductDisplay(props) {
           <i className="fa-regular fa-heart" />
         </a>
         <a className="product__image pt-20 d-block">
-          <img className="font-image" src={props.product.image} alt="image" />
-          <img className="back-image" src={props.product.image} alt="image" />
+          <img className="font-image rounded" src={props.product.image} alt="image" />
+          <img className="back-image rounded" src={props.product.image} alt="image" />
         </a>
         <div className="product__content">
-          <h4 className="mb-15">
+          <h5 className="mb-15">
             <a className="primary-hover">{props.product.name}</a>
-          </h4>
+          </h5>
           <del>£{props.product.price}</del>
           <span className="primary-color ml-10">£{props.product.price}</span>
           <div className="star mt-20">

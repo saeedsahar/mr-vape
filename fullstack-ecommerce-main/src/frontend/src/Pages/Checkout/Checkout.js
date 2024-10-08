@@ -60,7 +60,7 @@ const Checkout = () => {
         className="page-banner bg-image pt-130 pb-130"
         style={{ backgroundImage: `url(${bannerBImg})` }}
       >
-        <div className="container">
+        <div className="container-lg">
           <h2
             className="wow text-white fadeInUp mb-15"
             data-wow-duration="1.1s"
@@ -84,7 +84,7 @@ const Checkout = () => {
       {/* Page banner area end here */}
       {/* Checkout area start here */}
       <section className="checkout-area pt-130 pb-130">
-        <div className="container">
+        <div className="container-lg">
           <div className="row g-4">
             <div className="col-lg-8">
               <div className="checkout__item-left text-dark bor mb-30">

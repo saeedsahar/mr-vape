@@ -29,7 +29,7 @@
 "scripts": {
   "start": "react-scripts start",
   "build": "react-scripts build && sass ./src/assets/sass/style.scss ./src/assets/css/style.css",
-  "watch:sass": "sass --watch ./src/assets/sass/style.scss:./src/assets/css/style.css",
+  "watch:sass": "sass --source-map-urls=absolute --watch ./src/assets/sass/style.scss:./src/assets/css/style.css --style compressed ",
   "test": "react-scripts test",
   "eject": "react-scripts eject"
 },

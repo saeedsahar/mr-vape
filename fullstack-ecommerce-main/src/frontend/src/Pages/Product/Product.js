@@ -142,7 +142,7 @@ function Product(props) {
   return (
     <main>
       <section className=" page-banner bg-image category-area black-area category-two pb-60 pt-80">
-        <div className="container">
+        <div className="container-lg">
           <div className="bor-bottom pb-50">
             <div
               className="sub-title text-center wow fadeInUp"
@@ -241,7 +241,7 @@ function Product(props) {
         )}
       </section>
       <section className="brand-area black-area pt-130 pb-130">
-        <div className="container">
+        <div className="container-lg">
           <div className="sub-title text-center mb-65">
             <h3>
               <span className="title-icon" /> our top brands{" "}

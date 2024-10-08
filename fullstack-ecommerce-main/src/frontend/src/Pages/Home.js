@@ -105,7 +105,6 @@ function Home(props) {
   const customSwiperProductOff = (item) => {
     return (
       <SwiperSlide>
-        {" "}
         <div className="" style={{ paddingLeft: "10px", paddingRight: "10px" }}>
           <div className="product__item bor">
             <a className="wishlist">
@@ -116,9 +115,9 @@ function Home(props) {
               <img className="back-image" src={item.image} alt="image" />
             </a>
             <div className="product__content">
-              <h4 className="mb-15">
+              <h5 className="mb-15">
                 <a className="primary-hover">{item.name}</a>
-              </h4>
+              </h5>
               <del>£{item.price}</del>
               <span className="primary-color ml-10">£{item.price}</span>
               <div className="star mt-20">
@@ -151,17 +150,57 @@ function Home(props) {
 
   return (
     <>
-      <section className="bg-white py-2 pb-3">
-        <div className="container">
+      <section className="bg-dark">
+        <div className="container-lg">
           <div className="row">
-            <div className="col-12 text-center">
-              <div className="trustpilot-widget">
-                <img src={trustPilotWidget} alt="trust pilot widget" className="img-fluid" /> 
+            <div className="col text-center my-2">
+              <div className="icon text-white mb-2">
+                <i class="fa-light fa-truck-fast fa-xl"></i>
               </div>
+              <h6 className="text-white text-sm text-narrow-normal">
+                Fast Delivery
+              </h6>
+            </div>
+
+            <div className="col text-center my-2">
+              <div className="icon text-white mb-2">
+                <i class="fa-light fa-dolly fa-xl"></i>
+              </div>
+              <h6 className="text-white text-sm text-narrow-normal">
+                Free Shipping
+              </h6>
+            </div>
+
+            <div className="col text-center my-2">
+              <div className="icon text-white mb-2">
+                <i class="fa-light fa-truck-container fa-xl"></i>
+              </div>
+              <h6 className="text-white text-sm text-narrow-normal">
+                Same day dispatch
+              </h6>
+            </div>
+
+            <div className="col text-center my-2">
+              <div className="icon text-white mb-2">
+                <i class="fa-light fa-user-group fa-xl"></i>
+              </div>
+              <h6 className="text-white text-sm text-narrow-normal">
+                Trusted by customers
+              </h6>
+            </div>
+
+            <div className="col text-center my-2">
+              <div className="icon text-white mb-2">
+                <i class="fa-light fa-headset fa-xl"></i>
+              </div>
+              <h6 className="text-white text-sm text-narrow-normal">
+                24/7 Support
+              </h6>
             </div>
           </div>
         </div>
       </section>
+
       <main>
         {/* Banner area start here */}
         <section className="banner-two banner-two-light black-area">
@@ -170,7 +209,6 @@ function Home(props) {
               <div className="swiper-slide">
                 <img
                   src={selectedBannerImage}
-                  style={{ objectFit: "cover", width: "100%", height: "auto" }}
                   alt="banner"
                   className="hero-banner"
                 />
@@ -193,73 +231,42 @@ function Home(props) {
           </div> */}
         </section>
         {/* Widget Block 2 */}
-
-        <section className="bg-dark py-3">
-          <div className="container">
+        <section className="bg-white py-2 pb-3">
+          <div className="container-lg">
             <div className="row">
-              <div className="col text-center">
-                <div className="icon text-white mb-2">
-                  <i class="fa-light fa-truck-fast fa-xl"></i>
+              <div className="col-12 text-center">
+                <div className="trustpilot-widget">
+                  <img
+                    src={trustPilotWidget}
+                    alt="trust pilot widget"
+                    className="img-fluid"
+                  />
                 </div>
-                <h6 className="text-white fw-bold">Fast Delivery</h6>
-              </div>
-
-              <div className="col text-center">
-                <div className="icon text-white mb-2">
-                  <i class="fa-light fa-dolly fa-xl"></i>
-                </div>
-                <h6 className="text-white fw-bold">Free Shipping</h6>
-              </div>
-
-              <div className="col text-center">
-                <div className="icon text-white mb-2">
-                  <i class="fa-light fa-truck-container fa-xl"></i>
-                </div>
-                <h6 className="text-white fw-bold">Same day dispatch</h6>
-              </div>
-
-              <div className="col text-center">
-                <div className="icon text-white mb-2">
-                  <i class="fa-light fa-user-group fa-xl"></i>
-                </div>
-                <h6 className="text-white fw-bold">
-                  Trusted by 1000+ customers
-                </h6>
-              </div>
-
-              <div className="col text-center">
-                <div className="icon text-white mb-2">
-                  <i class="fa-light fa-headset fa-xl"></i>
-                </div>
-                <h6 className="text-white fw-bold">24/7 Support</h6>
               </div>
             </div>
           </div>
         </section>
+
         <section className=" bg-image category-area black-area category-two pb-60 pt-80">
-          <div className="container">
+          <div className="container-lg">
             <div className="bor-bottom pb-50">
               <div
                 className="sub-title text-center wow fadeInUp"
                 data-wow-delay=".1s"
               >
-                <h3 style={{ fontWeight: "600" }}>
+                <h3>
                   <span className="title-icon" /> Vape Planet ©{" "}
                   <span className="title-icon" />
                 </h3>
-                <span style={{ fontWeight: "500", padding: "5px 50px" }}>
-                  Your Premier Online Vape Store in the UK
-                </span>
-                <b />
-                <span>
-                  {" "}
+                <p>Your Premier Online Vape Store in the UK</p>
+                <p>
                   Welcome to Vape Planet, your trusted source for premium vaping
                   products. We offer a wide range of disposable vapes,
                   e-liquids, vape kits, coils, and tanks, all meeting strict
                   safety standards. Whether you're new to vaping or an
                   experienced vaper, our curated selection has something to suit
-                  your needs.{" "}
-                </span>
+                  your needs.
+                </p>
               </div>
             </div>
           </div>
@@ -267,7 +274,7 @@ function Home(props) {
         {/* Banner area end here */}
         {/* Category area start here */}
         <section className="category-area black-area category-two pb-130 pt-30">
-          <div className="container">
+          <div className="container-lg">
             <div className="bor-bottom pb-130">
               <div
                 className="sub-title text-center mb-65 wow fadeInUp"
@@ -294,7 +301,7 @@ function Home(props) {
             style={{ backgroundImage: `url(${bgImage})` }}
             // data-background=""
           />
-          <div className="container">
+          <div className="container-lg">
             <div className="row g-4">
               <div className="col-lg-6 wow fadeInLeft" data-wow-delay=".1s">
                 <div className="view__left-item">
@@ -305,6 +312,7 @@ function Home(props) {
                         "https://mrvape-frontend.s3.eu-west-2.amazonaws.com/eliquid.jpg"
                       }
                       alt="image"
+                      className="img-fluid"
                     />
                   </div>
                   <div className="view__left-content sub-bg">
@@ -313,7 +321,7 @@ function Home(props) {
                         The best e-liqued bundles
                       </a>
                     </h2>
-                    <p className="fw-600">
+                    <p>
                       Sell globally in minutes with localized currencies
                       languages, and experie in every market. only a variety of
                       vaping products
@@ -382,7 +390,7 @@ function Home(props) {
         {/* View area end here */}
         {/* Product area start here */}
         <section className="product-area pt-80 pb-80 mt-130">
-          <div className="container">
+          <div className="container-lg">
             <div className="product__wrp pb-30 mb-65 bor-bottom d-flex flex-wrap align-items-center justify-content-xl-between justify-content-center">
               <div
                 className="section-header d-flex align-items-center wow fadeInUp"
@@ -437,7 +445,7 @@ function Home(props) {
         {/* Discount area end here */}
         {/* Get now area start here */}
         <section className="get-now-area pt-130 pb-130">
-          <div className="container">
+          <div className="container-lg">
             <div className="row align-items-center">
               <div className="col-xl-6">
                 <h4 className="mb-30 wow fadeInUp" data-wow-delay=".1s">
@@ -458,7 +466,7 @@ function Home(props) {
                   >
                     <del>£99.00</del> <span>£49.00</span>
                   </div>
-                  <p className="fw-600 wow fadeInUp" data-wow-delay=".3s">
+                  <p className=" wow fadeInUp" data-wow-delay=".3s">
                     There are many variations of passages of Lorem Ipsum
                     available, but <br />
                     the majority have suffered alteration in some form, by
@@ -503,9 +511,6 @@ function Home(props) {
               </div>
               <div className="col-xl-6">
                 <div className="get-now__image mt-5 mt-xl-0">
-                  <div className="get-bg-image">
-                    <img src="assets/images/shop/get-bg.png" alt="image" />
-                  </div>
                   {/* <div className="swiper get__slider">
                     <div className="swiper-wrapper">
                       <div className="swiper-slide"> */}
@@ -515,6 +520,7 @@ function Home(props) {
                         "https://mrvape-frontend.s3.eu-west-2.amazonaws.com/coming-soon+copy.png"
                       }
                       alt="image"
+                      className="img-fluid round-100"
                     />
                     {/* </div>
                       </div>
@@ -533,7 +539,7 @@ function Home(props) {
         </section>
         {/* Get now area end here */}
         {/* Text slider area start here */}
-        <div className="container">
+        <div className="container-lg">
           <div className="bor-top pb-40" />
         </div>
         <div className="marquee-wrapper text-slider">
@@ -563,7 +569,7 @@ function Home(props) {
             </ul>
           </div>
         </div>
-        <div className="container">
+        <div className="container-lg">
           <div className="bor-top pb-65" />
         </div>
         {/* Text slider area end here */}
@@ -578,7 +584,7 @@ function Home(props) {
         {/* Gallery area end here */}
         {/* Brand area start here */}
         <section className="brand-area black-area pt-130 pb-130">
-          <div className="container">
+          <div className="container-lg">
             <div className="sub-title text-center mb-65">
               <h3>
                 <span className="title-icon" /> our top brands{" "}

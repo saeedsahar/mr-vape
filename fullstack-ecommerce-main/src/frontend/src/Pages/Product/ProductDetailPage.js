@@ -131,7 +131,7 @@ function ProductDetailPage(props) {
             backgroundImage: `url(https://mrvape-frontend.s3.eu-west-2.amazonaws.com/detail1.png)`,
           }}
         >
-          <div className="container">
+          <div className="container-lg">
             <h2
               className="wow fadeInUp text-white mb-15 color-black"
               data-wow-duration="1.1s"
@@ -160,7 +160,7 @@ function ProductDetailPage(props) {
         {/* Page banner area end here */}
         {/* Shop single area start here */}
         <section className="shop-single pt-130 pb-130">
-          <div className="container">
+          <div className="container-lg">
             {/* product-details area start here */}
             <div className="product-details-single pb-40">
               <div className="row g-4">

@@ -30,7 +30,7 @@ function Cart(props) {
           }}
           // data-background="assets/images/banner/inner-banner.jpg"
         >
-          <div className="container">
+          <div className="container-lg">
             <h2
               className="wow fadeInUp mb-15 text-white"
               data-wow-duration="1.1s"
@@ -54,7 +54,7 @@ function Cart(props) {
         {/* Page banner area end here */}
         {/* cart page area start here */}
         <section className="cart-page pt-130 pb-130">
-          <div className="container">
+          <div className="container-lg">
             <div className="shopping-cart radius-10 bor text-dark mobile-view">
               <div className="bg-light column-labels py-3 px-4 d-none d-md-flex justify-content-between align-items-center fw-bold text-dark text-uppercase">
                 <label className="product-details">Product</label>

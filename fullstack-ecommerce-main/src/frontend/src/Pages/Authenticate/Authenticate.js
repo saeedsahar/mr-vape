@@ -93,7 +93,7 @@ function Authenticate(props) {
           backgroundImage: `url(https://mrvape-frontend.s3.eu-west-2.amazonaws.com/sign-in-header+copy.png)`,
         }}
       >
-        <div className="container">
+        <div className="container-lg">
           <h2
             className="wow fadeInUp mb-15 text-white"
             data-wow-duration="1.1s"
@@ -117,7 +117,7 @@ function Authenticate(props) {
 
       {/* Login area */}
       <section className="login-area pt-130 pb-130 bg-light">
-        <div className="container">
+        <div className="container-lg">
           <div className="login__item">
             <div className="row g-4">
               <div className="col-xxl-8">

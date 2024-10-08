@@ -8,7 +8,7 @@ function Footer(props) {
     className="footer-area black-area bg-image"
     style={{ backgroundImage: `url(${backgrounimg})` }}
   >
-    <div className="container">
+    <div className="container-lg">
       <div className="footer__wrp pt-65 pb-65 bor-top bor-bottom">
         <div className="row g-4">
           <div

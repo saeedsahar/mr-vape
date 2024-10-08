@@ -2,7 +2,6 @@ import React, { useEffect, useState, useCallback } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import logo from "../../assets/images/logo/logo.svg";
 import {
   setBrandId,
   setCategoryId,
@@ -10,18 +9,19 @@ import {
 } from "../../Pages/Product/ProductSlice";
 import { base_url, getRequests } from "../../axios/API";
 import { setMenu } from "../../Pages/HomeSlice";
-import Snackbar from "@mui/material/Snackbar";
-import Alert from "@mui/material/Alert";
 import { setSnackBar } from "./MainNavSlice";
 import {
-  InputAdornment,
   Popper,
   List,
   ListItem,
   Skeleton,
+  Button,
+  Alert,
+  Snackbar,
+  Drawer,
+  TextField,
 } from "@mui/material";
-import { Search } from "@mui/icons-material";
-import { colors } from "@mui/material";
+import { TextFieldsTwoTone } from "@mui/icons-material";
 
 function MainNavigation(props) {
   console.log("[MainNavigation.js]");
@@ -34,6 +34,7 @@ function MainNavigation(props) {
   const [anchorEl, setAnchorEl] = useState(null);
   const [openSearchBar, setOpenSearchBar] = useState(false);
   const [appWidth, setAppWidth] = useState(window.innerWidth);
+  const [open, setOpen] = useState(false);
 
   const searchWrapperRef = React.useRef(null); // Ref for search wrapper
 
@@ -54,6 +55,10 @@ function MainNavigation(props) {
     ) {
       setAnchorEl(null); // Close dropdown
     }
+  };
+
+  const toggleDrawer = (newOpen) => () => {
+    setOpen(newOpen);
   };
 
   const handleKeyDown = (event) => {
@@ -158,15 +163,10 @@ function MainNavigation(props) {
   return (
     <>
       <div className="top__header black-area pt-30 pb-30">
-        <div className="container">
+        <div className="container-lg">
           <div className="top__wrapper">
             <a className="main__logo">
-              <button
-                class="px-2 d-lg-none"
-                data-bs-toggle="offcanvas"
-                data-bs-target="#offcanvasExample"
-                aria-controls="offcanvasExample"
-              >
+              <button onClick={toggleDrawer(true)} class="px-2 d-lg-none">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="28"
@@ -181,21 +181,19 @@ function MainNavigation(props) {
                   />
                 </svg>
               </button>
-              <div
-                class="offcanvas offcanvas-start mobile-navigation"
-                tabindex="-1"
-                id="offcanvasExample"
-                aria-labelledby="offcanvasExampleLabel"
+              <Drawer
+                open={open}
+                onClose={toggleDrawer(false)}
+                className="mobile-navigation"
               >
                 <div class="offcanvas-header">
-                  <h5 class="offcanvas-title" id="offcanvasExampleLabel">
+                  <h6 class="offcanvas-title">
                     Popular Categories
-                  </h5>
+                  </h6>
                   <button
-                    type="button"
                     class="text-white"
-                    data-bs-dismiss="offcanvas"
                     aria-label="Close"
+                    onClick={toggleDrawer(false)}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -297,7 +295,7 @@ function MainNavigation(props) {
                     );
                   })}
                 </div>
-              </div>
+              </Drawer>
 
               <img
                 className="pointer img-fluid"
@@ -436,7 +434,7 @@ function MainNavigation(props) {
                 </a>
               </div>
               <div
-                className="cart d-flex align-items-center justify-content-between"
+                className="cart d-flex align-items-center justify-content-between cursror-pointer"
                 onClick={() => navigate("/cart")}
                 ref={containerRef}
               >
@@ -455,7 +453,7 @@ function MainNavigation(props) {
         </div>
       </div>
       <header className="header-section black-area">
-        <div className="container">
+        <div className="container-lg">
           <div className="header-wrapper">
             <div className="search__wrp d-lg-none py-2">
               <div className="search-area">
@@ -560,19 +558,16 @@ function MainNavigation(props) {
                       }}
                     >
                       {menuEle.name}
-                      {hasSubMenu && <i className="fa-regular fa-angle-down" />}
+                      {hasSubMenu && (
+                        <i className="fa-regular fa-angle-down ms-1" />
+                      )}
                     </a>
                     {hasSubMenu && (
                       <ul className="sub-menu">
                         {menuEle.brandList?.map((subMenuEle) => {
                           return (
-                            <li
-                              className="subtwohober pointer"
-                              style={{ color: "#000" }}
-                            >
+                            <li className="subtwohober">
                               <a
-                                className="pointer"
-                                style={{ color: "#000" }}
                                 onClick={() => {
                                   dispatch(setBrandId(subMenuEle.id));
                                   navigate("/products");

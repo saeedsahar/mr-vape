@@ -49,7 +49,6 @@ function SwiperComponent(props) {
         return (
           <>
             <SwiperSlide>
-              {" "}
               <div
                 className="category__item category-two__item text-center pointer"
                 onClick={() => navigate(`/products/${product.id}`)}
@@ -61,9 +60,9 @@ function SwiperComponent(props) {
                     sx={{ width: 210, height: 210 }}
                   />
                 </a>
-                <h4 className="mt-30">
+                <h5 className="mt-30 text-uppercase">
                   <a>{product.name}</a>
-                </h4>
+                </h5>
               </div>
             </SwiperSlide>
           </>

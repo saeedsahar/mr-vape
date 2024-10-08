@@ -121,7 +121,7 @@ function Register(props) {
             backgroundImage: "url(assets/images/banner/inner-banner.jpg)",
           }}
         >
-          <div className="container">
+          <div className="container-lg">
             <h2
               className="wow fadeInUp mb-15 text-white"
               data-wow-duration="1.1s"
@@ -145,7 +145,7 @@ function Register(props) {
 
         {/* Login area */}
         <section className="login-area pt-130 pb-130">
-          <div className="container">
+          <div className="container-lg">
             <div className="login__item">
               <div className="row g-4">
                 <div className="col-xxl-8">

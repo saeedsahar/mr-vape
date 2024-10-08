@@ -22,52 +22,11 @@ h3,
 h4,
 h5,
 h6 {
-	margin     : 0;
-	padding    : 0;
-	color      : var(--heading-color);
-	font-family: var(--prosto-one);
+	font-family   : var(--poppins);
+	font-weight   : 600;
+	letter-spacing: -0.5px;
 }
 
-h1 {
-	font-size  : 40px;
-	font-weight: 400;
-	line-height: 50px;
-}
-
-h2 {
-	font-size  : 40px;
-	font-weight: 400;
-	line-height: 50px;
-}
-
-h3 {
-	font-size  : 24px;
-	font-weight: 400;
-	line-height: 36px;
-}
-
-h4 {
-	font-size  : 18px;
-	font-weight: 400;
-}
-
-h5 {
-	font-size  : 16px;
-	font-weight: 400;
-	line-height: 19px;
-}
-
-h6 {
-	font-size  : 14px;
-	font-weight: 400;
-}
-
-p {
-	margin     : 0;
-	padding    : 0;
-	line-height: 28px;
-	font-size  : 16px;
-}
 
 span {
 	display: inline-block;
@@ -296,3 +255,24 @@ input {
 }
 
 // Star area end here ***
+
+
+.round-100 {
+	border-radius: 100%;
+}
+
+.text-sm {
+	font-size: 14px !important;
+}
+
+.text-narrow-md {
+	letter-spacing: -.3px !important;
+}
+
+.text-narrow-normal {
+	letter-spacing: normal !important;
+}
+
+.cursror-pointer {
+	cursor: pointer !important;
+}
