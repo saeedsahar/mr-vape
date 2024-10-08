@@ -183,15 +183,6 @@ function Home(props) {
 
             <div className="col text-center my-2">
               <div className="icon text-white mb-2">
-                <i class="fa-light fa-user-group fa-xl"></i>
-              </div>
-              <h6 className="text-white text-sm text-narrow-normal">
-                Trusted by customers
-              </h6>
-            </div>
-
-            <div className="col text-center my-2">
-              <div className="icon text-white mb-2">
                 <i class="fa-light fa-headset fa-xl"></i>
               </div>
               <h6 className="text-white text-sm text-narrow-normal">

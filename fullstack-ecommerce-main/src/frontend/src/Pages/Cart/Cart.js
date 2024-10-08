@@ -77,7 +77,9 @@ function Cart(props) {
                     <span className="d-inline-block d-md-none me-2 fw-bold">
                       Price:
                     </span>
-                    <span className="w-10">£{item.price.toFixed(2)}</span>
+                    <span className="w-10">
+                      £{item.quantity * item.price.toFixed(2)}
+                    </span>
                   </div>
                   <div className="quantity-wrapper">
                     <span className="d-inline-block d-md-none me-2 fw-bold">
