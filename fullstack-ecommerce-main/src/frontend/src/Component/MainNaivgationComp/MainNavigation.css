@@ -91,4 +91,15 @@
   .material-icon {
     color: #3f51b5; /* Update theme as needed */
   }
+
+  .accordion-custom-button::after {
+    content: none !important;
+    background-image: none !important;
+  }
+
+  .accordion-button {
+    color: black !important;
+    background-color: white !important;
+  }
+
   

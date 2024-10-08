@@ -22,7 +22,7 @@ import {
   TextField,
 } from "@mui/material";
 import { TextFieldsTwoTone } from "@mui/icons-material";
-
+import "./MainNavigation.css";
 function MainNavigation(props) {
   console.log("[MainNavigation.js]");
   const containerRef = React.useRef(null);
@@ -57,7 +57,7 @@ function MainNavigation(props) {
     }
   };
 
-  const toggleDrawer = (newOpen) => () => {
+  const toggleDrawer = (newOpen) => {
     setOpen(newOpen);
   };
 
@@ -166,7 +166,7 @@ function MainNavigation(props) {
         <div className="container-lg">
           <div className="top__wrapper">
             <a className="main__logo">
-              <button onClick={toggleDrawer(true)} class="px-2 d-lg-none">
+              <button onClick={() => toggleDrawer(true)} class="px-2 d-lg-none">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="28"
@@ -183,17 +183,15 @@ function MainNavigation(props) {
               </button>
               <Drawer
                 open={open}
-                onClose={toggleDrawer(false)}
+                onClose={() => toggleDrawer(false)}
                 className="mobile-navigation"
               >
                 <div class="offcanvas-header">
-                  <h6 class="offcanvas-title">
-                    Popular Categories
-                  </h6>
+                  <h6 class="offcanvas-title">Popular Categories</h6>
                   <button
                     class="text-white"
                     aria-label="Close"
-                    onClick={toggleDrawer(false)}
+                    onClick={() => toggleDrawer(false)}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -216,44 +214,30 @@ function MainNavigation(props) {
                         <div class="accordion" id={i}>
                           <div class="accordion-item">
                             <div class="accordion-header">
-                              {hasSubMenu ? (
-                                <button
-                                  className={`${
-                                    !hasSubMenu ? "accordion-custom-button" : ""
-                                  } accordion-button collapsed`}
-                                  type="button"
-                                  data-bs-toggle="collapse"
-                                  data-bs-target={`#flush-${i}`}
-                                  aria-expanded="false"
-                                  aria-controls={`flush-${i}`}
-                                >
-                                  {menuEle.name}
-                                </button>
-                              ) : (
-                                <li
-                                  type="button"
-                                  className="pointer"
-                                  data-bs-dismiss="offcanvas"
-                                  aria-label="Close"
-                                  style={{
-                                    padding: "10px 15px 10px 10px",
-                                    fontSize: "14px",
-                                    fontWeight: "500",
-                                    borderRadius: "0px",
-                                  }}
-                                  onClick={() => {
-                                    if (menuEle.id == 1) {
-                                      dispatch(setQuery("Trending"));
-                                      navigate("/products");
-                                    } else {
-                                      dispatch(setCategoryId(menuEle.id));
-                                      navigate("/products");
-                                    }
-                                  }}
-                                >
-                                  <a>{menuEle.name}</a>
-                                </li>
-                              )}
+                              {/* {hasSubMenu ? ( */}
+                              <button
+                                className={`${
+                                  !hasSubMenu ? "accordion-custom-button" : ""
+                                } accordion-button collapsed`}
+                                type="button"
+                                data-bs-toggle="collapse"
+                                data-bs-target={`#flush-${i}`}
+                                aria-expanded="false"
+                                aria-controls={`flush-${i}`}
+                                onClick={() => {
+                                  if (!hasSubMenu && menuEle.id == 1) {
+                                    dispatch(setQuery("Trending"));
+                                    navigate("/products");
+                                    toggleDrawer(false);
+                                  } else if (!hasSubMenu) {
+                                    dispatch(setCategoryId(menuEle.id));
+                                    navigate("/products");
+                                    toggleDrawer(false);
+                                  }
+                                }}
+                              >
+                                {menuEle.name}
+                              </button>
                             </div>
                             {hasSubMenu
                               ? menuEle.brandList?.map((subMenuEle) => {
@@ -268,8 +252,8 @@ function MainNavigation(props) {
                                           <ul>
                                             <li
                                               className="pointer"
-                                              data-bs-dismiss="offcanvas"
-                                              aria-label="Close"
+                                              // data-bs-dismiss="offcanvas"
+                                              // aria-label="Close"
                                             >
                                               <a
                                                 onClick={() => {
@@ -277,6 +261,7 @@ function MainNavigation(props) {
                                                     setBrandId(subMenuEle.id)
                                                   );
                                                   navigate("/products");
+                                                  toggleDrawer(false);
                                                 }}
                                               >
                                                 {subMenuEle.name}
@@ -551,7 +536,7 @@ function MainNavigation(props) {
                         if (menuEle.id == 1) {
                           dispatch(setQuery("Trending"));
                           navigate("/products");
-                        } else {
+                        } else if (!hasSubMenu) {
                           dispatch(setCategoryId(menuEle.id));
                           navigate("/products");
                         }

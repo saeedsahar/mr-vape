@@ -9,6 +9,7 @@ import trustPilotWidget from "../assets/images/logo/widget-1.jpg";
 import Product from "./Product/Product";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  setCategoryId,
   setLoading,
   setProducts,
   setQuery,
@@ -317,17 +318,22 @@ function Home(props) {
                   </div>
                   <div className="view__left-content sub-bg">
                     <h2>
-                      <a className="primary-hover" href="shop-single.html">
-                        The best e-liqued bundles
-                      </a>
+                      <a className="primary-hover">The best e-liqued bundles</a>
                     </h2>
                     <p>
                       Sell globally in minutes with localized currencies
                       languages, and experie in every market. only a variety of
                       vaping products
                     </p>
-                    <a className="btn-two" href="shop-single.html">
-                      <span>Shop Now</span>
+                    <a className="btn-two">
+                      <span
+                        onClick={() => {
+                          dispatch(setCategoryId("2"));
+                          navigate("/products");
+                        }}
+                      >
+                        Shop Now
+                      </span>
                     </a>
                     <a className="off-btn" href="#0">
                       <img
@@ -348,13 +354,18 @@ function Home(props) {
                 >
                   <div className="view__content">
                     <h3>
-                      <a className="primary-hover" href="shop-single.html">
-                        The finest disposable
-                      </a>
+                      <a className="primary-hover">The finest disposable</a>
                     </h3>
                     <p>Whereas recognition of the inherent dignity</p>
-                    <a className="btn-two" href="shop-single.html">
-                      <span>Shop Now</span>
+                    <a className="btn-two">
+                      <span
+                        onClick={() => {
+                          dispatch(setCategoryId("3"));
+                          navigate("/products");
+                        }}
+                      >
+                        Shop Now
+                      </span>
                     </a>
                   </div>
                   <div className="view__image">
@@ -367,13 +378,18 @@ function Home(props) {
                 <div className="view__item wow fadeInUp" data-wow-delay=".3s">
                   <div className="view__content">
                     <h3>
-                      <a className="primary-hover" href="shop-single.html">
-                        Top-quality vape kits
-                      </a>
+                      <a className="primary-hover">Top-quality vape kits</a>
                     </h3>
                     <p>Whereas recognition of the inherent dignity</p>
-                    <a className="btn-two" href="shop-single.html">
-                      <span>Shop Now</span>
+                    <a className="btn-two">
+                      <span
+                        onClick={() => {
+                          dispatch(setCategoryId("5"));
+                          navigate("/products");
+                        }}
+                      >
+                        Shop Now
+                      </span>
                     </a>
                   </div>
                   <div className="view__image">

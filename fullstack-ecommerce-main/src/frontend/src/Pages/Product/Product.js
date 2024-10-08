@@ -103,7 +103,9 @@ function Product(props) {
         `${base_url}/api/v1/category/${categoryId}`
       );
       // let { list, total } = response.data;
-      dispatch(setProducts({ products: [], length: 0 }));
+      dispatch(
+        setProducts({ products: response.data, length: response.data?.length })
+      );
     } catch (error) {
       console.error("Error fetching products", error);
       dispatch(setProducts({ products: [], length: 0 }));
