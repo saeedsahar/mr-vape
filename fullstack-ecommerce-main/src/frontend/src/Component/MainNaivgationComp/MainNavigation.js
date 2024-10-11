@@ -162,7 +162,10 @@ function MainNavigation(props) {
 
   return (
     <>
-      <div className="top__header black-area pt-30 pb-30">
+      <div
+        className="top__header black-area pt-30 pb-30"
+        style={{ backgroundColor: "white" }}
+      >
         <div className="container-lg">
           <div className="top__wrapper">
             <a className="main__logo">
