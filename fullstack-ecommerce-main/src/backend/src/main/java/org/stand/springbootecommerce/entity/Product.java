@@ -39,7 +39,7 @@ public class Product {
 
 
     @NotBlank
-    @Size(max = 80)
+    @Size(max = 150)
     @Column(name = "short_description")
     private String shortDescription;
 
@@ -73,6 +73,10 @@ public class Product {
     private String nocotineType;
     @Column(name = "product_label")
     private String productLabel;
+    @Column(name = "key_selling_points")
+    private String keySellingPoints;
+    @Column(name = "product_spec")
+    private String productSpec;
     @JsonIgnore
     @JoinColumn(name = "brand_id", referencedColumnName = "id")
     @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
