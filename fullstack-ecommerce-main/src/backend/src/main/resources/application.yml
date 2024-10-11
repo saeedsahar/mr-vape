@@ -3,7 +3,7 @@ application:
   version: "1.0"
 
 server:
-  port: 80
+  port: 8081
   address: 0.0.0.0
 
 spring:

@@ -70,6 +70,8 @@ public class ProductController {
                     res.setProductImages(p.getProductImageList());
                     res.setProductImages(p.getProductImageList());
                     res.setWasPrice(p.getWasPrice());
+                    res.setWasPrice(p.getWasPrice());
+                    res.setWasPrice(p.getWasPrice());
 
 
             resList.add(res);
