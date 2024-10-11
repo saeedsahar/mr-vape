@@ -167,7 +167,7 @@ function ProductDetailPage(props) {
                 <div className="col-lg-5">
                   <Swiper
                     style={{
-                      "--swiper-navigation-color": "#fff",
+                      "--swiper-navigation-color": "#fa4f09",
                       "--swiper-pagination-color": "#fff",
                       height: "auto",
                       width: "100%",
