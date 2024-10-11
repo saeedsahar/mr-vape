@@ -169,7 +169,8 @@ function ProductDetailPage(props) {
                     style={{
                       "--swiper-navigation-color": "#fff",
                       "--swiper-pagination-color": "#fff",
-                      height: "520px",
+                      height: "auto",
+                      width: "100%",
                       marginBottom: "20px",
                       objectFit: "cover",
                     }}
@@ -185,7 +186,11 @@ function ProductDetailPage(props) {
                         <SwiperSlide>
                           <img
                             src={item.image}
-                            style={{ objectFit: "cover", height: "520px" }}
+                            style={{
+                              // objectFit: "cover",
+                              height: "auto",
+                              width: "100%",
+                            }}
                           />
                         </SwiperSlide>
                       );
