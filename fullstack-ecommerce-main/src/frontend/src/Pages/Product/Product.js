@@ -9,6 +9,7 @@ import {
   setCategoryId,
   setLoading,
   setProducts,
+  setQuery,
   setTrendingProducts,
 } from "./ProductSlice";
 import "./Product.css";
@@ -190,7 +191,9 @@ function Product(props) {
                               aria-expanded="false"
                               aria-controls={`flush-${i}`}
                               onClick={() => {
-                                if (!hasSubMenu)
+                                if (!hasSubMenu && menuEle.id == 1) {
+                                  dispatch(setQuery("Trending"));
+                                } else if (!hasSubMenu)
                                   dispatch(setCategoryId(menuEle.id));
                               }}
                             >
