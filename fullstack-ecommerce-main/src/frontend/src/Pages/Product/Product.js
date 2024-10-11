@@ -174,7 +174,17 @@ function Product(props) {
           <div className="tab-content container">
             <div id="latest-item" className="tab-pane fade show active">
               <div className="row g-4">
-                <div className="col-2 product-page-filter" id="filter products">
+                <div
+                  style={
+                    productState.products?.length <= 0
+                      ? {
+                          width: "fit-content",
+                        }
+                      : {}
+                  }
+                  className="col-2 product-page-filter"
+                  id="filter products"
+                >
                   {homeStates.menu?.map((menuEle, i) => {
                     let hasSubMenu = menuEle.brandList.length > 0;
                     return (
@@ -235,9 +245,17 @@ function Product(props) {
                 </div>
                 <div className="col-10 product-display-page-filter">
                   <div className="row g-4">
-                    {productState.products?.map((product) => {
-                      return <ProductDisplay product={product} />;
-                    })}
+                    {
+                      // productState.products?.length > 0 ? (
+                      productState.products?.map((product) => {
+                        return <ProductDisplay product={product} />;
+                      })
+                      // ) : (
+                      //   <div>
+                      //     <span>No Products Found!</span>
+                      //   </div>
+                      // )
+                    }
                   </div>
                 </div>
               </div>

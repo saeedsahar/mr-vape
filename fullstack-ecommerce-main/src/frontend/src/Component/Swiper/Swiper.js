@@ -80,28 +80,32 @@ export const SwiperComponentCustom = (props) => {
       // pagination={{
       //   clickable: true,
       // }}
-      breakpoints={{
-        320: {
-          slidesPerView: 1,
-          spaceBetween: 20,
-        },
-        640: {
-          slidesPerView: 2,
-          spaceBetween: 20,
-        },
-        768: {
-          slidesPerView: 2,
-          spaceBetween: 20,
-        },
-        1024: {
-          slidesPerView: 4,
-          spaceBetween: 25,
-        },
-        1366: {
-          slidesPerView: 5,
-          spaceBetween: 25,
-        },
-      }}
+      breakpoints={
+        props.hideBreakPoint
+          ? ""
+          : {
+              320: {
+                slidesPerView: 1,
+                spaceBetween: 20,
+              },
+              640: {
+                slidesPerView: 2,
+                spaceBetween: 20,
+              },
+              768: {
+                slidesPerView: 2,
+                spaceBetween: 20,
+              },
+              1024: {
+                slidesPerView: 4,
+                spaceBetween: 25,
+              },
+              1366: {
+                slidesPerView: 5,
+                spaceBetween: 25,
+              },
+            }
+      }
       autoplay={{
         delay: 2500,
         disableOnInteraction: false,

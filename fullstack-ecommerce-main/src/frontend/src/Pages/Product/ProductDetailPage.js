@@ -183,7 +183,10 @@ function ProductDetailPage(props) {
                     {product.productImages?.map((item) => {
                       return (
                         <SwiperSlide>
-                          <img src={item.image} />
+                          <img
+                            src={item.image}
+                            style={{ objectFit: "cover", height: "520px" }}
+                          />
                         </SwiperSlide>
                       );
                     })}

@@ -129,7 +129,7 @@ function Cart(props) {
                 </div>
                 <div className="pointer">
                   <button
-                    className="btn-one"
+                    className="btn-one color-white"
                     data-animation="fadeInUp"
                     data-delay="1.8s"
                     onClick={() => {
@@ -140,7 +140,7 @@ function Cart(props) {
                     <span>Continue Shopping</span>
                   </button>
                   <button
-                    className="btn-one"
+                    className="btn-one color-white"
                     data-animation="fadeInUp"
                     data-delay="1.8s"
                     onClick={() => {

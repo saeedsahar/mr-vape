@@ -142,12 +142,19 @@ function Home(props) {
     );
   };
 
-  {
-    /* <SwiperComponentCustom slidesPerView={1} swiperProduct={[
-    "https://mrvape-frontend.s3.eu-west-2.amazonaws.com/Skywalker.jpg" , "https://mrvape-frontend.s3.eu-west-2.amazonaws.com/Shisha.jpg"
-     ]}
-     customSwiperProduct={customSwiperBanner}/> */
-  }
+  const customSwiperProductBanner = (item) => {
+    return (
+      <SwiperSlide>
+        {/* <div className="swiper-wrapper"> */}
+        {/* <div className="swiper-slide"> */}
+        <img src={item} alt="banner" className="hero-banner" />
+        {/* </div> */}
+        {/* </div> */}
+        {/* </div>
+        </section> */}
+      </SwiperSlide>
+    );
+  };
 
   return (
     <>
@@ -196,30 +203,19 @@ function Home(props) {
       <main>
         {/* Banner area start here */}
         <section className="banner-two banner-two-light black-area">
-          <div className="swiper banner-two__slider banner-media-class">
-            <div className="swiper-wrapper">
-              <div className="swiper-slide">
-                <img
-                  src={selectedBannerImage}
-                  alt="banner"
-                  className="hero-banner"
-                />
-              </div>
-            </div>
-          </div>
-          {/* <div className="banner-two__arry-btn">
-            <button
-              className="arry-prev mb-15 banner-two__arry-prev"
-              onClick={() => setSelectedBannerImage(bannerImages[0])}
-            >
-              <i className="fa-light text-white fa-chevron-left" />
-            </button>
-            <button
-              className="arry-next active banner-two__arry-next"
-              onClick={() => setSelectedBannerImage(bannerImages[1])}
-            >
-              <i className="fa-light text-white fa-chevron-right" />
-            </button>
+          {/* <div className="swiper-wrapper">
+            <div className="swiper banner-two__slider banner-media-class"> */}
+          <SwiperComponentCustom
+            hideBreakPoint={true}
+            slidesPerView={1}
+            swiperProduct={[
+              "https://mrvape-frontend.s3.eu-west-2.amazonaws.com/banners/Alien+Max+(1720+x+915).jpg",
+              "https://mrvape-frontend.s3.eu-west-2.amazonaws.com/banners/Capsule+(1720+x+915).jpg",
+              "https://mrvape-frontend.s3.eu-west-2.amazonaws.com/banners/Falcon+X+(1720+x+915).jpg",
+            ]}
+            customSwiperProduct={customSwiperProductBanner}
+          />
+          {/* </div>
           </div> */}
         </section>
         {/* Widget Block 2 */}

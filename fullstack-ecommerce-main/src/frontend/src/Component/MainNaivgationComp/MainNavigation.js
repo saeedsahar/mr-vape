@@ -292,7 +292,11 @@ function MainNavigation(props) {
                 alt="logo__image"
               />
             </a>
-            <div className="search__wrp" ref={searchWrapperRef}>
+            <div
+              style={{ border: "1px solid #fa4f09", borderRadius: "30px" }}
+              className="search__wrp"
+              ref={searchWrapperRef}
+            >
               <input
                 placeholder="Search Products"
                 aria-label="Search"

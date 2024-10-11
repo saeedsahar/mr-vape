@@ -7,21 +7,24 @@ import {
   RadioGroup,
   FormControl,
   FormControlLabel,
-  FormLabel,
-  Container,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Checkbox,
   Box,
   Typography,
-  List,
-  ListItem,
-  ListItemText,
 } from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { updateUserData } from "../Authenticate/AuthSlice";
 import bannerBImg from "../../assets/images/banner/inner-banner.jpg";
+
 const Checkout = () => {
   const [shippingMethod, setShippingMethod] = useState("");
   const [errors, setErrors] = useState({});
+  const [discountCode, setDiscountCode] = useState(""); // State for discount code
+  const [isDiscountApplied, setIsDiscountApplied] = useState(false); // Discount application status
+  const [sameAsBilling, setSameAsBilling] = useState(true); // Checkbox state for shipping address
   let navigate = useNavigate();
   let dispatch = useDispatch();
   let cartItems = useSelector((state) => state.cart);
@@ -31,6 +34,14 @@ const Checkout = () => {
     setShippingMethod(event.target.value);
   };
 
+  const handleApplyDiscount = () => {
+    // Logic to apply discount code
+    if (discountCode) {
+      // Assuming the code is valid for demo purposes
+      setIsDiscountApplied(true);
+      console.log("Discount applied:", discountCode);
+    }
+  };
   const validateFields = () => {
     let fieldErrors = {};
 
@@ -50,39 +61,25 @@ const Checkout = () => {
   };
 
   const orderItems = cartItems.items;
-
   const totalBill = cartItems.totalPrice;
 
   return (
     <main>
-      {/* Page banner area start here */}
       <section
         className="page-banner bg-image pt-130 pb-130"
         style={{ backgroundImage: `url(${bannerBImg})` }}
       >
         <div className="container-lg">
-          <h2
-            className="wow text-white fadeInUp mb-15"
-            data-wow-duration="1.1s"
-            data-wow-delay=".1s"
-          >
-            Checkout Page
-          </h2>
-          <div
-            className="breadcrumb-list wow fadeInUp"
-            data-wow-duration="1.3s"
-            data-wow-delay=".3s"
-          >
+          <h2 className="wow text-white fadeInUp mb-15">Checkout Page</h2>
+          <div className="breadcrumb-list wow fadeInUp">
             <a href="index.html" className="primary-hover">
-              <i className="fa-solid fa-house me-1" /> Home{" "}
-              <i className="fa-regular text-white fa-angle-right" />
+              Home <i className="fa-regular text-white fa-angle-right" />
             </a>
             <span>Checkout</span>
           </div>
         </div>
       </section>
-      {/* Page banner area end here */}
-      {/* Checkout area start here */}
+
       <section className="checkout-area pt-130 pb-130">
         <div className="container-lg">
           <div className="row g-4">
@@ -103,7 +100,7 @@ const Checkout = () => {
                 <input className="mb-20" id="companyName" type="text" />
                 <label className="mb-10 d-block">Country / Region *</label>
                 <select className="mb-20" name="subject">
-                  <option value={0}>United state america</option>
+                  <option value={0}>United States</option>
                   <option value={1}>United Kingdom</option>
                   <option value={2}>Australia</option>
                   <option value={3}>Germany</option>
@@ -125,7 +122,7 @@ const Checkout = () => {
                 <input className="mb-20" id="townName" type="text" />
                 <label className="mb-10 d-block">State *</label>
                 <select className="mb-20" id="state" name="subject">
-                  <option value={0}>Georgia / ohio / new york</option>
+                  <option value={0}>Georgia / Ohio / New York</option>
                   <option value={1}>Georgia</option>
                   <option value={2}>Ohio</option>
                   <option value={3}>New York</option>
@@ -139,30 +136,110 @@ const Checkout = () => {
                   Phone *
                 </label>
                 <input className="mb-20" id="phone" type="text" />
-                <div className="d-flex justify-content-between mb-30">
-                  <div className="radio-btn">
-                    <span className="opacity-75" />
-                    <p>Ship To A Different Address?</p>
-                  </div>
-                  <div className="login-link ">
-                    <a
-                      className="ml-auto text-decoration-underline primary-color"
-                      href="register.html"
-                    >
-                      Create An Account?
-                    </a>
-                  </div>
-                </div>
-                <label className="mb-10" htmlFor="phone">
-                  Order Notes (Optional)
-                </label>
-                <textarea
-                  placeholder="Note About Your Order . . ."
-                  name="notes"
-                  id="notes"
-                  defaultValue={""}
+
+                {/* Shipping address checkbox */}
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={sameAsBilling}
+                      onChange={() => setSameAsBilling(!sameAsBilling)}
+                    />
+                  }
+                  label="Shipping address same as billing address"
                 />
+
+                {/* Shipping details section (only visible when unchecked) */}
+                {!sameAsBilling && (
+                  <Accordion defaultExpanded>
+                    <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                      <Typography>Shipping Details</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                      <label className="mb-10" htmlFor="shippingName">
+                        Your Name *
+                      </label>
+                      <input className="mb-20" id="shippingName" type="text" />
+                      <label className="mb-10" htmlFor="shippingEmail">
+                        Email Address *
+                      </label>
+                      <input
+                        className="mb-20"
+                        id="shippingEmail"
+                        type="email"
+                      />
+                      <label className="mb-10" htmlFor="shippingCompanyName">
+                        Company Name (Optional)
+                      </label>
+                      <input
+                        className="mb-20"
+                        id="shippingCompanyName"
+                        type="text"
+                      />
+                      <label className="mb-10 d-block">
+                        Country / Region *
+                      </label>
+                      <select className="mb-20" name="subject">
+                        <option value={0}>United States</option>
+                        <option value={1}>United Kingdom</option>
+                        <option value={2}>Australia</option>
+                        <option value={3}>Germany</option>
+                        <option value={4}>France</option>
+                      </select>
+                      <label className="mb-10" htmlFor="shippingStreetAddress">
+                        Street Address *
+                      </label>
+                      <input
+                        placeholder="1837 E Homer M Adams Pkwy"
+                        className="mb-10"
+                        id="shippingStreetAddress"
+                        type="text"
+                      />
+                      <input
+                        className="mb-20"
+                        id="shippingStreetAddress2"
+                        type="text"
+                      />
+                      <label className="mb-10" htmlFor="shippingTownName">
+                        Town / City *
+                      </label>
+                      <input
+                        className="mb-20"
+                        id="shippingTownName"
+                        type="text"
+                      />
+                      <label className="mb-10 d-block">State *</label>
+                      <select
+                        className="mb-20"
+                        id="shippingState"
+                        name="subject"
+                      >
+                        <option value={0}>Georgia / Ohio / New York</option>
+                        <option value={1}>Georgia</option>
+                        <option value={2}>Ohio</option>
+                        <option value={3}>New York</option>
+                        <option value={4}>Texas</option>
+                      </select>
+                      <label
+                        className="mb-10 d-block"
+                        htmlFor="shippingZipCode"
+                      >
+                        ZIP Code *
+                      </label>
+                      <input
+                        className="mb-20"
+                        id="shippingZipCode"
+                        type="number"
+                      />
+                      <label className="mb-10" htmlFor="shippingPhone">
+                        Phone *
+                      </label>
+                      <input className="mb-20" id="shippingPhone" type="text" />
+                    </AccordionDetails>
+                  </Accordion>
+                )}
               </div>
+
+              {/* Existing Shipping Methods Section */}
               <div className="checkout__item-left text-dark bor shipping-address">
                 <h3 className="mb-40 fw-semibold">Shipping Methods</h3>
                 <div className="shipping-address--item">
@@ -234,14 +311,45 @@ const Checkout = () => {
                               </div>
                           </label> */}
                 </div>
-                <a
-                  className="btn-one mt-35 pointer"
-                  onClick={() => navigate("/products")}
-                >
-                  <span>Continue Shopping</span>
-                </a>
               </div>
+
+              {/* Card details */}
+              <Accordion>
+                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                  <Typography>Card Details</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <Grid container spacing={2}>
+                    <Grid item xs={12}>
+                      <TextField
+                        required
+                        label="Card Number"
+                        fullWidth
+                        variant="outlined"
+                      />
+                    </Grid>
+                    <Grid item xs={6}>
+                      <TextField
+                        required
+                        label="Expiration Date"
+                        fullWidth
+                        variant="outlined"
+                        placeholder="MM/YY"
+                      />
+                    </Grid>
+                    <Grid item xs={6}>
+                      <TextField
+                        required
+                        label="CVC"
+                        fullWidth
+                        variant="outlined"
+                      />
+                    </Grid>
+                  </Grid>
+                </AccordionDetails>
+              </Accordion>
             </div>
+
             <div className="col-lg-4">
               <div className="checkout__item-right bor">
                 <h3 className="mb-40 fw-semibold">Your Order</h3>
@@ -259,39 +367,66 @@ const Checkout = () => {
                     );
                   })}
                 </ul>
+                <Box mt={4} className="bor-bottom py-4">
+                  <TextField
+                    label="Discount Code"
+                    value={discountCode}
+                    onChange={(e) => setDiscountCode(e.target.value)}
+                    variant="outlined"
+                    fullWidth
+                  />
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={handleApplyDiscount}
+                    style={{ marginTop: "10px", backgroundColor: "#fa4f09" }}
+                    fullWidth
+                  >
+                    Apply
+                  </Button>
+                  {isDiscountApplied && (
+                    <Typography color="green" mt={2}>
+                      Discount applied successfully!
+                    </Typography>
+                  )}
+                </Box>
                 <div className="py-4 bor-bottom">
                   <h5 className="mb-10 fw-semibold">Shipping Address</h5>
                   <p>
                     2801 Lafayette Blvd, Norfolk, Vermont 23509, united state
                   </p>
                 </div>
-                <div className="radio-btn mt-30">
+                <div className="radio-btn mt-30 color-black">
                   <span />
-                  <p>Direct Bank Transfer</p>
+                  <a className="ml-10 color-black">Direct Bank Transfer</a>
                 </div>
-                <div className="radio-btn mt-2">
+                <div className="radio-btn mt-2 color-black">
                   <span />
-                  <a className="ml-10" href="#0">
-                    Check Payments
-                  </a>
+                  <a className="ml-10 color-black">Check Payments</a>
                 </div>
-                <div className="radio-btn mt-2 pb-30 bor-bottom">
+                <div className="radio-btn mt-2 pb-30 bor-bottom color-black">
                   <span />
-                  <p>Cash On Delivery</p>
+                  <a className="ml-10 color-black">Cash On Delivery</a>
                 </div>
                 <p className="pt-30 bor-top">
                   Your personal data will be used to process your order, support
                   your experience throughout this website.
                 </p>
-                <a className="btn-one mt-35">
+                <a className="btn-one mt-35 color-white">
                   <span>Place Order</span>
+                </a>
+                <a
+                  className="btn-one mt-35 color-white"
+                  style={{ marginLeft: "5px" }}
+                  onClick={() => navigate("/products")}
+                >
+                  <span>Continue Shopping</span>
                 </a>
               </div>
             </div>
           </div>
         </div>
       </section>
-      {/* Checkout area end here */}
     </main>
   );
 };
