@@ -5,13 +5,24 @@ function ProductDisplay(props) {
   let navigate = useNavigate();
   return (
     <div className="col-xxl-3 col-xl-4 col-md-6">
-      <div className="product__item bor">
+      <div
+        className="product__item bor"
+        onClick={() => navigate(`/products/${props.product.id}`)}
+      >
         <a className="wishlist">
           <i className="fa-regular fa-heart" />
         </a>
         <a className="product__image pt-20 d-block">
-          <img className="font-image rounded" src={props.product.image} alt="image" />
-          <img className="back-image rounded" src={props.product.image} alt="image" />
+          <img
+            className="font-image rounded"
+            src={props.product.image}
+            alt="image"
+          />
+          <img
+            className="back-image rounded"
+            src={props.product.image}
+            alt="image"
+          />
         </a>
         <div className="product__content">
           <h5 className="mb-15">
@@ -29,7 +40,7 @@ function ProductDisplay(props) {
         </div>
         <a
           className="product__cart d-block bor-top pointer"
-          onClick={() => navigate(`/products/${props.product.id}`)}
+          // onClick={() => navigate(`/products/${props.product.id}`)}
         >
           <i className="fa-regular fa-cart-shopping primary-color me-1" />
           <span>Shop Now</span>

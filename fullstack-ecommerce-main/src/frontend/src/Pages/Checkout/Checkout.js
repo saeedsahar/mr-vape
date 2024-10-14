@@ -72,7 +72,7 @@ const Checkout = () => {
         <div className="container-lg">
           <h2 className="wow text-white fadeInUp mb-15">Checkout Page</h2>
           <div className="breadcrumb-list wow fadeInUp">
-            <a href="index.html" className="primary-hover">
+            <a className="primary-hover">
               Home <i className="fa-regular text-white fa-angle-right" />
             </a>
             <span>Checkout</span>

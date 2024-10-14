@@ -22,7 +22,7 @@ import SwiperComponent, {
 } from "../Component/Swiper/Swiper";
 import { setMenu } from "./HomeSlice";
 import { SwiperSlide } from "swiper/react";
-
+import "./Home.css";
 function Home(props) {
   console.log("[Home.js]");
   const bannerImages = [
@@ -36,6 +36,61 @@ function Home(props) {
     // "https://mrvape-frontend.s3.eu-west-2.amazonaws.com/Skywalker-mob.jpg"
     bannerImages[0]
   );
+
+  const [timer, setTimer] = useState({
+    days: 7,
+    remainingDays: 7,
+    remainingHours: 24,
+    remainingMinutes: 60,
+    remainingSeconds: 60,
+  });
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setTimer((prevTimer) => {
+        let {
+          remainingDays,
+          remainingHours,
+          remainingMinutes,
+          remainingSeconds,
+        } = prevTimer;
+
+        remainingSeconds--;
+        if (remainingSeconds < 0) {
+          remainingSeconds = 59;
+          remainingMinutes--;
+        }
+        if (remainingMinutes < 0) {
+          remainingMinutes = 59;
+          remainingHours--;
+        }
+        if (remainingHours < 0) {
+          remainingHours = 23;
+          remainingDays--;
+        }
+        if (remainingDays < 0) {
+          // Reset the timer
+          return {
+            remainingDays: 7,
+            remainingHours: 24,
+            remainingMinutes: 60,
+            remainingSeconds: 60,
+          };
+        }
+
+        // Return the updated timer
+        return {
+          remainingDays,
+          remainingHours,
+          remainingMinutes,
+          remainingSeconds,
+        };
+      });
+    }, 1000); // Update every second
+
+    // Clean up the interval on component unmount
+    return () => clearInterval(intervalId);
+  }, []);
 
   let productState = useSelector((state) => state.product);
 
@@ -107,7 +162,10 @@ function Home(props) {
     return (
       <SwiperSlide>
         <div className="" style={{ paddingLeft: "10px", paddingRight: "10px" }}>
-          <div className="product__item bor">
+          <div
+            className="product__item bor"
+            onClick={() => navigate(`/products/${item.id}`)}
+          >
             <a className="wishlist">
               <i className="fa-regular fa-heart" />
             </a>
@@ -131,7 +189,7 @@ function Home(props) {
             </div>
             <a
               className="product__cart d-block bor-top pointer"
-              onClick={() => navigate(`/products/${item.id}`)}
+              // onClick={() => navigate(`/products/${item.id}`)}
             >
               <i className="fa-regular fa-cart-shopping primary-color me-1" />
               <span>Shop Now</span>
@@ -483,6 +541,7 @@ function Home(props) {
                     <li>Coupon £61.99, Code: W2</li>
                     <li>30 Day Refund</li>
                   </ul>
+                  {/* timer */}
                   <div
                     className="time-up d-flex flex-wrap align-items-center gap-5 mt-30 wow fadeInUp"
                     data-wow-delay=".4s"
@@ -493,19 +552,19 @@ function Home(props) {
                     </div>
                     <div className="d-flex gap-2 align-items-center">
                       <div className="get-time">
-                        <h3 id="day">00</h3>
+                        <h3 id="day">{timer.remainingDays}</h3>
                         <span>Day</span>
                       </div>
                       <div className="get-time">
-                        <h3 id="hour">00</h3>
+                        <h3 id="hour">{timer.remainingHours}</h3>
                         <span>Hr</span>
                       </div>
                       <div className="get-time">
-                        <h3 id="min">00</h3>
+                        <h3 id="min">{timer.remainingMinutes}</h3>
                         <span>Min</span>
                       </div>
                       <div className="get-time">
-                        <h3 id="sec">00</h3>
+                        <h3 id="sec">{timer.remainingSeconds}</h3>
                         <span>Sec</span>
                       </div>
                     </div>

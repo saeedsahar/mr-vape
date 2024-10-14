@@ -43,7 +43,7 @@ function Cart(props) {
               data-wow-duration="1.3s"
               data-wow-delay=".3s"
             >
-              <a href="index.html" className="primary-hover">
+              <a className="primary-hover">
                 <i className="fa-solid fa-house me-1" /> Home{" "}
                 <i className="fa-regular text-white fa-angle-right" />
               </a>
@@ -89,12 +89,20 @@ function Cart(props) {
                       <ButtonGroup variant="outlined">
                         <Button
                           onClick={() => dispatch(decreaseItemQuantity(item))}
+                          style={{
+                            color: "#fa4f09",
+                            borderColor: "#fa4f09",
+                          }}
                         >
                           -
                         </Button>
                         <Button>{item.quantity}</Button>
                         <Button
                           onClick={() => dispatch(incrementItemQuantity(item))}
+                          style={{
+                            color: "green",
+                            borderColor: "green",
+                          }}
                         >
                           +
                         </Button>
