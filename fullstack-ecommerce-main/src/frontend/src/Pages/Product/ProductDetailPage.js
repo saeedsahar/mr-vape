@@ -1,6 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { CircularProgress, Button, Icon } from "@mui/material";
+import {
+  CircularProgress,
+  Button,
+  Icon,
+  TextField,
+  Stack,
+  Chip,
+  ButtonGroup,
+  Input,
+} from "@mui/material";
 import { base_url, getRequests } from "../../axios/API";
 import {
   addItemQuantity,
@@ -184,14 +193,7 @@ function ProductDetailPage(props) {
                     {product.productImages?.map((item) => {
                       return (
                         <SwiperSlide>
-                          <img
-                            src={item.image}
-                            style={{
-                              // objectFit: "cover",
-                              height: "auto",
-                              width: "100%",
-                            }}
-                          />
+                          <img src={item.image} className="img-fluid" />
                         </SwiperSlide>
                       );
                     })}
@@ -204,33 +206,15 @@ function ProductDetailPage(props) {
                     watchSlidesProgress={true}
                     modules={[FreeMode, Navigation, Thumbs]}
                     className="mySwiper"
-                    style={{ height: "100px", objectFit: "cover" }}
                   >
                     {product.productImages?.map((item) => {
                       return (
                         <SwiperSlide>
-                          <img
-                            style={{ height: "100px", objectFit: "cover" }}
-                            src={item.image}
-                          />
+                          <img className="img-fluid" src={item.image} />
                         </SwiperSlide>
                       );
                     })}
                   </Swiper>
-
-                  {/* <div className="image img">
-                    <div className="swiper shop-single-slide">
-                      <img src={selectedProductImage} alt="image" />
-                    </div>
-
-                    <SwiperComponentCustom
-                      slidesPerView={4}
-                      swiperProduct={product.productImages}
-                      customSwiperProduct={customSwiperProductOff}
-                      thumbNail={true}
-                    />
-                  
-                  </div> */}
                 </div>
 
                 <div className="col-lg-7">
@@ -279,15 +263,19 @@ function ProductDetailPage(props) {
                   <div className="row">
                     <div className="col-lg-8">
                       <div className="details-area">
-                        <div className="category flex-wrap mt-4 d-flex py-3 bor-top bor-bottom">
-                          <h4 style={{ alignSelf: "center" }} className="pe-3">
-                            Categories :
-                          </h4>
+                        <Stack
+                          direction="row"
+                          gap={2}
+                          alignItems="center"
+                          className="py-3 mt-4 bor-bottom"
+                        >
+                          <h6 className="pe-3 mb-0 w-25">Categories </h6>
                           <Select
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
+                            size="small"
                             value={selectedFlavour.flavour}
-                            label="Flavours"
+                            // label="Flavours"
                             onChange={(e) => {
                               console.log(e.target.value);
 
@@ -307,17 +295,27 @@ function ProductDetailPage(props) {
                               );
                             })}
                           </Select>
-                        </div>
-                        <div className="d-flex flex-wrap py-3 bor-bottom">
-                          <h4 className="pe-3">Tags :</h4>
-                          <a className="primary-hover">Fashion</a>
-                          <span className="px-2">|</span>
-                          <a className="primary-hover">Lifestyle</a>
-                          <span className="px-2">|</span>
-                          <a className="primary-hover">Travel</a>
-                        </div>
-                        <div className="d-flex flex-wrap align-items-center py-3 bor-bottom">
-                          <h4 className="pe-3">Share:</h4>
+                        </Stack>
+
+                        <Stack
+                          direction="row"
+                          gap={2}
+                          alignItems="center"
+                          className="py-3 bor-bottom"
+                        >
+                          <h6 className="pe-3 mb-0 w-25">Tags </h6>
+                          <Chip variant="filled" label="Fashion" />
+                          <Chip variant="filled" label="Lifestyle" />
+                          <Chip variant="filled" label="Travel" />
+                        </Stack>
+
+                        <Stack
+                          direction="row"
+                          gap={2}
+                          alignItems="center"
+                          className="py-3 bor-bottom"
+                        >
+                          <h6 className="pe-3 mb-0 w-25">Share</h6>
                           <div className="social-media">
                             <a className="mx-2 primary-color secondary-hover">
                               <i className="fa-brands fa-facebook-f" />
@@ -335,65 +333,50 @@ function ProductDetailPage(props) {
                               <i className="fa-brands fa-pinterest-p" />
                             </a>
                           </div>
-                        </div>
-                        <div className="cart-wrp py-4">
-                          <div className="cart-quantity">
-                            <form
-                              id="myform"
-                              method="POST"
-                              className="quantity"
-                              action="#"
+                        </Stack>
+
+                        <Stack
+                          direction="row"
+                          gap={2}
+                          alignItems="center"
+                          className="py-3 border-bottom"
+                        >
+                          <h6 className="pe-3 mb-0 w-25">Quantity</h6>
+                          <ButtonGroup variant="outlined">
+                            <Button
+                              onClick={() =>
+                                dispatch(decreaseItemQuantity(selectedFlavour))
+                              }
                             >
-                              <input
-                                type="button"
-                                defaultValue="-"
-                                className="qtyminus minus"
-                                onClick={() => {
-                                  dispatch(
-                                    decreaseItemQuantity(selectedFlavour)
-                                  );
-                                  // if (selectedFlavour.quantity > 0) {
-                                  // dispatch(
-                                  //   setSnackBar({
-                                  //     open: true,
-                                  //     message: "Item Removed from Cart!",
-                                  //     type: "success",
-                                  //   })
-                                  // );
-                                  // }
-                                }}
-                              />
-                              <input
-                                type="text"
-                                name="quantity"
-                                defaultValue={currentFlavQuantity}
-                                value={currentFlavQuantity}
-                                className="qty"
-                              />
-                              <input
-                                type="button"
-                                defaultValue="+"
-                                className="qtyplus plus"
-                                onClick={() => {
-                                  dispatch(addItemQuantity(selectedFlavour));
-                                  // dispatch(
-                                  //   setSnackBar({
-                                  //     open: true,
-                                  //     message: "Item Added to Cart!",
-                                  //     type: "success",
-                                  //   })
-                                  // );
-                                }}
-                              />
-                            </form>
-                          </div>
-                          <div className="discount">
-                            <input
-                              type="text"
-                              placeholder="Enter Discount Code"
-                            />
-                          </div>
-                        </div>
+                              -
+                            </Button>
+                            <Button variant="outlined">
+                              {currentFlavQuantity}
+                            </Button>
+                            <Button
+                              onClick={() =>
+                                dispatch(addItemQuantity(selectedFlavour))
+                              }
+                            >
+                              +
+                            </Button>
+                          </ButtonGroup>
+                        </Stack>
+
+                        <Stack
+                          direction="row"
+                          gap={2}
+                          alignItems="center"
+                          className="py-3"
+                        >
+                          <h6 className="pe-3 mb-0 w-25">Promo Code</h6>
+                          <TextField
+                            size="small"
+                            label="discount"
+                            placeholder="Enter Discount Code"
+                          />
+                        </Stack>
+
                         <a
                           className="d-block text-center btn-two mt-40"
                           onClick={() => {

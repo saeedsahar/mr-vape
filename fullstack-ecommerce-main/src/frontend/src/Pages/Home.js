@@ -488,7 +488,7 @@ function Home(props) {
                     data-wow-delay=".4s"
                   >
                     <div className="info">
-                      <h4>HUNGRY UP !</h4>
+                      <h4 className="mb-0">HUNGRY UP !</h4>
                       <span>Offer end in :</span>
                     </div>
                     <div className="d-flex gap-2 align-items-center">
@@ -551,23 +551,23 @@ function Home(props) {
               <li className="marquee-item">
                 E-Cigarettes{" "}
                 <img src="assets/images/icon/title-left.svg" alt="icon" />{" "}
-                <span>Vape Pens</span>
-                <img src="assets/images/icon/title-left.svg" alt="icon" />
+                <span>Vape Pens</span>{" "}
+                <img src="assets/images/icon/title-left.svg" alt="icon" />{" "}
                 Vape Juice{" "}
                 <img src="assets/images/icon/title-left.svg" alt="icon" />{" "}
-                <span>E-Cigarettes</span>
-                <img src="assets/images/icon/title-left.svg" alt="icon" />
+                <span>E-Cigarettes</span>{" "}
+                <img src="assets/images/icon/title-left.svg" alt="icon" />{" "}
                 Vape Pens{" "}
                 <img src="assets/images/icon/title-left.svg" alt="icon" />{" "}
-                <span>Vape Juice</span>
-                <img src="assets/images/icon/title-left.svg" alt="icon" />
+                <span>Vape Juice</span>{" "}
+                <img src="assets/images/icon/title-left.svg" alt="icon" />{" "}
                 E-Cigarettes{" "}
                 <img src="assets/images/icon/title-left.svg" alt="icon" />{" "}
-                <span>Vape Pens</span>
-                <img src="assets/images/icon/title-left.svg" alt="icon" />
+                <span>Vape Pens</span>{" "}
+                <img src="assets/images/icon/title-left.svg" alt="icon" />{" "}
                 Vape Juice{" "}
                 <img src="assets/images/icon/title-left.svg" alt="icon" />{" "}
-                <span>E-Cigarettes</span>
+                <span>E-Cigarettes</span>{" "}
               </li>
             </ul>
           </div>
