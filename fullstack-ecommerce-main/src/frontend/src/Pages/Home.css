@@ -1,0 +1,11 @@
+@media (max-width: 800px) {
+    .marquee-item{
+        font-size: 30px;
+    }
+}
+
+@media (min-width : 801px) and (max-width: 1000px) {
+    .marquee-item{
+        font-size: 40px;
+    }
+}

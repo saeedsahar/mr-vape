@@ -13,10 +13,13 @@ import { SwiperSlide } from "swiper/react";
 import { SwiperComponentCustom } from "../../Component/Swiper/Swiper";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
-
+import { ButtonGroup } from "@mui/material";
 import { FreeMode, Navigation, Thumbs } from "swiper/modules";
 import { Swiper } from "swiper/react";
-
+import comment1 from "../../assets/images/about/comment1.png";
+import comment2 from "../../assets/images/about/comment2.png";
+import comment3 from "../../assets/images/about/comment3.png";
+import comment4 from "../../assets/images/about/comment4.png";
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/free-mode";
@@ -29,7 +32,7 @@ function ProductDetailPage(props) {
   const [product, setProduct] = useState(null);
   const [selectedFlavour, setSelectedFlavour] = useState(null);
   const [selectedProductImage, setSelectedProductImage] = useState("");
-  const [category, setCategory] = useState(null);
+  const [selectedTab, setSelectedTab] = useState(0);
   let cartStates = useSelector((state) => state.cart);
   let dispatch = useDispatch();
 
@@ -148,7 +151,7 @@ function ProductDetailPage(props) {
                 <i className="fa-solid fa-house me-1 color-black" /> Home{" "}
                 <i className="fa-regular text-white fa-angle-right color-black" />
               </a>
-              <a href="shop.html" className="primary-hover color-black">
+              <a className="primary-hover color-black">
                 {" "}
                 shop{" "}
                 <i className="fa-regular text-white fa-angle-right color-black" />
@@ -281,13 +284,13 @@ function ProductDetailPage(props) {
                       <div className="details-area">
                         <div className="category flex-wrap mt-4 d-flex py-3 bor-top bor-bottom">
                           <h4 style={{ alignSelf: "center" }} className="pe-3">
-                            Categories :
+                            Flavors :
                           </h4>
                           <Select
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
                             value={selectedFlavour.flavour}
-                            label="Flavours"
+                            // label="Flavours"
                             onChange={(e) => {
                               console.log(e.target.value);
 
@@ -297,6 +300,7 @@ function ProductDetailPage(props) {
                                 )[0]
                               );
                             }}
+                            style={{ borderColor: "#fa4f09" }}
                           >
                             {" "}
                             {product.productFlavours?.map((fla) => {
@@ -309,7 +313,7 @@ function ProductDetailPage(props) {
                           </Select>
                         </div>
                         <div className="d-flex flex-wrap py-3 bor-bottom">
-                          <h4 className="pe-3">Tags :</h4>
+                          <h4 className="pe-3">Key Selling Points :</h4>
                           <a className="primary-hover">Fashion</a>
                           <span className="px-2">|</span>
                           <a className="primary-hover">Lifestyle</a>
@@ -344,54 +348,34 @@ function ProductDetailPage(props) {
                               className="quantity"
                               action="#"
                             >
-                              <input
-                                type="button"
-                                defaultValue="-"
-                                className="qtyminus minus"
-                                onClick={() => {
-                                  dispatch(
-                                    decreaseItemQuantity(selectedFlavour)
-                                  );
-                                  // if (selectedFlavour.quantity > 0) {
-                                  // dispatch(
-                                  //   setSnackBar({
-                                  //     open: true,
-                                  //     message: "Item Removed from Cart!",
-                                  //     type: "success",
-                                  //   })
-                                  // );
-                                  // }
-                                }}
-                              />
-                              <input
-                                type="text"
-                                name="quantity"
-                                defaultValue={currentFlavQuantity}
-                                value={currentFlavQuantity}
-                                className="qty"
-                              />
-                              <input
-                                type="button"
-                                defaultValue="+"
-                                className="qtyplus plus"
-                                onClick={() => {
-                                  dispatch(addItemQuantity(selectedFlavour));
-                                  // dispatch(
-                                  //   setSnackBar({
-                                  //     open: true,
-                                  //     message: "Item Added to Cart!",
-                                  //     type: "success",
-                                  //   })
-                                  // );
-                                }}
-                              />
+                              <ButtonGroup variant="outlined">
+                                <Button
+                                  onClick={() => {
+                                    dispatch(
+                                      decreaseItemQuantity(selectedFlavour)
+                                    );
+                                  }}
+                                  style={{
+                                    color: "#fa4f09",
+                                    borderColor: "#fa4f09",
+                                  }}
+                                >
+                                  -
+                                </Button>
+                                <Button>{currentFlavQuantity}</Button>
+                                <Button
+                                  onClick={() => {
+                                    dispatch(addItemQuantity(selectedFlavour));
+                                  }}
+                                  style={{
+                                    color: "green",
+                                    borderColor: "green",
+                                  }}
+                                >
+                                  +
+                                </Button>
+                              </ButtonGroup>
                             </form>
-                          </div>
-                          <div className="discount">
-                            <input
-                              type="text"
-                              placeholder="Enter Discount Code"
-                            />
                           </div>
                         </div>
                         <a
@@ -424,21 +408,32 @@ function ProductDetailPage(props) {
               <ul className="nav nav-pills mb-4 bor-top bor-bottom py-2">
                 <li className="nav-item">
                   <a
-                    href="#description"
                     data-bs-toggle="tab"
-                    className="nav-link ps-0 pe-3 active"
+                    className={`nav-link ps-0 pe-3 ${
+                      selectedTab == 0 ? "active" : ""
+                    }`}
+                    onClick={() => setSelectedTab(0)}
+                  >
+                    <h4 className="text-uppercase">reviews (4)</h4>
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a
+                    data-bs-toggle="tab"
+                    className={`nav-link ${selectedTab == 1 ? "active" : ""}`}
+                    onClick={() => setSelectedTab(1)}
                   >
                     <h4 className="text-uppercase">description</h4>
                   </a>
                 </li>
-                <li className="nav-item">
-                  <a href="#review" data-bs-toggle="tab" className="nav-link">
-                    <h4 className="text-uppercase">reviews (4)</h4>
-                  </a>
-                </li>
               </ul>
               <div className="tab-content">
-                <div id="description" className="tab-pane fade show active">
+                <div
+                  id="description"
+                  className={`tab-pane ${
+                    selectedTab == 1 ? "show active" : "fade"
+                  }`}
+                >
                   <p className="pb-4 text-justify" style={{ color: "black" }}>
                     Proactively disseminate impactful mindshare without
                     technically sound web services. Distiively harness
@@ -474,14 +469,16 @@ function ProductDetailPage(props) {
                     the box" thinking.
                   </p>
                 </div>
-                <div id="review" className="tab-pane fade">
+                <div
+                  id="review"
+                  className={`tab-pane ${
+                    selectedTab == 0 ? "show active" : "fade"
+                  }`}
+                >
                   <div className="review-wrp">
                     <div className="abmin d-flex flex-wrap flex-md-nowrap align-items-center pb-4">
                       <div className="img pb-4 pb-md-0 me-4">
-                        <img
-                          src="assets/images/about/comment3.png"
-                          alt="image"
-                        />
+                        <img src={comment3} alt="image" />
                       </div>
                       <div className="content position-relative p-4 bor">
                         <div className="head-wrp pb-1 d-flex flex-wrap justify-content-between">
@@ -528,10 +525,7 @@ function ProductDetailPage(props) {
                     </div>
                     <div className="abmin d-flex flex-wrap flex-md-nowrap align-items-center pb-4">
                       <div className="img pb-4 pb-md-0 me-4">
-                        <img
-                          src="assets/images/about/comment2.png"
-                          alt="image"
-                        />
+                        <img src={comment2} alt="image" />
                       </div>
                       <div className="content position-relative p-4 bor">
                         <div className="head-wrp pb-1 d-flex flex-wrap justify-content-between">
@@ -578,10 +572,7 @@ function ProductDetailPage(props) {
                     </div>
                     <div className="abmin d-flex flex-wrap flex-md-nowrap align-items-center pb-4">
                       <div className="img pb-4 pb-md-0 me-4">
-                        <img
-                          src="assets/images/about/comment1.png"
-                          alt="image"
-                        />
+                        <img src={comment1} alt="image" />
                       </div>
                       <div className="content position-relative p-4 bor">
                         <div className="head-wrp pb-1 d-flex flex-wrap justify-content-between">
@@ -628,10 +619,7 @@ function ProductDetailPage(props) {
                     </div>
                     <div className="abmin d-flex flex-wrap flex-md-nowrap align-items-center pb-4">
                       <div className="img pb-4 pb-md-0 me-4">
-                        <img
-                          src="assets/images/about/comment4.png"
-                          alt="image"
-                        />
+                        <img src={comment4} alt="image" />
                       </div>
                       <div className="content position-relative p-4 bor">
                         <div className="head-wrp pb-1 d-flex flex-wrap justify-content-between">
