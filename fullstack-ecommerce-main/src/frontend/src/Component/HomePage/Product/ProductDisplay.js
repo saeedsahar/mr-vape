@@ -12,7 +12,10 @@ function ProductDisplay(props) {
         <a className="wishlist">
           <i className="fa-regular fa-heart" />
         </a>
-        <a className="product__image pt-20 d-block">
+        <a
+          className="product__image pt-20 d-block"
+          style={{ maxHeight: "410px" }}
+        >
           <img
             className="font-image rounded"
             src={props.product.image}

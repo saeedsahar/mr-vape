@@ -370,6 +370,15 @@ function Home(props) {
                       languages, and experie in every market. only a variety of
                       vaping products
                     </p>
+                    <a className="off-btn get-offer-button" href="#0">
+                      <img
+                        className="mr-10"
+                        src="assets/images/icon/fire.svg"
+                        alt="icon"
+                      />{" "}
+                      GET
+                      <span className="primary-color">25% OFF</span> NOW
+                    </a>
                     <a className="btn-two">
                       <span
                         onClick={() => {
@@ -379,15 +388,6 @@ function Home(props) {
                       >
                         Shop Now
                       </span>
-                    </a>
-                    <a className="off-btn" href="#0">
-                      <img
-                        className="mr-10"
-                        src="assets/images/icon/fire.svg"
-                        alt="icon"
-                      />{" "}
-                      GET
-                      <span className="primary-color">25% OFF</span> NOW
                     </a>
                   </div>
                 </div>

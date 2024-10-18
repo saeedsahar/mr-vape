@@ -120,28 +120,7 @@ function Register(props) {
           style={{
             backgroundImage: "url(assets/images/banner/inner-banner.jpg)",
           }}
-        >
-          <div className="container-lg">
-            <h2
-              className="wow fadeInUp mb-15 text-white"
-              data-wow-duration="1.1s"
-              data-wow-delay=".1s"
-            >
-              Create Account
-            </h2>
-            <div
-              className="breadcrumb-list wow fadeInUp"
-              data-wow-duration="1.3s"
-              data-wow-delay=".3s"
-            >
-              <a className="primary-hover">
-                <i className="fa-solid fa-house me-1" /> Home{" "}
-                <i className="fa-regular text-white fa-angle-right" />
-              </a>
-              <span>Create Account</span>
-            </div>
-          </div>
-        </section>
+        ></section>
 
         {/* Login area */}
         <section className="login-area pt-130 pb-130">

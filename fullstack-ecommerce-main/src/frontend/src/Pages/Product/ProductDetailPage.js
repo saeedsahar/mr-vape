@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { CircularProgress, Button, Icon } from "@mui/material";
 import { base_url, getRequests } from "../../axios/API";
 import {
@@ -35,6 +35,7 @@ function ProductDetailPage(props) {
   const [selectedTab, setSelectedTab] = useState(0);
   let cartStates = useSelector((state) => state.cart);
   let dispatch = useDispatch();
+  let navigate = useNavigate();
 
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
 
@@ -134,7 +135,7 @@ function ProductDetailPage(props) {
             backgroundImage: `url(https://mrvape-frontend.s3.eu-west-2.amazonaws.com/detail1.png)`,
           }}
         >
-          <div className="container-lg">
+          {/* <div className="container-lg">
             <h2
               className="wow fadeInUp text-white mb-15 color-black"
               data-wow-duration="1.1s"
@@ -158,11 +159,35 @@ function ProductDetailPage(props) {
               </a>
               <span className="color-black">Shop Details</span>
             </div>
-          </div>
+          </div> */}
         </section>
         {/* Page banner area end here */}
         {/* Shop single area start here */}
         <section className="shop-single pt-130 pb-130">
+          <div className="container-lg" style={{ paddingBottom: "10px" }}>
+            <div
+              className="breadcrumb-list wow fadeInUp"
+              data-wow-duration="1.3s"
+              data-wow-delay=".3s"
+            >
+              <a
+                className="primary-hover color-primary"
+                onClick={() => navigate("/")}
+              >
+                <i className="fa-solid fa-house me-1 color-primary" /> Home{" "}
+                <i className="fa-regular fa-angle-right color-primary" />
+              </a>
+              <a
+                className="primary-hover color-primary"
+                onClick={() => navigate("/products")}
+              >
+                {" "}
+                shop <i className="fa-regular fa-angle-right color-primary" />
+              </a>
+              <span className="color-primary">Shop Details</span>
+            </div>
+          </div>
+
           <div className="container-lg">
             {/* product-details area start here */}
             <div className="product-details-single pb-40">

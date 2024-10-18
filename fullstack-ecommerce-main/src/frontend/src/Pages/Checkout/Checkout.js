@@ -68,19 +68,27 @@ const Checkout = () => {
       <section
         className="page-banner bg-image pt-130 pb-130"
         style={{ backgroundImage: `url(${bannerBImg})` }}
-      >
-        <div className="container-lg">
-          <h2 className="wow text-white fadeInUp mb-15">Checkout Page</h2>
-          <div className="breadcrumb-list wow fadeInUp">
-            <a className="primary-hover">
-              Home <i className="fa-regular text-white fa-angle-right" />
-            </a>
-            <span>Checkout</span>
-          </div>
-        </div>
-      </section>
+      ></section>
 
       <section className="checkout-area pt-130 pb-130">
+        <div className="container-lg" style={{ paddingBottom: "10px" }}>
+          <div
+            className="breadcrumb-list wow fadeInUp"
+            data-wow-duration="1.3s"
+            data-wow-delay=".3s"
+          >
+            <a
+              className="primary-hover color-primary"
+              onClick={() => navigate("/")}
+            >
+              <i className="fa-solid fa-house me-1 color-primary" /> Home{" "}
+              <i className="fa-regular fa-angle-right color-primary" />
+            </a>
+
+            <span className="color-primary">checkout</span>
+          </div>
+        </div>
+
         <div className="container-lg">
           <div className="row g-4">
             <div className="col-lg-8">
