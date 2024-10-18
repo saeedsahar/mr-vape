@@ -4,17 +4,7 @@
 	background-color: #B2B2B2;
 
 	.top__wrapper {
-		@include flex;
-
-		@include breakpoint(max-xxxl) {
-			justify-content: space-between;
-		}
-
 		.main__logo {
-			margin-right: 82px;
-			display     : flex;
-			align-items : center;
-
 			img {
 				width: 170px;
 			}
@@ -24,9 +14,6 @@
 				width       : 140px;
 			}
 
-			// @media screen and (max-width: 500px) {
-			// 	display: none;
-			// }
 		}
 
 		.search__wrp {
@@ -481,119 +468,7 @@
 		}
 	}
 
-	.shipping__item {
-		gap: 60px;
-
-		@include breakpoint(max-xl) {
-			gap: 30px;
-		}
-
-		@media screen and (max-width: 350px) {
-			gap: 20px;
-		}
-
-		.menu__right {
-			@include breakpoint(max-xxsmall) {
-				align-items: initial !important;
-			}
-
-			.thumb {
-				@include breakpoint(max-lg) {
-					width : 30px;
-					height: 30px;
-
-					img {
-						@include imgw;
-						object-fit: cover;
-					}
-				}
-
-				@include breakpoint(max-xxsmall) {
-					width : 20px;
-					height: 20px;
-				}
-			}
-
-			.content {
-				margin-left: 20px;
-
-				@include breakpoint(max-lg) {
-					margin-left: 10px;
-
-					p {
-						font-size: 12px;
-					}
-				}
-
-				@include breakpoint(max-xxsmall) {
-					margin-left: 10px;
-
-					p {
-						font-size: 9px;
-					}
-				}
-
-				.items {
-					.form__select {
-						.list {
-							li {
-								color: var(--black);
-							}
-						}
-
-						background: none;
-						border    : none;
-
-						@include breakpoint(max-lg) {
-							font-size: 10px;
-						}
-
-						@include breakpoint(max-xxsmall) {
-							span {
-								font-size: 9px !important;
-							}
-						}
-
-						&::after {
-							border-bottom: 2px solid var(--white);
-							border-right : 2px solid var(--white);
-							right        : -15px;
-
-							@include breakpoint(max-xl) {
-								right: -5px;
-								top  : 15px;
-							}
-
-							@include breakpoint(max-lg) {
-								width : 7px;
-								height: 7px;
-								top   : 12px;
-							}
-
-							@include breakpoint(max-xxsmall) {
-								width : 5px;
-								height: 5px;
-								top   : 12px;
-								right : -3;
-							}
-						}
-
-						span {
-							font-size     : 14px;
-							font-weight   : 700;
-							text-transform: capitalize;
-							color         : var(--white);
-
-							@include breakpoint(max-lg) {
-								font-size  : 12px;
-								font-weight: 500;
-							}
-						}
-					}
-				}
-			}
-		}
-	}
+	
 }
 
 @media screen and (max-width: 991px) {
@@ -914,7 +789,7 @@
 
 	.offcanvas-header {
 		margin-bottom   : 10px;
-		padding: 15px;
+		padding         : 15px;
 		background-color: #1a2b3c;
 
 		.offcanvas-title {
@@ -968,3 +843,55 @@
 
 	}
 }
+
+// Cart Drawer ***
+.cart-drawer {
+	.css-eydqou-MuiPaper-root-MuiDrawer-paper {
+		width: 400px;
+	}
+
+	.drawer-header {
+		margin-bottom   : 10px;
+		padding         : 20px;
+		background-color: #1a2b3c;
+
+		.cart-drawer-title {
+			font-family  : var(--poppins);
+			font-weight  : 600;
+			color        : var(--pure-white);
+			margin-bottom: 0;
+		}
+	}
+
+	.drawer-body {
+		font-family: var(--poppins);
+		padding    : 20px;
+		height     : 100%;
+
+		.cart-product {
+			@include flex();
+			gap: 15px;
+
+			&:not(:last-child) {
+				border-bottom: 1px solid #eee;
+			}
+
+			img {
+				width : 70px;
+				height: 70px;
+			}
+
+			.product-meta {
+				span {
+					font-size: 15px;
+				}
+			}
+		}
+	}
+
+	.drawer-footer {
+		padding: 20px;
+	}
+}
+
+// Cart Drawer ***

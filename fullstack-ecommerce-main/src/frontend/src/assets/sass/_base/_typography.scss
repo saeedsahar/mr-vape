@@ -276,3 +276,15 @@ input {
 .cursror-pointer {
 	cursor: pointer !important;
 }
+
+
+// MUI Custom Typo
+.css-1sl1ukt-MuiChip-root,
+.css-1cprn2g-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root,
+.css-1h4bzp1-MuiButtonBase-root-MuiMenuItem-root,
+.css-8voplp-MuiFormLabel-root-MuiInputLabel-root,
+.css-j882ge-MuiInputBase-root-MuiOutlinedInput-root,
+.css-m0kdz1-MuiButtonBase-root-MuiButton-root,
+.css-10yf2i8-MuiInputBase-root-MuiInput-root {
+	font-family: var(--inter) !important;
+}

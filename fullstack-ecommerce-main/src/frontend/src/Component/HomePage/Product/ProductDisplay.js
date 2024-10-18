@@ -20,6 +20,7 @@ function ProductDisplay(props) {
             className="font-image rounded"
             src={props.product.image}
             alt="image"
+            style={{ maxHeight: "300px" }}
           />
           <img
             className="back-image rounded"

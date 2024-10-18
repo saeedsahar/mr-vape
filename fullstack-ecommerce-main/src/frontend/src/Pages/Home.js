@@ -170,8 +170,18 @@ function Home(props) {
               <i className="fa-regular fa-heart" />
             </a>
             <a className="product__image pt-20 d-block">
-              <img className="font-image" src={item.image} alt="image" />
-              <img className="back-image" src={item.image} alt="image" />
+              <img
+                className="font-image"
+                src={item.image}
+                alt="image"
+                style={{ maxHeight: "300px", minHeight: "300px" }}
+              />
+              <img
+                className="back-image"
+                src={item.image}
+                alt="image"
+                style={{ maxHeight: "300px", minHeight: "300px" }}
+              />
             </a>
             <div className="product__content">
               <h5 className="mb-15">
@@ -547,7 +557,7 @@ function Home(props) {
                     data-wow-delay=".4s"
                   >
                     <div className="info">
-                      <h4>HUNGRY UP !</h4>
+                      <h4 className="mb-0">HUNGRY UP !</h4>
                       <span>Offer end in :</span>
                     </div>
                     <div className="d-flex gap-2 align-items-center">
@@ -610,23 +620,20 @@ function Home(props) {
               <li className="marquee-item">
                 E-Cigarettes{" "}
                 <img src="assets/images/icon/title-left.svg" alt="icon" />{" "}
-                <span>Vape Pens</span>
-                <img src="assets/images/icon/title-left.svg" alt="icon" />
-                Vape Juice{" "}
+                <span>Vape Pens</span>{" "}
+                <img src="assets/images/icon/title-left.svg" alt="icon" /> Vape
+                Juice <img src="assets/images/icon/title-left.svg" alt="icon" />{" "}
+                <span>E-Cigarettes</span>{" "}
+                <img src="assets/images/icon/title-left.svg" alt="icon" /> Vape
+                Pens <img src="assets/images/icon/title-left.svg" alt="icon" />{" "}
+                <span>Vape Juice</span>{" "}
                 <img src="assets/images/icon/title-left.svg" alt="icon" />{" "}
-                <span>E-Cigarettes</span>
-                <img src="assets/images/icon/title-left.svg" alt="icon" />
-                Vape Pens{" "}
-                <img src="assets/images/icon/title-left.svg" alt="icon" />{" "}
-                <span>Vape Juice</span>
-                <img src="assets/images/icon/title-left.svg" alt="icon" />
                 E-Cigarettes{" "}
                 <img src="assets/images/icon/title-left.svg" alt="icon" />{" "}
-                <span>Vape Pens</span>
-                <img src="assets/images/icon/title-left.svg" alt="icon" />
-                Vape Juice{" "}
-                <img src="assets/images/icon/title-left.svg" alt="icon" />{" "}
-                <span>E-Cigarettes</span>
+                <span>Vape Pens</span>{" "}
+                <img src="assets/images/icon/title-left.svg" alt="icon" /> Vape
+                Juice <img src="assets/images/icon/title-left.svg" alt="icon" />{" "}
+                <span>E-Cigarettes</span>{" "}
               </li>
             </ul>
           </div>

@@ -50,10 +50,10 @@ function SwiperComponent(props) {
           <>
             <SwiperSlide>
               <div
-                className="category__item category-two__item text-center pointer"
+                className="category__item category-two__item text-center pointer "
                 onClick={() => navigate(`/products/${product.id}`)}
               >
-                <a className="category__image d-block">
+                <a className="category__image d-block overflow-hidden">
                   <Avatar
                     alt="Remy Sharp"
                     src={product.image}
