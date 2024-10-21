@@ -90,7 +90,7 @@ function Authenticate(props) {
       <section
         className="page-banner bg-image pt-130 pb-130"
         style={{
-          backgroundImage: `url(https://mrvape-frontend.s3.eu-west-2.amazonaws.com/sign-in-header+copy.png)`,
+          backgroundImage: `url(https://s3.eu-west-2.amazonaws.com/www.vapeplanet.co.uk/websitelayouts/SignIn-top-banner-v2.jpg)`,
         }}
       >
         {/* <div className="container-lg">
@@ -123,7 +123,7 @@ function Authenticate(props) {
               <div className="col-xxl-8">
                 <div className="login__image">
                   <img
-                    src="https://mrvape-frontend.s3.eu-west-2.amazonaws.com/sign-in.jpeg"
+                    src="https://s3.eu-west-2.amazonaws.com/www.vapeplanet.co.uk/websitelayouts/Login-Box.jpg"
                     alt="image"
                   />
                   <div className="btn-wrp">

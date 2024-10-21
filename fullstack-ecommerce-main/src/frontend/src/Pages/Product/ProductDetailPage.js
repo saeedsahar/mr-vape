@@ -140,7 +140,7 @@ function ProductDetailPage(props) {
         <section
           className="page-banner bg-image pt-130 pb-130"
           style={{
-            backgroundImage: `url(https://mrvape-frontend.s3.eu-west-2.amazonaws.com/detail1.png)`,
+            backgroundImage: `url(https://s3.eu-west-2.amazonaws.com/www.vapeplanet.co.uk/websitelayouts/Product-Detail-Banner--v2.jpg)`,
           }}
         >
           {/* <div className="container-lg">

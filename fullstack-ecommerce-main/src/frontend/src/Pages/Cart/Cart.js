@@ -26,7 +26,7 @@ function Cart(props) {
         <section
           className="page-banner bg-image pt-130 pb-130"
           style={{
-            backgroundImage: `url(https://mrvape-frontend.s3.eu-west-2.amazonaws.com/cart-header.jpeg)`,
+            backgroundImage: `url(https://s3.eu-west-2.amazonaws.com/www.vapeplanet.co.uk/websitelayouts/Cart-Banner.jpg)`,
           }}
           // data-background="assets/images/banner/inner-banner.jpg"
         ></section>
