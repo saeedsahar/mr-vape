@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
@@ -15,14 +15,25 @@ import {
   List,
   ListItem,
   Skeleton,
-  Button,
   Alert,
   Snackbar,
   Drawer,
-  TextField,
+  IconButton,
+  Button,
+  Box,
+  Typography,
+  Stack,
+  Avatar,
+  Badge,
+  Menu,
+  MenuItem,
 } from "@mui/material";
-import { TextFieldsTwoTone } from "@mui/icons-material";
 import "./MainNavigation.css";
+import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
+import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
+import { Close } from "@mui/icons-material";
+import { removeItem } from "../../Pages/Cart/CartSlice";
+
 function MainNavigation(props) {
   console.log("[MainNavigation.js]");
   const containerRef = React.useRef(null);
@@ -35,6 +46,7 @@ function MainNavigation(props) {
   const [openSearchBar, setOpenSearchBar] = useState(false);
   const [appWidth, setAppWidth] = useState(window.innerWidth);
   const [open, setOpen] = useState(false);
+  const [cartDrawerOpen, setCartDrawerOpen] = useState(false);
 
   const searchWrapperRef = React.useRef(null); // Ref for search wrapper
 
@@ -44,6 +56,7 @@ function MainNavigation(props) {
   let cartStates = useSelector((state) => state.cart);
   let homeStates = useSelector((state) => state.home);
   let mainNavStates = useSelector((state) => state.mainNav);
+
   let dispatch = useDispatch();
   let location = useLocation();
 
@@ -167,278 +180,326 @@ function MainNavigation(props) {
         style={{ backgroundColor: "white" }}
       >
         <div className="container-lg">
-          <div className="top__wrapper">
-            <a className="main__logo">
-              <button onClick={() => toggleDrawer(true)} class="px-2 d-lg-none">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="28"
-                  height="28"
-                  fill="currentColor"
-                  class="bi bi-list"
-                  viewBox="0 0 16 16"
+          <div className="top__wrapper row justify-content-between align-items-center">
+            <div className="col-2">
+              <a className="main__logo">
+                <button
+                  onClick={() => toggleDrawer(true)}
+                  class="px-2 d-lg-none"
                 >
-                  <path
-                    fill-rule="evenodd"
-                    d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"
-                  />
-                </svg>
-              </button>
-              <Drawer
-                open={open}
-                onClose={() => toggleDrawer(false)}
-                className="mobile-navigation"
-              >
-                <div class="offcanvas-header">
-                  <h6 class="offcanvas-title">Popular Categories</h6>
-                  <button
-                    class="text-white"
-                    aria-label="Close"
-                    onClick={() => toggleDrawer(false)}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="28"
+                    height="28"
+                    fill="currentColor"
+                    class="bi bi-list"
+                    viewBox="0 0 16 16"
                   >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="18"
-                      height="18"
-                      fill="currentColor"
-                      class="bi bi-x-circle-fill"
-                      viewBox="0 0 16 16"
+                    <path
+                      fill-rule="evenodd"
+                      d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"
+                    />
+                  </svg>
+                </button>
+                <Drawer
+                  open={open}
+                  onClose={() => toggleDrawer(false)}
+                  className="mobile-navigation"
+                >
+                  <div class="offcanvas-header">
+                    <h6 class="offcanvas-title">Popular Categories</h6>
+                    <button
+                      class="text-white"
+                      aria-label="Close"
+                      onClick={() => toggleDrawer(false)}
                     >
-                      <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z" />
-                    </svg>
-                  </button>
-                </div>
-                <div class="offcanvas-body p-0">
-                  {homeStates.menu?.map((menuEle, i) => {
-                    let hasSubMenu = menuEle.brandList.length > 0;
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="18"
+                        height="18"
+                        fill="currentColor"
+                        class="bi bi-x-circle-fill"
+                        viewBox="0 0 16 16"
+                      >
+                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z" />
+                      </svg>
+                    </button>
+                  </div>
+                  <div class="offcanvas-body p-0">
+                    {homeStates.menu?.map((menuEle, i) => {
+                      let hasSubMenu = menuEle.brandList.length > 0;
 
-                    return (
-                      <>
-                        <div class="accordion" id={i}>
-                          <div class="accordion-item">
-                            <div class="accordion-header">
-                              {/* {hasSubMenu ? ( */}
-                              <button
-                                className={`${
-                                  !hasSubMenu ? "accordion-custom-button" : ""
-                                } accordion-button collapsed`}
-                                type="button"
-                                data-bs-toggle="collapse"
-                                data-bs-target={`#flush-${i}`}
-                                aria-expanded="false"
-                                aria-controls={`flush-${i}`}
-                                onClick={() => {
-                                  if (!hasSubMenu && menuEle.id == 1) {
-                                    dispatch(setQuery("Trending"));
-                                    navigate("/products");
-                                    toggleDrawer(false);
-                                  } else if (!hasSubMenu) {
-                                    dispatch(setCategoryId(menuEle.id));
-                                    navigate("/products");
-                                    toggleDrawer(false);
-                                  }
-                                }}
-                              >
-                                {menuEle.name}
-                              </button>
-                            </div>
-                            {hasSubMenu
-                              ? menuEle.brandList?.map((subMenuEle) => {
-                                  return (
-                                    <>
-                                      <div
-                                        id={`flush-${i}`}
-                                        class="accordion-collapse collapse"
-                                        data-bs-parent={`${i}`}
-                                      >
-                                        <div class="accordion-body">
-                                          <ul>
-                                            <li
-                                              className="pointer"
-                                              // data-bs-dismiss="offcanvas"
-                                              // aria-label="Close"
-                                            >
-                                              <a
-                                                onClick={() => {
-                                                  dispatch(
-                                                    setBrandId(subMenuEle.id)
-                                                  );
-                                                  navigate("/products");
-                                                  toggleDrawer(false);
-                                                }}
+                      return (
+                        <>
+                          <div class="accordion" id={i}>
+                            <div class="accordion-item">
+                              <div class="accordion-header">
+                                {/* {hasSubMenu ? ( */}
+                                <button
+                                  className={`${
+                                    !hasSubMenu ? "accordion-custom-button" : ""
+                                  } accordion-button collapsed`}
+                                  type="button"
+                                  data-bs-toggle="collapse"
+                                  data-bs-target={`#flush-${i}`}
+                                  aria-expanded="false"
+                                  aria-controls={`flush-${i}`}
+                                  onClick={() => {
+                                    if (!hasSubMenu && menuEle.id == 1) {
+                                      dispatch(setQuery("Trending"));
+                                      navigate("/products");
+                                      toggleDrawer(false);
+                                    } else if (!hasSubMenu) {
+                                      dispatch(setCategoryId(menuEle.id));
+                                      navigate("/products");
+                                      toggleDrawer(false);
+                                    }
+                                  }}
+                                >
+                                  {menuEle.name}
+                                </button>
+                              </div>
+                              {hasSubMenu
+                                ? menuEle.brandList?.map((subMenuEle) => {
+                                    return (
+                                      <>
+                                        <div
+                                          id={`flush-${i}`}
+                                          class="accordion-collapse collapse"
+                                          data-bs-parent={`${i}`}
+                                        >
+                                          <div class="accordion-body">
+                                            <ul>
+                                              <li
+                                                className="pointer"
+                                                // data-bs-dismiss="offcanvas"
+                                                // aria-label="Close"
                                               >
-                                                {subMenuEle.name}
-                                              </a>
-                                            </li>
-                                          </ul>
+                                                <a
+                                                  onClick={() => {
+                                                    dispatch(
+                                                      setBrandId(subMenuEle.id)
+                                                    );
+                                                    navigate("/products");
+                                                    toggleDrawer(false);
+                                                  }}
+                                                >
+                                                  {subMenuEle.name}
+                                                </a>
+                                              </li>
+                                            </ul>
+                                          </div>
                                         </div>
-                                      </div>
-                                    </>
-                                  );
-                                })
-                              : ""}
+                                      </>
+                                    );
+                                  })
+                                : ""}
+                            </div>
                           </div>
-                        </div>
-                      </>
-                    );
-                  })}
-                </div>
-              </Drawer>
+                        </>
+                      );
+                    })}
+                  </div>
+                </Drawer>
 
-              <img
-                className="pointer img-fluid"
-                onClick={() => navigate("/")}
-                src={
-                  "https://mrvape-frontend.s3.eu-west-2.amazonaws.com/VapePlanet+Logo.png"
-                }
-                style={{ width: "185px" }}
-                alt="logo__image"
-              />
-            </a>
-            <div
-              style={{ border: "1px solid #fa4f09", borderRadius: "30px" }}
-              className="search__wrp"
-              ref={searchWrapperRef}
-            >
-              <input
-                placeholder="Search Products"
-                aria-label="Search"
-                onChange={onSearchChange}
-                value={searchValue}
-                style={{ color: "black" }}
-                onClick={(e) => setAnchorEl(e.currentTarget)}
-              />
-              <button
-                id="search-icon"
-                onClick={() => setOpenSearchBar(!openSearchBar)}
-              >
-                <i className="fa-solid fa-search" />
-              </button>
-              <Popper
-                open={Boolean(anchorEl && searchValue.trim())}
-                anchorEl={anchorEl}
-                placement="bottom-start"
-                style={{ zIndex: 1300 }}
-                modifiers={{
-                  preventOverflow: {
-                    enabled: true,
-                    boundariesElement: "viewport",
-                  },
-                }}
-                onMouseDown={(e) => e.stopPropagation()}
-              >
-                <div
-                  style={{
-                    width: anchorEl ? anchorEl.clientWidth : "100%",
-                    backgroundColor: "#fff",
-                    borderBottomLeftRadius: "20px", // Match with input's bottom left
-                    borderBottomRightRadius: "20px", // Match with input's bottom right
-                    borderTop: "none", // Remove top border to blend with input
-                    boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
-                    maxHeight: "300px",
-                    overflowY: "auto",
-                    padding: "10px 0", // Padding to avoid cutting off list items
-                    borderRadius: "10px",
-                  }}
-                  className="custom-scrollbar"
-                >
-                  {/* Loading State */}
-                  {loading ? (
-                    <div>
-                      <Skeleton variant="text" width="100%" height={30} />
-                      <Skeleton variant="text" width="100%" height={30} />
-                      <Skeleton variant="text" width="100%" height={30} />
-                    </div>
-                  ) : (
-                    <List>
-                      {/* No Data Found */}
-                      {noResults ? (
-                        <ListItem>No data found</ListItem>
-                      ) : (
-                        // Render Search Results
-                        searchResults.map((item, index) => (
-                          <ListItem
-                            key={index}
-                            style={{
-                              color: "black",
-                              cursor: "pointer", // Pointer cursor on hover
-                              padding: "10px",
-                              transition: "background-color 0.2s ease", // Smooth hover effect
-                            }}
-                            onMouseEnter={(e) =>
-                              (e.currentTarget.style.backgroundColor =
-                                "#f0f0f0")
-                            }
-                            onMouseLeave={(e) =>
-                              (e.currentTarget.style.backgroundColor =
-                                "transparent")
-                            }
-                            onClick={() => {
-                              navigate(`/products/${item.id}`);
-                              setAnchorEl(null);
-                            }}
-                          >
-                            {item.name} {/* Assuming each result has a name */}
-                          </ListItem>
-                        ))
-                      )}
-                    </List>
-                  )}
-                </div>
-              </Popper>
+                <img
+                  className="pointer img-fluid"
+                  onClick={() => navigate("/")}
+                  src="https://mrvape-frontend.s3.eu-west-2.amazonaws.com/VapePlanet+Logo.png"
+                  style={{ width: "185px" }}
+                  alt="logo__image"
+                />
+              </a>
             </div>
-            {openSearchBar && appWidth < 1200 ? (
-              <input
-                placeholder="Search Products"
-                aria-label="Search"
-                onChange={onSearchChange}
-                value={searchValue}
-                style={{
-                  color: "black",
-                  borderRadius: "10px",
-                  paddingLeft: "10px",
-                  width: "50%",
-                  marginRight: "15px",
-                }}
-              />
-            ) : null}
-            <div className="account__wrap">
-              <div className="account d-flex align-items-center">
-                <div
-                  className="user__icon"
-                  onClick={() => !isLogged && navigate("/authenticate")}
-                >
-                  <a>
-                    <i className="fa-regular fa-user" />
-                  </a>
-                </div>
-                <a className="acc__cont">
-                  {isLogged ? (
-                    <span className="text-white">{currentUser}</span>
-                  ) : (
-                    <span
-                      onClick={() => navigate("/authenticate")}
-                      className="text-white"
-                    >
-                      My Account
-                    </span>
-                  )}
-                </a>
-              </div>
+            <div className="col-lg-5 search-div">
+              {" "}
               <div
-                className="cart d-flex align-items-center justify-content-between cursror-pointer"
-                onClick={() => navigate("/cart")}
-                ref={containerRef}
+                style={{ border: "1px solid #fa4f09", borderRadius: "30px" }}
+                className="search__wrp"
+                ref={searchWrapperRef}
               >
-                <span className="cart__icon">
-                  <i className="fa-regular fa-cart-shopping" />
-                </span>
-                <a className="c__one">
-                  <span className="text-white">£{cartStates.totalPrice}</span>
-                </a>
-                <span className="one text-white" style={{ fontWeight: "600" }}>
-                  {cartStates.total}
-                </span>
+                <input
+                  placeholder="Search Products"
+                  aria-label="Search"
+                  onChange={onSearchChange}
+                  value={searchValue}
+                  style={{ color: "black" }}
+                  onClick={(e) => setAnchorEl(e.currentTarget)}
+                />
+                <button
+                  id="search-icon"
+                  onClick={() => setOpenSearchBar(!openSearchBar)}
+                >
+                  <i className="fa-solid fa-search" />
+                </button>
+                <Popper
+                  open={Boolean(anchorEl && searchValue.trim())}
+                  anchorEl={anchorEl}
+                  placement="bottom-start"
+                  style={{ zIndex: 1300 }}
+                  modifiers={{
+                    preventOverflow: {
+                      enabled: true,
+                      boundariesElement: "viewport",
+                    },
+                  }}
+                  onMouseDown={(e) => e.stopPropagation()}
+                >
+                  <div
+                    style={{
+                      width: anchorEl ? anchorEl.clientWidth : "100%",
+                      backgroundColor: "#fff",
+                      borderBottomLeftRadius: "20px", // Match with input's bottom left
+                      borderBottomRightRadius: "20px", // Match with input's bottom right
+                      borderTop: "none", // Remove top border to blend with input
+                      boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+                      maxHeight: "300px",
+                      overflowY: "auto",
+                      padding: "10px 0", // Padding to avoid cutting off list items
+                      borderRadius: "10px",
+                    }}
+                    className="custom-scrollbar"
+                  >
+                    {/* Loading State */}
+                    {loading ? (
+                      <div>
+                        <Skeleton variant="text" width="100%" height={30} />
+                        <Skeleton variant="text" width="100%" height={30} />
+                        <Skeleton variant="text" width="100%" height={30} />
+                      </div>
+                    ) : (
+                      <List>
+                        {/* No Data Found */}
+                        {noResults ? (
+                          <ListItem>No data found</ListItem>
+                        ) : (
+                          // Render Search Results
+                          searchResults.map((item, index) => (
+                            <ListItem
+                              key={index}
+                              style={{
+                                color: "black",
+                                cursor: "pointer", // Pointer cursor on hover
+                                padding: "10px",
+                                transition: "background-color 0.2s ease", // Smooth hover effect
+                              }}
+                              onMouseEnter={(e) =>
+                                (e.currentTarget.style.backgroundColor =
+                                  "#f0f0f0")
+                              }
+                              onMouseLeave={(e) =>
+                                (e.currentTarget.style.backgroundColor =
+                                  "transparent")
+                              }
+                              onClick={() => {
+                                navigate(`/products/${item.id}`);
+                                setAnchorEl(null);
+                              }}
+                            >
+                              {item.name}{" "}
+                              {/* Assuming each result has a name */}
+                            </ListItem>
+                          ))
+                        )}
+                      </List>
+                    )}
+                  </div>
+                </Popper>
+              </div>
+              {openSearchBar && appWidth < 1200 ? (
+                <input
+                  placeholder="Search Products"
+                  aria-label="Search"
+                  onChange={onSearchChange}
+                  value={searchValue}
+                  style={{
+                    color: "black",
+                    borderRadius: "10px",
+                    paddingLeft: "10px",
+                    width: "50%",
+                    marginRight: "15px",
+                  }}
+                />
+              ) : null}
+            </div>
+            <div className="col-auto">
+              <div className="row">
+                <div className="account__wrap">
+                  <div className="account d-flex align-items-center">
+                    <div
+                      className="user__icon"
+                      onClick={() => !isLogged && navigate("/authenticate")}
+                    >
+                      <a>
+                        <i className="fa-regular fa-user" />
+                      </a>
+                    </div>
+                    <a className="acc__cont">
+                      {isLogged ? (
+                        <span className="text-white">{currentUser}</span>
+                      ) : (
+                        <span
+                          onClick={() => navigate("/authenticate")}
+                          className="text-white"
+                        >
+                          My Account
+                        </span>
+                      )}
+                    </a>
+                  </div>
+                  <div
+                    className="cart d-flex align-items-center cursror-pointer"
+                    onClick={() => setCartDrawerOpen(true)}
+                    style={{
+                      paddingLeft: "5px",
+                      width: "120px",
+                      gap: "5px",
+                      justifyContent: "center",
+                    }}
+                    ref={containerRef}
+                  >
+                    {/* <span className="cart__icon">
+                      <i className="fa-regular fa-cart-shopping" />
+                    </span> */}
+                    <a className="c__one">
+                      <span className="text-white">
+                        £{cartStates.totalPrice}
+                      </span>
+                    </a>
+                    <Button
+                      onClick={() => setCartDrawerOpen(true)}
+                      style={{ height: "50px" }}
+                      aria-label="Shopping Cart"
+                      color="inherit"
+                      className="btn-light cart__icon"
+                      size="large"
+                    >
+                      <Badge
+                        badgeContent={
+                          cartStates?.total ? cartStates?.total : "0"
+                        }
+                        color="warning"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="24"
+                          height="24"
+                          fill="currentColor"
+                          class="bi bi-bag-plus"
+                          viewBox="0 0 16 16"
+                          className="cart-icon"
+                          // style={{ color: "white" }}
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            d="M8 7.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V12a.5.5 0 0 1-1 0v-1.5H6a.5.5 0 0 1 0-1h1.5V8a.5.5 0 0 1 .5-.5"
+                          />
+                          <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1m3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z" />
+                        </svg>
+                      </Badge>
+                    </Button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -593,6 +654,89 @@ function MainNavigation(props) {
           {mainNavStates.message}{" "}
         </Alert>
       </Snackbar>
+      <Drawer
+        className="cart-drawer"
+        anchor="right"
+        open={cartDrawerOpen}
+        onClose={() => setCartDrawerOpen(false)}
+      >
+        <Box className="drawer-header">
+          <div class="offcanvas-header">
+            <h6 className="cart-drawer-title">Shopping Cart</h6>
+            <button
+              class="text-white"
+              aria-label="Close"
+              onClick={() => setCartDrawerOpen(false)}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="18"
+                height="18"
+                fill="currentColor"
+                class="bi bi-x-circle-fill"
+                viewBox="0 0 16 16"
+              >
+                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z" />
+              </svg>
+            </button>
+          </div>
+        </Box>
+        {/* <Box className="drawer-header row">
+          <div style={{display : "flex"}}>
+          <h6 className="cart-drawer-title">Shopping Cart</h6>
+          <span
+            className="color-white"
+            onClick={() => setCartDrawerOpen(false)}
+          >
+            x
+          </span></div>
+        </Box> */}
+        <Box className="drawer-body">
+          {cartStates?.items?.map((cartItem) => {
+            const {
+              availableQuantity,
+              productImage,
+              productName,
+              quantity,
+              productId,
+              price,
+            } = cartItem;
+            return (
+              <Box className="cart-product pb-20 mb-20" key={productId}>
+                <img
+                  className="img-fluid rounded-2 img-thumbnail"
+                  alt={productImage}
+                  src={productImage}
+                />
+                <Box className="product-meta">
+                  <h6 className="product-title mb-1">{productName}</h6>
+                  <span className="text-muted">£{price}</span>{" "}
+                  <span className="text-muted">x</span>{" "}
+                  <span className="text-muted">{quantity}</span>
+                </Box>
+                <IconButton className="ms-auto">
+                  <Close
+                    onClick={() => dispatch(removeItem({ id: cartItem.id }))}
+                  />
+                </IconButton>
+              </Box>
+            );
+          })}
+        </Box>
+        <Box className="drawer-footer">
+          <div className="d-grid gap-3">
+            <button
+              class="btn-one"
+              onClick={function () {
+                navigate("/cart");
+                setCartDrawerOpen(false);
+              }}
+            >
+              <span>View Cart</span>
+            </button>
+          </div>
+        </Box>
+      </Drawer>
     </>
   );
 }

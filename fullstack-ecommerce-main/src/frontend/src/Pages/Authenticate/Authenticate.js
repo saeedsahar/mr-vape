@@ -93,7 +93,7 @@ function Authenticate(props) {
           backgroundImage: `url(https://s3.eu-west-2.amazonaws.com/www.vapeplanet.co.uk/websitelayouts/SignIn-top-banner-v2.jpg)`,
         }}
       >
-        <div className="container-lg">
+        {/* <div className="container-lg">
           <h2
             className="wow fadeInUp mb-15 text-white"
             data-wow-duration="1.1s"
@@ -112,7 +112,7 @@ function Authenticate(props) {
             </a>
             <span>Sign In</span>
           </div>
-        </div>
+        </div> */}
       </section>
 
       {/* Login area */}

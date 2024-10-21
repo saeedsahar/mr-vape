@@ -29,31 +29,28 @@ function Cart(props) {
             backgroundImage: `url(https://s3.eu-west-2.amazonaws.com/www.vapeplanet.co.uk/websitelayouts/Cart-Banner.jpg)`,
           }}
           // data-background="assets/images/banner/inner-banner.jpg"
-        >
-          <div className="container-lg">
-            <h2
-              className="wow fadeInUp mb-15 text-white"
-              data-wow-duration="1.1s"
-              data-wow-delay=".1s"
-            >
-              Cart Page
-            </h2>
+        ></section>
+        {/* Page banner area end here */}
+        {/* cart page area start here */}
+        <section className="cart-page pt-130 pb-130">
+          <div className="container-lg" style={{ paddingBottom: "10px" }}>
             <div
               className="breadcrumb-list wow fadeInUp"
               data-wow-duration="1.3s"
               data-wow-delay=".3s"
             >
-              <a className="primary-hover">
-                <i className="fa-solid fa-house me-1" /> Home{" "}
-                <i className="fa-regular text-white fa-angle-right" />
+              <a
+                className="primary-hover color-primary"
+                onClick={() => navigate("/")}
+              >
+                <i className="fa-solid fa-house me-1 color-primary" /> Home{" "}
+                <i className="fa-regular fa-angle-right color-primary" />
               </a>
-              <span>Cart</span>
+
+              <span className="color-primary">Cart</span>
             </div>
           </div>
-        </section>
-        {/* Page banner area end here */}
-        {/* cart page area start here */}
-        <section className="cart-page pt-130 pb-130">
+
           <div className="container-lg">
             <div className="shopping-cart radius-10 bor text-dark mobile-view">
               <div className="bg-light column-labels py-3 px-4 d-none d-md-flex justify-content-between align-items-center fw-bold text-dark text-uppercase">
@@ -141,7 +138,7 @@ function Cart(props) {
                     data-animation="fadeInUp"
                     data-delay="1.8s"
                     onClick={() => {
-                      navigate("/product");
+                      navigate("/products");
                     }}
                     style={{ marginRight: "5px" }}
                   >
