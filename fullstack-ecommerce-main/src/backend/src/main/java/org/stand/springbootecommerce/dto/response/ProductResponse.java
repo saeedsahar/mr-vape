@@ -60,6 +60,7 @@ public class ProductResponse {
     private long brandId;
     private String keySellingPoints;
     private String productSpec;
+    private List<ProductReviewResponse> reviewResponseList;
 
 //    private List<OrderItems> orderItemsList;
 //    Hibernate: select p1_0.id,p1_0.bottle_size,p1_0.brand_id,p1_0.category_id,p1_0.description,p1_0.flavour_type,p1_0.image,p1_0.name,p1_0.nocotine_strength,p1_0.nocotine_type,p1_0.price,p1_0.product_label,p1_0.quantity,p1_0.short_description from product p1_0 where upper(p1_0.name) like upper(?) escape '\\' limit ?,?

@@ -140,7 +140,7 @@ function ProductDetailPage(props) {
               data-wow-duration="1.1s"
               data-wow-delay=".1s"
             >
-              Shop Details
+              
             </h2>
             <div
               className="breadcrumb-list wow fadeInUp"

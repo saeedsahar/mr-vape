@@ -18,14 +18,19 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.stand.springbootecommerce.dto.ProductLookup;
 import org.stand.springbootecommerce.dto.request.ProductRequest;
+import org.stand.springbootecommerce.dto.request.ReviewRequest;
+import org.stand.springbootecommerce.dto.request.UserUpdateRequest;
 import org.stand.springbootecommerce.dto.response.PageableResponse;
 import org.stand.springbootecommerce.dto.response.ProductResponse;
+import org.stand.springbootecommerce.dto.response.ProductReviewResponse;
 import org.stand.springbootecommerce.entity.Product;
+import org.stand.springbootecommerce.entity.ProductReviews;
 import org.stand.springbootecommerce.service.BrandService;
 import org.stand.springbootecommerce.service.ProductService;
 import org.stand.springbootecommerce.service.S3Service;
 
 import java.io.IOException;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -105,11 +110,58 @@ public class ProductController {
                 );
     }
 
+    // POST api/v1/product {ReviewRequest}
+    @PostMapping(value = "/savereview")
+    public ResponseEntity<Boolean> saveProductReview(@RequestBody ReviewRequest reviewRequest) throws JsonProcessingException {
+
+
+        try {
+            productService.saveOrUpdateProductReview(reviewRequest);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(
+                        true
+
+                );
+    }
+
     // GET api/v1/product/{id}
     @GetMapping("/{id}")
     public ResponseEntity<ProductResponse> getProductById(@PathVariable(name = "id") Long id) {
         ProductResponse res=  new ProductResponse();
         Product p=productService.getProductById(id);
+        List<ProductReviews> listReviews=p.getProductReviewsList().stream().toList();
+        List<ProductReviewResponse> productReviewResponses=new ArrayList<>();
+
+        listReviews.forEach(t -> {
+            ProductReviewResponse review = new ProductReviewResponse();
+
+            // Handle potential nulls for user ID and username
+            if (t.getUserId() != null && t.getUserId().getUsername() != null) {
+                review.setReviewer_name(t.getUserId().getUsername());
+            } else {
+                review.setReviewer_name("Anonymous");
+            }
+
+            review.setComment(t.getComment());
+            review.setTitle(t.getReviewTitle());
+            review.setRating(t.getRating());
+
+            // Format the date to a more readable format
+            if (t.getReviewDate() != null) {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                review.setDate_time(t.getReviewDate().format(formatter));
+            } else {
+                review.setDate_time("N/A");
+            }
+
+            productReviewResponses.add(review);
+        });
         res.setId(p.getId());
         res.setName(p.getName());
         res.setImage(p.getImage());
@@ -122,6 +174,7 @@ public class ProductController {
         res.setProductFlavours(p.getProductFlavourList());
         res.setProductImages(p.getProductImageList());
         res.setWasPrice(p.getWasPrice());
+        res.setReviewResponseList(productReviewResponses);
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(

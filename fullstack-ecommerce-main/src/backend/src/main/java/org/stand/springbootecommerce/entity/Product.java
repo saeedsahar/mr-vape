@@ -100,6 +100,10 @@ public class Product {
     @OneToMany(mappedBy = "productId")
     private List<ProductImage> productImageList;
 
+
+    @OneToMany(mappedBy = "produtId")
+    private List<ProductReviews> productReviewsList;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

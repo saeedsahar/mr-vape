@@ -355,7 +355,7 @@ function Home(props) {
                     <img
                       // src="assets/images/view/view-image1.jpg"
                       src={
-                        "https://mrvape-frontend.s3.eu-west-2.amazonaws.com/eliquid.jpg"
+                        "https://s3.eu-west-2.amazonaws.com/www.vapeplanet.co.uk/websitelayouts/E-liquide-banner-v4.jpg"
                       }
                       alt="image"
                       className="img-fluid"
@@ -415,7 +415,7 @@ function Home(props) {
                   </div>
                   <div className="view__image">
                     <img
-                      src="https://mrvape-frontend.s3.eu-west-2.amazonaws.com/disposable+copy.png"
+                      src="https://s3.eu-west-2.amazonaws.com/www.vapeplanet.co.uk/websitelayouts/disposable+image.jpg"
                       alt="image"
                     />
                   </div>
@@ -439,7 +439,7 @@ function Home(props) {
                   </div>
                   <div className="view__image">
                     <img
-                      src="https://mrvape-frontend.s3.eu-west-2.amazonaws.com/vapekits.png"
+                      src="https://s3.eu-west-2.amazonaws.com/www.vapeplanet.co.uk/websitelayouts/Vape-Kit-image.jpg"
                       alt="image"
                     />
                   </div>
@@ -579,7 +579,7 @@ function Home(props) {
                   <div className="image">
                     <img
                       src={
-                        "https://mrvape-frontend.s3.eu-west-2.amazonaws.com/coming-soon+copy.png"
+                        "https://s3.eu-west-2.amazonaws.com/www.vapeplanet.co.uk/websitelayouts/Coming-Soon-1.jpg"
                       }
                       alt="image"
                       className="img-fluid round-100"
