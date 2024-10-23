@@ -35,6 +35,7 @@ public class ProductServiceImpl implements ProductService {
     private final Logger LOG = LoggerFactory.getLogger(ProductServiceImpl.class);
     private final S3Service s3Service;
     private final BrandRepository brandRepository;
+    private final DiscountCardRepository discountCardRepository;
 
     @Override
     public Page<Product> getProducts(String query, Integer pageNumber, Integer pageSize) {
@@ -149,9 +150,11 @@ public class ProductServiceImpl implements ProductService {
             ProductReviews productReviews = new ProductReviews();
             productReviews.setComment(reviewRequest.getComment());
             productReviews.setReviewTitle(reviewRequest.getTitle());
-            User user = new User();
-            user.setId(reviewRequest.getUser_id());
-            productReviews.setUserId(user);
+            if(reviewRequest.getUser_id()!=null) {
+                User user = new User();
+                user.setId(reviewRequest.getUser_id());
+                productReviews.setUserId(user);
+            }
             Product product = new Product();
             product.setId(reviewRequest.getProduct_id());
             productReviews.setProdutId(product);
@@ -182,6 +185,13 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Product> searchProducts(String query) {
         return productRepository.findByNameContainingIgnoreCase(query);
+    }
+
+    @Override
+    public CartDiscount getDiscountCode(String code) {
+
+
+        return discountCardRepository.findDiscountByCode(code);
     }
 
 

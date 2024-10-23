@@ -7,17 +7,27 @@ public class ProductReviewResponse {
     String comment;
     Integer rating;
     String Date_time;
+    String intials;
 
 
-    public ProductReviewResponse(String reviewer_name, String title, String comment, Integer rating, String date_time) {
+    public ProductReviewResponse(String reviewer_name, String title, String comment, Integer rating, String date_time,String intials) {
         this.reviewer_name = reviewer_name;
         this.title = title;
         this.comment = comment;
         this.rating = rating;
-        Date_time = date_time;
+        this.Date_time = date_time;
+        this.intials = intials;
     }
 
     public ProductReviewResponse() {
+    }
+
+    public String getIntials() {
+        return intials;
+    }
+
+    public void setIntials(String intials) {
+        this.intials = intials;
     }
 
     public String getReviewer_name() {

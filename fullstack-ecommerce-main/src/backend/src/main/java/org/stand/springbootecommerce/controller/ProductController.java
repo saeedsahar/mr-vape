@@ -23,6 +23,7 @@ import org.stand.springbootecommerce.dto.request.UserUpdateRequest;
 import org.stand.springbootecommerce.dto.response.PageableResponse;
 import org.stand.springbootecommerce.dto.response.ProductResponse;
 import org.stand.springbootecommerce.dto.response.ProductReviewResponse;
+import org.stand.springbootecommerce.entity.CartDiscount;
 import org.stand.springbootecommerce.entity.Product;
 import org.stand.springbootecommerce.entity.ProductReviews;
 import org.stand.springbootecommerce.service.BrandService;
@@ -143,9 +144,11 @@ public class ProductController {
 
             // Handle potential nulls for user ID and username
             if (t.getUserId() != null && t.getUserId().getUsername() != null) {
-                review.setReviewer_name(t.getUserId().getUsername());
+                review.setReviewer_name(t.getUserId().getName().substring(0, 1).toUpperCase() + t.getUserId().getName().substring(1) +" "+t.getUserId().getSurname().substring(0, 1).toUpperCase()+ t.getUserId().getSurname().substring(1)  );
+                review.setIntials((t.getUserId().getName().substring(0, 1)+  t.getUserId().getSurname().substring(0, 1)).toUpperCase());
             } else {
                 review.setReviewer_name("Anonymous");
+                review.setIntials("A");
             }
 
             review.setComment(t.getComment());
@@ -192,6 +195,12 @@ public class ProductController {
         } catch (IOException e) {
             return ResponseEntity.status(500).body("Failed to upload image: " + e.getMessage());
         }
+    }
+    @GetMapping("/dicount")
+    public ResponseEntity<CartDiscount> dicount(@RequestParam("code") String code) {
+
+            return ResponseEntity.ok(productService.getDiscountCode(code));
+
     }
 }
 
