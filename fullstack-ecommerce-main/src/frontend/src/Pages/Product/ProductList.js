@@ -1,22 +1,25 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
-import ProductDisplay from '../../Component/HomePage/Product/ProductDisplay'
+import React from "react";
+import { useSelector } from "react-redux";
+import ProductDisplay from "../../Component/HomePage/Product/ProductDisplay";
 
 function ProductList(props) {
- let productState = useSelector((state) => state.product)
+  let productState = useSelector((state) => state.product);
 
   return (
     <div className="tab-content">
-    <div id="latest-item" className="tab-pane fade show active">
-      <div className="row g-4">
-        {productState.products?.map((product) => {
-          return <ProductDisplay product={product}/>
-        })}
-       
+      <div id="latest-item" className="tab-pane fade show active">
+        <div className="row g-4">
+          {productState.products?.map((product) => {
+            return (
+              <div className="col-lg-3 mb-4">
+                <ProductDisplay product={product} />
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
-  </div>
-  )
+  );
 }
 
-export default ProductList
+export default ProductList;

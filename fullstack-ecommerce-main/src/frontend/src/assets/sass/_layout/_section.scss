@@ -201,8 +201,9 @@
 	.product {
 		&__image {
 			img {
-				max-width : 100%;
-				min-height: 420px;
+				min-height   : 450px;
+				max-height   : 450px;
+				border-radius: 10px;
 			}
 		}
 	}
@@ -296,6 +297,82 @@
 					}
 				}
 			}
+		}
+	}
+}
+
+.checkout-area {
+	.css-1d3z3hw-MuiOutlinedInput-notchedOutline {
+		border-color: var(--border);
+	}
+
+	.css-1o0kqxp-MuiInputBase-root-MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+		border-color: var(--primary-color);
+	}
+
+	.css-ezppyz-MuiButtonBase-root-MuiRadio-root.Mui-checked,
+	.css-1y5vrnu-MuiButtonBase-root-MuiCheckbox-root.Mui-checked,
+	.css-1y5vrnu-MuiButtonBase-root-MuiCheckbox-root.MuiCheckbox-indeterminate,
+	.css-18pjc51-MuiFormLabel-root-MuiInputLabel-root.Mui-focused {
+		color: var(--primary-color) !important;
+	}
+
+	.shipping-address-accordian {
+		.css-rolk5j-MuiAccordion-heading {
+			font-family: var(--poppins);
+			font-weight: 600;
+		}
+
+		.css-1f773le-MuiButtonBase-root-MuiAccordionSummary-root {
+			background-color: #f8f9fa;
+		}
+
+		.css-15v22id-MuiAccordionDetails-root {
+			border-top: 1px solid var(--border);
+			padding   : 20px;
+		}
+	}
+
+	.checkout-title {
+		font-size     : 18px;
+		letter-spacing: -0.05px;
+		font-family   : var(--poppins);
+		font-weight   : 600;
+	}
+
+
+	.order-summary {
+		padding      : 30px;
+		border       : 1px solid var(--border);
+		border-radius: 8px;
+
+		.product-info {
+			.product-title {
+				font-family: var(--poppins);
+				font-size  : 15px;
+				font-weight: 600;
+				line-height: normal;
+			}
+		}
+
+		.price {
+			font-size: 16px;
+		}
+	}
+
+	li.list-group-item {
+		font-size: 15px;
+		padding  : 6px 15px;
+	}
+
+	.w-ch {
+		width  : 8ch;
+		display: inline-block;
+	}
+
+	table {
+		tr:last-child td {
+			border-bottom: none;
 		}
 	}
 }
@@ -1441,12 +1518,12 @@
 .form-area {
 	form {
 		input {
-			width           : 100%;
-			padding         : 15px 20px;
-			background-color: var(--sub-bg);
+			width              : 100%;
+			padding            : 15px 20px;
+			background-color   : var(--sub-bg);
 			// border          : 1px solid var(--border);
-			color           : var(--white);
-			border-radius   : 10px;
+			color              : var(--white);
+			border-radius      : 10px;
 		}
 
 		textarea {

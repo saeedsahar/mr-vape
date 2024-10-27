@@ -161,50 +161,46 @@ function Home(props) {
   const customSwiperProductOff = (item) => {
     return (
       <SwiperSlide>
-        <div className="" style={{ paddingLeft: "10px", paddingRight: "10px" }}>
-          <div
-            className="product__item bor"
-            onClick={() => navigate(`/products/${item.id}`)}
-          >
-            <a className="wishlist">
-              <i className="fa-regular fa-heart" />
-            </a>
-            <a className="product__image pt-20 d-block">
-              <img
-                className="font-image"
-                src={item.image}
-                alt="image"
-                style={{ maxHeight: "300px", minHeight: "300px" }}
-              />
-              <img
-                className="back-image"
-                src={item.image}
-                alt="image"
-                style={{ maxHeight: "300px", minHeight: "300px" }}
-              />
-            </a>
-            <div className="product__content">
-              <h5 className="mb-15">
-                <a className="primary-hover">{item.name}</a>
-              </h5>
-              <del>£{item.price}</del>
-              <span className="primary-color ml-10">£{item.price}</span>
-              <div className="star mt-20">
-                <i className="fa-solid fa-star" />
-                <i className="fa-solid fa-star" />
-                <i className="fa-solid fa-star" />
-                <i className="fa-solid fa-star" />
-                <i className="fa-solid fa-star" />
-              </div>
+        <div
+          className="product__item bor"
+          onClick={() => navigate(`/products/${item.id}`)}
+        >
+          <a className="wishlist">
+            <i className="fa-regular fa-heart" />
+          </a>
+          <a className="product__image pt-20 d-block">
+            <img
+              className="font-image img-fluid"
+              src={item.image}
+              alt="image"
+            />
+            <img
+              className="back-image img-fluid"
+              src={item.image}
+              alt="image"
+            />
+          </a>
+          <div className="product__content">
+            <h5 className="mb-15">
+              <a className="primary-hover">{item.name}</a>
+            </h5>
+            <del>£{item.price}</del>
+            <span className="primary-color ml-10">£{item.price}</span>
+            <div className="star mt-20">
+              <i className="fa-solid fa-star" />
+              <i className="fa-solid fa-star" />
+              <i className="fa-solid fa-star" />
+              <i className="fa-solid fa-star" />
+              <i className="fa-solid fa-star" />
             </div>
-            <a
-              className="product__cart d-block bor-top pointer"
-              // onClick={() => navigate(`/products/${item.id}`)}
-            >
-              <i className="fa-regular fa-cart-shopping primary-color me-1" />
-              <span>Shop Now</span>
-            </a>
           </div>
+          <a
+            className="product__cart d-block bor-top pointer"
+            // onClick={() => navigate(`/products/${item.id}`)}
+          >
+            <i className="fa-regular fa-cart-shopping primary-color me-1" />
+            <span>Shop Now</span>
+          </a>
         </div>
       </SwiperSlide>
     );
@@ -213,13 +209,7 @@ function Home(props) {
   const customSwiperProductBanner = (item) => {
     return (
       <SwiperSlide>
-        {/* <div className="swiper-wrapper"> */}
-        {/* <div className="swiper-slide"> */}
         <img src={item} alt="banner" className="hero-banner" />
-        {/* </div> */}
-        {/* </div> */}
-        {/* </div>
-        </section> */}
       </SwiperSlide>
     );
   };

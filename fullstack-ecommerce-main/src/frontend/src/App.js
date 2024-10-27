@@ -13,7 +13,6 @@ import Admin from "./Pages/Admin/Admin";
 import Cart from "./Pages/Cart/Cart";
 import Register from "./Pages/Register/Register";
 
-
 function App() {
   console.log("[App.js]");
   const router = createBrowserRouter([

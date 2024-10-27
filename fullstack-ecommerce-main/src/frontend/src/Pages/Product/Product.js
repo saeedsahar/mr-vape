@@ -173,22 +173,15 @@ function Product(props) {
         ) : (
           <div className="tab-content container">
             <div id="latest-item" className="tab-pane fade show active">
-              <div className="row g-4">
+              <div className="row">
                 <div
-                  style={
-                    productState.products?.length <= 0
-                      ? {
-                          width: "fit-content",
-                        }
-                      : {}
-                  }
-                  className="col-2 product-page-filter"
+                  className="col-lg-3 product-page-filter"
                   id="filter products"
                 >
                   {homeStates.menu?.map((menuEle, i) => {
                     let hasSubMenu = menuEle.brandList.length > 0;
                     return (
-                      <div class="accordion" id={i}>
+                      <div class="accordion mb-2" id={i}>
                         <div class="accordion-item">
                           <div class="accordion-header">
                             <button
@@ -243,19 +236,15 @@ function Product(props) {
                     );
                   })}
                 </div>
-                <div className="col-10 product-display-page-filter">
-                  <div className="row g-4">
-                    {
-                      // productState.products?.length > 0 ? (
-                      productState.products?.map((product) => {
-                        return <ProductDisplay product={product} />;
-                      })
-                      // ) : (
-                      //   <div>
-                      //     <span>No Products Found!</span>
-                      //   </div>
-                      // )
-                    }
+                <div className="col-lg-9 product-display-page-filter">
+                  <div className="row">
+                    {productState.products?.map((product) => {
+                      return (
+                        <div className="col-lg-4 mb-4">
+                          <ProductDisplay product={product} />
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
               </div>
