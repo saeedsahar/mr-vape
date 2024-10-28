@@ -16,18 +16,24 @@ import {
   decreaseItemQuantity,
 } from "../../Pages/Cart/CartSlice";
 import { useSelector, useDispatch } from "react-redux";
-import { setSnackBar } from "../../Component/MainNaivgationComp/MainNavSlice";
-import bannerBImg from "../../assets/images/banner/inner-banner.jpg";
+import {
+  setDialogStates,
+  setSnackBar,
+} from "../../Component/MainNaivgationComp/MainNavSlice";
+// import bannerBImg from "../../assets/images/banner/inner-banner.jpg";
 import { SwiperSlide } from "swiper/react";
-import { SwiperComponentCustom } from "../../Component/Swiper/Swiper";
+// import { SwiperComponentCustom } from "../../Component/Swiper/Swiper";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import { FreeMode, Navigation, Thumbs } from "swiper/modules";
 import { Swiper } from "swiper/react";
-import comment1 from "../../assets/images/about/comment1.png";
-import comment2 from "../../assets/images/about/comment2.png";
-import comment3 from "../../assets/images/about/comment3.png";
-import comment4 from "../../assets/images/about/comment4.png";
+// import comment1 from "../../assets/images/about/comment1.png";
+// import comment2 from "../../assets/images/about/comment2.png";
+// import comment3 from "../../assets/images/about/comment3.png";
+// import comment4 from "../../assets/images/about/comment4.png";
+import Avatar from "react-avatar";
+import StarRatings from "react-star-ratings";
+
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/free-mode";
@@ -38,22 +44,17 @@ function ProductDetailPage(props) {
   const { id } = useParams();
   const [status, setStatus] = useState("pending");
   const [product, setProduct] = useState(null);
+  const [reviews, setReviews] = useState([]);
   const [selectedFlavour, setSelectedFlavour] = useState(null);
   const [selectedProductImage, setSelectedProductImage] = useState("");
   const [selectedTab, setSelectedTab] = useState(0);
   let cartStates = useSelector((state) => state.cart);
+  let productStates = useSelector((state) => state.product);
+  let authStates = useSelector((state) => state.auth);
   let dispatch = useDispatch();
   let navigate = useNavigate();
 
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
-
-  const shouldAddButtonDisable = (product, flavour) => {
-    let item = cartStates.items.filter((ele) => ele.id == flavour.id);
-    // let falvourItem = item.productFlavours.filter(ele => ele.id == flavour.id)
-    if (item.length <= 0) return false;
-
-    return item[0].availableQuantity <= 0;
-  };
 
   useEffect(() => {
     // Fetch product details
@@ -67,6 +68,24 @@ function ProductDetailPage(props) {
     };
     fetchProduct();
   }, [id]);
+
+  useEffect(() => {
+    if (product) {
+      // Add Review
+      let reviewObj = productStates.reviewObject;
+      let currProduct = [...reviews];
+      let reviewToPush = {
+        comment: reviewObj.comment,
+        date_time: reviewObj.review_Date,
+        intials: "SS",
+        rating: reviewObj.rating,
+        reviewer_name: authStates.name ? authStates.name : "Anonymous",
+        title: "",
+      };
+      currProduct.push(reviewToPush);
+      setReviews(currProduct);
+    }
+  }, [productStates.reviewAdded]);
 
   const getProductDetails = (id) => {
     getRequests(`${base_url}/api/v1/product/${id}`).then((data) => {
@@ -86,32 +105,8 @@ function ProductDetailPage(props) {
       setSelectedProductImage(data.data.image);
       setSelectedFlavour(data.data.productFlavours[0]);
       setStatus("success");
+      setReviews(data.data?.reviewResponseList);
     });
-  };
-
-  const customSwiperProductOff = (item) => {
-    return (
-      <SwiperSlide>
-        {" "}
-        <div
-          style={{
-            paddingTop: "12px",
-            paddingBottom: "10px",
-            cursor: "pointer",
-          }}
-          onClick={() => {
-            setSelectedProductImage(item.image);
-          }}
-        >
-          <img src={item.image} alt="image" />
-        </div>
-      </SwiperSlide>
-    );
-  };
-
-  const addProductToCart = (productId) => {
-    console.log("Product added to cart: ", productId);
-    // Add your logic for adding the product to the cart
   };
 
   let currentFlavQuantity = cartStates?.items?.filter(
@@ -142,33 +137,7 @@ function ProductDetailPage(props) {
           style={{
             backgroundImage: `url(https://s3.eu-west-2.amazonaws.com/www.vapeplanet.co.uk/websitelayouts/Product-Detail-Banner--v2.jpg)`,
           }}
-        >
-          {/* <div className="container-lg">
-            <h2
-              className="wow fadeInUp text-white mb-15 color-black"
-              data-wow-duration="1.1s"
-              data-wow-delay=".1s"
-            >
-              Shop Details
-            </h2>
-            <div
-              className="breadcrumb-list wow fadeInUp"
-              data-wow-duration="1.3s"
-              data-wow-delay=".3s"
-            >
-              <a className="primary-hover color-black">
-                <i className="fa-solid fa-house me-1 color-black" /> Home{" "}
-                <i className="fa-regular text-white fa-angle-right color-black" />
-              </a>
-              <a className="primary-hover color-black">
-                {" "}
-                shop{" "}
-                <i className="fa-regular text-white fa-angle-right color-black" />
-              </a>
-              <span className="color-black">Shop Details</span>
-            </div>
-          </div> */}
-        </section>
+        ></section>
         {/* Page banner area end here */}
         {/* Shop single area start here */}
         <section className="shop-single pt-130 pb-130">
@@ -266,6 +235,7 @@ function ProductDetailPage(props) {
                         <i className="fa-solid fa-star-half-stroke sm-font" />
                       </span>
                     </div>
+                    {product.wasPrice && <del>£{product.wasPrice}</del>}
                     <h2 className="pb-3">£{product.price}</h2>
                     <h4 className="pb-2 primary-color">Product Description</h4>
                     <p className="text-justify mb-10">
@@ -490,257 +460,79 @@ function ProductDetailPage(props) {
                     selectedTab == 0 ? "show active" : "fade"
                   }`}
                 >
+                  <button
+                    onClick={() => {
+                      dispatch(
+                        setDialogStates({ type: "review", id: product.id })
+                      );
+                    }}
+                    style={{
+                      padding: "5px",
+                      marginBottom: "10px",
+                      border: "1px solid #d9d9d9",
+                      borderRadius: "10px",
+                      fontSize: "13px",
+                    }}
+                  >
+                    Write a Review
+                  </button>
                   <div className="review-wrp">
-                    <div className="abmin d-flex flex-wrap flex-md-nowrap align-items-center pb-4">
-                      <div className="img pb-4 pb-md-0 me-4">
-                        <img src={comment3} alt="image" />
-                      </div>
-                      <div className="content position-relative p-4 bor">
-                        <div className="head-wrp pb-1 d-flex flex-wrap justify-content-between">
-                          <a>
-                            <h4
-                              className="text-capitalize primary-color"
-                              style={{ color: "black" }}
+                    {reviews?.map((review, i) => {
+                      return (
+                        <>
+                          <div
+                            id={i}
+                            className="abmin d-flex flex-wrap flex-md-nowrap align-items-center pb-4"
+                          >
+                            <div className="img pb-4 pb-md-0 me-4">
+                              <Avatar
+                                name={review.reviewer_name}
+                                round={true}
+                              />
+                              {/* <img src={review.intials} alt="image" /> */}
+                            </div>
+                            <div
+                              className="content position-relative p-4 bor"
+                              style={{ width: "100%" }}
                             >
-                              Janaton Doe{" "}
-                              <span
-                                className="sm-font ms-2 fw-normal"
+                              <div className="head-wrp pb-1 d-flex flex-wrap justify-content-between">
+                                <a>
+                                  <h4
+                                    className="text-capitalize primary-color"
+                                    style={{ color: "black" }}
+                                  >
+                                    {review.reviewer_name}{" "}
+                                    <span
+                                      className="sm-font ms-2 fw-normal"
+                                      style={{ color: "black" }}
+                                    >
+                                      {review.date_time &&
+                                      review.date_time != "N/A"
+                                        ? review.date_time
+                                        : null}
+                                    </span>
+                                  </h4>
+                                </a>
+                                <StarRatings
+                                  rating={review.rating}
+                                  numberOfStars={5}
+                                  name="rating"
+                                  starRatedColor="#ff9200"
+                                  starDimension="20px"
+                                  starSpacing="0px"
+                                />
+                              </div>
+                              <p
+                                className="text-justify"
                                 style={{ color: "black" }}
                               >
-                                27 March 2023 at 3.44 pm
-                              </span>
-                            </h4>
-                          </a>
-                          <div className="star primary-color">
-                            <span>
-                              <i className="fa-solid fa-star sm-font" />
-                            </span>
-                            <span>
-                              <i className="fa-solid fa-star sm-font" />
-                            </span>
-                            <span>
-                              <i className="fa-solid fa-star sm-font" />
-                            </span>
-                            <span>
-                              <i className="fa-solid fa-star sm-font" />
-                            </span>
-                            <span>
-                              <i className="fa-solid fa-star-half-stroke sm-font" />
-                            </span>
+                                {review.comment}{" "}
+                              </p>
+                            </div>
                           </div>
-                        </div>
-                        <p className="text-justify" style={{ color: "black" }}>
-                          Globally leverage existing sticky testing procedures
-                          whereas timely alignments. Appropriately leverage
-                          existing cross unit human a capital Globally
-                          distributed process improvements and empowered
-                          internal or sources.{" "}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="abmin d-flex flex-wrap flex-md-nowrap align-items-center pb-4">
-                      <div className="img pb-4 pb-md-0 me-4">
-                        <img src={comment2} alt="image" />
-                      </div>
-                      <div className="content position-relative p-4 bor">
-                        <div className="head-wrp pb-1 d-flex flex-wrap justify-content-between">
-                          <a>
-                            <h4
-                              className="text-capitalize primary-color"
-                              style={{ color: "black" }}
-                            >
-                              kawser ahemd
-                              <span
-                                className="sm-font ms-2 fw-normal"
-                                style={{ color: "black" }}
-                              >
-                                27 March 2023 at 3.44 pm
-                              </span>
-                            </h4>
-                          </a>
-                          <div className="star primary-color">
-                            <span>
-                              <i className="fa-solid fa-star sm-font" />
-                            </span>
-                            <span>
-                              <i className="fa-solid fa-star sm-font" />
-                            </span>
-                            <span>
-                              <i className="fa-solid fa-star sm-font" />
-                            </span>
-                            <span>
-                              <i className="fa-solid fa-star sm-font" />
-                            </span>
-                            <span>
-                              <i className="fa-solid fa-star-half-stroke sm-font" />
-                            </span>
-                          </div>
-                        </div>
-                        <p className="text-justify" style={{ color: "black" }}>
-                          Globally leverage existing sticky testing procedures
-                          whereas timely alignments. Appropriately leverage
-                          existing cross unit human a capital Globally
-                          distributed process improvements and empowered
-                          internal or sources.{" "}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="abmin d-flex flex-wrap flex-md-nowrap align-items-center pb-4">
-                      <div className="img pb-4 pb-md-0 me-4">
-                        <img src={comment1} alt="image" />
-                      </div>
-                      <div className="content position-relative p-4 bor">
-                        <div className="head-wrp pb-1 d-flex flex-wrap justify-content-between">
-                          <a>
-                            <h4
-                              className="text-capitalize primary-color"
-                              style={{ color: "black" }}
-                            >
-                              famad sami
-                              <span
-                                className="sm-font ms-2 fw-normal"
-                                style={{ color: "black" }}
-                              >
-                                27 March 2023 at 3.44 pm
-                              </span>
-                            </h4>
-                          </a>
-                          <div className="star primary-color">
-                            <span>
-                              <i className="fa-solid fa-star sm-font" />
-                            </span>
-                            <span>
-                              <i className="fa-solid fa-star sm-font" />
-                            </span>
-                            <span>
-                              <i className="fa-solid fa-star sm-font" />
-                            </span>
-                            <span>
-                              <i className="fa-solid fa-star sm-font" />
-                            </span>
-                            <span>
-                              <i className="fa-solid fa-star-half-stroke sm-font" />
-                            </span>
-                          </div>
-                        </div>
-                        <p className="text-justify" style={{ color: "black" }}>
-                          Globally leverage existing sticky testing procedures
-                          whereas timely alignments. Appropriately leverage
-                          existing cross unit human a capital Globally
-                          distributed process improvements and empowered
-                          internal or sources.{" "}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="abmin d-flex flex-wrap flex-md-nowrap align-items-center pb-4">
-                      <div className="img pb-4 pb-md-0 me-4">
-                        <img src={comment4} alt="image" />
-                      </div>
-                      <div className="content position-relative p-4 bor">
-                        <div className="head-wrp pb-1 d-flex flex-wrap justify-content-between">
-                          <a>
-                            <h4
-                              className="text-capitalize primary-color"
-                              style={{ color: "black" }}
-                            >
-                              Abu rayhan{" "}
-                              <span
-                                className="sm-font ms-2 fw-normal"
-                                style={{ color: "black" }}
-                              >
-                                27 March 2023 at 3.44 pm
-                              </span>
-                            </h4>
-                          </a>
-                          <div className="star primary-color">
-                            <span>
-                              <i className="fa-solid fa-star sm-font" />
-                            </span>
-                            <span>
-                              <i className="fa-solid fa-star sm-font" />
-                            </span>
-                            <span>
-                              <i className="fa-solid fa-star sm-font" />
-                            </span>
-                            <span>
-                              <i className="fa-solid fa-star sm-font" />
-                            </span>
-                            <span>
-                              <i className="fa-solid fa-star-half-stroke sm-font" />
-                            </span>
-                          </div>
-                        </div>
-                        <p className="text-justify" style={{ color: "black" }}>
-                          Globally leverage existing sticky testing procedures
-                          whereas timely alignments. Appropriately leverage
-                          existing cross unit human a capital Globally
-                          distributed process improvements and empowered
-                          internal or sources.{" "}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="section-title mt-5 py-15 mb-30">
-                      <h2
-                        className="text-capitalize primary-color mb-10"
-                        style={{ color: "black" }}
-                      >
-                        add a review
-                      </h2>
-                      <p className="mb-20" style={{ color: "black" }}>
-                        Your email address will not be published. Required
-                        fields are marked *
-                      </p>
-                      <div className="shop-single__rate-now">
-                        <p style={{ color: "black" }}>Rate this product? *</p>
-                        <div className="star">
-                          <span>
-                            <i className="fa-solid fa-star" />
-                          </span>
-                          <span>
-                            <i className="fa-solid fa-star" />
-                          </span>
-                          <span>
-                            <i className="fa-solid fa-star" />
-                          </span>
-                          <span>
-                            <i className="fa-solid fa-star" />
-                          </span>
-                          <span>
-                            <i className="fa-solid fa-star" />
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="comment-form">
-                      <form action="#">
-                        <div className="row g-4">
-                          <div className="col-md-6">
-                            <input
-                              type="text"
-                              className="w-100 mb-4 bor px-4 py-2"
-                              placeholder="Your Name*"
-                            />
-                          </div>
-                          <div className="col-md-6">
-                            <input
-                              type="email"
-                              className="w-100 mb-4 bor px-4 py-2"
-                              placeholder="Your Email*"
-                            />
-                          </div>
-                        </div>
-                        <textarea
-                          className="w-100 mb-4 bor p-4"
-                          placeholder="Message"
-                          defaultValue={""}
-                        />
-                      </form>
-                      <div className="btn-wrp">
-                        <button className="btn-one" style={{ color: "black" }}>
-                          <span>Submit Now</span>
-                        </button>
-                      </div>
-                    </div>
+                        </>
+                      );
+                    })}
                   </div>
                 </div>
               </div>

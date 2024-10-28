@@ -10,12 +10,18 @@ const initialState = {
   length: 0,
   brandId: "",
   categoryId: "",
+  reviewAdded: false,
+  reviewObject: {},
 };
 
 export const productSlice = createSlice({
   name: "productSlice",
   initialState,
   reducers: {
+    handleReviewAdded: (state, action) => {
+      state.reviewAdded = !state.reviewAdded;
+      state.reviewObject = action.payload.reviewObject;
+    },
     setBrandId: (state, action) => {
       state.brandId = action.payload;
       state.categoryId = "";
@@ -54,6 +60,7 @@ export const {
   setTrendingProducts,
   setBrandId,
   setCategoryId,
+  handleReviewAdded,
 } = productSlice.actions;
 
 export default productSlice.reducer;

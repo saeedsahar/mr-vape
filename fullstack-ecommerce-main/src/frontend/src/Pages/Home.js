@@ -187,7 +187,7 @@ function Home(props) {
               <h5 className="mb-15">
                 <a className="primary-hover">{item.name}</a>
               </h5>
-              <del>£{item.price}</del>
+              {item.wasPrice && <del>£{item.wasPrice}</del>}
               <span className="primary-color ml-10">£{item.price}</span>
               <div className="star mt-20">
                 <i className="fa-solid fa-star" />

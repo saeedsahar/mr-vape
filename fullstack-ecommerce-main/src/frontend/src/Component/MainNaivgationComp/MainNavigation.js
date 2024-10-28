@@ -3,13 +3,14 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import {
+  handleReviewAdded,
   setBrandId,
   setCategoryId,
   setQuery,
 } from "../../Pages/Product/ProductSlice";
-import { base_url, getRequests } from "../../axios/API";
+import { base_url, getRequests, postRequests } from "../../axios/API";
 import { setMenu } from "../../Pages/HomeSlice";
-import { setSnackBar } from "./MainNavSlice";
+import { mainNavSlice, resetDialog, setSnackBar } from "./MainNavSlice";
 import {
   Popper,
   List,
@@ -33,6 +34,8 @@ import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import { Close } from "@mui/icons-material";
 import { removeItem } from "../../Pages/Cart/CartSlice";
+import VapeDialog from "../Dialog/Dialog";
+import StarRatings from "react-star-ratings";
 
 function MainNavigation(props) {
   console.log("[MainNavigation.js]");
@@ -47,6 +50,8 @@ function MainNavigation(props) {
   const [appWidth, setAppWidth] = useState(window.innerWidth);
   const [open, setOpen] = useState(false);
   const [cartDrawerOpen, setCartDrawerOpen] = useState(false);
+  const [reviewRating, setReviewRating] = useState(0);
+  const [errors, setErrors] = useState({});
 
   const searchWrapperRef = React.useRef(null); // Ref for search wrapper
 
@@ -171,6 +176,180 @@ function MainNavigation(props) {
     }
 
     dispatch(setSnackBar({ open: false, message: "", type: "" }));
+  };
+
+  const handleCloseDialog = () => {
+    dispatch(resetDialog());
+  };
+
+  const changeRating = (newRating, name) => {
+    setReviewRating(newRating);
+  };
+
+  const validateFields = (name, email, rating, message) => {
+    let fieldErrors = {};
+
+    if (!name) fieldErrors.name = "Name is required";
+    if (!email) fieldErrors.email = "Email is required";
+    if (!rating) fieldErrors.email = "Rating is required";
+    if (!message) fieldErrors.postcode = "Message is required";
+
+    setErrors(fieldErrors);
+    return Object.keys(fieldErrors).length === 0; // Returns true if no errors
+  };
+
+  const formatDate = (date) => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+    const seconds = String(date.getSeconds()).padStart(2, "0");
+
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+  };
+
+  const handleSubmitReview = () => {
+    let name = document.getElementById("review-name")?.value;
+    let email = document.getElementById("review-email")?.value;
+    let message = document.getElementById("review-message")?.value;
+    let rating = reviewRating;
+
+    if (validateFields(name, email, rating, message)) {
+      postRequests(
+        `${base_url}/api/v1/product/savereview`,
+        JSON.stringify({
+          user_id: null,
+          product_id: mainNavStates.productId,
+          rating: rating,
+          comment: message,
+          title: message,
+          review_Date: formatDate(new Date()),
+        })
+      )
+        .then((data) => {
+          handleCloseDialog();
+          dispatch(
+            setSnackBar({
+              open: true,
+              message: "Review submitted successfully!",
+              type: "success",
+            })
+          );
+          dispatch(
+            handleReviewAdded({
+              reviewObject: {
+                user_id: null,
+                product_id: mainNavStates.productId,
+                rating: rating,
+                comment: message,
+                title: message,
+                review_Date: formatDate(new Date()),
+              },
+            })
+          );
+        })
+        .catch((error) => {
+          dispatch(
+            setSnackBar({
+              open: true,
+              message: "Failed to add review!",
+              type: "error",
+            })
+          );
+        });
+    }
+  };
+  const getDialogTitle = () => {
+    return mainNavStates.dialogType == "review" ? (
+      <h4
+        className="text-capitalize primary-color mb-10"
+        style={{ color: "black" }}
+      >
+        add a review
+      </h4>
+    ) : (
+      ""
+    );
+  };
+
+  const getDialogContent = () => {
+    return mainNavStates.dialogType == "review" ? (
+      <>
+        {" "}
+        <div className="section-title  py-15">
+          <p className="mb-20" style={{ color: "black" }}>
+            Your email address will not be published. Required fields are marked
+            *
+          </p>
+          <div className="shop-single__rate-now">
+            <p style={{ color: "black" }}>Rate this product? *</p>
+            <div style={{ alignSelf: "baseline" }}>
+              <StarRatings
+                rating={reviewRating}
+                changeRating={changeRating}
+                numberOfStars={5}
+                name="rating"
+                starRatedColor="#ff9200"
+                starDimension="20px"
+                starSpacing="0px"
+              />
+            </div>
+          </div>
+          <div className="comment-form">
+            <form>
+              <div className="row g-4">
+                <div className="col-md-6">
+                  <input
+                    type="text"
+                    id="review-name"
+                    className="w-100 mb-4 bor px-4 py-2"
+                    placeholder="Your Name*"
+                  />
+                </div>
+                <div className="col-md-6">
+                  <input
+                    type="email"
+                    id="review-email"
+                    className="w-100 mb-4 bor px-4 py-2"
+                    placeholder="Your Email*"
+                  />
+                </div>
+              </div>
+              <textarea
+                className="w-100 mb-4 bor p-4"
+                placeholder="Message"
+                id="review-message"
+                defaultValue={""}
+              />
+            </form>
+            {/* <div className="btn-wrp">
+              <button className="btn-one" style={{ color: "black" }}>
+                <span>Submit Now</span>
+              </button>
+            </div> */}
+          </div>
+        </div>
+      </>
+    ) : (
+      ""
+    );
+  };
+
+  const getDialogActions = () => {
+    return mainNavStates.dialogType == "review" ? (
+      <>
+        {" "}
+        <Button onClick={handleCloseDialog} color="primary">
+          Cancel
+        </Button>
+        <Button onClick={handleSubmitReview} color="primary">
+          Submit Review
+        </Button>
+      </>
+    ) : (
+      ""
+    );
   };
 
   return (
@@ -737,6 +916,14 @@ function MainNavigation(props) {
           </div>
         </Box>
       </Drawer>
+      {mainNavStates.openDialog && (
+        <VapeDialog
+          dialogTitle={getDialogTitle()}
+          dialogContent={getDialogContent()}
+          dialogButton={getDialogActions()}
+          handleClose={handleCloseDialog}
+        />
+      )}
     </>
   );
 }

@@ -32,7 +32,7 @@ function ProductDisplay(props) {
           <h5 className="mb-15">
             <a className="primary-hover">{props.product.name}</a>
           </h5>
-          <del>£{props.product.price}</del>
+          {props.product.wasPrice && <del>£{props.product.wasPrice}</del>}
           <span className="primary-color ml-10">£{props.product.price}</span>
           <div className="star mt-20">
             <i className="fa-solid fa-star" />
