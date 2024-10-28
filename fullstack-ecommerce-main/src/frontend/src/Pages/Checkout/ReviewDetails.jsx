@@ -24,8 +24,109 @@ import {
 } from "@mui/material";
 import React from "react";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { useDispatch, useSelector } from "react-redux";
+import { base_url, postRequests } from "../../axios/API";
+import { setSnackBar } from "../../Component/MainNaivgationComp/MainNavSlice";
+import { useNavigate } from "react-router-dom";
+import { resetCart } from "../Cart/CartSlice";
 
-const ReviewCartDetails = () => {
+const ReviewCartDetails = (props) => {
+  let cartItems = useSelector((state) => state.cart);
+  let userauth = useSelector((state) => state.auth);
+  let navigate = useNavigate();
+  let dispatch = useDispatch();
+  const orderItems = cartItems.items;
+  const totalBill = cartItems.totalPrice;
+
+  const getCurrentDate = () => {
+    const currentDate = new Date();
+
+    return currentDate.toISOString().replace(/\.\d{3}Z$/, "Z");
+  };
+
+  const getWeight = () => {
+    let fixWeight = 20;
+    let totalQuantity = 0;
+
+    orderItems.forEach((item) => {
+      totalQuantity += item.quantity;
+    });
+
+    return fixWeight * totalQuantity;
+  };
+
+  const getContent = () => {
+    let contentForApi = [];
+
+    orderItems.forEach((item) => {
+      let objForItem = {};
+      objForItem.name = item.productName;
+      objForItem.sku = item.id;
+      objForItem.quantity = item.quantity;
+      objForItem.unitValue = item.price;
+      objForItem.unitWeightInGrams = 20;
+
+      contentForApi.push(objForItem);
+    });
+
+    return contentForApi;
+  };
+
+  const handleConfirmOrder = () => {
+    let payload = {
+      items: [
+        {
+          orderReference: "test", // <= 40 characters
+          recipient: {
+            address: {
+              fullName: `${props.formData.lastName}, ${props.formData.firstName}`,
+              addressLine1: props.formData.streetAddress,
+              city: props.formData.townCity,
+              postcode: props.formData.postalCode,
+              countryCode: "GB",
+            },
+            phoneNumber: props.formData.phone,
+            emailAddress: userauth.email,
+          },
+          orderDate: getCurrentDate(), // Required date-time
+          subtotal: totalBill, // Required <= 999999.99
+          shippingCostCharged: 10.0, // Required <= 999999.99
+          total: totalBill + 10.0, // Required <= 999999.99
+          currencyCode: "GBP", // <= 3 characters
+          packages: [
+            {
+              weightInGrams: getWeight(), // Required
+              packageFormatIdentifier: "PARCEL", // Valid packaging format
+              contents: getContent(),
+            },
+          ],
+        },
+      ],
+    };
+
+    postRequests(`${base_url}/api/v1/product/order`, JSON.stringify(payload))
+      .then((data) => {
+        dispatch(
+          setSnackBar({
+            open: true,
+            message: "Order placed successfully!",
+            type: "success",
+          })
+        );
+        dispatch(resetCart());
+        navigate("/");
+      })
+      .catch((e) => {
+        dispatch(
+          setSnackBar({
+            open: true,
+            message: "Failed to place order!",
+            type: "error",
+          })
+        );
+      });
+  };
+
   return (
     <div className="row">
       <div className="col-lg-8">
@@ -47,12 +148,7 @@ const ReviewCartDetails = () => {
                     Contact
                   </TableCell>
                   <TableCell sx={{ padding: "10px 0 10px 0" }}>
-                    saeed_sehar@hotmail.com
-                  </TableCell>
-                  <TableCell
-                    sx={{ padding: "10px 0 10px 0", textAlign: "right" }}
-                  >
-                    <Button size="small">change</Button>
+                    {userauth.email}
                   </TableCell>
                 </TableRow>
                 <TableRow>
@@ -60,18 +156,18 @@ const ReviewCartDetails = () => {
                     Ship to :
                   </TableCell>
                   <TableCell sx={{ padding: "10px 0 10px 0" }}>
-                    <p className="mb-0">Saeed Sehar</p>
-                    <p className="mb-0">
-                      66A harmondsworth Lane, Harmondsworth
-                    </p>
-                    <p className="mb-0">West Drayton, UB7 0AA</p>
-                    <p className="mb-0">United Kingdom</p>
-                    <p className="mb-0">030087363639</p>
+                    <p className="mb-0">{`${props.formData.lastName}, ${props.formData.firstName}`}</p>
+                    <p className="mb-0">{props.formData.streetAddress}</p>
+                    <p className="mb-0">{props.formData.lane}</p>
+                    <p className="mb-0">{props.formData.country}</p>
+                    <p className="mb-0">{props.formData.phone}</p>
                   </TableCell>
                   <TableCell
                     sx={{ padding: "10px 0 10px 0", textAlign: "right" }}
                   >
-                    <Button size="small">change</Button>
+                    <Button size="small" onClick={() => props.setActiveStep(1)}>
+                      change
+                    </Button>
                   </TableCell>
                 </TableRow>
                 <TableRow>
@@ -84,7 +180,9 @@ const ReviewCartDetails = () => {
                   <TableCell
                     sx={{ padding: "10px 0 10px 0", textAlign: "right" }}
                   >
-                    <Button size="small">change</Button>
+                    <Button onClick={() => props.setActiveStep(1)} size="small">
+                      change
+                    </Button>
                   </TableCell>
                 </TableRow>
               </TableBody>
@@ -113,7 +211,13 @@ const ReviewCartDetails = () => {
                 />
                 <Button
                   variant="outlined"
-                  sx={{ position: "absolute", right: 10, top: 10 }}
+                  sx={{
+                    position: "absolute",
+                    right: 10,
+                    top: 10,
+                    borderColor: "#fa4f09",
+                    color: "#fa4f09",
+                  }}
                 >
                   Apply Discount
                 </Button>
@@ -142,7 +246,13 @@ const ReviewCartDetails = () => {
                 />
                 <Button
                   variant="outlined"
-                  sx={{ position: "absolute", right: 10, top: 10 }}
+                  sx={{
+                    position: "absolute",
+                    right: 10,
+                    top: 10,
+                    borderColor: "#fa4f09",
+                    color: "#fa4f09",
+                  }}
                 >
                   Apply Discount
                 </Button>
@@ -166,32 +276,34 @@ const ReviewCartDetails = () => {
               Credit / Debit Card
             </AccordionSummary>
             <AccordionDetails>
-              <FormControlLabel
+              {/* <FormControlLabel
                 sx={{ mb: 1 }}
                 control={<Checkbox size="small" defaultChecked />}
                 label="My Billing and shipping are same"
-              />
+              /> */}
               <ul class="list-group">
                 <li class="list-group-item">
-                  <strong className="w-ch">Name:</strong> Saeer Sehar
+                  <strong className="w-ch">Name:</strong>{" "}
+                  {`${props.formData.lastName}, ${props.formData.firstName}`}
                 </li>
                 <li class="list-group-item">
-                  <strong className="w-ch">Address:</strong> 66A harmondsworth
-                  Lane, Harmondsworth
+                  <strong className="w-ch">Address:</strong>{" "}
+                  {props.formData.streetAddress}
                 </li>
                 <li class="list-group-item">
-                  <strong className="w-ch">Street:</strong> West Drayton, UB7
-                  0AA
+                  <strong className="w-ch">Lane:</strong> {props.formData.lane}
                 </li>
                 <li class="list-group-item">
-                  <strong className="w-ch">Country:</strong> United Kingdom
+                  <strong className="w-ch">Country:</strong>{" "}
+                  {props.formData.country}
                 </li>
                 <li class="list-group-item">
-                  <strong className="w-ch">Phone:</strong> 030087363639
+                  <strong className="w-ch">Phone:</strong>{" "}
+                  {props.formData.phone}
                 </li>
               </ul>
 
-              <Box sx={{ mt: 3 }}>Add Third Party Payment Snipper Here</Box>
+              {/* <Box sx={{ mt: 3 }}>Add Third Party Payment Snipper Here</Box> */}
             </AccordionDetails>
           </Accordion>
         </Box>
@@ -207,55 +319,39 @@ const ReviewCartDetails = () => {
             You don't have enough coins to redeem.
           </Alert>
 
-          <Stack
-            className="border-bottom"
-            mb={4}
-            pb={5}
-            // maxHeight={350}
-            // sx={{ overflowY: "scroll", overflowX: "hidden" }}
-          >
-            <Stack
-              direction="row"
-              useFlexGap
-              spacing={1.5}
-              className="border-bottom pb-4 mb-4"
-            >
-              <Avatar
-                className="img-thumbnail"
-                sx={{ width: 80, height: 80 }}
-                variant="rounded"
-                alt="Cart Product"
-                src="https://mr-vape-s3.s3.eu-west-2.amazonaws.com/Mega%20Box/cover/Cover%20or%20Slider%205.jpg"
-              />
-              <div className="product-info">
-                <div className="product-title">
-                  JNR Mega Box 25,000 Puffs Disposable Vape
-                </div>
-                <small className="product-qty d-block mt-1">
-                  20mg Apple Peach
-                </small>
-              </div>
-              <div className="price align-self-center fw-semibold">£20.00</div>
-            </Stack>
-
-            <Stack direction="row" useFlexGap spacing={1.5}>
-              <Avatar
-                className="img-thumbnail"
-                sx={{ width: 80, height: 80 }}
-                variant="rounded"
-                alt="Cart Product"
-                src="https://mr-vape-s3.s3.eu-west-2.amazonaws.com/Mega%20Box/cover/Cover%20or%20Slider%205.jpg"
-              />
-              <div className="product-info">
-                <div className="product-title">
-                  JNR Mega Box 25,000 Puffs Disposable Vape
-                </div>
-                <small className="product-qty d-block mt-1">
-                  20mg Apple Peach
-                </small>
-              </div>
-              <div className="price align-self-center fw-semibold">£20.00</div>
-            </Stack>
+          <Stack mb={4} pb={5}>
+            {orderItems.map((item, i) => {
+              return (
+                <Stack
+                  direction="row"
+                  useFlexGap
+                  spacing={1.5}
+                  className={
+                    i != orderItems?.length - 1 ? "border-bottom pb-4 mb-4" : ""
+                  }
+                >
+                  <Avatar
+                    className="img-thumbnail"
+                    sx={{ width: 80, height: 80 }}
+                    variant="rounded"
+                    alt="Cart Product"
+                    src={item.productImage}
+                  />
+                  <div className="product-info">
+                    <div className="product-title">{item.productName}</div>
+                    <small className="product-qty d-block mt-1">
+                      {item.flavour}
+                    </small>
+                  </div>
+                  <div
+                    className="price align-self-center fw-semibold"
+                    style={{ marginLeft: "auto" }}
+                  >
+                    £{item.price * item.quantity}
+                  </div>
+                </Stack>
+              );
+            })}
           </Stack>
 
           <Box>
@@ -263,7 +359,7 @@ const ReviewCartDetails = () => {
               <tr>
                 <td className="py-2 ">Subtotal</td>
                 <td className="py-2 " align="right">
-                  <span className="">$20</span>
+                  <span className="">£{totalBill}</span>
                 </td>
               </tr>
               <tr>
@@ -274,17 +370,21 @@ const ReviewCartDetails = () => {
                   </span>
                 </td>
                 <td className="py-2 border-bottom " align="right">
-                  <span>$10</span>
+                  <span>£10</span>
                 </td>
               </tr>
 
               <tr>
                 <td className="pt-4 fw-semibold">
                   <span className="fs-6">Total</span>
-                  <span className="fs-6 d-block text-muted">Include $20 in taxes</span>
+                  <span className="fs-6 d-block text-muted">
+                    Include £20 in taxes
+                  </span>
                 </td>
                 <td className="pt-4 fw-semibold" align="right">
-                  <span className="fw-semibold fs-4">$10</span>
+                  <span className="fw-semibold fs-4">
+                    £{totalBill + 10 + 20}
+                  </span>
                 </td>
               </tr>
             </table>
@@ -297,6 +397,7 @@ const ReviewCartDetails = () => {
               fullWidth
               variant="contained"
               sx={{ paddingBlock: 2, borderRadius: 10 }}
+              onClick={handleConfirmOrder}
             >
               Confirm Order
             </Button>

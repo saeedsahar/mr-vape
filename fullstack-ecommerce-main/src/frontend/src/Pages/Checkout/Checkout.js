@@ -24,6 +24,8 @@ import {
   CardHeader,
   Alert,
   AlertTitle,
+  Skeleton,
+  CircularProgress,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useDispatch, useSelector } from "react-redux";
@@ -31,22 +33,43 @@ import { useNavigate } from "react-router-dom";
 import bannerBImg from "../../assets/images/banner/inner-banner.jpg";
 import { Group } from "@mui/icons-material";
 import ReviewCartDetails from "./ReviewDetails";
+import debounce from "lodash.debounce";
+import axios from "axios";
+import { setSnackBar } from "../../Component/MainNaivgationComp/MainNavSlice";
 
 const Checkout = () => {
-  const [shippingMethod, setShippingMethod] = useState("");
+  // const [shippingMethod, setShippingMethod] = useState("");
   const [errors, setErrors] = useState({});
   const [discountCode, setDiscountCode] = useState(""); // State for discount code
   const [isDiscountApplied, setIsDiscountApplied] = useState(false); // Discount application status
-  const [sameAsBilling, setSameAsBilling] = useState(true); // Checkbox state for shipping address
+  // const [sameAsBilling, setSameAsBilling] = useState(true); // Checkbox state for shipping address
   const [activeStep, setActiveStep] = useState(1);
+  const [suggestions, setSuggestions] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    company: "",
+    phone: "",
+    country: "",
+    streetAddress: "",
+    lane: "",
+    townCity: "",
+    postalCode: "",
+    // cardNumber: "",
+    // expirationDate: "",
+    // cvc: "",
+  });
+
   let navigate = useNavigate();
   let dispatch = useDispatch();
   let cartItems = useSelector((state) => state.cart);
   let userauth = useSelector((state) => state.auth);
 
-  const handleShippingMethodChange = (event) => {
-    setShippingMethod(event.target.value);
-  };
+  // const handleShippingMethodChange = (event) => {
+  //   setShippingMethod(event.target.value);
+  // };
 
   const handleApplyDiscount = () => {
     // Logic to apply discount code
@@ -56,32 +79,82 @@ const Checkout = () => {
       console.log("Discount applied:", discountCode);
     }
   };
-  const validateFields = () => {
-    let fieldErrors = {};
 
-    if (!userauth.name) fieldErrors.name = "Full Name is required";
-    if (!userauth.mobile) fieldErrors.mobile = "Mobile Number is required";
-    if (!userauth.email) fieldErrors.email = "Email is required";
-    if (!userauth.postcode) fieldErrors.postcode = "Postcode is required";
-    if (!userauth.country) fieldErrors.country = "Country is required";
-    if (!userauth.city) fieldErrors.city = "Town/City is required";
-    if (!userauth.shippingAddress)
-      fieldErrors.shippingAddress = "Street Address is required";
-    if (!shippingMethod)
-      fieldErrors.shippingMethod = "Please select a shipping method";
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+    setErrors({ ...errors, [name]: "" }); // Clear error for field on change
 
-    setErrors(fieldErrors);
-    return Object.keys(fieldErrors).length === 0; // Returns true if no errors
+    if (name == "streetAddress") {
+      debouncedFetchSuggestions(value);
+    }
+  };
+
+  const validateForm = () => {
+    const newErrors = {};
+    Object.keys(formData).forEach((key) => {
+      if (!formData[key]) {
+        newErrors[key] = "This field is required";
+      }
+    });
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0; // Form is valid if there are no errors
+  };
+
+  const fetchSuggestions = async (term) => {
+    if (term.length < 3) {
+      setSuggestions([]);
+      setOpen(false);
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const response = await axios.get(
+        `https://api.getaddress.io/autocomplete/${term}?api-key=h2DiPGb2qUyaA1iTN_YL2Q44205`
+      );
+      setSuggestions(response.data.suggestions || []);
+      setOpen(true);
+    } catch (error) {
+      console.error("Error fetching address suggestions:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const debouncedFetchSuggestions = debounce(fetchSuggestions, 300);
+
+  const handleSelectSuggestion = (address) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      streetAddress: address,
+    }));
+    setSuggestions([]);
+    setOpen(false);
   };
 
   const orderItems = cartItems.items;
   const totalBill = cartItems.totalPrice;
 
+  const handleNextStep = () => {
+    if (validateForm() && userauth.isLogged) {
+      // Proceed with form submission logic, e.g., API call
+      console.log("Form submitted:", formData);
+      setActiveStep(activeStep + 1);
+    } else if (!userauth.isLogged) {
+      dispatch(
+        setSnackBar({
+          open: true,
+          message: "Please login or signup to continue!",
+          type: "error",
+        })
+      );
+    }
+  };
+
   // Stepper Content
   const steps = ["Billing & Shipping", "Review & Confirm Order"];
-  const handleNextStep = () => {
-    setActiveStep(activeStep + 1);
-  };
+
   return (
     <main>
       {/* Breadcrumb Start */}
@@ -99,7 +172,9 @@ const Checkout = () => {
             <i className="fa-regular fa-angle-right color-primary" />
           </a>
 
-          <span className="color-primary">checkout</span>
+          <span onClick={() => navigate("/checkout")} className="color-primary">
+            checkout
+          </span>
         </div>
       </div>
       {/* Breadcrumb End */}
@@ -110,7 +185,14 @@ const Checkout = () => {
           <Box sx={{ maxWidth: "75%", marginInline: "auto", my: 5 }}>
             <Stepper activeStep={activeStep} alternativeLabel>
               {steps.map((label) => (
-                <Step key={label}>
+                <Step
+                  key={label}
+                  onClick={() =>
+                    setActiveStep(
+                      label == "Billing & Shipping" ? 1 : activeStep
+                    )
+                  }
+                >
                   <StepLabel>{label}</StepLabel>
                 </Step>
               ))}
@@ -119,54 +201,37 @@ const Checkout = () => {
           {activeStep === 1 ? (
             <div className="row">
               <div className="col-lg-8">
-                <Box component="section" sx={{ mb: 5 }}>
-                  <div className="pb-3 mb-4 border-bottom checkout-title">
-                    Contact Information
-                  </div>
-                  <Stack
-                    alignItems="center"
-                    direction="row"
-                    gap={2}
-                    sx={{ mb: 2 }}
-                  >
-                    <Avatar
-                      alt="Remy Sharp"
-                      variant="rounded"
-                      src="/static/images/avatar/1.jpg"
-                      sx={{ width: 50, height: 50 }}
+                {userauth.isLogged && (
+                  <Box component="section" sx={{ mb: 5 }}>
+                    <div className="pb-3 mb-4 border-bottom checkout-title">
+                      Contact Information
+                    </div>
+                    <Stack
+                      alignItems="center"
+                      direction="row"
+                      gap={2}
+                      sx={{ mb: 2 }}
+                    >
+                      <Avatar
+                        alt="Remy Sharp"
+                        variant="rounded"
+                        src="/static/images/avatar/1.jpg"
+                        sx={{ width: 50, height: 50 }}
+                      />
+                      <Box className="user-info-section">
+                        <h6 className="mb-0">{userauth.name}</h6>
+                        <p className="text-muted mb-0 text-lowercase">
+                          {userauth.email}
+                        </p>
+                      </Box>
+                    </Stack>
+                    <FormControlLabel
+                      control={<Checkbox defaultChecked />}
+                      label="Keep me upto date on news and exclusive offers"
+                      sx={{ mt: 1.5 }}
                     />
-                    <Box className="user-info-section">
-                      <h6 className="mb-0">Saeed Sehar</h6>
-                      <p className="text-muted mb-0 text-lowercase">
-                        saeed_sehar@hotmail.com
-                      </p>
-                    </Box>
-                  </Stack>
-                  <Stack
-                    alignItems="center"
-                    direction="row"
-                    gap={2}
-                    sx={{ mb: 2 }}
-                  >
-                    <Avatar
-                      alt="Remy Sharp"
-                      variant="rounded"
-                      src="/static/images/avatar/1.jpg"
-                      sx={{ width: 50, height: 50 }}
-                    />
-                    <Box className="user-info-section">
-                      <h6 className="mb-0">Saeed Sehar</h6>
-                      <p className="text-muted mb-0 text-lowercase">
-                        saeed_sehar@hotmail.com
-                      </p>
-                    </Box>
-                  </Stack>
-                  <FormControlLabel
-                    control={<Checkbox defaultChecked />}
-                    label="Keep me upto date on news and exclusive offers"
-                    sx={{ mt: 1.5 }}
-                  />
-                </Box>
+                  </Box>
+                )}
 
                 {/* Shipping Methods */}
                 <Box component="section" sx={{ mb: 5 }}>
@@ -251,10 +316,14 @@ const Checkout = () => {
                       <TextField
                         required
                         label="First Name"
-                        name="first_name"
+                        name="firstName"
                         fullWidth
                         placeholder="First Name"
                         size="medium"
+                        value={formData.firstName}
+                        onChange={handleChange}
+                        error={!!errors.firstName}
+                        helperText={errors.firstName}
                       />
                     </div>
                     <div className="col-lg-6 mb-4">
@@ -262,9 +331,13 @@ const Checkout = () => {
                         required
                         label="Last Name"
                         fullWidth
-                        name="last_name"
+                        name="lastName"
                         placeholder="Last Name"
                         size="medium"
+                        value={formData.lastName}
+                        onChange={handleChange}
+                        error={!!errors.lastName}
+                        helperText={errors.lastName}
                       />
                     </div>
                     <div className="col-lg-6 mb-4">
@@ -275,6 +348,10 @@ const Checkout = () => {
                         name="company"
                         placeholder="Company"
                         size="medium"
+                        value={formData.company}
+                        onChange={handleChange}
+                        error={!!errors.company}
+                        helperText={errors.company}
                       />
                     </div>
                     <div className="col-lg-6 mb-4">
@@ -282,9 +359,13 @@ const Checkout = () => {
                         required
                         label="Phone Number"
                         fullWidth
-                        name="phon_no"
+                        name="phone"
                         placeholder="Your Phone Number"
                         size="medium"
+                        value={formData.phone}
+                        onChange={handleChange}
+                        error={!!errors.phone}
+                        helperText={errors.phone}
                       />
                     </div>
                     <div className="col-lg-12 mb-4">
@@ -293,23 +374,80 @@ const Checkout = () => {
                         label="Country / Region"
                         required
                         fullWidth
+                        value={formData.country}
+                        onChange={handleChange}
+                        error={!!errors.country}
+                        helperText={errors.country}
+                        name="country"
                       >
-                        <MenuItem value={0}>United States</MenuItem>
-                        <MenuItem value={1}>United Kingdom</MenuItem>
-                        <MenuItem value={2}>Australia</MenuItem>
-                        <MenuItem value={3}>Germany</MenuItem>
-                        <MenuItem value={4}>France</MenuItem>
+                        <MenuItem value="">Select Country</MenuItem>
+                        <MenuItem value="United States">United States</MenuItem>
+                        <MenuItem value="United Kingdom">
+                          United Kingdom
+                        </MenuItem>
+                        <MenuItem value="Australia">Australia</MenuItem>
+                        <MenuItem value="Germany">Germany</MenuItem>
+                        <MenuItem value="France">France</MenuItem>
                       </TextField>
                     </div>
                     <div className="col-lg-12 mb-4">
-                      <TextField
-                        required
-                        fullWidth
-                        label="Street Address"
-                        name="street_address"
-                        placeholder="1837 E Homer M Adams Pkwy"
-                        size="medium"
-                      />
+                      <Box position="relative">
+                        <TextField
+                          required
+                          fullWidth
+                          label="Street Address"
+                          name="streetAddress"
+                          placeholder="1837 E Homer M Adams Pkwy"
+                          size="medium"
+                          value={formData.streetAddress}
+                          onChange={handleChange}
+                          error={!!errors.streetAddress}
+                          helperText={errors.streetAddress}
+                          InputProps={{
+                            endAdornment: loading ? (
+                              <CircularProgress size={20} />
+                            ) : null,
+                          }}
+                        />
+                        {open && (
+                          <Box
+                            sx={{
+                              position: "absolute",
+                              top: "100%",
+                              left: 0,
+                              right: 0,
+                              zIndex: 9,
+                              bgcolor: "background.paper",
+                              boxShadow: 1,
+                              maxHeight: "200px",
+                              overflowY: "auto",
+                            }}
+                          >
+                            {loading ? (
+                              Array.from(new Array(5)).map((_, index) => (
+                                <Skeleton
+                                  key={index}
+                                  variant="rectangular"
+                                  height={40}
+                                />
+                              ))
+                            ) : suggestions.length > 0 ? (
+                              suggestions.map((suggestion, index) => (
+                                <MenuItem
+                                  key={index}
+                                  onClick={() =>
+                                    handleSelectSuggestion(suggestion.address)
+                                  }
+                                >
+                                  {suggestion.address}
+                                </MenuItem>
+                              ))
+                            ) : (
+                              <MenuItem disabled>No results found</MenuItem>
+                            )}
+                          </Box>
+                        )}
+                      </Box>
                     </div>
                     <div className="col-lg-12 mb-4">
                       <TextField
@@ -319,6 +457,10 @@ const Checkout = () => {
                         name="lane"
                         placeholder="1837 E Homer M Adams Pkwy"
                         size="medium"
+                        value={formData.lane}
+                        onChange={handleChange}
+                        error={!!errors.lane}
+                        helperText={errors.lane}
                       />
                     </div>
                     <div className="col-lg-12 mb-4">
@@ -326,9 +468,13 @@ const Checkout = () => {
                         required
                         fullWidth
                         label="Town / City"
-                        name="town_city"
+                        name="townCity"
                         placeholder="Town / City"
                         size="medium"
+                        value={formData.townCity}
+                        onChange={handleChange}
+                        error={!!errors.townCity}
+                        helperText={errors.townCity}
                       />
                     </div>
                     <div className="col-lg-12 mb-4">
@@ -336,12 +482,16 @@ const Checkout = () => {
                         required
                         fullWidth
                         label="Postal Code"
-                        name="postal_code"
+                        name="postalCode"
                         placeholder="Postal Code"
                         size="medium"
+                        value={formData.postalCode}
+                        onChange={handleChange}
+                        error={!!errors.postalCode}
+                        helperText={errors.postalCode}
                       />
                     </div>
-                    <div className="col-lg-12 mb-4">
+                    {/* <div className="col-lg-12 mb-4">
                       <FormControlLabel
                         control={
                           <Checkbox
@@ -353,7 +503,6 @@ const Checkout = () => {
                       />
                     </div>
                     <div className="col-lg-12 mb-4">
-                      {/* Same Shipping & Billing Address */}
                       <Accordion
                         disabled={sameAsBilling}
                         sx={{ boxShadow: "none", overflow: "hidden" }}
@@ -461,7 +610,8 @@ const Checkout = () => {
                           </div>
                         </AccordionDetails>
                       </Accordion>
-                    </div>
+                    </div> */}
+                    {/* Card Details */}
                     <div className="col-lg-12 mb-4">
                       <Accordion
                         sx={{ boxShadow: "none", overflow: "hidden" }}
@@ -503,8 +653,6 @@ const Checkout = () => {
                     </div>
                   </div>
                 </Box>
-
-                {/* Card Details */}
               </div>
               <div className="col-lg-4">
                 <Box component="section" className="order-summary">
@@ -519,52 +667,42 @@ const Checkout = () => {
 
                   {/* Product Lists === make sur to remove theses classes from the last child  "className="border-bottom pb-4 mb-4" */}
                   <Stack>
-                    <Stack
-                      direction="row"
-                      useFlexGap
-                      spacing={1.5}
-                      className="border-bottom pb-4 mb-4"
-                    >
-                      <Avatar
-                        className="img-thumbnail"
-                        sx={{ width: 80, height: 80 }}
-                        variant="rounded"
-                        alt="Cart Product"
-                        src="https://mr-vape-s3.s3.eu-west-2.amazonaws.com/Mega%20Box/cover/Cover%20or%20Slider%205.jpg"
-                      />
-                      <div className="product-info">
-                        <div className="product-title">
-                          JNR Mega Box 25,000 Puffs Disposable Vape
-                        </div>
-                        <small className="product-qty d-block mt-1">
-                          20mg Apple Peach
-                        </small>
-                      </div>
-                      <div className="price align-self-center fw-semibold">
-                        £20.00
-                      </div>
-                    </Stack>
-
-                    <Stack direction="row" useFlexGap spacing={1.5}>
-                      <Avatar
-                        className="img-thumbnail"
-                        sx={{ width: 80, height: 80 }}
-                        variant="rounded"
-                        alt="Cart Product"
-                        src="https://mr-vape-s3.s3.eu-west-2.amazonaws.com/Mega%20Box/cover/Cover%20or%20Slider%205.jpg"
-                      />
-                      <div className="product-info">
-                        <div className="product-title">
-                          JNR Mega Box 25,000 Puffs Disposable Vape
-                        </div>
-                        <small className="product-qty d-block mt-1">
-                          20mg Apple Peach
-                        </small>
-                      </div>
-                      <div className="price align-self-center fw-semibold">
-                        £20.00
-                      </div>
-                    </Stack>
+                    {orderItems.map((item, i) => {
+                      return (
+                        <Stack
+                          direction="row"
+                          useFlexGap
+                          spacing={1.5}
+                          className={
+                            i != orderItems?.length - 1
+                              ? "border-bottom pb-4 mb-4"
+                              : ""
+                          }
+                        >
+                          <Avatar
+                            className="img-thumbnail"
+                            sx={{ width: 80, height: 80 }}
+                            variant="rounded"
+                            alt="Cart Product"
+                            src={item.productImage}
+                          />
+                          <div className="product-info">
+                            <div className="product-title">
+                              {item.productName}
+                            </div>
+                            <small className="product-qty d-block mt-1">
+                              {item.flavour}
+                            </small>
+                          </div>
+                          <div
+                            className="price align-self-center fw-semibold"
+                            style={{ marginLeft: "auto" }}
+                          >
+                            £{item.price * item.quantity}
+                          </div>
+                        </Stack>
+                      );
+                    })}
                   </Stack>
 
                   <Box mt={4} className="border-top pt-4">
@@ -580,7 +718,7 @@ const Checkout = () => {
                       onClick={handleApplyDiscount}
                       size="large"
                       fullWidth
-                      sx={{ mt: 2 }}
+                      sx={{ mt: 2, backgroundColor: "#fa4f09" }}
                     >
                       Apply Code
                     </Button>
@@ -724,332 +862,12 @@ const Checkout = () => {
               </div>
             </div>
           ) : (
-            <ReviewCartDetails />
+            <ReviewCartDetails
+              formData={formData}
+              setActiveStep={setActiveStep}
+            />
           )}
         </div>
-        {/* <div className="container-lg">
-          <div className="row">
-            <div className="col-lg-8">
-              <div className="checkout__item-left text-dark bor mb-30">
-                <h3 className="mb-40 fw-semibold">Billing Details</h3>
-                <label className="mb-10" htmlFor="name">
-                  Your Name *
-                </label>
-                <input className="mb-20" id="name" type="text" />
-                <label className="mb-10" htmlFor="email">
-                  Email Address *
-                </label>
-                <input className="mb-20" id="email" type="email" />
-                <label className="mb-10" htmlFor="companyName">
-                  Company Name (Optional)
-                </label>
-                <input className="mb-20" id="companyName" type="text" />
-                <label className="mb-10 d-block">Country / Region *</label>
-                <select className="mb-20" name="subject">
-                  <option value={0}>United States</option>
-                  <option value={1}>United Kingdom</option>
-                  <option value={2}>Australia</option>
-                  <option value={3}>Germany</option>
-                  <option value={4}>France</option>
-                </select>
-                <label className="mb-10" htmlFor="streetAddress">
-                  Street Address *
-                </label>
-                <input
-                  placeholder="1837 E Homer M Adams Pkwy"
-                  className="mb-10"
-                  id="streetAddress"
-                  type="text"
-                />
-                <input className="mb-20" id="streetAddress2" type="text" />
-                <label className="mb-10" htmlFor="townName">
-                  Town / City *
-                </label>
-                <input className="mb-20" id="townName" type="text" />
-                <label className="mb-10 d-block">State *</label>
-                <select className="mb-20" id="state" name="subject">
-                  <option value={0}>Georgia / Ohio / New York</option>
-                  <option value={1}>Georgia</option>
-                  <option value={2}>Ohio</option>
-                  <option value={3}>New York</option>
-                  <option value={4}>Texas</option>
-                </select>
-                <label className="mb-10 d-block" htmlFor="zipCode">
-                  ZIP Code *
-                </label>
-                <input className="mb-20" id="zipCode" type="number" />
-                <label className="mb-10" htmlFor="phone">
-                  Phone *
-                </label>
-                <input className="mb-20" id="phone" type="text" />
-
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={sameAsBilling}
-                      onChange={() => setSameAsBilling(!sameAsBilling)}
-                    />
-                  }
-                  label="Shipping address same as billing address"
-                />
-
-                {!sameAsBilling && (
-                  <Accordion defaultExpanded>
-                    <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                      <Typography>Shipping Details</Typography>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                      <label className="mb-10" htmlFor="shippingName">
-                        Your Name *
-                      </label>
-                      <input className="mb-20" id="shippingName" type="text" />
-                      <label className="mb-10" htmlFor="shippingEmail">
-                        Email Address *
-                      </label>
-                      <input
-                        className="mb-20"
-                        id="shippingEmail"
-                        type="email"
-                      />
-                      <label className="mb-10" htmlFor="shippingCompanyName">
-                        Company Name (Optional)
-                      </label>
-                      <input
-                        className="mb-20"
-                        id="shippingCompanyName"
-                        type="text"
-                      />
-                      <label className="mb-10 d-block">
-                        Country / Region *
-                      </label>
-                      <select className="mb-20" name="subject">
-                        <option value={0}>United States</option>
-                        <option value={1}>United Kingdom</option>
-                        <option value={2}>Australia</option>
-                        <option value={3}>Germany</option>
-                        <option value={4}>France</option>
-                      </select>
-                      <label className="mb-10" htmlFor="shippingStreetAddress">
-                        Street Address *
-                      </label>
-                      <input
-                        placeholder="1837 E Homer M Adams Pkwy"
-                        className="mb-10"
-                        id="shippingStreetAddress"
-                        type="text"
-                      />
-                      <input
-                        className="mb-20"
-                        id="shippingStreetAddress2"
-                        type="text"
-                      />
-                      <label className="mb-10" htmlFor="shippingTownName">
-                        Town / City *
-                      </label>
-                      <input
-                        className="mb-20"
-                        id="shippingTownName"
-                        type="text"
-                      />
-                      <label className="mb-10 d-block">State *</label>
-                      <select
-                        className="mb-20"
-                        id="shippingState"
-                        name="subject"
-                      >
-                        <option value={0}>Georgia / Ohio / New York</option>
-                        <option value={1}>Georgia</option>
-                        <option value={2}>Ohio</option>
-                        <option value={3}>New York</option>
-                        <option value={4}>Texas</option>
-                      </select>
-                      <label
-                        className="mb-10 d-block"
-                        htmlFor="shippingZipCode"
-                      >
-                        ZIP Code *
-                      </label>
-                      <input
-                        className="mb-20"
-                        id="shippingZipCode"
-                        type="number"
-                      />
-                      <label className="mb-10" htmlFor="shippingPhone">
-                        Phone *
-                      </label>
-                      <input className="mb-20" id="shippingPhone" type="text" />
-                    </AccordionDetails>
-                  </Accordion>
-                )}
-              </div>
-
-              <div className="checkout__item-left text-dark bor shipping-address">
-                <h3 className="mb-40 fw-semibold">Shipping Methods</h3>
-                <div className="shipping-address--item">
-                  <label className="plan mb-20" htmlFor="basic1">
-                    <input
-                      defaultChecked=""
-                      type="radio"
-                      name="plan"
-                      id="basic1"
-                    />
-                    <div className="plan-content">
-                      <div className="plan-details">
-                        <span>Royal Mail Tracked 24</span>
-                        <p>
-                          <strong>Delivery tomorrow,</strong> Sep 26th
-                        </p>
-                      </div>
-                    </div>
-                  </label>
-                  <label className="plan  mb-20" htmlFor="basic2">
-                    <input type="radio" id="basic2" name="plan" />
-                    <div className="plan-content">
-                      <div className="plan-details">
-                        <span>DPD Local Pickup</span>
-                        <p>
-                          <strong>Delivery tomorrow,</strong> Sep 26th
-                        </p>
-                      </div>
-                    </div>
-                  </label>
-                  <label className="plan  mb-20" htmlFor="basic3">
-                    <input type="radio" id="basic3" name="plan" />
-                    <div className="plan-content">
-                      <div className="plan-details">
-                        <span>DPD Local</span>
-                        <p>
-                          <strong>Delivery tomorrow,</strong> Sep 26th
-                        </p>
-                      </div>
-                    </div>
-                  </label>
-                  <label className="plan  mb-20" htmlFor="basic4">
-                    <input type="radio" id="basic4" name="plan" />
-                    <div className="plan-content">
-                      <div className="plan-details">
-                        <span>Royal Mail Special Delivery</span>
-                        <p>
-                          <strong>Delivery tomorrow,</strong> Sep 26th
-                        </p>
-                      </div>
-                    </div>
-                  </label>
-                </div>
-              </div>
-
-              <Accordion>
-                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                  <Typography>Card Details</Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                  <Grid container spacing={2}>
-                    <Grid item xs={12}>
-                      <TextField
-                        required
-                        label="Card Number"
-                        fullWidth
-                        variant="outlined"
-                      />
-                    </Grid>
-                    <Grid item xs={6}>
-                      <TextField
-                        required
-                        label="Expiration Date"
-                        fullWidth
-                        variant="outlined"
-                        placeholder="MM/YY"
-                      />
-                    </Grid>
-                    <Grid item xs={6}>
-                      <TextField
-                        required
-                        label="CVC"
-                        fullWidth
-                        variant="outlined"
-                      />
-                    </Grid>
-                  </Grid>
-                </AccordionDetails>
-              </Accordion>
-            </div>
-
-            <div className="col-lg-4">
-              <div className="checkout__item-right bor">
-                <h3 className="mb-40 fw-semibold">Your Order</h3>
-                <ul>
-                  <li className="bor-bottom pb-4">
-                    <h4>Products</h4>
-                    <h4>Subtotal</h4>
-                  </li>
-                  {orderItems?.map((item) => {
-                    return (
-                      <li className="bor-bottom py-4">
-                        <a>{`${item.productName} - ${item.flavour}`}</a>
-                        <span>£{item.price * item.quantity}</span>
-                      </li>
-                    );
-                  })}
-                </ul>
-                <Box mt={4} className="bor-bottom py-4">
-                  <TextField
-                    label="Discount Code"
-                    value={discountCode}
-                    onChange={(e) => setDiscountCode(e.target.value)}
-                    variant="outlined"
-                    fullWidth
-                  />
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleApplyDiscount}
-                    style={{ marginTop: "10px", backgroundColor: "#fa4f09" }}
-                    fullWidth
-                  >
-                    Apply
-                  </Button>
-                  {isDiscountApplied && (
-                    <Typography color="green" mt={2}>
-                      Discount applied successfully!
-                    </Typography>
-                  )}
-                </Box>
-                <div className="py-4 bor-bottom">
-                  <h5 className="mb-10 fw-semibold">Shipping Address</h5>
-                  <p>
-                    2801 Lafayette Blvd, Norfolk, Vermont 23609, united state
-                  </p>
-                </div>
-                <div className="radio-btn mt-30 color-black">
-                  <span />
-                  <a className="ml-10 color-black">Direct Bank Transfer</a>
-                </div>
-                <div className="radio-btn mt-2 color-black">
-                  <span />
-                  <a className="ml-10 color-black">Check Payments</a>
-                </div>
-                <div className="radio-btn mt-2 pb-30 bor-bottom color-black">
-                  <span />
-                  <a className="ml-10 color-black">Cash On Delivery</a>
-                </div>
-                <p className="pt-30 bor-top">
-                  Your personal data will be used to process your order, support
-                  your experience throughout this website.
-                </p>
-                <a className="btn-one mt-35 color-white">
-                  <span>Place Order</span>
-                </a>
-                <a
-                  className="btn-one mt-35 color-white"
-                  style={{ marginLeft: "5px" }}
-                  onClick={() => navigate("/products")}
-                >
-                  <span>Continue Shopping</span>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div> */}
       </section>
     </main>
   );
