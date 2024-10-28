@@ -3,7 +3,13 @@ application:
   version: "1.0"
 
 server:
-  port: 8081
+#  ssl:
+#    enabled: true
+#    key-store: classpath:keystore.jks  # Adjust to your keystore location
+#    key-store-password: changeit  # Use your actual password
+#    key-alias: royalmail
+#    key-store-type: JKS # Use the alias for your key entry # Specify the alias of the key entry
+  port: 80
   address: 0.0.0.0
 
 spring:

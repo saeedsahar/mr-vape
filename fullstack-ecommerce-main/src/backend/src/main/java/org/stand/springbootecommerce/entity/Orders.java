@@ -5,6 +5,7 @@ package org.stand.springbootecommerce.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
@@ -15,78 +16,165 @@ import java.util.List;
  */
 @Entity
 @Table(name = "orders")
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-@Getter
-@Setter
-@ToString
+
 public class Orders  {
 
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "order_id")
-    private Long orderId;
+    @Basic(optional = false)
+    @Column(name = "id")
+    private Integer id;
+    @Basic(optional = false)
+    @Column(name = "order_reference")
+    private String orderReference;
+    @Basic(optional = false)
+    @Column(name = "recipient_name")
+    private String recipientName;
+    @Basic(optional = false)
+    @Column(name = "recipient_address")
+    private String recipientAddress;
+    @Basic(optional = false)
+    @Column(name = "recipient_city")
+    private String recipientCity;
+    @Basic(optional = false)
+    @Column(name = "recipient_postcode")
+    private String recipientPostcode;
+    @Basic(optional = false)
+    @Column(name = "recipient_country_code")
+    private String recipientCountryCode;
+    @Column(name = "recipient_phone")
+    private String recipientPhone;
+    @Column(name = "recipient_email")
+    private String recipientEmail;
+    @Basic(optional = false)
     @Column(name = "order_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date orderDate;
+    @Column(name = "planned_despatch_date")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date plannedDespatchDate;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Basic(optional = false)
-    @Column(name = "total_amount")
-    private BigDecimal totalAmount;
+    @Column(name = "subtotal")
+    private BigDecimal subtotal;
     @Basic(optional = false)
-    @Column(name = "status")
-    private String status;
+    @Column(name = "shipping_cost_charged")
+    private BigDecimal shippingCostCharged;
     @Basic(optional = false)
-    @Column(name = "shipping_address_line1")
-    private String shippingAddressLine1;
-    @Column(name = "shipping_address_line2")
-    private String shippingAddressLine2;
+    @Column(name = "total")
+    private BigDecimal total;
     @Basic(optional = false)
-    @Column(name = "shipping_city")
-    private String shippingCity;
-    @Basic(optional = false)
-    @Column(name = "shipping_state")
-    private String shippingState;
-    @Basic(optional = false)
-    @Column(name = "shipping_zip")
-    private String shippingZip;
-    @Basic(optional = false)
-    @Column(name = "shipping_country")
-    private String shippingCountry;
-    @Basic(optional = false)
-    @Column(name = "payment_method")
-    private String paymentMethod;
-    @Column(name = "shipping_method")
-    private String shippingMethod;
-    @Column(name = "tracking_number")
-    private String trackingNumber;
+    @Column(name = "currency_code")
+    private String currencyCode;
+    @Column(name = "contains_dangerous_goods")
+    private Boolean containsDangerousGoods;
+    @Column(name = "created_at")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdAt;
+    @Column(name = "updated_at")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date updatedAt;
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private User user;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "orders", fetch = FetchType.LAZY)
-    private List<OrderItems> orderItemsList;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User userId;
+    @OneToMany(mappedBy = "orderId", fetch = FetchType.LAZY)
+    private List<Payment> paymentList;
+    @OneToMany(mappedBy = "orderId", fetch = FetchType.LAZY)
+    private List<OrderDetails> orderDetailsList;
 
-
-
-    public Orders(Long orderId, BigDecimal totalAmount, String status, String shippingAddressLine1, String shippingCity, String shippingState, String shippingZip, String shippingCountry, String paymentMethod) {
-        this.orderId = orderId;
-        this.totalAmount = totalAmount;
-        this.status = status;
-        this.shippingAddressLine1 = shippingAddressLine1;
-        this.shippingCity = shippingCity;
-        this.shippingState = shippingState;
-        this.shippingZip = shippingZip;
-        this.shippingCountry = shippingCountry;
-        this.paymentMethod = paymentMethod;
+    public Orders() {
     }
 
-    public Long getOrderId() {
-        return orderId;
+    public Orders(Integer id) {
+        this.id = id;
     }
 
-    public void setOrderId(Long orderId) {
-        this.orderId = orderId;
+    public Orders(Integer id, String orderReference, String recipientName, String recipientAddress, String recipientCity, String recipientPostcode, String recipientCountryCode, Date orderDate, BigDecimal subtotal, BigDecimal shippingCostCharged, BigDecimal total, String currencyCode) {
+        this.id = id;
+        this.orderReference = orderReference;
+        this.recipientName = recipientName;
+        this.recipientAddress = recipientAddress;
+        this.recipientCity = recipientCity;
+        this.recipientPostcode = recipientPostcode;
+        this.recipientCountryCode = recipientCountryCode;
+        this.orderDate = orderDate;
+        this.subtotal = subtotal;
+        this.shippingCostCharged = shippingCostCharged;
+        this.total = total;
+        this.currencyCode = currencyCode;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getOrderReference() {
+        return orderReference;
+    }
+
+    public void setOrderReference(String orderReference) {
+        this.orderReference = orderReference;
+    }
+
+    public String getRecipientName() {
+        return recipientName;
+    }
+
+    public void setRecipientName(String recipientName) {
+        this.recipientName = recipientName;
+    }
+
+    public String getRecipientAddress() {
+        return recipientAddress;
+    }
+
+    public void setRecipientAddress(String recipientAddress) {
+        this.recipientAddress = recipientAddress;
+    }
+
+    public String getRecipientCity() {
+        return recipientCity;
+    }
+
+    public void setRecipientCity(String recipientCity) {
+        this.recipientCity = recipientCity;
+    }
+
+    public String getRecipientPostcode() {
+        return recipientPostcode;
+    }
+
+    public void setRecipientPostcode(String recipientPostcode) {
+        this.recipientPostcode = recipientPostcode;
+    }
+
+    public String getRecipientCountryCode() {
+        return recipientCountryCode;
+    }
+
+    public void setRecipientCountryCode(String recipientCountryCode) {
+        this.recipientCountryCode = recipientCountryCode;
+    }
+
+    public String getRecipientPhone() {
+        return recipientPhone;
+    }
+
+    public void setRecipientPhone(String recipientPhone) {
+        this.recipientPhone = recipientPhone;
+    }
+
+    public String getRecipientEmail() {
+        return recipientEmail;
+    }
+
+    public void setRecipientEmail(String recipientEmail) {
+        this.recipientEmail = recipientEmail;
     }
 
     public Date getOrderDate() {
@@ -97,114 +185,98 @@ public class Orders  {
         this.orderDate = orderDate;
     }
 
-    public BigDecimal getTotalAmount() {
-        return totalAmount;
+    public Date getPlannedDespatchDate() {
+        return plannedDespatchDate;
     }
 
-    public void setTotalAmount(BigDecimal totalAmount) {
-        this.totalAmount = totalAmount;
+    public void setPlannedDespatchDate(Date plannedDespatchDate) {
+        this.plannedDespatchDate = plannedDespatchDate;
     }
 
-    public String getStatus() {
-        return status;
+    public BigDecimal getSubtotal() {
+        return subtotal;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setSubtotal(BigDecimal subtotal) {
+        this.subtotal = subtotal;
     }
 
-    public String getShippingAddressLine1() {
-        return shippingAddressLine1;
+    public BigDecimal getShippingCostCharged() {
+        return shippingCostCharged;
     }
 
-    public void setShippingAddressLine1(String shippingAddressLine1) {
-        this.shippingAddressLine1 = shippingAddressLine1;
+    public void setShippingCostCharged(BigDecimal shippingCostCharged) {
+        this.shippingCostCharged = shippingCostCharged;
     }
 
-    public String getShippingAddressLine2() {
-        return shippingAddressLine2;
+    public BigDecimal getTotal() {
+        return total;
     }
 
-    public void setShippingAddressLine2(String shippingAddressLine2) {
-        this.shippingAddressLine2 = shippingAddressLine2;
+    public void setTotal(BigDecimal total) {
+        this.total = total;
     }
 
-    public String getShippingCity() {
-        return shippingCity;
+    public String getCurrencyCode() {
+        return currencyCode;
     }
 
-    public void setShippingCity(String shippingCity) {
-        this.shippingCity = shippingCity;
+    public void setCurrencyCode(String currencyCode) {
+        this.currencyCode = currencyCode;
     }
 
-    public String getShippingState() {
-        return shippingState;
+    public Boolean getContainsDangerousGoods() {
+        return containsDangerousGoods;
     }
 
-    public void setShippingState(String shippingState) {
-        this.shippingState = shippingState;
+    public void setContainsDangerousGoods(Boolean containsDangerousGoods) {
+        this.containsDangerousGoods = containsDangerousGoods;
     }
 
-    public String getShippingZip() {
-        return shippingZip;
+    public Date getCreatedAt() {
+        return createdAt;
     }
 
-    public void setShippingZip(String shippingZip) {
-        this.shippingZip = shippingZip;
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public String getShippingCountry() {
-        return shippingCountry;
+    public Date getUpdatedAt() {
+        return updatedAt;
     }
 
-    public void setShippingCountry(String shippingCountry) {
-        this.shippingCountry = shippingCountry;
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
-    public String getPaymentMethod() {
-        return paymentMethod;
+    public User getUserId() {
+        return userId;
     }
 
-    public void setPaymentMethod(String paymentMethod) {
-        this.paymentMethod = paymentMethod;
+    public void setUserId(User userId) {
+        this.userId = userId;
     }
 
-    public String getShippingMethod() {
-        return shippingMethod;
+    public List<Payment> getPaymentList() {
+        return paymentList;
     }
 
-    public void setShippingMethod(String shippingMethod) {
-        this.shippingMethod = shippingMethod;
+    public void setPaymentList(List<Payment> paymentList) {
+        this.paymentList = paymentList;
     }
 
-    public String getTrackingNumber() {
-        return trackingNumber;
+    public List<OrderDetails> getOrderDetailsList() {
+        return orderDetailsList;
     }
 
-    public void setTrackingNumber(String trackingNumber) {
-        this.trackingNumber = trackingNumber;
-    }
-
-    public User getUsers() {
-        return user;
-    }
-
-    public void setUsers(User users) {
-        this.user = users;
-    }
-
-    public List<OrderItems> getOrderItemsList() {
-        return orderItemsList;
-    }
-
-    public void setOrderItemsList(List<OrderItems> orderItemsList) {
-        this.orderItemsList = orderItemsList;
+    public void setOrderDetailsList(List<OrderDetails> orderDetailsList) {
+        this.orderDetailsList = orderDetailsList;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (orderId != null ? orderId.hashCode() : 0);
+        hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
@@ -215,7 +287,7 @@ public class Orders  {
             return false;
         }
         Orders other = (Orders) object;
-        if ((this.orderId == null && other.orderId != null) || (this.orderId != null && !this.orderId.equals(other.orderId))) {
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
@@ -223,8 +295,9 @@ public class Orders  {
 
     @Override
     public String toString() {
-        return "org.stand.springbootecommerce.entity.Orders[ orderId=" + orderId + " ]";
+        return "org.stand.springbootecommerce.entity.Orders[ id=" + id + " ]";
     }
 
 }
+
 

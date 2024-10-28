@@ -32,8 +32,7 @@ public class ProductCategoryServiceImpl implements ProductCategoryService {
                 .orElseThrow(() -> new NoSuchElementException("ProductCategory with id='%d' not found".formatted(id)));
     }
     @Override
-    public List<Product> getCategoriesProductList(Long id) {
-       List<Long> brandIds= brandRepository
+    public List<Product> getCategoriesProductList(Long id) {List<Long> brandIds= brandRepository
                 .getBrandsDistinctIds(id);
 
        List<Product> productList=productRepository.getListofProductByBrandIds(brandIds);

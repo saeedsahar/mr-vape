@@ -64,8 +64,7 @@ public class User implements UserDetails {
     private LocalDateTime timestamp = LocalDateTime.now();
 
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY)
-    private List<Orders> ordersList;
+
     public User(String name, String surname, String email) {
         this.surname = surname;
         this.name = name;
@@ -74,6 +73,9 @@ public class User implements UserDetails {
 
     @OneToMany(mappedBy = "userId")
     private List<ProductReviews> productReviewsList;
+
+    @OneToMany(mappedBy = "userId", fetch = FetchType.LAZY)
+    private List<Orders> ordersList;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
