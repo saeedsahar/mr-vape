@@ -30,7 +30,7 @@ h6 {
 
 span {
 	display: inline-block;
-	color  : var(--span);
+	color  : inherit;
 }
 
 del {
@@ -285,6 +285,56 @@ input {
 .css-8voplp-MuiFormLabel-root-MuiInputLabel-root,
 .css-j882ge-MuiInputBase-root-MuiOutlinedInput-root,
 .css-m0kdz1-MuiButtonBase-root-MuiButton-root,
-.css-10yf2i8-MuiInputBase-root-MuiInput-root {
+.css-10yf2i8-MuiInputBase-root-MuiInput-root,
+.css-1edfpdg-MuiTypography-root,
+.css-1o0kqxp-MuiInputBase-root-MuiOutlinedInput-root,
+.css-1q964xs-MuiFormLabel-root-MuiInputLabel-root,
+.css-rxaxkm-MuiPaper-root-MuiAlert-root,
+.css-1hv8oq8-MuiStepLabel-label,
+.css-10ukr6t-MuiTableCell-root,
+.css-1ojhcqg-MuiTableCell-root,
+table,
+tr,
+td,
+th {
 	font-family: var(--inter) !important;
+}
+
+
+button,
+.css-1eh2dyd-MuiButtonBase-root-MuiButton-root,
+.css-1g8ipf2-MuiButtonBase-root-MuiButton-root {
+	font-family: var(--poppins) !important;
+	font-weight: 500 !important;
+	box-shadow : none !important;
+}
+
+.css-8iab9z-MuiButtonBase-root-MuiButton-root {
+	color: var(--primary-color) !important;
+}
+
+.btn-primary {
+	background-color: var(--primary-color) !important;
+	color           : var(--pure-white) !important;
+}
+
+.btn-outline-primary {
+	border          : 1px solid var(--primary-color) !important;
+	color           : var(--primary-color) !important;
+	background-color: transparent !important;
+
+	&:hover {
+		background-color: var(--primary-color) !important;
+		color           : var(--pure-white) !important;
+	}
+}
+
+.btn-dark {
+	color           : var(--primary-color) !important;
+	background-color: var(--white) !important;
+
+	&:hover {
+		background-color: var(--primary-color) !important;
+		color           : var(--pure-white) !important;
+	}
 }

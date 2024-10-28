@@ -118,7 +118,7 @@ function Register(props) {
         <section
           className="page-banner bg-image pt-130 pb-130"
           style={{
-            backgroundImage: "url(assets/images/banner/inner-banner.jpg)",
+            backgroundImage: "url(https://s3.eu-west-2.amazonaws.com/www.vapeplanet.co.uk/websitelayouts/SignIn-top-banner-v2.jpg)",
           }}
         ></section>
 
@@ -130,7 +130,7 @@ function Register(props) {
                 <div className="col-xxl-8">
                   <div className="login__image">
                     <img
-                      src="assets/images/register/res-image1.jpg"
+                      src="https://s3.eu-west-2.amazonaws.com/www.vapeplanet.co.uk/websitelayouts/Login-Box.jpg"
                       alt="image"
                     />
                     <div className="btn-wrp pointer">

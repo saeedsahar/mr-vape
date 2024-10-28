@@ -161,51 +161,51 @@ function Home(props) {
   const customSwiperProductOff = (item) => {
     return (
       <SwiperSlide>
-        <div className="" style={{ paddingLeft: "10px", paddingRight: "10px" }}>
-          <div
-            className="product__item bor"
-            onClick={() => navigate(`/products/${item.id}`)}
-          >
-            <a className="wishlist">
-              <i className="fa-regular fa-heart" />
-            </a>
-            <a className="product__image pt-20 d-block">
-              <img
-                className="font-image"
-                src={item.image}
-                alt="image"
-                style={{ maxHeight: "300px", minHeight: "300px" }}
-              />
-              <img
-                className="back-image"
-                src={item.image}
-                alt="image"
-                style={{ maxHeight: "300px", minHeight: "300px" }}
-              />
-            </a>
-            <div className="product__content">
-              <h5 className="mb-15">
-                <a className="primary-hover">{item.name}</a>
-              </h5>
-              {item.wasPrice && <del>£{item.wasPrice}</del>}
-              <span className="primary-color ml-10">£{item.price}</span>
-              <div className="star mt-20">
-                <i className="fa-solid fa-star" />
-                <i className="fa-solid fa-star" />
-                <i className="fa-solid fa-star" />
-                <i className="fa-solid fa-star" />
-                <i className="fa-solid fa-star" />
-              </div>
+        {/* <div className="" style={{ paddingLeft: "10px", paddingRight: "10px" }}> */}
+        <div
+          className="product__item bor"
+          onClick={() => navigate(`/products/${item.id}`)}
+        >
+          <a className="wishlist">
+            <i className="fa-regular fa-heart" />
+          </a>
+          <a className="product__image pt-20 d-block">
+            <img
+              className="font-image img-fluid"
+              src={item.image}
+              alt="image"
+              style={{ maxHeight: "300px", minHeight: "300px" }}
+            />
+            <img
+              className="back-image img-fluid"
+              src={item.image}
+              alt="image"
+              style={{ maxHeight: "300px", minHeight: "300px" }}
+            />
+          </a>
+          <div className="product__content">
+            <h5 className="mb-15">
+              <a className="primary-hover">{item.name}</a>
+            </h5>
+            {item.wasPrice && <del>£{item.wasPrice}</del>}
+            <span className="primary-color ml-10">£{item.price}</span>
+            <div className="star mt-20">
+              <i className="fa-solid fa-star" />
+              <i className="fa-solid fa-star" />
+              <i className="fa-solid fa-star" />
+              <i className="fa-solid fa-star" />
+              <i className="fa-solid fa-star" />
             </div>
-            <a
-              className="product__cart d-block bor-top pointer"
-              // onClick={() => navigate(`/products/${item.id}`)}
-            >
-              <i className="fa-regular fa-cart-shopping primary-color me-1" />
-              <span>Shop Now</span>
-            </a>
           </div>
+          <a
+            className="product__cart d-block bor-top pointer"
+            // onClick={() => navigate(`/products/${item.id}`)}
+          >
+            <i className="fa-regular fa-cart-shopping primary-color me-1" />
+            <span>Shop Now</span>
+          </a>
         </div>
+        {/* </div> */}
       </SwiperSlide>
     );
   };
@@ -213,13 +213,7 @@ function Home(props) {
   const customSwiperProductBanner = (item) => {
     return (
       <SwiperSlide>
-        {/* <div className="swiper-wrapper"> */}
-        {/* <div className="swiper-slide"> */}
         <img src={item} alt="banner" className="hero-banner" />
-        {/* </div> */}
-        {/* </div> */}
-        {/* </div>
-        </section> */}
       </SwiperSlide>
     );
   };
@@ -277,9 +271,10 @@ function Home(props) {
             hideBreakPoint={true}
             slidesPerView={1}
             swiperProduct={[
+              "https://mrvape-frontend.s3.eu-west-2.amazonaws.com/banners/megabox.jpg",
               "https://mrvape-frontend.s3.eu-west-2.amazonaws.com/banners/Alien+Max+(1720+x+915).jpg",
               "https://mrvape-frontend.s3.eu-west-2.amazonaws.com/banners/Capsule+(1720+x+915).jpg",
-              "https://mrvape-frontend.s3.eu-west-2.amazonaws.com/banners/Falcon+X+(1720+x+915).jpg",
+              // "https://mrvape-frontend.s3.eu-west-2.amazonaws.com/banners/Falcon+X+(1720+x+915).jpg",
             ]}
             customSwiperProduct={customSwiperProductBanner}
           />
@@ -365,7 +360,7 @@ function Home(props) {
                     <img
                       // src="assets/images/view/view-image1.jpg"
                       src={
-                        "https://mrvape-frontend.s3.eu-west-2.amazonaws.com/eliquid.jpg"
+                        "https://s3.eu-west-2.amazonaws.com/www.vapeplanet.co.uk/websitelayouts/E-liquide-banner-v4.jpg"
                       }
                       alt="image"
                       className="img-fluid"
@@ -425,7 +420,7 @@ function Home(props) {
                   </div>
                   <div className="view__image">
                     <img
-                      src="https://mrvape-frontend.s3.eu-west-2.amazonaws.com/disposable+copy.png"
+                      src="https://s3.eu-west-2.amazonaws.com/www.vapeplanet.co.uk/websitelayouts/disposable+image.jpg"
                       alt="image"
                     />
                   </div>
@@ -449,7 +444,7 @@ function Home(props) {
                   </div>
                   <div className="view__image">
                     <img
-                      src="https://mrvape-frontend.s3.eu-west-2.amazonaws.com/vapekits.png"
+                      src="https://s3.eu-west-2.amazonaws.com/www.vapeplanet.co.uk/websitelayouts/Vape-Kit-image.jpg"
                       alt="image"
                     />
                   </div>
@@ -589,7 +584,7 @@ function Home(props) {
                   <div className="image">
                     <img
                       src={
-                        "https://mrvape-frontend.s3.eu-west-2.amazonaws.com/coming-soon+copy.png"
+                        "https://s3.eu-west-2.amazonaws.com/www.vapeplanet.co.uk/websitelayouts/Coming-Soon-1.jpg"
                       }
                       alt="image"
                       className="img-fluid round-100"

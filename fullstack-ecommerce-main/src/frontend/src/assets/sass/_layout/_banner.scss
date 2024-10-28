@@ -83,6 +83,22 @@
 	}
 }
 
+.breadcrumb-list {
+
+	a,
+	span {
+		margin-right: 10px;
+		color       : var(--white);
+		font-size   : 14px;
+		font-weight : 500;
+		cursor      : pointer;
+
+		&:hover {
+			color: var(--primary-color);
+		}
+	}
+}
+
 // Page banner area end here ***
 
 // Ad banner area start here ***

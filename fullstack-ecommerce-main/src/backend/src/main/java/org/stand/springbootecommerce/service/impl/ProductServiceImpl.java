@@ -13,15 +13,15 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.stand.springbootecommerce.dto.request.FlavourDTO;
 import org.stand.springbootecommerce.dto.request.ProductRequest;
-import org.stand.springbootecommerce.entity.Brand;
-import org.stand.springbootecommerce.entity.Product;
-import org.stand.springbootecommerce.entity.ProductFlavour;
-import org.stand.springbootecommerce.entity.ProductImage;
+import org.stand.springbootecommerce.dto.request.ReviewRequest;
+import org.stand.springbootecommerce.entity.*;
 import org.stand.springbootecommerce.repository.*;
 import org.stand.springbootecommerce.service.ProductService;
 import org.stand.springbootecommerce.service.S3Service;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @RequiredArgsConstructor
@@ -30,10 +30,12 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final ProductImageRepository productImageRepository;
     private final ProductFlavourRepository productFlavourRepository;
+    private final ProductReviewRepository productReviewRepository;
     private final CategoryRepository productCategoryRepository;
     private final Logger LOG = LoggerFactory.getLogger(ProductServiceImpl.class);
     private final S3Service s3Service;
     private final BrandRepository brandRepository;
+    private final DiscountCardRepository discountCardRepository;
 
     @Override
     public Page<Product> getProducts(String query, Integer pageNumber, Integer pageSize) {
@@ -142,6 +144,34 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public Boolean saveOrUpdateProductReview(ReviewRequest reviewRequest) {
+        Boolean flag= false;
+        try {
+            ProductReviews productReviews = new ProductReviews();
+            productReviews.setComment(reviewRequest.getComment());
+            productReviews.setReviewTitle(reviewRequest.getTitle());
+            if(reviewRequest.getUser_id()!=null) {
+                User user = new User();
+                user.setId(reviewRequest.getUser_id());
+                productReviews.setUserId(user);
+            }
+            Product product = new Product();
+            product.setId(reviewRequest.getProduct_id());
+            productReviews.setProdutId(product);
+            productReviews.setRating(reviewRequest.getRating());
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            productReviews.setReviewDate(LocalDateTime.parse(reviewRequest.getReview_Date(),formatter));
+            productReviewRepository.saveAndFlush(productReviews);
+            flag=true;
+        }catch (Exception e){
+            e.printStackTrace();
+//            return false;
+
+        }
+        return flag;
+    }
+
+    @Override
     public Page<Product> searchProducts(String query, Integer pageNumber, Integer pageSize) {
         if(query.equals("Trending") || query.equals("NEW")){
            return productRepository.findByProductLabelContainingIgnoreCase(query, PageRequest.of(pageNumber, pageSize));
@@ -155,6 +185,13 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Product> searchProducts(String query) {
         return productRepository.findByNameContainingIgnoreCase(query);
+    }
+
+    @Override
+    public CartDiscount getDiscountCode(String code) {
+
+
+        return discountCardRepository.findDiscountByCode(code);
     }
 
 

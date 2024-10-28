@@ -6,7 +6,7 @@ import java.io.OutputStream;
 
 public class RoyalMailAPI {
     private static final String API_URL = "https://api.royalmail.com/clickanddrop/v1/orders";
-    private static final String API_KEY = "your_api_key"; // Replace with your API key
+    private static final String API_KEY = "dc2cacd0-64df-4f34-83dd-e104ad413823"; // Replace with your API key
 
     public static void createOrder(String orderJson) throws Exception {
         URL url = new URL(API_URL);
