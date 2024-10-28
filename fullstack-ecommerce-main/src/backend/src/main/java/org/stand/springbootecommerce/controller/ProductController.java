@@ -16,7 +16,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.codec.multipart.FilePart;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.stand.springbootecommerce.config.RoyalMailAPI;
 import org.stand.springbootecommerce.dto.ProductLookup;
+import org.stand.springbootecommerce.dto.request.OrderRequest;
 import org.stand.springbootecommerce.dto.request.ProductRequest;
 import org.stand.springbootecommerce.dto.request.ReviewRequest;
 import org.stand.springbootecommerce.dto.request.UserUpdateRequest;
@@ -24,9 +26,11 @@ import org.stand.springbootecommerce.dto.response.PageableResponse;
 import org.stand.springbootecommerce.dto.response.ProductResponse;
 import org.stand.springbootecommerce.dto.response.ProductReviewResponse;
 import org.stand.springbootecommerce.entity.CartDiscount;
+import org.stand.springbootecommerce.entity.Orders;
 import org.stand.springbootecommerce.entity.Product;
 import org.stand.springbootecommerce.entity.ProductReviews;
 import org.stand.springbootecommerce.service.BrandService;
+import org.stand.springbootecommerce.service.OrderService;
 import org.stand.springbootecommerce.service.ProductService;
 import org.stand.springbootecommerce.service.S3Service;
 
@@ -44,6 +48,7 @@ public class ProductController {
     private final ProductService productService;
     private final ModelMapper modelMapper;
     private final BrandService brandService;
+    private final OrderService orderService;
 
 
     private final S3Service s3Service;
@@ -200,6 +205,18 @@ public class ProductController {
     public ResponseEntity<CartDiscount> dicount(@RequestParam("code") String code) {
 
             return ResponseEntity.ok(productService.getDiscountCode(code));
+
+    }
+    @PostMapping("/order")
+    public ResponseEntity<Boolean> order(@RequestBody OrderRequest orderRequest) throws Exception {
+        Boolean flag=false;
+        System.setProperty("https.protocols", "TLSv1.2,TLSv1.3");
+        ObjectMapper objectMapper = new ObjectMapper();
+        String jsonOrderRequest = objectMapper.writeValueAsString(orderRequest);
+        flag=orderService.saveOrder(orderRequest);
+        RoyalMailAPI.createOrder(jsonOrderRequest);
+
+            return ResponseEntity.ok(flag);
 
     }
 }

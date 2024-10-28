@@ -16,7 +16,7 @@ import org.stand.springbootecommerce.filter.JwtAuthenticationFilter;
 @EnableWebSecurity
 @EnableMethodSecurity
 @RequiredArgsConstructor
-public class SecurityConfig {
+public class SecurityConfig  {
 
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final AuthenticationProvider authenticationProvider;
@@ -24,6 +24,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+
                 // Disable csrf
                 .csrf()
                 .disable()
@@ -46,6 +47,13 @@ public class SecurityConfig {
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
+    }
+
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+                .requiresChannel()
+                .anyRequest()
+                .requiresSecure();  // Forces HTTPS
     }
 
 }

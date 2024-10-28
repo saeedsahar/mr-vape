@@ -86,8 +86,8 @@ public class Product {
 //    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
 //    private Category category;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "product", fetch = FetchType.LAZY)
-    private List<OrderItems> orderItemsList;
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "product", fetch = FetchType.LAZY)
+//    private List<OrderItems> orderItemsList;
 
 
     @OneToMany(mappedBy = "productId", fetch = FetchType.LAZY)
