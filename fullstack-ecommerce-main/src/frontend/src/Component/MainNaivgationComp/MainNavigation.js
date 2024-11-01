@@ -398,7 +398,7 @@ function MainNavigation(props) {
     <>
       <div class="order-message">
         <i class="fas fa-truck delivery-header-icon"></i> Order within{" "}
-        <strong>{timeLeft}</strong> for delivery
+        <strong>{timeLeft}</strong> for delivery tomorrow
       </div>
       <div
         className="top__header black-area pt-30 pb-30"
