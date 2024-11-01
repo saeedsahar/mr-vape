@@ -83,6 +83,8 @@ export const SwiperComponentCustom = (props) => {
       breakpoints={
         props.hideBreakPoint
           ? ""
+          : props.breakpoints
+          ? props.breakpoints
           : {
               320: {
                 slidesPerView: 1,

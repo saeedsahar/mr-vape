@@ -52,7 +52,7 @@ function MainNavigation(props) {
   const [cartDrawerOpen, setCartDrawerOpen] = useState(false);
   const [reviewRating, setReviewRating] = useState(0);
   const [errors, setErrors] = useState({});
-
+  const [timeLeft, setTimeLeft] = useState("");
   const searchWrapperRef = React.useRef(null); // Ref for search wrapper
 
   let navigate = useNavigate();
@@ -100,6 +100,48 @@ function MainNavigation(props) {
     setAppWidth(window.innerWidth);
   };
 
+  useEffect(() => {
+    const targetHour = 21; // 9 PM in 24-hour format
+
+    const updateCountdown = () => {
+      const now = new Date();
+      const targetTime = new Date();
+
+      // Set the target time to 9 PM today
+      targetTime.setHours(targetHour, 0, 0, 0);
+
+      // If the target time has already passed for today, set it to 9 PM tomorrow
+      if (now > targetTime) {
+        targetTime.setDate(targetTime.getDate() + 1);
+      }
+
+      // Calculate the time difference in milliseconds
+      const remainingTime = targetTime - now;
+
+      // Convert the remaining time to hours, minutes, and seconds
+      const hours = Math.floor((remainingTime / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((remainingTime / (1000 * 60)) % 60);
+      const seconds = Math.floor((remainingTime / 1000) % 60);
+
+      // Update the timeLeft state
+      setTimeLeft(`${hours}h ${minutes}m ${seconds}s`);
+
+      // If the countdown reaches zero, start it over
+      if (remainingTime <= 0) {
+        clearInterval(timer); // Optional: Clear interval if needed
+        updateCountdown(); // Restart countdown for the next 9 PM
+      }
+    };
+
+    // Update the countdown every second
+    const timer = setInterval(updateCountdown, 1000);
+
+    // Initial call to set the countdown
+    updateCountdown();
+
+    // Cleanup interval on component unmount
+    return () => clearInterval(timer);
+  }, []);
   useEffect(() => {
     if (anchorEl) {
       document.addEventListener("mousedown", handleClickOutside);
@@ -354,6 +396,10 @@ function MainNavigation(props) {
 
   return (
     <>
+      <div class="order-message">
+        <i class="fas fa-truck delivery-header-icon"></i> Order within{" "}
+        <strong>{timeLeft}</strong> for delivery
+      </div>
       <div
         className="top__header black-area pt-30 pb-30"
         style={{ backgroundColor: "white" }}

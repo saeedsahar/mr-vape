@@ -12,6 +12,11 @@ import Admin from "./Pages/Admin/Admin";
 
 import Cart from "./Pages/Cart/Cart";
 import Register from "./Pages/Register/Register";
+import Blog from "./Pages/Blog/Blog";
+import FastDelivery from "./Pages/AccessOptionPages/FastDelivery";
+import SameDayDispatch from "./Pages/AccessOptionPages/SameDayDispatch";
+import Support from "./Pages/AccessOptionPages/Support";
+import FreeShipping from "./Pages/AccessOptionPages/FreeShipping";
 
 function App() {
   console.log("[App.js]");
@@ -34,6 +39,11 @@ function App() {
         { path: "/authenticate", element: <Authenticate /> },
         { path: "/register", element: <Register /> },
         { path: "/cart", element: <Cart /> },
+        { path: "/blog", element: <Blog /> },
+        { path: "/fastDelivery", element: <FastDelivery /> },
+        { path: "/sameDayDispatch", element: <SameDayDispatch /> },
+        { path: "/support", element: <Support /> },
+        { path: "/freeShipping", element: <FreeShipping /> },
       ],
     },
   ]);

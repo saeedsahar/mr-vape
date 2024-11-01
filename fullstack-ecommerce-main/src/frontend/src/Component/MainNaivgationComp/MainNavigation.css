@@ -16,3 +16,15 @@
 .cart-icon {
   color: white;
 }
+
+.order-message {
+  font-size: 13px;
+  color: white;
+  text-align: center;
+  border-radius: 3px;
+  background-color: #fa4f09;
+}
+.delivery-header-icon {
+  color: #28a745; /* Green color for delivery icon */
+  margin-right: 10px;
+}

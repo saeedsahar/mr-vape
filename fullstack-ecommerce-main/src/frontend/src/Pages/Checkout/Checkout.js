@@ -40,8 +40,7 @@ import { setSnackBar } from "../../Component/MainNaivgationComp/MainNavSlice";
 const Checkout = () => {
   // const [shippingMethod, setShippingMethod] = useState("");
   const [errors, setErrors] = useState({});
-  const [discountCode, setDiscountCode] = useState(""); // State for discount code
-  const [isDiscountApplied, setIsDiscountApplied] = useState(false); // Discount application status
+
   // const [sameAsBilling, setSameAsBilling] = useState(true); // Checkbox state for shipping address
   const [activeStep, setActiveStep] = useState(1);
   const [suggestions, setSuggestions] = useState([]);
@@ -54,7 +53,6 @@ const Checkout = () => {
     phone: "",
     country: "",
     streetAddress: "",
-    lane: "",
     townCity: "",
     postalCode: "",
     // cardNumber: "",
@@ -71,15 +69,6 @@ const Checkout = () => {
   //   setShippingMethod(event.target.value);
   // };
 
-  const handleApplyDiscount = () => {
-    // Logic to apply discount code
-    if (discountCode) {
-      // Assuming the code is valid for demo purposes
-      setIsDiscountApplied(true);
-      console.log("Discount applied:", discountCode);
-    }
-  };
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -93,7 +82,7 @@ const Checkout = () => {
   const validateForm = () => {
     const newErrors = {};
     Object.keys(formData).forEach((key) => {
-      if (!formData[key]) {
+      if (!formData[key] && key != "company") {
         newErrors[key] = "This field is required";
       }
     });
@@ -137,19 +126,20 @@ const Checkout = () => {
   const totalBill = cartItems.totalPrice;
 
   const handleNextStep = () => {
-    if (validateForm() && userauth.isLogged) {
+    if (validateForm()) {
       // Proceed with form submission logic, e.g., API call
       console.log("Form submitted:", formData);
       setActiveStep(activeStep + 1);
-    } else if (!userauth.isLogged) {
-      dispatch(
-        setSnackBar({
-          open: true,
-          message: "Please login or signup to continue!",
-          type: "error",
-        })
-      );
     }
+    // else if (!userauth.isLogged) {
+    //   dispatch(
+    //     setSnackBar({
+    //       open: true,
+    //       message: "Please login or signup to continue!",
+    //       type: "error",
+    //     })
+    //   );
+    // }
   };
 
   // Stepper Content
@@ -342,7 +332,6 @@ const Checkout = () => {
                     </div>
                     <div className="col-lg-6 mb-4">
                       <TextField
-                        required
                         label="Company"
                         fullWidth
                         name="company"
@@ -449,20 +438,7 @@ const Checkout = () => {
                         )}
                       </Box>
                     </div>
-                    <div className="col-lg-12 mb-4">
-                      <TextField
-                        required
-                        fullWidth
-                        label="Lane"
-                        name="lane"
-                        placeholder="1837 E Homer M Adams Pkwy"
-                        size="medium"
-                        value={formData.lane}
-                        onChange={handleChange}
-                        error={!!errors.lane}
-                        helperText={errors.lane}
-                      />
-                    </div>
+
                     <div className="col-lg-12 mb-4">
                       <TextField
                         required
@@ -491,126 +467,7 @@ const Checkout = () => {
                         helperText={errors.postalCode}
                       />
                     </div>
-                    {/* <div className="col-lg-12 mb-4">
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            checked={sameAsBilling}
-                            onChange={() => setSameAsBilling(!sameAsBilling)}
-                          />
-                        }
-                        label="Shipping address same as billing address"
-                      />
-                    </div>
-                    <div className="col-lg-12 mb-4">
-                      <Accordion
-                        disabled={sameAsBilling}
-                        sx={{ boxShadow: "none", overflow: "hidden" }}
-                        className="border shipping-address-accordian"
-                      >
-                        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                          Shipping Address
-                        </AccordionSummary>
-                        <AccordionDetails>
-                          <div className="row">
-                            <div className="col-lg-6 mb-4">
-                              <TextField
-                                required
-                                label="First Name"
-                                name="first_name"
-                                fullWidth
-                                placeholder="First Name"
-                                size="medium"
-                              />
-                            </div>
-                            <div className="col-lg-6 mb-4">
-                              <TextField
-                                required
-                                label="Last Name"
-                                fullWidth
-                                name="last_name"
-                                placeholder="Last Name"
-                                size="medium"
-                              />
-                            </div>
-                            <div className="col-lg-6 mb-4">
-                              <TextField
-                                required
-                                label="Company"
-                                fullWidth
-                                name="company"
-                                placeholder="Company"
-                                size="medium"
-                              />
-                            </div>
-                            <div className="col-lg-6 mb-4">
-                              <TextField
-                                required
-                                label="Phone Number"
-                                fullWidth
-                                name="phon_no"
-                                placeholder="Your Phone Number"
-                                size="medium"
-                              />
-                            </div>
-                            <div className="col-lg-12 mb-4">
-                              <TextField
-                                select
-                                label="Country / Region"
-                                required
-                                fullWidth
-                              >
-                                <MenuItem value={0}>United States</MenuItem>
-                                <MenuItem value={1}>United Kingdom</MenuItem>
-                                <MenuItem value={2}>Australia</MenuItem>
-                                <MenuItem value={3}>Germany</MenuItem>
-                                <MenuItem value={4}>France</MenuItem>
-                              </TextField>
-                            </div>
-                            <div className="col-lg-12 mb-4">
-                              <TextField
-                                required
-                                fullWidth
-                                label="Street Address"
-                                name="street_address"
-                                placeholder="1837 E Homer M Adams Pkwy"
-                                size="medium"
-                              />
-                            </div>
-                            <div className="col-lg-12 mb-4">
-                              <TextField
-                                required
-                                fullWidth
-                                label="Lane"
-                                name="lane"
-                                placeholder="1837 E Homer M Adams Pkwy"
-                                size="medium"
-                              />
-                            </div>
-                            <div className="col-lg-12 mb-4">
-                              <TextField
-                                required
-                                fullWidth
-                                label="Town / City"
-                                name="town_city"
-                                placeholder="Town / City"
-                                size="medium"
-                              />
-                            </div>
-                            <div className="col-lg-12 mb-4">
-                              <TextField
-                                required
-                                fullWidth
-                                label="Postal Code"
-                                name="postal_code"
-                                placeholder="Postal Code"
-                                size="medium"
-                              />
-                            </div>
-                          </div>
-                        </AccordionDetails>
-                      </Accordion>
-                    </div> */}
+
                     {/* Card Details */}
                     <div className="col-lg-12 mb-4">
                       <Accordion
@@ -704,30 +561,6 @@ const Checkout = () => {
                       );
                     })}
                   </Stack>
-
-                  <Box mt={4} className="border-top pt-4">
-                    <TextField
-                      label="Discount Code"
-                      value={discountCode}
-                      onChange={(e) => setDiscountCode(e.target.value)}
-                      variant="outlined"
-                      fullWidth
-                    />
-                    <Button
-                      variant="contained"
-                      onClick={handleApplyDiscount}
-                      size="large"
-                      fullWidth
-                      sx={{ mt: 2, backgroundColor: "#fa4f09" }}
-                    >
-                      Apply Code
-                    </Button>
-                    {isDiscountApplied && (
-                      <Alert severity="success" sx={{ mt: 2 }}>
-                        Discount applied successfully!
-                      </Alert>
-                    )}
-                  </Box>
 
                   <Box mt={4} className="border-top pt-4">
                     <div className="mb-2 checkout-title">Shipping Address</div>

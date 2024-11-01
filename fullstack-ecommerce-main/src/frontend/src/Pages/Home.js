@@ -22,7 +22,9 @@ import SwiperComponent, {
 } from "../Component/Swiper/Swiper";
 import { setMenu } from "./HomeSlice";
 import { SwiperSlide } from "swiper/react";
+import blogImg from "../assets/images/blog/blogimage.png";
 import "./Home.css";
+import { setBlog } from "./Blog/BlogSlice";
 function Home(props) {
   console.log("[Home.js]");
   const bannerImages = [
@@ -114,6 +116,45 @@ function Home(props) {
     new WOW.WOW().init(); // Initialize wow.js
   }, []);
 
+  let blogArray = [
+    {
+      title: "Exploring the Top Vape Kit Trends for 2024: What’s New?",
+      description: "",
+      image: blogImg,
+      shortDescription:
+        "Discover 2024’s vape kit trends, including compact designs, new tech, and improved features, plus insights from top brands.",
+    },
+    {
+      title:
+        "Understanding E-Liquid Ingredients: What’s Really Inside Your Vape Juice?",
+      description: "",
+      image: blogImg,
+      shortDescription:
+        "Learn about e-liquid ingredients like VG, PG, and flavors, their roles, safety tips, and what to check on labels.",
+    },
+    {
+      title: "Guide to Choosing the Right Vape Kit for Beginners and Pros",
+      description: "",
+      image: blogImg,
+      shortDescription:
+        "A guide to selecting vape kits based on experience level, from beginner devices to advanced mods for seasoned vapers.",
+    },
+    {
+      title: "How the E-Liquid Flavor Craze is Changing the Vaping Industry",
+      description: "",
+      image: blogImg,
+      shortDescription:
+        "Explore the popularity of unique e-liquid flavors, from classic to exotic, and their influence on the vaping experience.",
+    },
+    {
+      title:
+        "Vaping Etiquette: Tips for Respectful and Responsible Vaping in Public",
+      description: "",
+      image: blogImg,
+      shortDescription:
+        "Essential tips for respectful public vaping: low-odor options, designated areas, and responsible use around others.",
+    },
+  ];
   const fetchProductsTrending = async (query, pageIndex, pageSize) => {
     // dispatch(setLoading(true))
     try {
@@ -164,7 +205,10 @@ function Home(props) {
         {/* <div className="" style={{ paddingLeft: "10px", paddingRight: "10px" }}> */}
         <div
           className="product__item bor"
-          onClick={() => navigate(`/products/${item.id}`)}
+          onClick={() => {
+            dispatch(setBlog(item));
+            navigate(`/blog`);
+          }}
         >
           <a className="wishlist">
             <i className="fa-regular fa-heart" />
@@ -185,24 +229,25 @@ function Home(props) {
           </a>
           <div className="product__content">
             <h5 className="mb-15">
-              <a className="primary-hover">{item.name}</a>
+              <a className="primary-hover">{item.title}</a>
             </h5>
-            {item.wasPrice && <del>£{item.wasPrice}</del>}
-            <span className="primary-color ml-10">£{item.price}</span>
-            <div className="star mt-20">
-              <i className="fa-solid fa-star" />
-              <i className="fa-solid fa-star" />
-              <i className="fa-solid fa-star" />
-              <i className="fa-solid fa-star" />
-              <i className="fa-solid fa-star" />
-            </div>
+
+            <span
+              style={{ fontSize: "15px", fontWeight: "500" }}
+              className="ml-10"
+            >
+              {item.shortDescription}
+            </span>
           </div>
           <a
             className="product__cart d-block bor-top pointer"
-            // onClick={() => navigate(`/products/${item.id}`)}
+            onClick={() => {
+              dispatch(setBlog(item));
+              navigate(`/blog`);
+            }}
           >
-            <i className="fa-regular fa-cart-shopping primary-color me-1" />
-            <span>Shop Now</span>
+            {/* <i className="fa-regular fa-cart-shopping primary-color me-1" /> */}
+            <span>Read More</span>
           </a>
         </div>
         {/* </div> */}
@@ -223,7 +268,10 @@ function Home(props) {
       <section className="bg-dark">
         <div className="container-lg">
           <div className="row">
-            <div className="col text-center my-2">
+            <div
+              className="col text-center my-2"
+              onClick={() => navigate("/fastDelivery")}
+            >
               <div className="icon text-white mb-2">
                 <i class="fa-light fa-truck-fast fa-xl"></i>
               </div>
@@ -232,7 +280,10 @@ function Home(props) {
               </h6>
             </div>
 
-            <div className="col text-center my-2">
+            <div
+              className="col text-center my-2"
+              onClick={() => navigate("/freeShipping")}
+            >
               <div className="icon text-white mb-2">
                 <i class="fa-light fa-dolly fa-xl"></i>
               </div>
@@ -241,7 +292,10 @@ function Home(props) {
               </h6>
             </div>
 
-            <div className="col text-center my-2">
+            <div
+              className="col text-center my-2"
+              onClick={() => navigate("/sameDayDispatch")}
+            >
               <div className="icon text-white mb-2">
                 <i class="fa-light fa-truck-container fa-xl"></i>
               </div>
@@ -250,7 +304,10 @@ function Home(props) {
               </h6>
             </div>
 
-            <div className="col text-center my-2">
+            <div
+              className="col text-center my-2"
+              onClick={() => navigate("/support")}
+            >
               <div className="icon text-white mb-2">
                 <i class="fa-light fa-headset fa-xl"></i>
               </div>
@@ -638,12 +695,42 @@ function Home(props) {
         </div>
         {/* Text slider area end here */}
         {/* Gallery area start here */}
+
         <section className="gallery-area gallery-light black-area">
-          <SwiperComponentCustom
-            slidesPerView={5}
-            swiperProduct={productState.trendingProducts}
-            customSwiperProduct={customSwiperProductOff}
-          />
+          <div className="container-lg">
+            <div className="product__wrp pb-30 mb-65 bor-bottom d-flex flex-wrap align-items-center justify-content-xl-between justify-content-center">
+              <div
+                className="section-header d-flex align-items-center wow fadeInUp"
+                data-wow-delay=".1s"
+              >
+                <span className="title-icon mr-10" />
+                <h2>News and Blogs</h2>
+              </div>
+            </div>
+            <SwiperComponentCustom
+              slidesPerView={3}
+              swiperProduct={blogArray}
+              customSwiperProduct={customSwiperProductOff}
+              breakpoints={{
+                320: {
+                  slidesPerView: 1,
+                  spaceBetween: 20,
+                },
+                640: {
+                  slidesPerView: 1,
+                  spaceBetween: 20,
+                },
+                768: {
+                  slidesPerView: 1,
+                  spaceBetween: 20,
+                },
+                1366: {
+                  slidesPerView: 3,
+                  spaceBetween: 25,
+                },
+              }}
+            />
+          </div>
         </section>
         {/* Gallery area end here */}
         {/* Brand area start here */}

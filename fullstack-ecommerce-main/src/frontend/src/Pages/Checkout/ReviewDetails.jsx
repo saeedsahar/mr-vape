@@ -22,15 +22,18 @@ import {
   AlertTitle,
   Radio,
 } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useDispatch, useSelector } from "react-redux";
-import { base_url, postRequests } from "../../axios/API";
+import { base_url, getRequests, postRequests } from "../../axios/API";
 import { setSnackBar } from "../../Component/MainNaivgationComp/MainNavSlice";
 import { useNavigate } from "react-router-dom";
 import { resetCart } from "../Cart/CartSlice";
 
 const ReviewCartDetails = (props) => {
+  const [discountCode, setDiscountCode] = useState(""); // State for discount code
+  const [isDiscountApplied, setIsDiscountApplied] = useState(""); // Discount application status
+  const [discountedAmount, setDiscountedAmount] = useState(0);
   let cartItems = useSelector((state) => state.cart);
   let userauth = useSelector((state) => state.auth);
   let navigate = useNavigate();
@@ -91,7 +94,7 @@ const ReviewCartDetails = (props) => {
           orderDate: getCurrentDate(), // Required date-time
           subtotal: totalBill, // Required <= 999999.99
           shippingCostCharged: 10.0, // Required <= 999999.99
-          total: totalBill + 10.0, // Required <= 999999.99
+          total: totalBill + 10.0 + 20.0 - discountedAmount, // Required <= 999999.99
           currencyCode: "GBP", // <= 3 characters
           packages: [
             {
@@ -127,6 +130,25 @@ const ReviewCartDetails = (props) => {
       });
   };
 
+  const handleApplyDiscount = () => {
+    // Logic to apply discount code
+    if (discountCode) {
+      getRequests(`${base_url}/api/v1/product/dicount?code=${discountCode}`)
+        .then((data) => {
+          if (data?.data?.discount) {
+            setIsDiscountApplied("success");
+            setDiscountedAmount(data.data.discount);
+          } else {
+            setIsDiscountApplied("error");
+            setDiscountedAmount(0);
+          }
+        })
+        .catch((error) => {
+          setIsDiscountApplied("error");
+          setDiscountedAmount(0);
+        });
+    }
+  };
   return (
     <div className="row">
       <div className="col-lg-8">
@@ -190,7 +212,7 @@ const ReviewCartDetails = (props) => {
           </TableContainer>
         </Box>
 
-        <Box component="section" sx={{ mb: 5 }}>
+        {/* <Box component="section" sx={{ mb: 5 }}>
           <Accordion
             expanded={true}
             sx={{ boxShadow: "none", overflow: "hidden" }}
@@ -259,7 +281,7 @@ const ReviewCartDetails = (props) => {
               </Box>
             </AccordionDetails>
           </Accordion>
-        </Box>
+        </Box> */}
 
         <Box component="section" sx={{ mb: 5 }}>
           <div className="mb-0 checkout-title">Payment</div>
@@ -290,9 +312,7 @@ const ReviewCartDetails = (props) => {
                   <strong className="w-ch">Address:</strong>{" "}
                   {props.formData.streetAddress}
                 </li>
-                <li class="list-group-item">
-                  <strong className="w-ch">Lane:</strong> {props.formData.lane}
-                </li>
+
                 <li class="list-group-item">
                   <strong className="w-ch">Country:</strong>{" "}
                   {props.formData.country}
@@ -319,7 +339,7 @@ const ReviewCartDetails = (props) => {
             You don't have enough coins to redeem.
           </Alert>
 
-          <Stack mb={4} pb={5}>
+          <Stack mb={4} pb={5} style={{ marginBottom: "0px" }}>
             {orderItems.map((item, i) => {
               return (
                 <Stack
@@ -354,6 +374,32 @@ const ReviewCartDetails = (props) => {
             })}
           </Stack>
 
+          <Box mt={4} className="border-top pt-4" style={{ marginTop: "0px" }}>
+            <TextField
+              label="Discount Code"
+              value={discountCode}
+              onChange={(e) => setDiscountCode(e.target.value)}
+              variant="outlined"
+              fullWidth
+            />
+            <Button
+              variant="contained"
+              onClick={handleApplyDiscount}
+              size="large"
+              fullWidth
+              sx={{ mt: 2, backgroundColor: "#fa4f09" }}
+            >
+              Apply Code
+            </Button>
+            {isDiscountApplied && (
+              <Alert severity={isDiscountApplied} sx={{ mt: 2 }}>
+                {isDiscountApplied == "success"
+                  ? "Discount applied successfully!"
+                  : "Failed to apply discount!"}
+              </Alert>
+            )}
+          </Box>
+
           <Box>
             <table>
               <tr>
@@ -362,6 +408,15 @@ const ReviewCartDetails = (props) => {
                   <span className="">£{totalBill}</span>
                 </td>
               </tr>
+              {discountedAmount ? (
+                <tr>
+                  <td className="py-2 ">Discount</td>
+                  <td className="py-2 " align="right">
+                    <span className="">£{discountedAmount}</span>
+                  </td>
+                </tr>
+              ) : null}
+
               <tr>
                 <td className="py-2 border-bottom ">
                   <span>Shipping</span>
@@ -383,7 +438,7 @@ const ReviewCartDetails = (props) => {
                 </td>
                 <td className="pt-4 fw-semibold" align="right">
                   <span className="fw-semibold fs-4">
-                    £{totalBill + 10 + 20}
+                    £{totalBill + 10 + 20 - discountedAmount}
                   </span>
                 </td>
               </tr>
