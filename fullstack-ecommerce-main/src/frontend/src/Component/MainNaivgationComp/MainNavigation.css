@@ -22,9 +22,9 @@
   color: white;
   text-align: center;
   border-radius: 3px;
-  background-color: #fa4f09;
+  background-color: red;
 }
 .delivery-header-icon {
-  color: #28a745; /* Green color for delivery icon */
+  color: black; /* Green color for delivery icon */
   margin-right: 10px;
 }
