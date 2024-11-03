@@ -269,7 +269,7 @@ function Home(props) {
         <div className="container-lg">
           <div className="row">
             <div
-              className="col text-center my-2"
+              className="col text-center my-2 pointer"
               onClick={() => navigate("/fastDelivery")}
             >
               <div className="icon text-white mb-2">
@@ -281,7 +281,7 @@ function Home(props) {
             </div>
 
             <div
-              className="col text-center my-2"
+              className="col text-center my-2 pointer"
               onClick={() => navigate("/freeShipping")}
             >
               <div className="icon text-white mb-2">
@@ -293,7 +293,7 @@ function Home(props) {
             </div>
 
             <div
-              className="col text-center my-2"
+              className="col text-center my-2 pointer"
               onClick={() => navigate("/sameDayDispatch")}
             >
               <div className="icon text-white mb-2">
@@ -305,7 +305,7 @@ function Home(props) {
             </div>
 
             <div
-              className="col text-center my-2"
+              className="col text-center my-2 pointer"
               onClick={() => navigate("/support")}
             >
               <div className="icon text-white mb-2">
