@@ -108,11 +108,13 @@ export const SwiperComponentCustom = (props) => {
               },
             }
       }
-      autoplay={{
-        delay: 2500,
-        disableOnInteraction: false,
-      }}
-      loop={true}
+      autoplay={
+        !props.stopAutoPlay && {
+          delay: 2500,
+          disableOnInteraction: false,
+        }
+      }
+      loop={!props.stopAutoPlay}
       modules={[Autoplay]}
       className="mySwiper"
     >

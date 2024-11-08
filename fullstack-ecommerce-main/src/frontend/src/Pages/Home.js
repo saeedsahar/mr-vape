@@ -729,7 +729,14 @@ function Home(props) {
                   spaceBetween: 25,
                 },
               }}
+              stopAutoPlay={true}
             />
+            <h4
+              onClick={() => navigate("/allBlogs")}
+              className="blogs-and-news"
+            >
+              View All Blogs And News{" "}
+            </h4>
           </div>
         </section>
         {/* Gallery area end here */}

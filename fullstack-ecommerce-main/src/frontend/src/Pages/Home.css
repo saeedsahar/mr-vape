@@ -19,3 +19,14 @@
 .pointer{
     cursor: pointer !important;
 }
+
+.blogs-and-news{
+    color: #fa4f09;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 18px;
+    margin-top: 15px;
+    text-align: end;
+    margin-right: 10px;
+    cursor: pointer;
+}
