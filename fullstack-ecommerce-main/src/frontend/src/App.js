@@ -43,9 +43,9 @@ function App() {
         { path: "/blog", element: <Blog /> },
         { path: "/allBlogs", element: <ViewAllBlogs /> },
         { path: "/fastDelivery", element: <FastDelivery /> },
-        { path: "/sameDayDispatch", element: <SameDayDispatch /> },
-        { path: "/support", element: <Support /> },
-        { path: "/freeShipping", element: <FreeShipping /> },
+        { path: "/sameDayDispatch", element: <FastDelivery /> },
+        { path: "/support", element: <FastDelivery /> },
+        { path: "/freeShipping", element: <FastDelivery /> },
       ],
     },
   ]);
