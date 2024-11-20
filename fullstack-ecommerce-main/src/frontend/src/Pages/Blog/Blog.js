@@ -3,8 +3,10 @@ import { useSelector } from "react-redux";
 
 function Blog(props) {
   let blogState = useSelector((state) => state.blog.selectedBlog);
+  console.log("descriptiton is ...."+blogState.description)
 
-  let content = `The vape industry is constantly evolving, with new innovations each year. In 2024, we expect to see more compact designs in vape kits that make them easier to carry and use on the go.\n\nBattery life is another area seeing significant improvement. Vape kits are now designed with longer-lasting batteries and faster charging times, ensuring users don’t have to worry about frequent recharging.\n\nHeating mechanisms have also seen an upgrade, with smoother vapor production and flavor retention. With each trend, manufacturers are working to make the vaping experience safer and more enjoyable for users of all experience levels.\n\nThe vape industry is constantly evolving, with new innovations each year. In 2024, we expect to see more compact designs in vape kits that make them easier to carry and use on the go.\n\nBattery life is another area seeing significant improvement. Vape kits are now designed with longer-lasting batteries and faster charging times, ensuring users don’t have to worry about frequent recharging.\n\nHeating mechanisms have also seen an upgrade, with smoother vapor production and flavor retention. With each trend, manufacturers are working to make the vaping experience safer and more enjoyable for users of all experience levels.\n\nThe vape industry is constantly evolving, with new innovations each year. In 2024, we expect to see more compact designs in vape kits that make them easier to carry and use on the go.\n\nBattery life is another area seeing significant improvement. Vape kits are now designed with longer-lasting batteries and faster charging times, ensuring users don’t have to worry about frequent recharging.\n\nHeating mechanisms have also seen an upgrade, with smoother vapor production and flavor retention. With each trend, manufacturers are working to make the vaping experience safer and more enjoyable for users of all experience levels.\n\nThe vape industry is constantly evolving, with new innovations each year. In 2024, we expect to see more compact designs in vape kits that make them easier to carry and use on the go.\n\nBattery life is another area seeing significant improvement. Vape kits are now designed with longer-lasting batteries and faster charging times, ensuring users don’t have to worry about frequent recharging.\n\nHeating mechanisms have also seen an upgrade, with smoother vapor production and flavor retention. With each trend, manufacturers are working to make the vaping experience safer and more enjoyable for users of all experience levels.`;
+  // debugger
+  let content = blogState.description;
   return (
     <div style={styles.container}>
       {/* Main Title */}
@@ -25,10 +27,13 @@ function Blog(props) {
       {/* Detailed Blog Content */}
       <div style={styles.content}>
         {content.split("\n\n").map((paragraph, index) => (
-          <p key={index} style={styles.paragraph}>
-            {paragraph}
-          </p>
+          <p 
+          key={index} 
+          style={styles.paragraph} 
+          dangerouslySetInnerHTML={{ __html: paragraph }} 
+        />
         ))}
+
       </div>
     </div>
   );
@@ -71,6 +76,10 @@ const styles = {
   paragraph: {
     marginBottom: "15px",
   },
+  smallH2: {
+    fontSize: "15px",  // 'font-size' should be 'fontSize' in camelCase
+  },
+ 
 };
 
 export default Blog;

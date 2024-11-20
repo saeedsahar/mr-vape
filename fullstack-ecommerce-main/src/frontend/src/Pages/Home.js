@@ -3,6 +3,13 @@ import { useNavigate } from "react-router-dom";
 import WOW from "wowjs";
 import bgImage from "../assets/images/bg/view-bg.jpg";
 import bImg from "../assets/images/bg/discount-bg2.jpg";
+
+import blogImgeliquid from "../assets/images/blog/best-eliquid2025.jpg";
+import blogNewInstores2025 from "../assets/images/blog/whatinstores2025.jpg";
+import blogVapingDevicesBudget from "../assets/images/blog/vapingdevicesbudget.jpg";
+
+
+
 import bannerBImg from "../assets/images/banner/banner-two-image1.jpg";
 import trustPilotWidget from "../assets/images/logo/widget-1.jpg";
 // import ProductDisplay from "../Component/HomePage/Product/ProductDisplay";
@@ -119,25 +126,185 @@ function Home(props) {
   let blogArray = [
     {
       title: "Exploring the Top Vape Kit Trends for 2024: What’s New?",
-      description: "",
-      image: blogImg,
+      description: `    <p style="font-size: 16px; line-height: 1.6; color: #555; margin-bottom: 15px;">
+      As we head into 2025, the vaping industry continues to evolve with innovative technologies, more compact designs, and enhanced features that cater to both beginner vapers and seasoned enthusiasts. This year, top brands like <strong>JNR Vapes</strong> are leading the way in creating cutting-edge vape kits that combine performance, portability, and affordability. Here’s a look at the latest trends that are set to dominate the market, from sleek, pocket-sized devices to smarter, longer-lasting options.
+    </p>
+
+    <h2 style="font-size: 24px; font-weight: bold; color: #333; margin-top: 20px;">
+      1. Compact and Portable Designs: A Game-Changer for Vapers on the Go
+    </h2>
+    <p style="font-size: 16px; line-height: 1.6; color: #555; margin-bottom: 15px;">
+      In 2025, the trend toward smaller, more portable vaping devices continues to gain momentum. Compact designs allow vapers to carry their devices discreetly without sacrificing performance. The <strong>JNR Crystal Pro Max 5000 Puffs</strong>, for example, offers a compact size yet delivers a smooth vaping experience with up to 5000 puffs. This makes it ideal for users who want a device that’s easy to carry in their pocket but doesn’t compromise on flavor or longevity.
+    </p>
+    <p style="font-size: 16px; line-height: 1.6; color: #555; margin-bottom: 15px;">
+      <strong>Key Trend:</strong> Ultra-portability without sacrificing performance.
+    </p>
+    <p style="font-size: 16px; line-height: 1.6; color: #555; margin-bottom: 15px;">
+      <strong>JNR Insight:</strong> The <strong>JNR Crystal Pro Max</strong> proves that size isn’t everything; its portability and long-lasting puffs make it an excellent choice for frequent travelers or on-the-go vapers.
+    </p>
+
+    <h2 style="font-size: 24px; font-weight: bold; color: #333; margin-top: 20px;">
+      2. New Tech Features: Smarter Vaping for the Modern User
+    </h2>
+    <p style="font-size: 16px; line-height: 1.6; color: #555; margin-bottom: 15px;">
+      2025 sees an influx of new tech in vape kits, including advanced airflow systems, better battery management, and even app connectivity. The <strong>JNR Alien 10000 Puffs</strong> is a great example, offering improved battery life, smarter draw sensors, and enhanced flavor delivery systems. These features make for an even smoother and more consistent vaping experience.
+    </p>
+    <p style="font-size: 16px; line-height: 1.6; color: #555; margin-bottom: 15px;">
+      <strong>Key Trend:</strong> Integration of smarter technology for precision and efficiency.
+    </p>
+    <p style="font-size: 16px; line-height: 1.6; color: #555; margin-bottom: 15px;">
+      <strong>JNR Insight:</strong> With the <strong>JNR Alien</strong>, users can enjoy cutting-edge tech that optimizes every puff, making each vape session seamless and satisfying.
+    </p>
+
+    <h2 style="font-size: 24px; font-weight: bold; color: #333; margin-top: 20px;">
+      3. Enhanced Durability and Longer Life: A Focus on Longevity
+    </h2>
+    <p style="font-size: 16px; line-height: 1.6; color: #555; margin-bottom: 15px;">
+      As vapers demand products that offer better value and longer-lasting performance, brands like JNR are stepping up with devices that are built to last. The <strong>JNR Falcon-X 18000 Puffs</strong> takes durability to a new level with its extended lifespan and robust design. With 18,000 puffs, it’s perfect for those who don’t want to constantly replace their device.
+    </p>
+    <p style="font-size: 16px; line-height: 1.6; color: #555; margin-bottom: 15px;">
+      <strong>Key Trend:</strong> Devices that last longer, offering more puffs and reducing the frequency of replacements.
+    </p>
+    <p style="font-size: 16px; line-height: 1.6; color: #555; margin-bottom: 15px;">
+      <strong>JNR Insight:</strong> The <strong>JNR Falcon-X</strong> provides impressive longevity while maintaining a sleek and modern design—ideal for vapers who want to get the most out of their investment.
+    </p>
+
+    <h2 style="font-size: 24px; font-weight: bold; color: #333; margin-top: 20px;">
+      4. Shisha-Inspired Flavors and Styles: A Traditional Twist with a Modern Edge
+    </h2>
+    <p style="font-size: 16px; line-height: 1.6; color: #555; margin-bottom: 15px;">
+      For 2025, there’s a notable trend toward blending traditional experiences with modern tech. Shisha-inspired vape kits are gaining popularity, offering classic flavors with the convenience of modern, disposable devices. The <strong>JNR Shisha 12000 Puffs</strong> offers a refreshing take on traditional shisha, bringing those rich, aromatic flavors into a sleek, easy-to-use vape kit.
+    </p>
+    <p style="font-size: 16px; line-height: 1.6; color: #555; margin-bottom: 15px;">
+      <strong>Key Trend:</strong> Shisha-inspired vaping, combining tradition with technology.
+    </p>
+    <p style="font-size: 16px; line-height: 1.6; color: #555; margin-bottom: 15px;">
+      <strong>JNR Insight:</strong> The <strong>JNR Shisha</strong> series is perfect for those who enjoy the cultural experience of shisha but want a more modern, portable solution.
+    </p>
+
+    <h2 style="font-size: 24px; font-weight: bold; color: #333; margin-top: 20px;">
+      5. Sustainability in Vape Kits: Eco-Friendly Designs
+    </h2>
+    <p style="font-size: 16px; line-height: 1.6; color: #555; margin-bottom: 15px;">
+      As sustainability becomes more important in the consumer product market, the vaping industry is following suit with eco-friendly innovations. Brands like JNR are focusing on recyclable materials and reducing waste. Look for vape kits that not only offer great performance but also help minimize environmental impact.
+    </p>
+    <p style="font-size: 16px; line-height: 1.6; color: #555; margin-bottom: 15px;">
+      <strong>Key Trend:</strong> A move toward sustainability in vaping products, including recyclable components.
+    </p>
+    <p style="font-size: 16px; line-height: 1.6; color: #555; margin-bottom: 15px;">
+      <strong>JNR Insight:</strong> JNR’s commitment to eco-friendly materials ensures that you can enjoy your vape sessions while being mindful of your environmental footprint.
+    </p>
+
+    <h2 style="font-size: 24px; font-weight: bold; color: #333; margin-top: 20px;">
+      Conclusion: The Future of Vaping in 2025
+    </h2>
+    <p style="font-size: 16px; line-height: 1.6; color: #555; margin-bottom: 15px;">
+      2025 is shaping up to be an exciting year for the vaping industry, with innovations in design, technology, and sustainability. JNR Vapes is at the forefront of these trends, offering a diverse range of products that cater to every type of vaper. Whether you’re looking for compact portability, enhanced tech, or a more eco-friendly vape experience, JNR’s 2025 lineup has something for you.
+    </p>`,
+      image: blogNewInstores2025,
       shortDescription:
-        "Discover 2024’s vape kit trends, including compact designs, new tech, and improved features, plus insights from top brands.",
+        "Discover 2025’s vape kit trends, including compact designs, new tech, and improved features, plus insights from top brands.",
     },
     {
       title:
-        "Understanding E-Liquid Ingredients: What’s Really Inside Your Vape Juice?",
-      description: "",
-      image: blogImg,
+        "The Best E-Liquid Brands of 2025",
+      description: `
+      <p style="font-size: 16px; margin-bottom: 15px;">
+        The vaping world is buzzing with excitement in 2025 as e-liquid brands continue to push the boundaries of flavor, quality, and innovation. Among these, 
+        <strong style="color: #e74c3c;">Niplo</strong> stands out as a leader, setting a new benchmark for excellence in the industry. Let’s explore the top brands that are shaping the e-liquid market this year.
+    </p>
+
+    <h2 style="font-size: 22px; font-weight: bold; color: #34495e;">1. Niplo: Leading the Way in Innovation</h2>
+    <p style="font-size: 16px; margin-bottom: 15px;">
+        Niplo continues to dominate the e-liquid market with its groundbreaking flavors and exceptional quality. Known for its bold, innovative approach, Niplo 
+        combines premium ingredients with cutting-edge technology to deliver a vaping experience like no other.
+    </p>
+    <p style="font-size: 16px; margin-bottom: 15px;">
+        <strong>Top Picks:</strong> Niplo’s tropical blends and dessert-inspired flavors are a hit among vapers, offering a perfect balance of sweetness and smoothness.
+    </p>
+
+    <h2 style="font-size: 22px; font-weight: bold; color: #34495e;">2. Vaporia: A Flavorful Journey</h2>
+    <p style="font-size: 16px; margin-bottom: 15px;">
+        Vaporia has carved out a niche for itself with its diverse range of flavors and dedication to quality. From fruity explosions to refreshing menthols, this brand ensures that there’s something for every palate.
+    </p>
+    <p style="font-size: 16px; margin-bottom: 15px;">
+        <strong>Top Picks:</strong> Their berry-inspired e-liquids and iced flavors are particularly popular in 2025.
+    </p>
+
+    <h2 style="font-size: 22px; font-weight: bold; color: #34495e;">3. CloudFusion: Perfect for Cloud Chasers</h2>
+    <p style="font-size: 16px; margin-bottom: 15px;">
+        For those who love thick clouds and rich flavor profiles, CloudFusion is the brand to beat. Its high VG (vegetable glycerin) blends are designed to maximize vapor production without compromising on taste.
+    </p>
+    <p style="font-size: 16px; margin-bottom: 15px;">
+        <strong>Top Picks:</strong> Creamy custards and classic tobacco blends are standout options from CloudFusion.
+    </p>
+
+    <h2 style="font-size: 22px; font-weight: bold; color: #34495e;">4. FlavorArt: Authentic and Pure</h2>
+    <p style="font-size: 16px; margin-bottom: 15px;">
+        FlavorArt prides itself on using natural ingredients to create authentic, pure flavors. Their attention to detail ensures that each bottle is crafted to perfection, making them a favorite among flavor purists.
+    </p>
+    <p style="font-size: 16px; margin-bottom: 15px;">
+        <strong>Top Picks:</strong> Citrus blends and vanilla-infused flavors are highly recommended.
+    </p>
+
+    <h2 style="font-size: 22px; font-weight: bold; color: #34495e;">5. EcoJuice: Sustainability Meets Flavor</h2>
+    <p style="font-size: 16px; margin-bottom: 15px;">
+        As sustainability becomes a top priority, EcoJuice leads the way with eco-friendly packaging and responsibly sourced ingredients. Their commitment to the environment doesn’t come at the cost of flavor, as they offer a range of delicious, guilt-free options.
+    </p>
+    <p style="font-size: 16px; margin-bottom: 15px;">
+        <strong>Top Picks:</strong> EcoJuice’s organic fruit flavors are both refreshing and environmentally friendly.
+    </p>
+
+    <h2 style="font-size: 22px; font-weight: bold; color: #34495e;">Conclusion</h2>
+    <p style="font-size: 16px; margin-bottom: 15px;">
+        2025 is shaping up to be an incredible year for e-liquid enthusiasts. With brands like <strong style="color: #e74c3c;">Niplo</strong> leading the charge in innovation and quality, there’s never been a better time to explore new flavors and elevate your vaping experience. Whether you’re seeking bold, exotic blends or eco-conscious choices, the top brands of 2025 have something for everyone.
+    </p>
+      `,
+      image: blogImgeliquid,
       shortDescription:
-        "Learn about e-liquid ingredients like VG, PG, and flavors, their roles, safety tips, and what to check on labels.",
+        "Discover the top e-liquid brands of 2025, with Niplo leading the way in flavor, quality, and innovation.",
     },
     {
-      title: "Guide to Choosing the Right Vape Kit for Beginners and Pros",
-      description: "",
-      image: blogImg,
+      title: "Top Budget-Friendly Vaping Devices at VapePlanet.co.uk",
+      description: `
+      <div style="padding: 20px;">
+        <p style="font-size: 16px; line-height: 1.6; color: #34495e;">Experience exceptional quality without breaking the bank. VapePlanet.co.uk offers a variety of budget-friendly vape devices that provide great performance, longevity, and flavor.</p>
+
+        <div style="background-color: #fff; margin: 15px 0; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+            <h2 style="font-size: 20px; color: #2c3e50;">1. JNR Crystal Pro Max 5000 Puffs: Compact Yet Powerful</h2>
+            <p style="font-size: 16px; line-height: 1.6; color: #34495e;">For vapers on the go, the JNR Crystal Pro Max 5000 Puffs offers portability, affordability, and performance. This device delivers a smooth vaping experience with consistent flavors lasting up to 5,000 puffs. Its compact size makes it easy to carry while offering exceptional value.</p>
+        </div>
+
+        <div style="background-color: #fff; margin: 15px 0; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+            <h2 style="font-size: 20px; color: #2c3e50;">2. JNR Black and Gold 600 Puffs: Small But Mighty</h2>
+            <p style="font-size: 16px; line-height: 1.6; color: #34495e;">If you're just starting out or need something discreet, the JNR Black and Gold 600 Puffs delivers a rich, satisfying flavor in a sleek, portable design. This device offers a premium feel at a fraction of the cost.</p>
+        </div>
+
+        <div style="background-color: #fff; margin: 15px 0; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+            <h2 style="font-size: 20px; color: #2c3e50;">3. JNR Alien 10000 Puffs: Long-Lasting Value</h2>
+            <p style="font-size: 16px; line-height: 1.6; color: #34495e;">The JNR Alien 10000 Puffs provides up to 10,000 puffs, offering a smooth vaping experience for an extended period. Its ergonomic design makes it easy to carry, making it a great investment for vapers who want a long-lasting device at a reasonable price.</p>
+        </div>
+
+        <div style="background-color: #fff; margin: 15px 0; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+            <h2 style="font-size: 20px; color: #2c3e50;">4. JNR Falcon-X 18000 Puffs: High-Performance on a Budget</h2>
+            <p style="font-size: 16px; line-height: 1.6; color: #34495e;">The JNR Falcon-X 18000 Puffs offers incredible value for those seeking durability and longevity. With 18,000 puffs, this device delivers excellent performance without the premium price tag. Its sleek, modern design ensures you get top-tier quality without breaking the bank.</p>
+        </div>
+
+        <div style="background-color: #fff; margin: 15px 0; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+            <h2 style="font-size: 20px; color: #2c3e50;">5. JNR Shisha 12000 Puffs: A Taste of Tradition at an Affordable Price</h2>
+            <p style="font-size: 16px; line-height: 1.6; color: #34495e;">For shisha enthusiasts, the JNR Shisha 12000 Puffs offers traditional flavors in a convenient, disposable vape. With 12,000 puffs, it’s a great way to enjoy rich flavors without compromising on affordability or quality.</p>
+        </div>
+
+        <p style="font-size: 16px; line-height: 1.6; color: #34495e;"><strong>Why Choose Budget-Friendly Devices at VapePlanet.co.uk?</strong></p>
+        <p style="font-size: 16px; line-height: 1.6; color: #34495e;">VapePlanet.co.uk is dedicated to bringing you top-notch vaping experiences at prices you can afford. Our carefully selected range of devices from JNR Vapes ensures you get exceptional value without compromising quality. All of our devices are designed to deliver consistent flavor, longevity, and satisfaction—proving you don’t have to spend a lot to enjoy a great vaping experience.</p>
+
+        <p style="font-size: 16px; line-height: 1.6; color: #34495e;"><strong>Conclusion:</strong> You don’t have to break the bank for a great vaping experience. At VapePlanet.co.uk, we offer affordable devices like the JNR Crystal Pro Max and JNR Alien, each crafted to deliver quality performance. Visit us today and find the perfect vape that suits your needs and your wallet!</p>
+
+        <a href="https://vapeplanet.co.uk" style="background-color: #e74c3c; color: white; padding: 10px 20px; text-decoration: none; border-radius: 4px; font-weight: bold; display: inline-block; margin-top: 20px;">Shop Now</a>
+    </div>`,
+      image: blogVapingDevicesBudget,
       shortDescription:
-        "A guide to selecting vape kits based on experience level, from beginner devices to advanced mods for seasoned vapers.",
+        "Unlock unbeatable vaping experiences without the hefty price tag—explore the top budget-friendly devices at VapePlanet.co.uk today!",
     },
     {
       title: "How the E-Liquid Flavor Craze is Changing the Vaping Industry",
@@ -238,6 +405,14 @@ function Home(props) {
             >
               {item.shortDescription}
             </span>
+            {/* <span
+              style={{ fontSize: "15px", fontWeight: "500" }}
+              className="ml-10"
+            >
+              {item.description} */}
+            {/* </span> */}
+
+
           </div>
           <a
             className="product__cart d-block bor-top pointer"

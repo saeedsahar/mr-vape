@@ -38,7 +38,7 @@ function Footer(props) {
                         </a>
                       </li>
                       <li>
-                        <a href="#0">
+                        <a href="/fastDelivery">
                           <span />
                           Delivery Information
                         </a>
@@ -55,13 +55,13 @@ function Footer(props) {
                     <h4 className="footer-title">Get to Know Us</h4>
                     <ul>
                       <li>
-                        <a href="#0">
+                        <a href="/about">
                           <span />
                           About Us
                         </a>
                       </li>
                       <li>
-                        <a href="#0">
+                        <a href="/allBlogs">
                           <span />
                           News &amp; Blog
                         </a>
@@ -152,7 +152,7 @@ function Footer(props) {
                 <img src="assets/images/logo/logo.svg" alt="logo" />
               </a>
               <p>
-                © Copyright 2023 <a className="primary-hover">odor</a> All
+                © Copyright 2025 <a className="primary-hover">VapePlanet-</a> All
                 Rights Reserved
               </p>
               <a className="payment d-block image">

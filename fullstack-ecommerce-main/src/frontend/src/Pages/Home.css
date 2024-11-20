@@ -16,6 +16,13 @@
     }
 }
 
+/* Media query for screens smaller than 768px (you can adjust the width if needed) */
+/* @media (max-width: 768px) {
+    .img-fluid {
+        width: 67% !important;
+    }
+} */
+
 .pointer{
     cursor: pointer !important;
 }
@@ -29,4 +36,31 @@
     text-align: end;
     margin-right: 10px;
     cursor: pointer;
+}
+
+/* Ensure the arrows only apply to this specific swiper instance */
+.custom-swiper .swiper-button-prev,
+.custom-swiper .swiper-button-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  padding: 10px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.custom-swiper .swiper-button-prev {
+  left: 10px;
+}
+
+.custom-swiper .swiper-button-next {
+  right: 10px;
+}
+
+.custom-swiper .swiper-button-prev:hover,
+.custom-swiper .swiper-button-next:hover {
+  background-color: rgba(0, 0, 0, 0.7);
 }
