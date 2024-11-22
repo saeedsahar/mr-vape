@@ -70,12 +70,6 @@ function Footer(props) {
                       <li>
                         <a href="#0">
                           <span />
-                          Investors
-                        </a>
-                      </li>
-                      <li>
-                        <a href="#0">
-                          <span />
                           Contact Us
                         </a>
                       </li>
@@ -152,8 +146,8 @@ function Footer(props) {
                 <img src="assets/images/logo/logo.svg" alt="logo" />
               </a>
               <p>
-                © Copyright 2025 <a className="primary-hover">VapePlanet-</a> All
-                Rights Reserved
+                © Copyright 2025 <a className="primary-hover">VapePlanet-</a>{" "}
+                All Rights Reserved
               </p>
               <a className="payment d-block image">
                 <img src="assets/images/icon/payment.png" alt="icon" />
