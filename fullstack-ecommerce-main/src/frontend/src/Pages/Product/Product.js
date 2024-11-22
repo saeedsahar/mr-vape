@@ -236,7 +236,10 @@ function Product(props) {
                     );
                   })}
                 </div>
-                <div className="col-lg-9 product-display-page-filter">
+                <div
+                  className="col-lg-9 product-display-page-filter"
+                  style={{ marginLeft: "0px" }}
+                >
                   <div className="row">
                     {productState.products?.map((product) => {
                       return (
