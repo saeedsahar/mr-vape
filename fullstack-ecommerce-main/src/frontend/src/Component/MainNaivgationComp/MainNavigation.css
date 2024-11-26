@@ -13,6 +13,13 @@
   }
 }
 
+@media (max-width: 767px) {
+  .top__header .top__wrapper .account__wrap .cart {
+      background-color: transparent;
+      width: 40px !important;
+  }
+}
+
 .cart-icon {
   color: white;
 }

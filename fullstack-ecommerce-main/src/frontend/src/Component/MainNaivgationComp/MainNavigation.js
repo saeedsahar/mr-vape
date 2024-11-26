@@ -405,9 +405,9 @@ function MainNavigation(props) {
         style={{ backgroundColor: "white" }}
       >
         <div className="container-lg">
-          <div className="top__wrapper row justify-content-between align-items-center">
-            <div className="col-2">
-              <a className="main__logo">
+          <div className="top__wrapper row align-items-center">
+            <div className="col-auto">
+              <a className="main__logo" style={{ width: "100%" }}>
                 <button
                   onClick={() => toggleDrawer(true)}
                   class="px-2 d-lg-none"
@@ -677,7 +677,7 @@ function MainNavigation(props) {
                     onClick={() => setCartDrawerOpen(true)}
                     style={{
                       paddingLeft: "5px",
-                      width: "120px",
+                      // width: "120px",
                       gap: "5px",
                       justifyContent: "center",
                     }}
