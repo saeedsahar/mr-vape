@@ -252,7 +252,7 @@ function Home(props) {
         </section>
         {/* Widget Block 2 */}
         <section className="bg-white py-2 pb-3">
-          <div className="container-lg">
+          {/* <div className="container-lg">
             <div className="row">
               <div className="col-12 text-center">
                 <div className="trustpilot-widget">
@@ -264,7 +264,12 @@ function Home(props) {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
+         
+<div class="trustpilot-widget" data-locale="en-GB" data-template-id="56278e9abfbbba0bdcd568bc" data-businessunit-id="674a0a1bc6992161e87b4986" data-style-height="52px" data-style-width="100%">
+  <a href="https://uk.trustpilot.com/review/vapeplanet.co.uk" target="_blank" rel="noopener">Trustpilot</a>
+</div>
+
         </section>
 
         <section className=" bg-image category-area black-area category-two pb-60 pt-80">

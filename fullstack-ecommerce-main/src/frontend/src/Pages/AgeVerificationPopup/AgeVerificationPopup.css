@@ -1,0 +1,97 @@
+/* AgeVerificationPopup.css */
+
+/* General styling for the popup container */
+.popup-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Centering the popup box */
+.popup {
+  background-color: white;
+  border-radius: 10px;
+  padding: 20px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+/* Styling for the heading */
+.popup-heading {
+  font-size: 1.5rem; /* Slightly smaller than usual */
+  margin-bottom: 10px;
+  color: #333;
+}
+
+/* Styling for the text */
+.popup-text {
+  font-size: 1rem;
+  margin-bottom: 20px;
+  color: #555;
+}
+
+/* Button container for yes/no buttons */
+.button-container {
+  display: flex;
+  justify-content: center;
+  gap: 15px; /* Space between buttons */
+}
+
+/* Styling for the verify buttons */
+.verify-button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  border: none;
+  width: 80px;
+  transition: background-color 0.3s ease;
+}
+
+/* Yes button color */
+.verify-button:first-child {
+  background-color: #4CAF50; /* Green for Yes */
+  color: white;
+}
+
+.verify-button:first-child:hover {
+  background-color: #45a049;
+}
+
+/* No button color */
+.verify-button:last-child {
+  background-color: #f44336; /* Red for No */
+  color: white;
+}
+
+.verify-button:last-child:hover {
+  background-color: #e53935;
+}
+
+/* Optional: Responsive styling for smaller screens */
+@media (max-width: 600px) {
+  .popup {
+    width: 90%;
+  }
+
+  .popup-heading {
+    font-size: 1.25rem;
+  }
+
+  .popup-text {
+    font-size: 0.9rem;
+  }
+
+  .verify-button {
+    width: 100px;
+  }
+}

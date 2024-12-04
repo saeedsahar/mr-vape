@@ -128,13 +128,16 @@ function Footer(props) {
                         <i className="fa-brands fa-facebook-f" />
                       </a>
                       <a href="#0">
-                        <i className="fa-brands fa-twitter" />
+                        <i className="fa-brands fa-x" />
                       </a>
                       <a href="#0">
-                        <i className="fa-brands fa-linkedin-in" />
+                        <i className="fa-brands fa-tiktok" />
                       </a>
                       <a href="#0">
                         <i className="fa-brands fa-youtube" />
+                      </a>
+                      <a href="#0">
+                        <i className="fa-brands fa-instagram" />
                       </a>
                     </div>
                   </div>

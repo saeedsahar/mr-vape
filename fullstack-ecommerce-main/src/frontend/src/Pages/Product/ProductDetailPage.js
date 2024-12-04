@@ -321,10 +321,10 @@ function ProductDetailPage(props) {
                               <i className="fa-brands fa-facebook-f" />
                             </a>
                             <a className="mx-2 primary-color secondary-hover">
-                              <i className="fa-brands fa-twitter" />
+                              <i className="fa-brands fa-x" />
                             </a>
                             <a className="mx-2 primary-color secondary-hover">
-                              <i className="fa-brands fa-linkedin-in" />
+                              <i className="fa-brands fa-tiktok" />
                             </a>
                             <a className="mx-2 primary-color secondary-hover">
                               <i className="fa-brands fa-instagram" />
