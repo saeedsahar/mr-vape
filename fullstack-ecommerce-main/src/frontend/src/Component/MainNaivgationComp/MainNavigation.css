@@ -11,6 +11,16 @@
   .search-div{
     display: none;
   }
+  .img-fluid{
+    width: 185px;
+  }
+}
+
+@media (max-width : 400px){
+
+  .img-fluid{
+    width: 140px !important;
+  }
 }
 
 @media (max-width: 767px) {

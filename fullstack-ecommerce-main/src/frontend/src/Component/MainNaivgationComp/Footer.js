@@ -124,19 +124,31 @@ function Footer(props) {
                       </button>
                     </div>
                     <div className="social-icon mt-40">
-                      <a href="#0">
+                      <a
+                        href="https://www.facebook.com/Vapeplanet.co.uk"
+                        target="_blank"
+                      >
                         <i className="fa-brands fa-facebook-f" />
                       </a>
-                      <a href="#0">
+                      <a href="https://x.com/vapeplanetuk" target="_blank">
                         <i className="fa-brands fa-x" />
                       </a>
-                      <a href="#0">
+                      <a
+                        href="https://www.tiktok.com/@vapeplanetuk"
+                        target="_blank"
+                      >
                         <i className="fa-brands fa-tiktok" />
                       </a>
-                      <a href="#0">
+                      <a
+                        href="https://www.youtube.com/@vapeplanetuk"
+                        target="_blank"
+                      >
                         <i className="fa-brands fa-youtube" />
                       </a>
-                      <a href="#0">
+                      <a
+                        href="https://www.instagram.com/vapeplanetuk"
+                        target="_blank"
+                      >
                         <i className="fa-brands fa-instagram" />
                       </a>
                     </div>

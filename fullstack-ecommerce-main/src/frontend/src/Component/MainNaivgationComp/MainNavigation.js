@@ -531,7 +531,7 @@ function MainNavigation(props) {
                   className="pointer img-fluid"
                   onClick={() => navigate("/")}
                   src="https://mrvape-frontend.s3.eu-west-2.amazonaws.com/VapePlanet+Logo.png"
-                  style={{ width: "185px" }}
+                  // style={{ width: "185px" }}
                   alt="logo__image"
                 />
               </a>
@@ -820,49 +820,49 @@ function MainNavigation(props) {
               </Popper>
             </div>
             <ul className="main-menu pointer">
-  {homeStates.menu?.map((menuEle) => {
-    let hasSubMenu = menuEle.brandList.length > 0;
-    return (
-      <li className="menu-item pointer" key={menuEle.id}>
-        <a
-          onClick={() => {
-            if (menuEle.id === 1) {
-              dispatch(setQuery("Trending"));
-              navigate("/products");
-            } else if (!hasSubMenu) {
-              dispatch(setCategoryId(menuEle.id));
-              navigate("/products");
-            }
-          }}
-        >
-          {menuEle.name}
-          {hasSubMenu && <i className="fa-regular fa-angle-down ms-1" />}
-        </a>
+              {homeStates.menu?.map((menuEle) => {
+                let hasSubMenu = menuEle.brandList.length > 0;
+                return (
+                  <li className="menu-item pointer" key={menuEle.id}>
+                    <a
+                      onClick={() => {
+                        if (menuEle.id === 1) {
+                          dispatch(setQuery("Trending"));
+                          navigate("/products");
+                        } else if (!hasSubMenu) {
+                          dispatch(setCategoryId(menuEle.id));
+                          navigate("/products");
+                        }
+                      }}
+                    >
+                      {menuEle.name}
+                      {hasSubMenu && (
+                        <i className="fa-regular fa-angle-down ms-1" />
+                      )}
+                    </a>
 
-        {hasSubMenu && (
-          <ul className="sub-menu">
-            {menuEle.brandList?.map((subMenuEle) => {
-              return (
-                <li className="sub-menu-item" key={subMenuEle.id}>
-                  <a
-                    onClick={() => {
-                      dispatch(setBrandId(subMenuEle.id));
-                      navigate("/products");
-                    }}
-                  >
-                    {subMenuEle.name}
-                  </a>
-                </li>
-              );
-            })}
-          </ul>
-        )}
-      </li>
-    );
-  })}
-</ul>
-
-
+                    {hasSubMenu && (
+                      <ul className="sub-menu">
+                        {menuEle.brandList?.map((subMenuEle) => {
+                          return (
+                            <li className="sub-menu-item" key={subMenuEle.id}>
+                              <a
+                                onClick={() => {
+                                  dispatch(setBrandId(subMenuEle.id));
+                                  navigate("/products");
+                                }}
+                              >
+                                {subMenuEle.name}
+                              </a>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
           </div>
         </div>
       </header>
