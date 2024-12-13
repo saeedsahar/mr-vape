@@ -64,3 +64,7 @@
 .custom-swiper .swiper-button-next:hover {
   background-color: rgba(0, 0, 0, 0.7);
 }
+.trustpilot-section {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+  }
