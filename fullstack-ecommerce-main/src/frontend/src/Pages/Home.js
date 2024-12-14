@@ -329,7 +329,7 @@ function Home(props) {
                         "https://s3.eu-west-2.amazonaws.com/www.vapeplanet.co.uk/websitelayouts/E-liquide-banner-v4.jpg"
                       }
                       alt="image"
-                      className="img-fluid"
+                      className=""
                     />
                   </div>
                   <div className="view__left-content sub-bg">
@@ -476,106 +476,93 @@ function Home(props) {
 
         {/* Discount area end here */}
         {/* Get now area start here */}
-        <section className="get-now-area pt-130 pb-130">
-          <div className="container-lg">
-            <div className="row align-items-center">
-              <div className="col-xl-6">
-                <h4 className="mb-30 wow fadeInUp" data-wow-delay=".1s">
-                  <img src="assets/images/icon/fire.svg" alt="icon" />
-                  GET <span className="primary-color">25% OFF</span> NOW
-                </h4>
-                <div
-                  className="section-header d-flex align-items-center wow fadeInUp"
-                  data-wow-delay=".2s"
-                >
-                  <span className="title-icon mr-10" />
-                  <h2>coming soon products</h2>
-                </div>
-                <div className="get-now__content">
-                  <div
-                    className="get-info py-4 wow fadeInUp"
-                    data-wow-delay=".2s"
-                  >
-                    <del>£99.00</del> <span>£49.00</span>
-                  </div>
-                  <p className=" wow fadeInUp" data-wow-delay=".3s">
-                    There are many variations of passages of Lorem Ipsum
-                    available, but <br />
-                    the majority have suffered alteration in some form, by
-                    injected humour, or randomised words which
-                  </p>
-                  <ul
-                    className="pt-30 pb-30 bor-bottom wow fadeInUp"
-                    data-wow-delay=".3s"
-                  >
-                    <li>100% Natural</li>
-                    <li>Coupon £61.99, Code: W2</li>
-                    <li>30 Day Refund</li>
-                  </ul>
-                  {/* timer */}
-                  <div
-                    className="time-up d-flex flex-wrap align-items-center gap-5 mt-30 wow fadeInUp"
-                    data-wow-delay=".4s"
-                  >
-                    <div className="info">
-                      <h4 className="mb-0">HUNGRY UP !</h4>
-                      <span>Offer end in :</span>
-                    </div>
-                    <div className="d-flex gap-2 align-items-center">
-                      <div className="get-time">
-                        <h3 id="day">{timer.remainingDays}</h3>
-                        <span>Day</span>
-                      </div>
-                      <div className="get-time">
-                        <h3 id="hour">{timer.remainingHours}</h3>
-                        <span>Hr</span>
-                      </div>
-                      <div className="get-time">
-                        <h3 id="min">{timer.remainingMinutes}</h3>
-                        <span>Min</span>
-                      </div>
-                      <div className="get-time">
-                        <h3 id="sec">{timer.remainingSeconds}</h3>
-                        <span>Sec</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+        {/* <section className="get-now-area pt-130 pb-130">
+  <div className="container-lg">
+    <div className="get-now-row row align-items-center">
+      <div className="col-xl-6 col-12">
+        <h4 className="mb-30 wow fadeInUp" data-wow-delay=".1s">
+          <img src="assets/images/icon/fire.svg" alt="icon" className="icon-small" />
+          GET <span className="primary-color">25% OFF</span> NOW
+        </h4>
+        <div
+          className="section-header d-flex align-items-center wow fadeInUp"
+          data-wow-delay=".2s"
+        >
+          <span className="title-icon mr-10" />
+          <h2>Coming Soon Products</h2>
+        </div>
+        <div className="get-now__content">
+          <div
+            className="get-info py-4 wow fadeInUp"
+            data-wow-delay=".2s"
+          >
+            <del>£99.00</del> <span>£49.00</span>
+          </div>
+          <p className="wow fadeInUp" data-wow-delay=".3s">
+            There are many variations of passages of Lorem Ipsum available, but <br />
+            the majority have suffered alteration in some form, by injected humour, or randomised words which
+          </p>
+          <ul
+            className="pt-30 pb-30 bor-bottom wow fadeInUp"
+            data-wow-delay=".3s"
+          >
+            <li>100% Natural</li>
+            <li>Coupon £61.99, Code: W2</li>
+            <li>30 Day Refund</li>
+          </ul>
+          <div
+            className="time-up d-flex flex-wrap align-items-center gap-5 mt-30 wow fadeInUp"
+            data-wow-delay=".4s"
+          >
+            <div className="info">
+              <h4 className="mb-0">HURRY UP!</h4>
+              <span>Offer ends in:</span>
+            </div>
+            <div className="d-flex gap-2 align-items-center">
+              <div className="get-time">
+                <h3 id="day">{timer.remainingDays}</h3>
+                <span>Day</span>
               </div>
-              <div className="col-xl-6">
-                <div className="get-now__image mt-5 mt-xl-0">
-                  {/* <div className="swiper get__slider">
-                    <div className="swiper-wrapper">
-                      <div className="swiper-slide"> */}
-                  <div className="image">
-                    <img
-                      src={
-                        "https://s3.eu-west-2.amazonaws.com/www.vapeplanet.co.uk/websitelayouts/Coming-Soon-1.jpg"
-                      }
-                      alt="image"
-                      className="img-fluid round-100"
-                    />
-                    {/* </div>
-                      </div>
-                    </div> */}
-                  </div>
-                  {/* <button className="get-now-arry get-now__arry-left">
-                    <i className="fa-light fa-chevron-left" />
-                  </button>
-                  <button className="get-now-arry get-now__arry-right text-warning">
-                    <i className="fa-light fa-chevron-right" />
-                  </button> */}
-                </div>
+              <div className="get-time">
+                <h3 id="hour">{timer.remainingHours}</h3>
+                <span>Hr</span>
+              </div>
+              <div className="get-time">
+                <h3 id="min">{timer.remainingMinutes}</h3>
+                <span>Min</span>
+              </div>
+              <div className="get-time">
+                <h3 id="sec">{timer.remainingSeconds}</h3>
+                <span>Sec</span>
               </div>
             </div>
           </div>
-        </section>
+        </div>
+      </div>
+      <div className="col-xl-6 col-12 mt-5 mt-xl-0">
+        <div className="get-now__image">
+          <div className="image">
+            <img
+              src={
+                "https://s3.eu-west-2.amazonaws.com/www.vapeplanet.co.uk/websitelayouts/Coming-Soon-1.jpg"
+              }
+              alt="image"
+              className="img-fluid round-100"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section> */}
+
+
         {/* Get now area end here */}
         {/* Text slider area start here */}
-        <div className="container-lg">
+        {/* <div className="container-lg">
           <div className="bor-top pb-40" />
-        </div>
-        <div className="marquee-wrapper text-slider">
+        </div> */}
+        {/* <div className="marquee-wrapper text-slider">
           <div className="marquee-inner to-left">
             <ul className="marqee-list d-flex">
               <li className="marquee-item">
@@ -598,7 +585,7 @@ function Home(props) {
               </li>
             </ul>
           </div>
-        </div>
+        </div> */}
         <div className="container-lg">
           <div className="bor-top pb-65" />
         </div>
