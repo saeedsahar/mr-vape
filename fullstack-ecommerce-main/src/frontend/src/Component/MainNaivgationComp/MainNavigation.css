@@ -23,12 +23,34 @@
   }
 }
 
+
+@media (max-width : 400px){
+
+  .img-fluidblogs{
+    width: 230px !important;
+  }
+}
+
+@media (max-width : 991px){
+  .search-div{
+    display: none;
+  }
+  .img-fluidblogs{
+    width: 185px;
+  }
+}
+
 @media (max-width: 767px) {
   .top__header .top__wrapper .account__wrap .cart {
       background-color: transparent;
       width: 40px !important;
   }
 }
+
+
+
+
+
 
 .cart-icon {
   color: white;

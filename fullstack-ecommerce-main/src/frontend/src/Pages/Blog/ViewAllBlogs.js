@@ -711,13 +711,13 @@ function ViewAllBlogs(props) {
                       </a>
                       <a className="product__image pt-20 d-block">
                         <img
-                          className="font-image img-fluid"
+                          className="font-image img-fluidblogs"
                           src={item.image}
                           alt="image"
                           style={{ maxHeight: "300px", minHeight: "300px" }}
                         />
                         <img
-                          className="back-image img-fluid"
+                          className="back-image img-fluidblogs"
                           src={item.image}
                           alt="image"
                           style={{ maxHeight: "300px", minHeight: "300px" }}
