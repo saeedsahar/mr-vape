@@ -240,10 +240,10 @@ function Home(props) {
             hideBreakPoint={true}
             slidesPerView={1}
             swiperProduct={[
-              "https://mrvape-frontend.s3.eu-west-2.amazonaws.com/banners/megabox.jpg",
-              "https://mrvape-frontend.s3.eu-west-2.amazonaws.com/banners/Alien+Max+(1720+x+915).jpg",
-              "https://mrvape-frontend.s3.eu-west-2.amazonaws.com/banners/Capsule+(1720+x+915).jpg",
-              // "https://mrvape-frontend.s3.eu-west-2.amazonaws.com/banners/Falcon+X+(1720+x+915).jpg",
+              // "https://mrvape-frontend.s3.eu-west-2.amazonaws.com/banners/megabox.jpg",
+              // "https://mrvape-frontend.s3.eu-west-2.amazonaws.com/banners/Alien+Max+(1720+x+915).jpg",
+              // "https://mrvape-frontend.s3.eu-west-2.amazonaws.com/banners/Capsule+(1720+x+915).jpg",
+              "https://mrvape-frontend.s3.eu-west-2.amazonaws.com/banners/Falcon_X_web_banner.jpg",
             ]}
             customSwiperProduct={customSwiperProductBanner}
           />
@@ -264,7 +264,7 @@ function Home(props) {
   </div>
 </section>
 
-        <section className=" bg-image category-area black-area category-two pb-60 pt-80">
+        <section className=" bg-image category-area black-area category-two ">
           <div className="container-lg">
             <div className="bor-bottom pb-50">
               <div
@@ -429,7 +429,7 @@ function Home(props) {
                 data-wow-delay=".1s"
               >
                 <span className="title-icon mr-10" />
-                <h2>Explore the Latest in Vaping Trends</h2>
+                <h2>Vaping Trends</h2>
               </div>
               <ul className="nav nav-pills mt-4 mt-xl-0">
                 <li className="nav-item wow fadeInUp" data-wow-delay=".1s">

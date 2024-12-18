@@ -2992,9 +2992,22 @@ button,
 }
 .banner-two .hero-banner {
   width: 100%;
-  height: auto;
-  object-fit: cover;
+  height: 500px;
+  object-fit: inherit;
 }
+
+@media (max-width: 768px) {
+  .banner-two .hero-banner {
+    height: 300px; /* Adjust height for tablets and small screens */
+  }
+}
+
+@media (max-width: 480px) {
+  .banner-two .hero-banner {
+    height: 200px; /* Further adjust for very small screens */
+  }
+}
+
 
 .banner-two-light .banner-two__content h4 {
   color: var(--black);
