@@ -27,6 +27,9 @@ import {
   Skeleton,
   CircularProgress,
 } from "@mui/material";
+import CreditCardIcon from "@mui/icons-material/CreditCard";
+import { Elements, CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -69,6 +72,8 @@ const Checkout = () => {
   //   setShippingMethod(event.target.value);
   // };
 
+  
+  const stripePromise = loadStripe("pk_test_51NgU8ZKmvY8D2mUALsoAnz00j94YOrP4IMZRQ65cLYz8emEvURQFRcYWEPG73RQBOJIUln0dcZ9wKP4Kbzr6VpWz00gqg9EANG");
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -142,6 +147,131 @@ const Checkout = () => {
     // }
   };
 
+
+  const StripePaymentForm = () => {
+    const stripe = useStripe();
+    const elements = useElements();
+  
+    const [isProcessing, setIsProcessing] = useState(false);
+    const [paymentError, setPaymentError] = useState("");
+    const [paymentSuccess, setPaymentSuccess] = useState("");
+    const [amount, setAmount] = useState(""); // Amount field state
+  
+    const handleSubmit = async (event) => {
+      event.preventDefault();
+  
+      if (!stripe || !elements) {
+        setPaymentError("Stripe is not fully loaded. Please try again.");
+        return;
+      }
+  
+      if (!amount || isNaN(amount) || parseFloat(amount) <= 0) {
+        setPaymentError("Please enter a valid amount.");
+        return;
+      }
+  
+      setIsProcessing(true);
+      setPaymentError("");
+      setPaymentSuccess("");
+  
+      try {
+        // Replace with your backend call to get the client secret
+        const { data: { clientSecret } } = await axios.post(
+          "http://localhost:8081/api/payment-intent",
+          { amount: parseFloat(amount) * 100 } // Convert to cents
+        );
+  
+        const cardElement = elements.getElement(CardElement);
+        const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
+          payment_method: {
+            card: cardElement,
+          },
+        });
+  
+        if (error) {
+          setPaymentError(error.message);
+          setIsProcessing(false);
+          return;
+        }
+  
+        setPaymentSuccess("Payment successful! Thank you for your purchase.");
+      } catch (err) {
+        setPaymentError("An error occurred while processing your payment.");
+      } finally {
+        setIsProcessing(false);
+      }
+    };
+  
+    return (
+      <form onSubmit={handleSubmit}>
+        <Box sx={{ mt: 4 }}>
+          <Typography variant="h6" sx={{ mb: 2 }}>
+            Payment Information
+          </Typography>
+          {/* Amount Field */}
+          <Grid container spacing={2} sx={{ mb: 2 }}>
+            <Grid item xs={12}>
+              <TextField
+                label="Amount (USD)"
+                type="number"
+                fullWidth
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+                placeholder="Enter amount to pay"
+                InputProps={{
+                  startAdornment: <CreditCardIcon sx={{ mr: 1, color: "grey.500" }} />,
+                }}
+              />
+            </Grid>
+          </Grid>
+          {/* Card Element */}
+          <Box sx={{ border: "1px solid #dcdcdc", borderRadius: 1, p: 2 }}>
+            <CardElement
+              options={{
+                style: {
+                  base: {
+                    fontSize: "16px",
+                    color: "#424770",
+                    "::placeholder": { color: "#aab7c4" },
+                    iconColor: "#424770",
+                  },
+                  invalid: {
+                    color: "#9e2146",
+                  },
+                },
+                showIcon: true, // Show card icons
+              }}
+            />
+          </Box>
+        </Box>
+  
+        {/* Error & Success Alerts */}
+        {paymentError && (
+          <Alert severity="error" sx={{ mt: 2 }}>
+            {paymentError}
+          </Alert>
+        )}
+        {paymentSuccess && (
+          <Alert severity="success" sx={{ mt: 2 }}>
+            {paymentSuccess}
+          </Alert>
+        )}
+  
+        {/* Submit Button */}
+        <Button
+          type="submit"
+          size="large"
+          variant="contained"
+          fullWidth
+          sx={{ mt: 3 }}
+          disabled={isProcessing || !stripe}
+        >
+          {isProcessing ? "Processing..." : "Pay Now"}
+        </Button>
+      </form>
+    );
+  };
+  
   // Stepper Content
   const steps = ["Billing & Shipping", "Review & Confirm Order"];
 
@@ -253,7 +383,7 @@ const Checkout = () => {
                         }
                       />
 
-                      <FormControlLabel
+                      {/* <FormControlLabel
                         className="border-bottom w-100 m-0"
                         sx={{ padding: 2, width: "100%" }}
                         value="2"
@@ -271,9 +401,9 @@ const Checkout = () => {
                             </small>
                           </>
                         }
-                      />
+                      /> */}
 
-                      <FormControlLabel
+                      {/* <FormControlLabel
                         className="w-100 m-0"
                         sx={{ padding: 2, width: "100%" }}
                         value="3"
@@ -291,7 +421,7 @@ const Checkout = () => {
                             </small>
                           </>
                         }
-                      />
+                      /> */}
                     </RadioGroup>
                   </FormControl>
                 </Box>
@@ -469,45 +599,28 @@ const Checkout = () => {
                     </div>
 
                     {/* Card Details */}
-                    <div className="col-lg-12 mb-4">
-                      <Accordion
-                        sx={{ boxShadow: "none", overflow: "hidden" }}
-                        className="border shipping-address-accordian"
-                      >
-                        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                          Card Details
-                        </AccordionSummary>
-                        <AccordionDetails>
-                          <Grid container spacing={2}>
-                            <Grid item xs={12}>
-                              <TextField
-                                required
-                                label="Card Number"
-                                fullWidth
-                                variant="outlined"
-                              />
-                            </Grid>
-                            <Grid item xs={6}>
-                              <TextField
-                                required
-                                label="Expiration Date"
-                                fullWidth
-                                variant="outlined"
-                                placeholder="MM/YY"
-                              />
-                            </Grid>
-                            <Grid item xs={6}>
-                              <TextField
-                                required
-                                label="CVC"
-                                fullWidth
-                                variant="outlined"
-                              />
-                            </Grid>
-                          </Grid>
-                        </AccordionDetails>
-                      </Accordion>
-                    </div>
+                    {/* <section className="checkout-area pb-80"> */}
+        {/* <div className="container-lg"> */}
+          {/* <Box sx={{ maxWidth: "75%", marginInline: "auto", my: 5 }}> */}
+            {/* <Stepper activeStep={1} alternativeLabel>
+              {["Billing & Shipping", "Review & Confirm Order"].map((label) => (
+                <Step key={label}>
+                  <StepLabel>{label}</StepLabel>
+                </Step>
+              ))}
+            </Stepper> */}
+          {/* </Box> */}
+          {/* <div className="row"> */}
+            {/* <div className="col-lg-8"> */}
+            {/* <Box component="section" sx={{ mb: 5 }}>
+  <Elements stripe={stripePromise}>
+    <StripePaymentForm />
+  </Elements>
+</Box> */}
+            {/* </div> */}
+          {/* </div> */}
+        {/* </div> */}
+      {/* </section> */}
                   </div>
                 </Box>
               </div>
@@ -562,34 +675,13 @@ const Checkout = () => {
                     })}
                   </Stack>
 
-                  <Box mt={4} className="border-top pt-4">
+                  {/* <Box mt={4} className="border-top pt-4">
                     <div className="mb-2 checkout-title">Shipping Address</div>
                     <p>
                       2801 Lafayette Blvd, Norfolk, Vermont 23609, united state
                     </p>
-                  </Box>
+                  </Box> */}
 
-                  <Box mt={4} className="border-top pt-4">
-                    <FormControl fullWidth>
-                      <RadioGroup>
-                        <FormControlLabel
-                          value="Direct Bank Transfer"
-                          control={<Radio />}
-                          label="Direct Bank Transfer"
-                        />
-                        <FormControlLabel
-                          value="Check Payments"
-                          control={<Radio />}
-                          label="Check Payments"
-                        />
-                        <FormControlLabel
-                          value="Cash On Delivery"
-                          control={<Radio />}
-                          label="Cash On Delivery"
-                        />
-                      </RadioGroup>
-                    </FormControl>
-                  </Box>
                   <Box mt={4} className="border-top pt-4">
                     <p>
                       Your personal data will be used to process your order,
@@ -620,78 +712,7 @@ const Checkout = () => {
                     </Button>
                   </Box>
                 </Box>
-                {/* <div className="checkout__item-right bor">
-               <h3 className="mb-40 fw-semibold">Your Order</h3>
-               <ul>
-                 <li className="bor-bottom pb-4">
-                   <h4>Products</h4>
-                   <h4>Subtotal</h4>
-                 </li>
-                 {orderItems?.map((item) => {
-                   return (
-                     <li className="bor-bottom py-4">
-                       <a>{`${item.productName} - ${item.flavour}`}</a>
-                       <span>£{item.price * item.quantity}</span>
-                     </li>
-                   );
-                 })}
-               </ul>
-               <Box mt={4} className="bor-bottom py-4">
-                 <TextField
-                   label="Discount Code"
-                   value={discountCode}
-                   onChange={(e) => setDiscountCode(e.target.value)}
-                   variant="outlined"
-                   fullWidth
-                 />
-                 <Button
-                   variant="contained"
-                   color="primary"
-                   onClick={handleApplyDiscount}
-                   style={{ marginTop: "10px", backgroundColor: "#fa4f09" }}
-                   fullWidth
-                 >
-                   Apply
-                 </Button>
-                 {isDiscountApplied && (
-                   <Typography color="green" mt={2}>
-                     Discount applied successfully!
-                   </Typography>
-                 )}
-               </Box>
-               <div className="py-4 bor-bottom">
-                 <h5 className="mb-10 fw-semibold">Shipping Address</h5>
-                 <p>
-                   2801 Lafayette Blvd, Norfolk, Vermont 23609, united state
-                 </p>
-               </div>
-               <div className="radio-btn mt-30 color-black">
-                 <span />
-                 <a className="ml-10 color-black">Direct Bank Transfer</a>
-               </div>
-               <div className="radio-btn mt-2 color-black">
-                 <span />
-                 <a className="ml-10 color-black">Check Payments</a>
-               </div>
-               <div className="radio-btn mt-2 pb-30 bor-bottom color-black">
-                 <span />
-                 <a className="ml-10 color-black">Cash On Delivery</a>
-               </div>
-               <p className="pt-30 bor-top">
-                 Your personal data will be used to process your order, support
-                 your experience throughout this website.
-               </p>
-               <a className="btn-one mt-35 color-white">
-                 <span>Place Order</span>
-               </a>
-               <a
-                 className="btn-one mt-35 color-white"
-                 style={{ marginLeft: "5px" }}
-                 onClick={() => navigate("/products")}
-               >
-                 <span>Continue Shopping</span>
-               </a>
-             </div> */}
+               
               </div>
             </div>
           ) : (

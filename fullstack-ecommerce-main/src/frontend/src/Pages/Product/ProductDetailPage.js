@@ -47,7 +47,7 @@ function ProductDetailPage(props) {
   const [reviews, setReviews] = useState([]);
   const [selectedFlavour, setSelectedFlavour] = useState(null);
   const [selectedProductImage, setSelectedProductImage] = useState("");
-  const [selectedTab, setSelectedTab] = useState(0);
+  const [selectedTab, setSelectedTab] = useState(1);
   let cartStates = useSelector((state) => state.cart);
   let productStates = useSelector((state) => state.product);
   let authStates = useSelector((state) => state.auth);
@@ -237,7 +237,7 @@ function ProductDetailPage(props) {
                     </div>
                     {product.wasPrice && <del>£{product.wasPrice}</del>}
                     <h2 className="pb-3">£{product.price}</h2>
-                    <h4 className="pb-2 primary-color">Product Description</h4>
+                    {/* <h4 className="pb-2 primary-color">Product Description</h4> */}
                     <p className="text-justify mb-10">
                       <div
                         style={{ color: "black" }}
@@ -247,121 +247,339 @@ function ProductDetailPage(props) {
                         }}
                       />
                     </p>
-                    <p className="text-justify">
-                      <div
-                        style={{ color: "black" }}
-                        className="product-description"
-                        dangerouslySetInnerHTML={{
-                          __html: product.description,
-                        }}
-                      />
-                    </p>
+                    
                   </div>
                   <div className="row">
                     <div className="col-lg-8">
                       <div className="details-area">
-                        <Stack
-                          direction="row"
-                          gap={2}
-                          alignItems="center"
-                          className="py-3 mt-4 bor-bottom"
-                        >
-                          <h6 className="pe-3 mb-0 w-25">Flavors : </h6>
-                          <Select
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            size="small"
-                            value={selectedFlavour.flavour}
-                            // label="Flavours"
-                            onChange={(e) => {
-                              console.log(e.target.value);
+<Stack
+  direction="row"
+  gap={2}
+  alignItems="center"
+  className="py-3 mt-4 bor-bottom"
+>
+  <h6 className="pe-3 mb-0 w-25" style={{ color: "black", fontWeight: "700", fontSize: "18px" }}>
+    Flavours:
+  </h6>
+  <Select
+    labelId="demo-simple-select-label"
+    id="demo-simple-select"
+    size="small"
+    value={selectedFlavour.flavour}
+    onChange={(e) => {
+      console.log(e.target.value);
 
-                              setSelectedFlavour(
-                                product.productFlavours?.filter(
-                                  (fla) => fla.flavour == e.target.value
-                                )[0]
-                              );
-                            }}
-                            style={{ borderColor: "#fa4f09" }}
-                          >
-                            {" "}
-                            {product.productFlavours?.map((fla) => {
-                              return (
-                                <MenuItem value={fla.flavour}>
-                                  {fla.flavour}
-                                </MenuItem>
-                              );
-                            })}
-                          </Select>
-                        </Stack>
+      setSelectedFlavour(
+        product.productFlavours?.filter(
+          (fla) => fla.flavour === e.target.value
+        )[0]
+      );
+    }}
+    sx={{
+      width: "100%",
+      border: "1px solid #fa4f09",
+      borderRadius: "8px",
+      backgroundColor: "#fff",
+      "& .MuiSelect-select": {
+        padding: "8px 12px",
+      },
+      "&:hover": {
+        borderColor: "#e64500",
+      },
+      "&.Mui-focused": {
+        borderColor: "#fa4f09",
+      },
+    }}
+  >
+    {product.productFlavours?.map((fla) => (
+      <MenuItem
+        key={fla.flavour}
+        value={fla.flavour}
+        style={{
+          padding: "10px 16px",
+          borderRadius: "4px",
+          "&:hover": {
+            backgroundColor: "#ffe4d1",
+            color: "#fa4f09",
+          },
+        }}
+      >
+        {fla.flavour}
+      </MenuItem>
+    ))}
+  </Select>
+</Stack>
 
-                        <Stack
-                          direction="row"
-                          gap={2}
-                          alignItems="center"
-                          className="py-3 bor-bottom"
-                        >
-                          <h6 className="pe-3 mb-0 w-25">
-                            Key Selling Points :{" "}
-                          </h6>
-                          <Chip variant="filled" label="Fashion" />
-                          <Chip variant="filled" label="Lifestyle" />
-                          <Chip variant="filled" label="Travel" />
-                        </Stack>
-
-                        <Stack
-                          direction="row"
-                          gap={2}
-                          alignItems="center"
-                          className="py-3 bor-bottom"
-                        >
-                          <h6 className="pe-3 mb-0 w-25">Share</h6>
-                          <div className="social-media">
-                            <a className="mx-2 primary-color secondary-hover">
-                              <i className="fa-brands fa-facebook-f" />
-                            </a>
-                            <a className="mx-2 primary-color secondary-hover">
-                              <i className="fa-brands fa-x" />
-                            </a>
-                            <a className="mx-2 primary-color secondary-hover">
-                              <i className="fa-brands fa-tiktok" />
-                            </a>
-                            <a className="mx-2 primary-color secondary-hover">
-                              <i className="fa-brands fa-instagram" />
-                            </a>
-                            <a className="mx-2 primary-color secondary-hover">
-                              <i className="fa-brands fa-pinterest-p" />
-                            </a>
-                          </div>
-                        </Stack>
 
                         <Stack
-                          direction="row"
-                          gap={2}
-                          alignItems="center"
-                          className="py-3 border-bottom"
-                        >
-                          <h6 className="pe-3 mb-0 w-25">Quantity</h6>
-                          <ButtonGroup variant="outlined">
-                            <Button
-                              onClick={() =>
-                                dispatch(decreaseItemQuantity(selectedFlavour))
-                              }
-                            >
-                              -
-                            </Button>
-                            <Button variant="outlined">
-                              {currentFlavQuantity}
-                            </Button>
-                            <Button
-                              onClick={() =>
-                                dispatch(addItemQuantity(selectedFlavour))
-                              }
-                            >
-                              +
-                            </Button>
-                          </ButtonGroup>
-                        </Stack>
+  direction="row"
+  gap={2}
+  alignItems="center"
+  className="py-3 bor-bottom"
+  sx={{
+    borderBottom: "1px solid #d9d9d9",
+    paddingBottom: "12px",
+  }}
+>
+  <h6
+    className="pe-3 mb-0 w-25"
+    style={{
+      color: "black",
+      fontWeight: "bold",
+      fontSize: "16px",
+      textTransform: "uppercase",
+    }}
+  >
+    Key Features:
+  </h6>
+  <Chip
+    label="Sleek Design"
+    sx={{
+      backgroundColor: "#fa4f09",
+      color: "#fff",
+      fontWeight: "bold",
+      borderRadius: "12px",
+      fontSize: "14px",
+      "&:hover": {
+        backgroundColor: "#e64500",
+      },
+    }}
+  />
+  <Chip
+    label="Premium Flavors"
+    sx={{
+      backgroundColor: "#4caf50",
+      color: "#fff",
+      fontWeight: "bold",
+      borderRadius: "12px",
+      fontSize: "14px",
+      "&:hover": {
+        backgroundColor: "#388e3c",
+      },
+    }}
+  />
+  <Chip
+    label="Portable"
+    sx={{
+      backgroundColor: "#2196f3",
+      color: "#fff",
+      fontWeight: "bold",
+      borderRadius: "12px",
+      fontSize: "14px",
+      "&:hover": {
+        backgroundColor: "#1976d2",
+      },
+    }}
+  />
+</Stack>
+
+
+<Stack
+  direction="row"
+  gap={2}
+  alignItems="center"
+  className="py-3 bor-bottom"
+  sx={{
+    borderBottom: "1px solid #d9d9d9", // Grey border for consistency
+    paddingBottom: "12px",
+  }}
+>
+  {/* Label */}
+  <h6
+    style={{
+      fontSize: "16px", // Consistent font size
+      color: "black", // Vibrant color to match the theme
+      fontWeight: "bold",
+      textTransform: "uppercase",
+      margin: "0", // Removes extra space
+    }}
+  >
+    Share:  
+  </h6>
+
+  {/* Social Media Icons */}
+  <div
+    className="social-media"
+    style={{
+      display: "flex",
+      alignItems: "center",
+      gap: "20px", // Consistent spacing between icons
+      marginLeft: "24px", // Increased space between label and icons
+    }}
+  >
+    {/* Facebook */}
+    <a
+      href="https://www.facebook.com/Vapeplanet.co.uk"
+      target="_blank"
+      rel="noopener noreferrer"
+      style={{
+        color: "#4267B2",
+        fontSize: "20px",
+        transition: "all 0.3s ease",
+      }}
+      className="primary-color secondary-hover"
+    >
+      <i className="fa-brands fa-facebook-f" />
+    </a>
+
+    {/* Twitter (X) */}
+    <a
+      href="https://x.com/vapeplanetuk"
+      target="_blank"
+      rel="noopener noreferrer"
+      style={{
+        color: "#1DA1F2",
+        fontSize: "20px",
+        transition: "all 0.3s ease",
+      }}
+      className="primary-color secondary-hover"
+    >
+      <i className="fa-brands fa-x" />
+    </a>
+
+    {/* TikTok */}
+    <a
+      href="https://www.tiktok.com/@vapeplanetuk"
+      target="_blank"
+      rel="noopener noreferrer"
+      style={{
+        color: "#000000",
+        fontSize: "20px",
+        transition: "all 0.3s ease",
+      }}
+      className="primary-color secondary-hover"
+    >
+      <i className="fa-brands fa-tiktok" />
+    </a>
+
+    {/* Instagram */}
+    <a
+      href="https://www.instagram.com/vapeplanetuk"
+      target="_blank"
+      rel="noopener noreferrer"
+      style={{
+        color: "#E4405F",
+        fontSize: "20px",
+        transition: "all 0.3s ease",
+      }}
+      className="primary-color secondary-hover"
+    >
+      <i className="fa-brands fa-instagram" />
+    </a>
+
+    {/* YouTube */}
+    <a
+      href="https://www.youtube.com/@vapeplanetuk"
+      target="_blank"
+      rel="noopener noreferrer"
+      style={{
+        color: "#FF0000",
+        fontSize: "20px",
+        transition: "all 0.3s ease",
+      }}
+      className="primary-color secondary-hover"
+    >
+      <i className="fa-brands fa-youtube" />
+    </a>
+  </div>
+</Stack>
+
+
+
+
+<Stack
+  direction="row"
+  gap={2}
+  alignItems="center"
+  className="py-3 border-bottom"
+  sx={{
+    borderBottom: "1px solid #d9d9d9", // Grey underline for consistency
+    paddingBottom: "12px",
+  }}
+>
+  {/* Label */}
+  <h6
+    style={{
+      fontSize: "16px",
+      color: "black", // Vibrant orange
+      fontWeight: "bold",
+      textTransform: "uppercase",
+      margin: "0",
+      flexBasis: "25%",
+    }}
+  >
+    Quantity
+  </h6>
+
+  {/* Quantity Selector */}
+  <Stack
+    direction="row"
+    alignItems="center"
+    justifyContent="center"
+    sx={{
+      borderRadius: "8px", // Subtle rounded edges for the container
+      padding: "8px 12px",
+      backgroundColor: "#f0f4f8", // Subtle background for contrast
+      display: "inline-flex",
+      gap: "24px", // More space between buttons and value
+    }}
+  >
+    {/* Decrease Button */}
+    <Button
+      onClick={() => dispatch(decreaseItemQuantity(selectedFlavour))}
+      sx={{
+        backgroundColor: "#ff6b6b", // Vibrant red
+        color: "#fff",
+        minWidth: "48px",
+        height: "48px",
+        borderRadius: "50%", // Circular button
+        fontSize: "20px",
+        fontWeight: "bold",
+        "&:hover": {
+          backgroundColor: "#e63946", // Darker hover color
+        },
+      }}
+    >
+      <i className="fa-solid fa-minus" />
+    </Button>
+
+    {/* Quantity Value */}
+    <span
+      style={{
+        fontSize: "24px", // Larger and bold value
+        fontWeight: "bold",
+        color: "#333", // Dark text for better readability
+      }}
+    >
+      {currentFlavQuantity}
+    </span>
+
+    {/* Increase Button */}
+    <Button
+      onClick={() => dispatch(addItemQuantity(selectedFlavour))}
+      sx={{
+        backgroundColor: "#38b000", // Vibrant green
+        color: "#fff",
+        minWidth: "48px",
+        height: "48px",
+        borderRadius: "50%", // Circular button
+        fontSize: "20px",
+        fontWeight: "bold",
+        "&:hover": {
+          backgroundColor: "#2a9200", // Darker hover color
+        },
+      }}
+    >
+      <i className="fa-solid fa-plus" />
+    </Button>
+  </Stack>
+</Stack>
+
+
+
+
+
+
 
                         <a
                           className="d-block text-center btn-two mt-40"
@@ -390,153 +608,120 @@ function ProductDetailPage(props) {
             {/* product-details area end here */}
             {/* description review area start here */}
             <div className="shop-singe-tab">
-              <ul className="nav nav-pills mb-4 bor-top bor-bottom py-2">
-                <li className="nav-item">
-                  <a
-                    data-bs-toggle="tab"
-                    className={`nav-link ps-0 pe-3 ${
-                      selectedTab == 0 ? "active" : ""
-                    }`}
-                    onClick={() => setSelectedTab(0)}
-                  >
-                    <h4 className="text-uppercase">reviews (4)</h4>
+  <ul className="nav nav-pills mb-4 bor-top bor-bottom py-2">
+    <li className="nav-item">
+      <a
+        data-bs-toggle="tab"
+        className={`nav-link ps-0 pe-3 ${
+          selectedTab == 0 ? "active" : ""
+        }`}
+        onClick={() => setSelectedTab(0)}
+      >
+        <h4 className="text-uppercase">reviews</h4>
+      </a>
+    </li>
+    <li className="nav-item">
+      <a
+        data-bs-toggle="tab"
+        className={`nav-link ${selectedTab == 1 ? "active" : ""}`}
+        onClick={() => setSelectedTab(1)}
+      >
+        <h4 className="text-uppercase">description</h4>
+      </a>
+    </li>
+  </ul>
+  <div className="tab-content">
+    <div
+      id="description"
+      className={`tab-pane ${
+        selectedTab == 1 ? "show active" : "fade"
+      }`}
+    >
+      <p className="text-justify">
+                      <div
+                        style={{ color: "black" }}
+                        className="product-description"
+                        dangerouslySetInnerHTML={{
+                          __html: product.description,
+                        }}
+                      />
+                    </p>
+    </div>
+    <div
+      id="review"
+      className={`tab-pane ${
+        selectedTab == 0 ? "show active" : "fade"
+      }`}
+    >
+      <button
+        onClick={() => {
+          dispatch(setDialogStates({ type: "review", id: product.id }));
+        }}
+        style={{
+          padding: "5px",
+          marginBottom: "10px",
+          border: "1px solid #d9d9d9",
+          borderRadius: "10px",
+          fontSize: "13px",
+        }}
+      >
+        Write a Review
+      </button>
+      <div className="review-wrp">
+        {reviews?.map((review, i) => {
+          return (
+            <div
+              id={i}
+              className="abmin d-flex flex-wrap flex-md-nowrap align-items-center pb-4"
+            >
+              <div className="img pb-4 pb-md-0 me-4">
+                <Avatar name={review.reviewer_name} round={true} />
+              </div>
+              <div
+                className="content position-relative p-4 bor"
+                style={{ width: "100%" }}
+              >
+                <div className="head-wrp pb-1 d-flex flex-wrap justify-content-between">
+                  <a>
+                    <h4
+                      className="text-capitalize primary-color"
+                      style={{ color: "black" }}
+                    >
+                      {review.reviewer_name}
+                      <span
+                        className="sm-font ms-2 fw-normal"
+                        style={{ color: "black" }}
+                      >
+                        {review.date_time && review.date_time != "N/A"
+                          ? review.date_time
+                          : null}
+                      </span>
+                    </h4>
                   </a>
-                </li>
-                <li className="nav-item">
-                  <a
-                    data-bs-toggle="tab"
-                    className={`nav-link ${selectedTab == 1 ? "active" : ""}`}
-                    onClick={() => setSelectedTab(1)}
-                  >
-                    <h4 className="text-uppercase">description</h4>
-                  </a>
-                </li>
-              </ul>
-              <div className="tab-content">
-                <div
-                  id="description"
-                  className={`tab-pane ${
-                    selectedTab == 1 ? "show active" : "fade"
-                  }`}
-                >
-                  <p className="pb-4 text-justify" style={{ color: "black" }}>
-                    Proactively disseminate impactful mindshare without
-                    technically sound web services. Distiively harness
-                    compelling innovation before high payoff testing procedures.
-                    Uniquely fashion customized web services with cross
-                    functional internal or "organic" sources. Uniquely restore
-                    error-free e-commerce via multidisciplinary antailers.
-                    Completely whiteboard user friendly quality vectors rather
-                    than synergistic technologi Professionally evisculate
-                    enterprise wide metrics without resource maximizing
-                    interfaces. Synergistically benchmark enterprise-wide
-                    e-tailers through optimal paradigms. Phosfluorescently
-                    foster cutting-edge was and benefits without magnetic
-                  </p>
-                  <p className="pb-4 text-justify" style={{ color: "black" }}>
-                    Completely build emerging ideas through covalent
-                    applications. Distinctively synthesize user friendly
-                    collaboration and idsharing with superior content.
-                    Energistically incentivize user friendly models rather than
-                    timely convergence. Objectively disintermediate high
-                    standards in paradigms before state the art process
-                    improvements. Interactively orchestrate plug-and-play human
-                    capital whereas customer directed initiatives.
-                  </p>
-                  <p className="text-justify" style={{ color: "black" }}>
-                    Intrinsicly provide access to team driven information
-                    without adaptive content. Collaboratively embrace reliable
-                    supply chains via extensible benefits. Enthusiastically
-                    visualize accurate human capital before backend
-                    meta-services. Continually reinvent interdependent schemas
-                    through mission-critical benefits. Competently leverage
-                    existing parallel action items through end-to-end "outside
-                    the box" thinking.
-                  </p>
+                  <StarRatings
+                    rating={review.rating}
+                    numberOfStars={5}
+                    name="rating"
+                    starRatedColor="#ff9200"
+                    starDimension="20px"
+                    starSpacing="0px"
+                  />
                 </div>
-                <div
-                  id="review"
-                  className={`tab-pane ${
-                    selectedTab == 0 ? "show active" : "fade"
-                  }`}
+                <p
+                  className="text-justify"
+                  style={{ color: "black" }}
                 >
-                  <button
-                    onClick={() => {
-                      dispatch(
-                        setDialogStates({ type: "review", id: product.id })
-                      );
-                    }}
-                    style={{
-                      padding: "5px",
-                      marginBottom: "10px",
-                      border: "1px solid #d9d9d9",
-                      borderRadius: "10px",
-                      fontSize: "13px",
-                    }}
-                  >
-                    Write a Review
-                  </button>
-                  <div className="review-wrp">
-                    {reviews?.map((review, i) => {
-                      return (
-                        <>
-                          <div
-                            id={i}
-                            className="abmin d-flex flex-wrap flex-md-nowrap align-items-center pb-4"
-                          >
-                            <div className="img pb-4 pb-md-0 me-4">
-                              <Avatar
-                                name={review.reviewer_name}
-                                round={true}
-                              />
-                              {/* <img src={review.intials} alt="image" /> */}
-                            </div>
-                            <div
-                              className="content position-relative p-4 bor"
-                              style={{ width: "100%" }}
-                            >
-                              <div className="head-wrp pb-1 d-flex flex-wrap justify-content-between">
-                                <a>
-                                  <h4
-                                    className="text-capitalize primary-color"
-                                    style={{ color: "black" }}
-                                  >
-                                    {review.reviewer_name}{" "}
-                                    <span
-                                      className="sm-font ms-2 fw-normal"
-                                      style={{ color: "black" }}
-                                    >
-                                      {review.date_time &&
-                                      review.date_time != "N/A"
-                                        ? review.date_time
-                                        : null}
-                                    </span>
-                                  </h4>
-                                </a>
-                                <StarRatings
-                                  rating={review.rating}
-                                  numberOfStars={5}
-                                  name="rating"
-                                  starRatedColor="#ff9200"
-                                  starDimension="20px"
-                                  starSpacing="0px"
-                                />
-                              </div>
-                              <p
-                                className="text-justify"
-                                style={{ color: "black" }}
-                              >
-                                {review.comment}{" "}
-                              </p>
-                            </div>
-                          </div>
-                        </>
-                      );
-                    })}
-                  </div>
-                </div>
+                  {review.comment}
+                </p>
               </div>
             </div>
+          );
+        })}
+      </div>
+    </div>
+  </div>
+</div>
+
           </div>
         </section>
       </main>

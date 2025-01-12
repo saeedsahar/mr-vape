@@ -44,3 +44,9 @@ web:
     multipart:
       max-file-size: 10MB
       max-request-size: 10MB
+
+
+  stripe:
+    api:
+      secret-key: "pk_test_51NgU8ZKmvY8D2mUALsoAnz00j94YOrP4IMZRQ65cLYz8emEvURQFRcYWEPG73RQBOJIUln0dcZ9wKP4Kbzr6VpWz00gqg9EANG" # Replace with your actual secret key
+      publishable-key: "pk_test_51NgU8ZKmvY8D2mUALsoAnz00j94YOrP4IMZRQ65cLYz8emEvURQFRcYWEPG73RQBOJIUln0dcZ9wKP4Kbzr6VpWz00gqg9EANG" # Replace with your actual publishable key

@@ -881,88 +881,216 @@ function MainNavigation(props) {
         </Alert>
       </Snackbar>
       <Drawer
-        className="cart-drawer"
-        anchor="right"
-        open={cartDrawerOpen}
-        onClose={() => setCartDrawerOpen(false)}
-      >
-        <Box className="drawer-header">
-          <div class="offcanvas-header">
-            <h6 className="cart-drawer-title">Shopping Cart</h6>
-            <button
-              class="text-white"
-              aria-label="Close"
-              onClick={() => setCartDrawerOpen(false)}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="18"
-                height="18"
-                fill="currentColor"
-                class="bi bi-x-circle-fill"
-                viewBox="0 0 16 16"
-              >
-                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z" />
-              </svg>
-            </button>
-          </div>
-        </Box>
-        {/* <Box className="drawer-header row">
-          <div style={{display : "flex"}}>
-          <h6 className="cart-drawer-title">Shopping Cart</h6>
-          <span
-            className="color-white"
-            onClick={() => setCartDrawerOpen(false)}
-          >
-            x
-          </span></div>
-        </Box> */}
-        <Box className="drawer-body">
-          {cartStates?.items?.map((cartItem) => {
-            const {
-              availableQuantity,
-              productImage,
-              productName,
-              quantity,
-              productId,
-              price,
-            } = cartItem;
-            return (
-              <Box className="cart-product pb-20 mb-20" key={productId}>
-                <img
-                  className="img-fluid rounded-2 img-thumbnail"
-                  alt={productImage}
-                  src={productImage}
-                />
-                <Box className="product-meta">
-                  <h6 className="product-title mb-1">{productName}</h6>
-                  <span className="text-muted">£{price}</span>{" "}
-                  <span className="text-muted">x</span>{" "}
-                  <span className="text-muted">{quantity}</span>
-                </Box>
-                <IconButton className="ms-auto">
-                  <Close
-                    onClick={() => dispatch(removeItem({ id: cartItem.id }))}
-                  />
-                </IconButton>
-              </Box>
-            );
-          })}
-        </Box>
-        <Box className="drawer-footer">
-          <div className="d-grid gap-3">
-            <button
-              class="btn-one"
-              onClick={function () {
-                navigate("/cart");
-                setCartDrawerOpen(false);
+  className="cart-drawer"
+  anchor="right"
+  open={cartDrawerOpen}
+  onClose={() => setCartDrawerOpen(false)}
+  sx={{
+    "& .MuiDrawer-paper": {
+      width: "350px", // Adjust width as needed
+      padding: "20px",
+      backgroundColor: "#f8f9fa", // Light grey background
+      boxShadow: "0 4px 10px rgba(0, 0, 0, 0.2)", // Subtle shadow
+    },
+  }}
+>
+  {/* Drawer Header */}
+  <Box
+    className="drawer-header"
+    sx={{
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center",
+      marginBottom: "20px",
+    }}
+  >
+    <h6
+  style={{
+    fontSize: "24px", // Increased font size for visibility
+    fontWeight: "bold", // Bold text for prominence
+    color: "white", // Vibrant orange color to match the theme
+    textTransform: "uppercase", // Makes the text more striking
+    // marginBottom: "10px", // Adds spacing below the header
+    textAlign: "center", // Centers the header text
+    // borderBottom: "2px solid #fa4f09", // Adds a bottom border for emphasis
+    // paddingBottom: "10px", // Padding for space around the border
+  }}
+>
+  Shopping Cart
+</h6>
+<button
+  aria-label="Close"
+  onClick={() => setCartDrawerOpen(false)}
+  style={{
+    background: "transparent", // Transparent background
+    border: "none", // No border for a clean look
+    cursor: "pointer", // Pointer cursor for interactivity
+    padding: "5px",
+    color: "#fff", // White color for visibility on black background
+  }}
+>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    fill="currentColor"
+    viewBox="0 0 16 16"
+    style={{
+      color: "#fff", // White icon color for visibility
+      transition: "color 0.3s ease", // Smooth color transition
+    }}
+  >
+    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z" />
+  </svg>
+</button>
+
+  </Box>
+
+  {/* Drawer Body */}
+  <Box className="drawer-body">
+    {cartStates?.items?.map((cartItem) => {
+      const {
+        availableQuantity,
+        productImage,
+        productName,
+        quantity,
+        productId,
+        price,
+      } = cartItem;
+
+      // Calculate the total for the item
+      const itemTotal = price * quantity;
+
+      return (
+        <Box
+          key={productId}
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            marginBottom: "20px",
+            padding: "10px",
+            border: "1px solid #d9d9d9",
+            borderRadius: "8px",
+            backgroundColor: "#fff",
+          }}
+        >
+          {/* Product Image */}
+          <img
+            src={productImage}
+            alt={productName}
+            style={{
+              width: "60px",
+              height: "60px",
+              objectFit: "cover",
+              borderRadius: "8px",
+              marginRight: "10px",
+            }}
+          />
+
+          {/* Product Details */}
+          <Box sx={{ flex: 1 }}>
+            <h6
+              style={{
+                fontSize: "16px",
+                fontWeight: "bold",
+                color: "#333",
+                marginBottom: "5px",
               }}
             >
-              <span>View Cart</span>
-            </button>
-          </div>
+              {productName}
+            </h6>
+            <span
+              style={{
+                fontSize: "14px",
+                color: "#666",
+                display: "inline-block",
+                marginBottom: "5px",
+              }}
+            >
+              £{price} x {quantity}
+            </span>
+            <h6
+              style={{
+                fontSize: "14px",
+                fontWeight: "bold",
+                color: "#fa4f09",
+              }}
+            >
+              Total: £{itemTotal.toFixed(2)}
+            </h6>
+          </Box>
+
+          {/* Remove Button */}
+          <IconButton
+            onClick={() => dispatch(removeItem({ id: cartItem.id }))}
+            sx={{
+              color: "#fa4f09",
+              "&:hover": {
+                backgroundColor: "#ffe6e1",
+              },
+            }}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              fill="currentColor"
+              viewBox="0 0 16 16"
+            >
+              <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z" />
+            </svg>
+          </IconButton>
         </Box>
-      </Drawer>
+      );
+    })}
+  </Box>
+
+  {/* Drawer Footer */}
+  <Box
+    className="drawer-footer"
+    sx={{
+      marginTop: "20px",
+      display: "flex",
+      flexDirection: "column",
+      gap: "10px",
+    }}
+  >
+    {/* View Cart Button */}
+    <button
+  className="btn-one"
+  onClick={() => {
+    navigate("/cart");
+    setCartDrawerOpen(false);
+  }}
+  style={{
+    padding: "10px 20px",
+    fontSize: "16px",
+    fontWeight: "bold",
+    color: "#000", // Default black text
+    backgroundColor: "#fa4f09", // Default orange background
+    border: "none",
+    borderRadius: "8px",
+    cursor: "pointer",
+    textAlign: "center",
+    transition: "all 0.3s ease", // Smooth transition
+  }}
+  onMouseEnter={(e) => {
+    e.currentTarget.style.backgroundColor = "#000"; // Change to black background
+    e.currentTarget.style.color = "#ffcc00"; // Change text to yellow-orange
+  }}
+  onMouseLeave={(e) => {
+    e.currentTarget.style.backgroundColor = "#fa4f09"; // Revert to orange background
+    e.currentTarget.style.color = "#000"; // Revert to black text
+  }}
+>
+  View Cart
+</button>
+
+
+
+  </Box>
+</Drawer>
+
       {mainNavStates.openDialog && (
         <VapeDialog
           dialogTitle={getDialogTitle()}
