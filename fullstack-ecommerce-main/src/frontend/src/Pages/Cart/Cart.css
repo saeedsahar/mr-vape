@@ -77,3 +77,192 @@ table {
     align-items: center;
     margin-bottom: 10px;
 }
+.cart-header-unique,
+.cart-item-unique {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr auto;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+}
+
+.cart-header-unique {
+  background: #f8f9fa;
+  padding: 10px;
+  font-weight: bold;
+  border-bottom: 2px solid #ddd;
+}
+
+.cart-item-unique {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  background: #fff;
+}
+
+.cart-product-details-unique {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.cart-product-image-unique {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.cart-product-name-unique {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.cart-product-price-unique,
+.cart-product-quantity-unique,
+.cart-product-total-unique {
+  text-align: center;
+  font-size: 14px;
+}
+
+.cart-product-remove-unique {
+  text-align: center;
+}
+
+.cart-total-section-unique {
+  background: #f8f9fa;
+  padding: 15px;
+  border-top: 2px solid #ddd;
+}
+
+.cart-total-title-unique {
+  font-weight: bold;
+}
+
+.cart-total-amount-unique {
+  font-size: 18px;
+  color: #fa4f09;
+}
+
+@media (max-width: 768px) {
+  .cart-header-unique {
+    display: none;
+  }
+
+  .cart-item-unique {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 10px;
+  }
+
+  .cart-product-details-unique {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .cart-product-image-unique {
+    width: 50px;
+    height: 50px;
+  }
+
+  .cart-product-price-unique,
+  .cart-product-quantity-unique,
+  .cart-product-total-unique {
+    text-align: center;
+  }
+}
+
+.cart-main-wrapper-unique {
+    background-color: #f9f9f9;
+    padding: 20px 0;
+  }
+  
+  .cart-page-banner-unique {
+    height: 200px;
+    background-size: cover;
+    background-position: center;
+    margin-bottom: 30px;
+  }
+  
+  .cart-page-section-unique {
+    padding: 20px;
+  }
+  
+  .cart-container-unique {
+    max-width: 900px;
+    margin: 0 auto; /* Centers the cart on the browser */
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+  }
+  
+  .cart-header-unique {
+    display: grid;
+    grid-template-columns: 3fr 1fr 1fr 1fr 0.5fr;
+    text-align: center;
+    font-weight: bold;
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
+  }
+  
+  .cart-item-unique {
+    display: grid;
+    grid-template-columns: 3fr 1fr 1fr 1fr 0.5fr;
+    align-items: center;
+    text-align: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .cart-product-details-unique {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  
+  .cart-product-image-unique {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 5px;
+  }
+  
+  .cart-total-section-unique {
+    margin-top: 20px;
+  }
+  
+  .cart-total-title-unique {
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  .cart-total-amount-unique {
+    font-size: 24px;
+    font-weight: bold;
+    color: #fa4f09;
+  }
+  .button-container {
+    display: flex;
+    justify-content: center; /* Center the buttons */
+    gap: 10px; /* Add space between buttons */
+    flex-wrap: wrap; /* Ensure buttons wrap on smaller screens */
+  }
+  
+  .button-container .btn {
+    flex: 1 1 auto; /* Make buttons flexible */
+    text-align: center;
+    min-width: 45%; /* Ensure buttons fit within the container */
+  }
+  
+  @media (min-width: 768px) {
+    .button-container {
+      justify-content: flex-end; /* Align buttons to the right for larger screens */
+      gap: 15px;
+    }
+  
+    .button-container .btn {
+      min-width: auto;
+      flex: 0 0 auto; /* Keep buttons at their natural size */
+    }
+  }  

@@ -240,10 +240,10 @@ function Home(props) {
             hideBreakPoint={true}
             slidesPerView={1}
             swiperProduct={[
-              // "https://mrvape-frontend.s3.eu-west-2.amazonaws.com/banners/megabox.jpg",
+              "https://mrvape-frontend.s3.eu-west-2.amazonaws.com/banners/megabox.jpg",
               // "https://mrvape-frontend.s3.eu-west-2.amazonaws.com/banners/Alien+Max+(1720+x+915).jpg",
-              // "https://mrvape-frontend.s3.eu-west-2.amazonaws.com/banners/Capsule+(1720+x+915).jpg",
-              "https://mrvape-frontend.s3.eu-west-2.amazonaws.com/banners/Falcon_X_web_banner.jpg",
+              "https://mrvape-frontend.s3.eu-west-2.amazonaws.com/banners/Capsule+(1720+x+915).jpg",
+              // "https://mrvape-frontend.s3.eu-west-2.amazonaws.com/banners/Falcon_X_web_banner.jpg",
             ]}
             customSwiperProduct={customSwiperProductBanner}
           />
@@ -318,8 +318,8 @@ function Home(props) {
             style={{ backgroundImage: `url(${bgImage})` }}
             // data-background=""
           />
-          <div className="container-lg">
-            <div className="row g-4">
+          <div className="container-lg pt-80 ">
+            <div className="row g-4 pt-80 mb-65">
               <div className="col-lg-6 wow fadeInLeft" data-wow-delay=".1s">
                 <div className="view__left-item">
                   <div className="image">

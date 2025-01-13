@@ -48,6 +48,37 @@ export const cartSlice = createSlice({
         if (item.availableQuantity <= 0) {
           //Show some snackbar
         } else {
+          // item.quantity++;
+          // item.availableQuantity--;
+
+          // state.items[itemIndex] = item;
+          // state.total++;
+          // state.totalPrice += item.price;
+        }
+      }
+    },
+    incrementItemQuantity: (state, action) => {
+      console.log("Add items");
+      let index = state.items.findIndex((ele) => ele.id == action.payload.id);
+      if (index == -1) {
+        let currentItems = state.items;
+        let newItem = { ...action.payload };
+        newItem.availableQuantity = newItem.quantity - 1;
+        newItem.quantity = 1;
+        currentItems.push(newItem);
+
+        state.items = currentItems;
+        state.total = state.total + 1;
+        state.totalPrice = state.totalPrice + newItem.price;
+      } else {
+        // Login of incrementItemQuantity
+        let item = state.items.find((ele) => ele.id == action.payload.id);
+        let itemIndex = state.items.findIndex(
+          (ele) => ele.id == action.payload.id
+        );
+        if (item.availableQuantity <= 0) {
+          //Show some snackbar
+        } else {
           item.quantity++;
           item.availableQuantity--;
 
@@ -55,22 +86,6 @@ export const cartSlice = createSlice({
           state.total++;
           state.totalPrice += item.price;
         }
-      }
-    },
-    incrementItemQuantity: (state, action) => {
-      let item = state.items.find((ele) => ele.id == action.payload.id);
-      let itemIndex = state.items.findIndex(
-        (ele) => ele.id == action.payload.id
-      );
-      if (item.availableQuantity <= 0) {
-        //Show some snackbar
-      } else {
-        item.quantity++;
-        item.availableQuantity--;
-
-        state.items[itemIndex] = item;
-        state.total++;
-        state.totalPrice += item.price;
       }
     },
     decreaseItemQuantity: (state, action) => {
@@ -82,6 +97,7 @@ export const cartSlice = createSlice({
         //Show some snackbar
         // state.items = state.items.filter(ele => ele.id != item.id)
       } else {
+        if(state.total >1){
         item.quantity--;
         item.availableQuantity++;
         if (item.quantity <= 0) {
@@ -92,6 +108,7 @@ export const cartSlice = createSlice({
         state.total--;
         state.totalPrice -= item.price;
       }
+    }
     },
   },
 });

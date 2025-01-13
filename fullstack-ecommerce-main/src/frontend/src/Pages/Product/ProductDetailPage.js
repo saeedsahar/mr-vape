@@ -14,6 +14,7 @@ import { base_url, getRequests } from "../../axios/API";
 import {
   addItemQuantity,
   decreaseItemQuantity,
+  incrementItemQuantity
 } from "../../Pages/Cart/CartSlice";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -113,7 +114,7 @@ function ProductDetailPage(props) {
     (ele) => ele.id == selectedFlavour?.id
   )[0]?.quantity;
   if (!currentFlavQuantity) {
-    currentFlavQuantity = 0;
+    currentFlavQuantity = 1;
   }
 
   if (status === "pending") {
@@ -556,7 +557,7 @@ function ProductDetailPage(props) {
 
     {/* Increase Button */}
     <Button
-      onClick={() => dispatch(addItemQuantity(selectedFlavour))}
+      onClick={() => dispatch(incrementItemQuantity(selectedFlavour))}
       sx={{
         backgroundColor: "#38b000", // Vibrant green
         color: "#fff",

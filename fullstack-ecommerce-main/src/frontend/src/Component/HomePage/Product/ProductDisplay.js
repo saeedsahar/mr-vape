@@ -52,7 +52,7 @@ function ProductDisplay(props) {
           className="img-fluid d-block w-100"
           style={{
             transition: "transform 0.3s ease",
-            maxHeight: "300px",
+            maxHeight: "320px",
             objectFit: "cover",
           }}
           onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.1)")}

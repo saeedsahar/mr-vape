@@ -47,7 +47,7 @@ const StripePaymentForm = ({ onPaymentSuccess }) => {
     try {
       // API endpoint for creating a payment intent (ensure HTTPS in production)
       const { data: { clientSecret } } = await axios.post(
-        "${base_url}/api/payment-intent",
+        `${base_url}/api/payment-intent`,
         { amount: (totalBill + 4 - discountedAmount) * 100 } // Amount in cents
       );
 
@@ -77,91 +77,131 @@ const StripePaymentForm = ({ onPaymentSuccess }) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <Box sx={{ mt: 4, p: 3, border: "1px solid #ddd", borderRadius: 2, backgroundColor: "#f9f9f9" }}>
-        <Typography variant="h6" sx={{ mb: 3, fontWeight: "bold", color: "#333" }}>
-          Payment Details
-        </Typography>
+  <Box sx={{ mt: 4, p: 3, border: "1px solid #ddd", borderRadius: 2, backgroundColor: "#f9f9f9" }}>
+    <Typography variant="h6" sx={{ mb: 3, fontWeight: "bold", color: "#333" }}>
+      Payment Details
+    </Typography>
 
-        {/* Card Number Field */}
-        <Box sx={{ mb: 3 }}>
-          <Typography variant="subtitle1" sx={{ mb: 1, fontWeight: "bold" }}>
-            Card Number
-          </Typography>
-          <TextField
-            fullWidth
-            variant="outlined"
-            InputProps={{
-              inputComponent: CardNumberElement,
-              startAdornment: (
-                <InputAdornment position="start">
-                  <CreditCardIcon sx={{ color: "#fa4f09" }} />
-                </InputAdornment>
-              ),
+    {/* Card Number Field */}
+    <Box sx={{ mb: 3 }}>
+      <Typography variant="subtitle1" sx={{ mb: 1, fontWeight: "bold" }}>
+        Card Number
+      </Typography>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          border: "1px solid #ccc",
+          borderRadius: "5px",
+          padding: "10px",
+          backgroundColor: "#fff",
+        }}
+      >
+        <CreditCardIcon sx={{ color: "#fa4f09", mr: 1 }} />
+        <div
+          style={{
+            flex: 1,
+            fontSize: "16px",
+          }}
+        >
+          <CardNumberElement
+            options={{
               style: {
-                fontSize: "16px",
-                padding: "10px",
+                base: {
+                  fontSize: "16px",
+                  color: "#333",
+                  "::placeholder": { color: "#aaa" },
+                },
               },
             }}
-            placeholder="Card Number"
           />
-        </Box>
-
-        {/* Expiry Date Field */}
-        <Box sx={{ mb: 3 }}>
-          <Typography variant="subtitle1" sx={{ mb: 1, fontWeight: "bold" }}>
-            Expiry Date
-          </Typography>
-          <TextField
-            fullWidth
-            variant="outlined"
-            InputProps={{
-              inputComponent: CardExpiryElement,
-              startAdornment: (
-                <InputAdornment position="start">
-                  <CalendarMonthIcon sx={{ color: "#4caf50" }} />
-                </InputAdornment>
-              ),
-              style: {
-                fontSize: "16px",
-                padding: "10px",
-              },
-            }}
-            placeholder="MM/YY"
-          />
-        </Box>
-
-        {/* CVC Field */}
-        <Box>
-          <Typography variant="subtitle1" sx={{ mb: 1, fontWeight: "bold" }}>
-            CVC
-          </Typography>
-          <TextField
-            fullWidth
-            variant="outlined"
-            InputProps={{
-              inputComponent: CardCvcElement,
-              startAdornment: (
-                <InputAdornment position="start">
-                  <LockIcon sx={{ color: "#2196f3" }} />
-                </InputAdornment>
-              ),
-              style: {
-                fontSize: "16px",
-                padding: "10px",
-              },
-            }}
-            placeholder="CVC"
-          />
-        </Box>
+        </div>
       </Box>
+    </Box>
 
-      {paymentError && <Alert severity="error" sx={{ mt: 2 }}>{paymentError}</Alert>}
-      {paymentSuccess && <Alert severity="success" sx={{ mt: 2 }}>{paymentSuccess}</Alert>}
+    {/* Expiry Date Field */}
+    <Box sx={{ mb: 3 }}>
+      <Typography variant="subtitle1" sx={{ mb: 1, fontWeight: "bold" }}>
+        Expiry Date
+      </Typography>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          border: "1px solid #ccc",
+          borderRadius: "5px",
+          padding: "10px",
+          backgroundColor: "#fff",
+        }}
+      >
+        <CalendarMonthIcon sx={{ color: "#4caf50", mr: 1 }} />
+        <div
+          style={{
+            flex: 1,
+            fontSize: "16px",
+          }}
+        >
+          <CardExpiryElement
+            options={{
+              style: {
+                base: {
+                  fontSize: "16px",
+                  color: "#333",
+                  "::placeholder": { color: "#aaa" },
+                },
+              },
+            }}
+          />
+        </div>
+      </Box>
+    </Box>
 
-      <Button type="submit" size="large" variant="contained" fullWidth sx={{ mt: 3 }} disabled={isProcessing || !stripe}>
-        {isProcessing ? "Processing..." : "Pay Now"}
-      </Button>
-    </form>
+    {/* CVC Field */}
+    <Box>
+      <Typography variant="subtitle1" sx={{ mb: 1, fontWeight: "bold" }}>
+        CVC
+      </Typography>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          border: "1px solid #ccc",
+          borderRadius: "5px",
+          padding: "10px",
+          backgroundColor: "#fff",
+        }}
+      >
+        <LockIcon sx={{ color: "#2196f3", mr: 1 }} />
+        <div
+          style={{
+            flex: 1,
+            fontSize: "16px",
+          }}
+        >
+          <CardCvcElement
+            options={{
+              style: {
+                base: {
+                  fontSize: "16px",
+                  color: "#333",
+                  "::placeholder": { color: "#aaa" },
+                },
+              },
+            }}
+          />
+        </div>
+      </Box>
+    </Box>
+  </Box>
+
+  {paymentError && <Alert severity="error" sx={{ mt: 2 }}>{paymentError}</Alert>}
+  {paymentSuccess && <Alert severity="success" sx={{ mt: 2 }}>{paymentSuccess}</Alert>}
+
+  <Button type="submit" size="large" variant="contained" fullWidth sx={{ mt: 3 }} disabled={isProcessing || !stripe}>
+    {isProcessing ? "Processing..." : "Pay Now"}
+  </Button>
+</form>
+
   );
 };
 
