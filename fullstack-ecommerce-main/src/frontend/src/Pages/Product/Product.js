@@ -172,87 +172,94 @@ function Product(props) {
           </div>
         ) : (
           <div className="tab-content container">
-            <div id="latest-item" className="tab-pane fade show active">
-              <div className="row">
-                <div
-                  className="col-lg-3 product-page-filter"
-                  id="filter products"
-                >
-                  {homeStates.menu?.map((menuEle, i) => {
-                    let hasSubMenu = menuEle.brandList.length > 0;
-                    return (
-                      <div class="accordion mb-2" id={i}>
-                        <div class="accordion-item">
-                          <div class="accordion-header">
-                            <button
-                              className={`${
-                                !hasSubMenu ? "accordion-custom-button" : ""
-                              } accordion-button collapsed`}
-                              type="button"
-                              data-bs-toggle="collapse"
-                              data-bs-target={`#flush-${i}`}
-                              aria-expanded="false"
-                              aria-controls={`flush-${i}`}
-                              onClick={() => {
-                                if (!hasSubMenu && menuEle.id == 1) {
-                                  dispatch(setQuery("Trending"));
-                                } else if (!hasSubMenu)
-                                  dispatch(setCategoryId(menuEle.id));
-                              }}
-                            >
-                              {menuEle.name}
-                            </button>
-                          </div>
-                          {hasSubMenu &&
-                            menuEle.brandList?.map((subMenuEle) => {
-                              return (
-                                <>
-                                  <div
-                                    id={`flush-${i}`}
-                                    class="accordion-collapse collapse pointer"
-                                    data-bs-parent={`${i}`}
-                                  >
-                                    <div class="accordion-body">
-                                      <ul>
-                                        <li className="pointer">
-                                          <a
-                                            onClick={() => {
-                                              dispatch(
-                                                setBrandId(subMenuEle.id)
-                                              );
-                                            }}
-                                          >
-                                            {subMenuEle.name}
-                                          </a>
-                                        </li>
-                                      </ul>
-                                    </div>
-                                  </div>
-                                </>
-                              );
-                            })}
-                        </div>
-                      </div>
-                    );
-                  })}
+  <div id="latest-item" className="tab-pane fade show active">
+    <div className="row">
+      {/* Filter Products Menu */}
+      <div className="col-lg-3 product-filter-menu-unique d-none d-lg-block">
+        {homeStates.menu?.map((menuEle, i) => {
+          let hasSubMenu = menuEle.brandList.length > 0;
+
+          return (
+            <div className="menu-accordion-unique mb-3" id={`menu-accordion-${i}`} key={i}>
+              <div className="menu-accordion-item-unique">
+                <div className="menu-accordion-header-unique d-flex align-items-center">
+                  {/* Icon */}
+                  <i className="fa-solid fa-tag menu-icon-unique"></i>
+
+                  {/* Menu Item */}
+                  <button
+                    className={`menu-accordion-button-unique ${
+                      !hasSubMenu ? "no-submenu-unique" : "collapsed"
+                    }`}
+                    type="button"
+                    data-bs-toggle={hasSubMenu ? "collapse" : undefined}
+                    data-bs-target={hasSubMenu ? `#menu-collapse-${i}` : undefined}
+                    aria-expanded="false"
+                    aria-controls={hasSubMenu ? `menu-collapse-${i}` : undefined}
+                    onClick={() => {
+                      if (!hasSubMenu && menuEle.id === 1) {
+                        dispatch(setQuery("Trending"));
+                      } else if (!hasSubMenu) {
+                        dispatch(setCategoryId(menuEle.id));
+                      }
+                    }}
+                  >
+                    {menuEle.name}
+                    {/* Arrow for submenus only */}
+                    {hasSubMenu && (
+                      <i className="fa-solid fa-chevron-right menu-arrow-icon-unique"></i>
+                    )}
+                  </button>
                 </div>
-                <div
-                  className="col-lg-9 product-display-page-filter"
-                  style={{ marginLeft: "0px" }}
-                >
-                  <div className="row">
-                    {productState.products?.map((product) => {
-                      return (
-                        <div className="col-lg-4 mb-4">
-                          <ProductDisplay product={product} />
-                        </div>
-                      );
-                    })}
+
+                {/* Submenu */}
+                {hasSubMenu && (
+                  <div
+                    id={`menu-collapse-${i}`}
+                    className="menu-accordion-collapse-unique collapse"
+                    data-bs-parent={`#menu-accordion-${i}`}
+                  >
+                    <div className="menu-accordion-body-unique">
+                      <ul className="submenu-list-unique">
+                        {menuEle.brandList?.map((subMenuEle, subIndex) => (
+                          <li
+                            className="submenu-item-unique pointer"
+                            key={subIndex}
+                            onClick={() => {
+                              dispatch(setBrandId(subMenuEle.id));
+                            }}
+                          >
+                            <i className="fa-solid fa-circle-dot submenu-icon-unique"></i>
+                            {subMenuEle.name}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
             </div>
-          </div>
+          );
+        })}
+      </div>
+
+      {/* Product Display Section */}
+      <div className="col-lg-9 product-display-section-unique">
+        <div className="row">
+          {productState.products?.map((product) => {
+            return (
+              <div className="col-lg-4 col-md-6 mb-4">
+                <ProductDisplay product={product} />
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
         )}
       </section>
       <section className="brand-area black-area pt-130 pb-130">
@@ -278,57 +285,7 @@ function Product(props) {
         </div>
       </section>
     </main>
-    // <div style={{ height: '100%' }}>
-    //   <div className="search-bar-container" style={{width : "100%" , height : "100%" , padding : "10px"}}>
-    //     <input value={query} onChange={(e) => handleQueryChange(e.target.value)}/>
-    //   </div>
-    //   {loading ? (
-    //     <CircularProgress style={{ margin: 'auto', marginTop: '100px' }} />
-    //   ) : (
-    //     <div className="products-container">
-    //       {query && (
-    //         <div className="result-info">
-    //           Searched for <i>'{query}'</i> ({length} items found)
-    //         </div>
-    //       )}
-    //       {products.map(product => (
-    //         <Card key={product.id} className="card">
-    //           <CardHeader onClick={() => selectProduct(product.id)}>
-    //             <img style={{ width: '100%' }} src={product.image} alt={product.name} />
-    //           </CardHeader>
-    //           <CardContent onClick={() => selectProduct(product.id)}>
-    //             {/* <img src={}/> */}
-    //             <Typography variant="h5">{product.name}</Typography>
-    //             <Typography variant="subtitle1">{product.categoryName || ""}</Typography>
-    //             <Typography>{product.shortDescription.substring(0, 25)}...</Typography>
-    //           </CardContent>
-    //           <CardActions>
-    //             {product.quantity >= 1 ? (
-    //               <Typography variant="h6" className="price">{product.price} EUR</Typography>
-    //             ) : (
-    //               <Typography variant="h6" className="text-danger">Out of Stock</Typography>
-    //             )}
-    //             <Button
-    //               variant="contained"
-    //               color="primary"
-    //               disabled={shouldAddButtonDisable(product)}
-    //               onClick={() => dispatch(addItemQuantity(product))}
-    //             >
-    //               Add
-    //             </Button>
-    //           </CardActions>
-    //         </Card>
-    //       ))}
-    //       <Pagination
-    //         count={Math.ceil(length / pageSize)}
-    //         page={pageIndex + 1}
-    //         onChange={handlePageChange}
-    //         showFirstButton
-    //         showLastButton
-    //       />
-    //     </div>
-    //   )}
-    // </div>
+    
   );
 }
 

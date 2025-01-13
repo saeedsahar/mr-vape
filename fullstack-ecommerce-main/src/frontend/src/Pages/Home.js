@@ -242,8 +242,8 @@ function Home(props) {
             swiperProduct={[
               // "https://mrvape-frontend.s3.eu-west-2.amazonaws.com/banners/megabox.jpg",
               // "https://mrvape-frontend.s3.eu-west-2.amazonaws.com/banners/Alien+Max+(1720+x+915).jpg",
-              "https://mrvape-frontend.s3.eu-west-2.amazonaws.com/banners/Capsule+(1720+x+915).jpg",
-              // "https://mrvape-frontend.s3.eu-west-2.amazonaws.com/banners/Falcon_X_web_banner.jpg",
+              // "https://mrvape-frontend.s3.eu-west-2.amazonaws.com/banners/Capsule+(1720+x+915).jpg",
+              "https://mrvape-frontend.s3.eu-west-2.amazonaws.com/banners/Falcon_X_web_banner.jpg",
             ]}
             customSwiperProduct={customSwiperProductBanner}
           />
@@ -290,7 +290,7 @@ function Home(props) {
         </section>
         {/* Banner area end here */}
         {/* Category area start here */}
-        <section className="category-area black-area category-two pb-130 pt-30">
+        <section className="category-area black-area category-two ">
           <div className="container-lg">
             <div className="bor-bottom pb-130">
               <div
@@ -421,7 +421,7 @@ function Home(props) {
         </section>
         {/* View area end here */}
         {/* Product area start here */}
-        <section className="product-area pt-80 pb-80 mt-130">
+        <section className="product-area pt-80 ">
           <div className="container-lg">
             <div className="product__wrp pb-30 mb-65 bor-bottom d-flex flex-wrap align-items-center justify-content-xl-between justify-content-center">
               <div
@@ -431,44 +431,86 @@ function Home(props) {
                 <span className="title-icon mr-10" />
                 <h2>Vaping Trends</h2>
               </div>
-              <ul className="nav nav-pills mt-4 mt-xl-0">
-                <li className="nav-item wow fadeInUp" data-wow-delay=".1s">
-                  <a
-                    // href="#latest-item"
-                    data-bs-toggle="tab"
-                    className={`nav-link px-4 ${
-                      productType == "Trending" ? "active" : ""
-                    } pointer`}
-                    onClick={() => setProductListType("Trending")}
-                  >
-                    latest item
-                  </a>
-                </li>
-                <li className="nav-item wow fadeInUp" data-wow-delay=".2s">
-                  <a
-                    // href="#top-ratting"
-                    data-bs-toggle="tab"
-                    className={`nav-link px-4 bor-left bor-right ${
-                      productType == "TopRating" ? "active" : ""
-                    } pointer`}
-                    onClick={() => setProductListType("TopRating")}
-                  >
-                    top ratting
-                  </a>
-                </li>
-                <li className="nav-item wow fadeInUp" data-wow-delay=".3s">
-                  <a
-                    // href="#featured-products"
-                    data-bs-toggle="tab"
-                    className={`nav-link ps-4  ${
-                      productType == "Featured" ? "active" : ""
-                    } pointer`}
-                    onClick={() => setProductListType("Featured")}
-                  >
-                    featured products
-                  </a>
-                </li>
-              </ul>
+              <ul className="nav nav-pills mt-4 mt-xl-0 justify-content-center">
+  {/* Latest Item */}
+  <li className="nav-item wow fadeInUp" data-wow-delay=".1s">
+    <a
+      data-bs-toggle="tab"
+      className={`nav-link px-4 d-flex align-items-center ${
+        productType === "Trending" ? "active" : ""
+      } pointer`}
+      onClick={() => setProductListType("Trending")}
+      style={{
+        fontWeight: "bold",
+        fontSize: "16px",
+        color: productType === "Trending" ? "#fa4f09" : "#333",
+        borderRadius: "8px",
+        transition: "all 0.3s ease",
+      }}
+    >
+      <i
+        className="fa-solid fa-fire me-2"
+        style={{
+          color: productType === "Trending" ? "#fa4f09" : "#999",
+        }}
+      ></i>
+      Latest Items
+    </a>
+  </li>
+
+  {/* Top Rating */}
+  <li className="nav-item wow fadeInUp" data-wow-delay=".2s">
+    <a
+      data-bs-toggle="tab"
+      className={`nav-link px-4 d-flex align-items-center ${
+        productType === "TopRating" ? "active" : ""
+      } pointer`}
+      onClick={() => setProductListType("TopRating")}
+      style={{
+        fontWeight: "bold",
+        fontSize: "16px",
+        color: productType === "TopRating" ? "#fa4f09" : "#333",
+        borderRadius: "8px",
+        transition: "all 0.3s ease",
+      }}
+    >
+      <i
+        className="fa-solid fa-star me-2"
+        style={{
+          color: productType === "TopRating" ? "#fa4f09" : "#999",
+        }}
+      ></i>
+      Top Rating
+    </a>
+  </li>
+
+  {/* Featured Products */}
+  {/* <li className="nav-item wow fadeInUp" data-wow-delay=".3s">
+    <a
+      data-bs-toggle="tab"
+      className={`nav-link px-4 d-flex align-items-center ${
+        productType === "Featured" ? "active" : ""
+      } pointer`}
+      onClick={() => setProductListType("Featured")}
+      style={{
+        fontWeight: "bold",
+        fontSize: "16px",
+        color: productType === "Featured" ? "#fa4f09" : "#333",
+        borderRadius: "8px",
+        transition: "all 0.3s ease",
+      }}
+    >
+      <i
+        className="fa-solid fa-star-and-crescent me-2"
+        style={{
+          color: productType === "Featured" ? "#fa4f09" : "#999",
+        }}
+      ></i>
+      Featured Products
+    </a>
+  </li> */}
+</ul>
+
             </div>
             <ProductList />
           </div>
@@ -592,73 +634,171 @@ function Home(props) {
         {/* Text slider area end here */}
         {/* Gallery area start here */}
 
-        <section className="gallery-area gallery-light black-area">
-          <div className="container-lg">
-            <div className="product__wrp pb-30 mb-65 bor-bottom d-flex flex-wrap align-items-center justify-content-xl-between justify-content-center">
-              <div
-                className="section-header d-flex align-items-center wow fadeInUp"
-                data-wow-delay=".1s"
-              >
-                <span className="title-icon mr-10" />
-                <h2>News and Blogs</h2>
-              </div>
-            </div>
-            <SwiperComponentNavigation
-              slidesPerView={3}
-              swiperProduct={blogArray}
-              // customSwiperProduct={customSwiperProductOff}
-              breakpoints={{
-                320: {
-                  slidesPerView: 1,
-                  spaceBetween: 20,
-                },
-                640: {
-                  slidesPerView: 1,
-                  spaceBetween: 20,
-                },
-                768: {
-                  slidesPerView: 1,
-                  spaceBetween: 20,
-                },
-                1366: {
-                  slidesPerView: 3,
-                  spaceBetween: 25,
-                },
-              }}
-              navigation={true}
-            />
-            <h4
-              onClick={() => navigate("/allBlogs")}
-              className="blogs-and-news"
-            >
-              View All Blogs And News{" "}
-            </h4>
-          </div>
-        </section>
+        <section className="news-blogs-section gallery-light black-area">
+  <div className="news-blogs-container container-lg">
+    {/* Header Section */}
+    <div>
+  <style>
+    {`
+      /* Header Container */
+      .news-blogs-header {
+        border-bottom: 2px solid #ececec;
+        padding-bottom: 15px;
+        margin-bottom: 30px;
+      }
+
+      /* Title Wrapper */
+      .news-blogs-title-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      /* Icon Styling */
+      .news-blogs-title-icon-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        background-color: #fa4f09; /* Icon background color */
+        border-radius: 50%;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .news-blogs-icon {
+        color: #fff;
+        font-size: 18px;
+      }
+
+      /* Title Styling */
+      .news-blogs-title {
+        font-size: 24px;
+        font-weight: bold;
+        color: #333;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      /* Responsive Styles */
+      @media (max-width: 768px) {
+        .news-blogs-title {
+          font-size: 18px;
+        }
+
+        .news-blogs-title-icon-wrapper {
+          width: 30px;
+          height: 30px;
+        }
+
+        .news-blogs-icon {
+          font-size: 14px;
+        }
+      }
+    `}
+  </style>
+
+  <div className="news-blogs-header pb-30 mb-65 bor-bottom d-flex flex-wrap align-items-center justify-content-xl-between justify-content-center">
+    <div
+      className="news-blogs-title-wrapper d-flex align-items-center wow fadeInUp"
+      data-wow-delay=".1s"
+    >
+      {/* Icon */}
+      <span className="news-blogs-title-icon-wrapper mr-10">
+        <i className="fa-solid fa-newspaper news-blogs-icon"></i>
+      </span>
+
+      {/* Title */}
+      <h2 className="news-blogs-title">News and Blogs</h2>
+    </div>
+  </div>
+</div>
+
+
+    {/* Swiper Component */}
+    <SwiperComponentNavigation
+      slidesPerView={3}
+      swiperProduct={blogArray}
+      breakpoints={{
+        320: {
+          slidesPerView: 1,
+          spaceBetween: 20,
+        },
+        640: {
+          slidesPerView: 1,
+          spaceBetween: 20,
+        },
+        768: {
+          slidesPerView: 2,
+          spaceBetween: 20,
+        },
+        1366: {
+          slidesPerView: 3,
+          spaceBetween: 25,
+        },
+      }}
+      navigation={true}
+    />
+
+    {/* View All Blogs Link */}
+    <div className="news-blogs-view-all text-center mt-4">
+      <h4
+        onClick={() => navigate("/allBlogs")}
+        className="news-blogs-link d-inline-flex align-items-center pointer"
+      >
+        View All Blogs And News{" "}
+        <i
+          className="fa-solid fa-arrow-right ml-2 news-blogs-icon"
+          style={{ fontSize: "16px" }}
+        ></i>
+      </h4>
+    </div>
+  </div>
+</section>
+
         {/* Gallery area end here */}
         {/* Brand area start here */}
-        <section className="brand-area black-area pt-130 pb-130">
-          <div className="container-lg">
-            <div className="sub-title text-center mb-65">
-              <h3>
-                <span className="title-icon" /> our top brands{" "}
-                <span className="title-icon" />
-              </h3>
-            </div>
-            <SwiperComponentCustom
-              slidesPerView={5}
-              swiperProduct={[
-                { image: "assets/images/brand/Geek-Bar.webp" },
-                { image: "assets/images/brand/Magic-Bar.webp" },
-                { image: "assets/images/brand/lost-mary.webp" },
-                { image: "assets/images/brand/Kingston.webp" },
-                { image: "assets/images/brand/JNR-Logo.webp" },
-                { image: "assets/images/brand/hayati-logo.webp" },
-              ]}
-              customSwiperProduct={customSwiperProduct}
+        <section className="brand-area black-area py-5">
+  <div className="container-lg">
+    {/* Heading */}
+    <div className="sub-title text-center mb-5">
+      <h3 className="brand-heading">
+        <span className="title-icon" /> Our Top Brands{" "}
+        <span className="title-icon" />
+      </h3>
+    </div>
+
+    {/* Brands Grid */}
+    <div className="row g-3 justify-content-center">
+      {[
+        { image: "assets/images/brand/Geek-Bar.webp", name: "Geek Bar" },
+        { image: "assets/images/brand/Magic-Bar.webp", name: "Magic Bar" },
+        { image: "assets/images/brand/lost-mary.webp", name: "Lost Mary" },
+        { image: "assets/images/brand/Kingston.webp", name: "Kingston" },
+        { image: "assets/images/brand/JNR-Logo.webp", name: "JNR" },
+        { image: "assets/images/brand/hayati-logo.webp", name: "Hayati" },
+      ].map((brand, index) => (
+        <div
+          className="col-lg-2 col-md-3 col-sm-4 col-6 text-center"
+          key={index}
+        >
+          <div className="brand-card">
+            <img
+              src={brand.image}
+              alt={brand.name}
+              className="brand-image"
+              loading="lazy"
             />
+            <h5 className="brand-name mt-2">{brand.name}</h5>
           </div>
-        </section>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+
         {/* Brand area end here */}
       </main>
     </>

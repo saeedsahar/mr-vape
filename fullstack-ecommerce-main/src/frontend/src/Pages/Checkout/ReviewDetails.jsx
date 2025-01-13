@@ -123,137 +123,325 @@ const ReviewDetails = (props) => {
   return (
     <Elements stripe={stripePromise}>
       <div className="row">
-        <div className="col-lg-8">
-          <div className="pb-3 checkout-title">Contact & Shipping Information</div>
-          <Box component="section" className="border" sx={{ mb: 5, borderRadius: 2, padding: "10px 20px" }}>
-            <TableContainer>
-              <Table>
-                <TableBody>
-                  <TableRow>
-                    <TableCell sx={{ fontWeight: 600 }}>Contact</TableCell>
-                    <TableCell>{userauth.email}</TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell sx={{ fontWeight: 600 }}>Ship to:</TableCell>
-                    <TableCell>
-                      <p>{`${props.formData.lastName}, ${props.formData.firstName}`}</p>
-                      <p>{props.formData.streetAddress}</p>
-                      <p>{props.formData.townCity}</p>
-                      <p>{props.formData.postalCode}</p>
-                      <p>{props.formData.phone}</p>
-                    </TableCell>
-                  </TableRow>
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </Box>
+      <div className="col-lg-8">
+  {/* Contact & Shipping Information Section */}
+  <Typography
+    variant="h6"
+    sx={{
+      fontWeight: "bold",
+      color: "#333",
+      mb: 2,
+      textTransform: "uppercase",
+    }}
+  >
+    Contact & Shipping Information
+  </Typography>
+  <Box
+    component="section"
+    sx={{
+      mb: 5,
+      borderRadius: 2,
+      padding: "20px",
+      boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+      backgroundColor: "#f9f9f9",
+    }}
+  >
+    <TableContainer>
+      <Table>
+        <TableBody>
+          {/* Contact Information */}
+          <TableRow>
+            <TableCell sx={{ fontWeight: "bold", color: "#333" }}>
+              <Box sx={{ display: "flex", alignItems: "center" }}>
+                <i
+                  className="fa-solid fa-envelope"
+                  style={{
+                    color: "#fa4f09",
+                    marginRight: "8px",
+                    fontSize: "18px",
+                  }}
+                />
+                Contact
+              </Box>
+            </TableCell>
+            <TableCell sx={{ color: "#555" }}>{userauth.email}</TableCell>
+          </TableRow>
 
-          <Box component="section" sx={{ mb: 5 }}>
-            <div className="mb-0 checkout-title">Payment</div>
-            <p className="text-muted">All transactions are secure and encrypted</p>
-
-            <StripePaymentForm onPaymentSuccess={handlePaymentSuccess} />
-          </Box>
-        </div>
-        <div className="col-lg-4">
-          <Box component="section" className="order-summary">
-            <div className="pb-3 mb-4 border-bottom checkout-title">Order Summary</div>
-
-            <Alert severity="info" icon={false} sx={{ mb: 4 }}>
-              <AlertTitle>You have 50 points</AlertTitle>
-              You don't have enough coins to redeem.
-            </Alert>
-
-            <Stack mb={4} pb={5} style={{ marginBottom: "0px" }}>
-              {orderItems.map((item, i) => (
-                <Stack
-                  direction="row"
-                  useFlexGap
-                  spacing={1.5}
-                  className={i !== orderItems.length - 1 ? "border-bottom pb-4 mb-4" : ""}
-                  key={i}
-                >
-                  <Avatar
-                    className="img-thumbnail"
-                    sx={{ width: 80, height: 80 }}
-                    variant="rounded"
-                    alt="Cart Product"
-                    src={item.productImage}
-                  />
-                  <div className="product-info">
-                    <div className="product-title">{item.productName}</div>
-                    <small className="product-qty d-block mt-1">{item.flavour}</small>
-                  </div>
-                  <div className="price align-self-center fw-semibold" style={{ marginLeft: "auto" }}>
-                    £{item.price * item.quantity}
-                  </div>
-                </Stack>
-              ))}
-            </Stack>
-
-            <Box mt={4} className="border-top pt-4" style={{ marginTop: "0px" }}>
-              <TextField
-                label="Discount Code"
-                value={discountCode}
-                onChange={(e) => setDiscountCode(e.target.value)}
-                variant="outlined"
-                fullWidth
-              />
-              <Button
-                variant="contained"
-                onClick={handleApplyDiscount}
-                size="large"
-                fullWidth
-                sx={{ mt: 2, backgroundColor: "#fa4f09" }}
+          {/* Shipping Information */}
+          <TableRow>
+            <TableCell sx={{ fontWeight: "bold", color: "#333" }}>
+              <Box sx={{ display: "flex", alignItems: "center" }}>
+                <i
+                  className="fa-solid fa-truck"
+                  style={{
+                    color: "#4caf50",
+                    marginRight: "8px",
+                    fontSize: "18px",
+                  }}
+                />
+                Ship to:
+              </Box>
+            </TableCell>
+            <TableCell sx={{ color: "#555" }}>
+              <Typography
+                variant="body2"
+                sx={{ mb: 1, fontWeight: "bold", color: "#000" }}
               >
-                Apply Code
+                {`${props.formData.lastName}, ${props.formData.firstName}`}
+              </Typography>
+              <Typography variant="body2" sx={{ mb: 1 }}>
+                {props.formData.streetAddress}
+              </Typography>
+              <Typography variant="body2" sx={{ mb: 1 }}>
+                {props.formData.townCity}
+              </Typography>
+              <Typography variant="body2" sx={{ mb: 1 }}>
+                {props.formData.postalCode}
+              </Typography>
+              <Typography variant="body2" sx={{ mb: 1 }}>
+                <i
+                  className="fa-solid fa-phone"
+                  style={{
+                    color: "#2196f3",
+                    marginRight: "6px",
+                    fontSize: "16px",
+                  }}
+                />
+                {props.formData.phone}
+              </Typography>
+            </TableCell>
+            <TableCell align="right">
+              <Button
+                size="small"
+                onClick={() => props.setActiveStep(1)}
+                sx={{
+                  color: "#1976d2",
+                  fontWeight: "bold",
+                  textTransform: "uppercase",
+                }}
+              >
+                Change
               </Button>
-              {isDiscountApplied && (
-                <Alert severity={isDiscountApplied} sx={{ mt: 2 }}>
-                  {isDiscountApplied === "success"
-                    ? "Discount applied successfully!"
-                    : "Failed to apply discount!"}
-                </Alert>
-              )}
-            </Box>
+            </TableCell>
+          </TableRow>
 
-            <Box>
-              <table>
-                <tr>
-                  <td className="py-2 ">Subtotal</td>
-                  <td className="py-2 " align="right">
-                    <span className="">£{totalBill}</span>
-                  </td>
-                </tr>
-                {discountedAmount ? (
-                  <tr>
-                    <td className="py-2 ">Discount</td>
-                    <td className="py-2 " align="right">
-                      <span className="">£{discountedAmount}</span>
-                    </td>
-                  </tr>
-                ) : null}
-                <tr>
-                  <td className="py-2 border-bottom ">
-                    <span>Shipping</span>
-                    <span className="text-muted d-block">Royal mail special delivery</span>
-                  </td>
-                  <td className="py-2 border-bottom " align="right">
-                    <span>£6</span>
-                  </td>
-                </tr>
-                <tr>
-                  <td className="pt-4 fw-semibold">
-                    <span className="fs-6">Total</span>
-                    <span className="fs-6 d-block text-muted">Prices included taxes</span>
-                  </td>
-                  <td className="pt-4 fw-semibold" align="right">
-                    <span className="fw-semibold fs-4">£{totalBill + 6 - discountedAmount}</span>
-                  </td>
-                </tr>
-              </table>
-            </Box>
-          </Box>
+          {/* Method Section */}
+          <TableRow>
+            <TableCell sx={{ fontWeight: "bold", color: "#333" }}>
+              <Box sx={{ display: "flex", alignItems: "center" }}>
+                <i
+                  className="fa-solid fa-shipping-fast"
+                  style={{
+                    color: "#ff9800",
+                    marginRight: "8px",
+                    fontSize: "18px",
+                  }}
+                />
+                Method
+              </Box>
+            </TableCell>
+            <TableCell sx={{ color: "#555" }}>
+              <Typography variant="body2" sx={{ fontWeight: "bold" }}>
+                Royal Mail Special Delivery
+              </Typography>
+              <Typography
+                variant="body2"
+                sx={{
+                  fontWeight: "bold",
+                  color: "#000",
+                  display: "inline",
+                }}
+              >
+                $6.99
+              </Typography>
+            </TableCell>
+            <TableCell align="right">
+              <Button
+                size="small"
+                onClick={() => props.setActiveStep(1)} // Routes to the checkout step
+                sx={{
+                  color: "#1976d2",
+                  fontWeight: "bold",
+                  textTransform: "uppercase",
+                }}
+              >
+                Change
+              </Button>
+            </TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
+    </TableContainer>
+  </Box>
+
+  {/* Payment Section */}
+  <Box
+    component="section"
+    sx={{
+      mb: 5,
+      padding: "20px",
+      borderRadius: 2,
+      backgroundColor: "#fff",
+      boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+    }}
+  >
+    <Typography
+      variant="h6"
+      sx={{
+        fontWeight: "bold",
+        color: "#333",
+        mb: 2,
+        textTransform: "uppercase",
+      }}
+    >
+      Payment
+    </Typography>
+    <Typography
+      variant="body2"
+      sx={{
+        color: "#888",
+        mb: 3,
+        display: "flex",
+        alignItems: "center",
+      }}
+    >
+      <i
+        className="fa-solid fa-lock"
+        style={{
+          color: "#4caf50",
+          marginRight: "6px",
+          fontSize: "16px",
+        }}
+      />
+      All transactions are secure and encrypted
+    </Typography>
+
+    {/* Stripe Payment Form */}
+    <StripePaymentForm onPaymentSuccess={handlePaymentSuccess} />
+  </Box>
+</div>
+
+        <div className="col-lg-4">
+        <Box component="section" className="order-summary" sx={{ borderRadius: 2, padding: "20px", backgroundColor: "#f9f9f9", boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)" }}>
+  {/* Order Summary Title */}
+  <Typography variant="h6" sx={{ fontWeight: "bold", color: "#333", mb: 3, textTransform: "uppercase", borderBottom: "2px solid #ddd", pb: 2 }}>
+    <i className="fa-solid fa-list" style={{ marginRight: "10px", color: "#fa4f09" }}></i> Order Summary
+  </Typography>
+
+  {/* Alert for Points */}
+  <Alert severity="info" icon={false} sx={{ mb: 4 }}>
+    <AlertTitle sx={{ fontWeight: "bold", fontSize: "16px" }}>You have 50 points</AlertTitle>
+    You don't have enough coins to redeem.
+  </Alert>
+
+  {/* Cart Items */}
+  <Stack spacing={3}>
+    {orderItems.map((item, i) => (
+      <Box key={i} sx={{ display: "flex", alignItems: "center", borderBottom: i !== orderItems.length - 1 ? "1px solid #ddd" : "none", pb: 2, mb: 2 }}>
+        {/* Product Image */}
+        <Avatar
+          variant="rounded"
+          src={item.productImage}
+          alt="Cart Product"
+          sx={{ width: 80, height: 80, marginRight: "16px" }}
+        />
+
+        {/* Product Info */}
+        <Box>
+          <Typography variant="body1" sx={{ fontWeight: "bold", color: "#333" }}>
+            {item.productName}
+          </Typography>
+          <Typography variant="body2" sx={{ color: "#555", mt: 0.5 }}>
+            <i className="fa-solid fa-flask" style={{ marginRight: "6px", color: "#2196f3" }}></i> {item.flavour}
+          </Typography>
+        </Box>
+
+        {/* Price */}
+        <Typography variant="body1" sx={{ fontWeight: "bold", color: "#333", marginLeft: "auto" }}>
+          £{item.price * item.quantity}
+        </Typography>
+      </Box>
+    ))}
+  </Stack>
+
+  {/* Discount Code Section */}
+  <Box sx={{ mt: 4, borderTop: "1px solid #ddd", pt: 4 }}>
+    <TextField
+      label="Discount Code"
+      value={discountCode}
+      onChange={(e) => setDiscountCode(e.target.value)}
+      variant="outlined"
+      fullWidth
+      sx={{
+        "& .MuiOutlinedInput-root": {
+          borderRadius: "8px",
+          backgroundColor: "#fff",
+        },
+      }}
+    />
+    <Button
+      variant="contained"
+      onClick={handleApplyDiscount}
+      fullWidth
+      size="large"
+      sx={{
+        mt: 2,
+        backgroundColor: "#fa4f09",
+        fontWeight: "bold",
+        "&:hover": {
+          backgroundColor: "#e64500",
+        },
+      }}
+    >
+      <i className="fa-solid fa-tag" style={{ marginRight: "10px" }}></i> Apply Code
+    </Button>
+
+    {/* Discount Code Status */}
+    {isDiscountApplied && (
+      <Alert severity={isDiscountApplied} sx={{ mt: 2 }}>
+        {isDiscountApplied === "success" ? "Discount applied successfully!" : "Failed to apply discount!"}
+      </Alert>
+    )}
+  </Box>
+
+  {/* Pricing Summary */}
+  <Box sx={{ mt: 4 }}>
+    <table style={{ width: "100%", borderCollapse: "collapse" }}>
+      <tbody>
+        <tr>
+          <td style={{ padding: "10px 0", fontWeight: "bold", color: "#333" }}>
+            <i className="fa-solid fa-money-bill-wave" style={{ marginRight: "10px", color: "#4caf50" }}></i> Subtotal
+          </td>
+          <td style={{ textAlign: "right", fontWeight: "bold", color: "#333" }}>£{totalBill}</td>
+        </tr>
+
+        {discountedAmount > 0 && (
+          <tr>
+            <td style={{ padding: "10px 0", fontWeight: "bold", color: "#333" }}>
+              <i className="fa-solid fa-percent" style={{ marginRight: "10px", color: "#2196f3" }}></i> Discount
+            </td>
+            <td style={{ textAlign: "right", fontWeight: "bold", color: "#333" }}>£{discountedAmount}</td>
+          </tr>
+        )}
+
+        <tr>
+          <td style={{ padding: "10px 0", fontWeight: "bold", color: "#333" }}>
+            <i className="fa-solid fa-truck" style={{ marginRight: "10px", color: "#ff9800" }}></i> Shipping
+          </td>
+          <td style={{ textAlign: "right", fontWeight: "bold", color: "#333" }}>£6</td>
+        </tr>
+
+        <tr>
+          <td style={{ padding: "10px 0", fontWeight: "bold", color: "#333" }}>
+            <i className="fa-solid fa-calculator" style={{ marginRight: "10px", color: "#fa4f09" }}></i> Total
+          </td>
+          <td style={{ textAlign: "right", fontSize: "18px", fontWeight: "bold", color: "#000" }}>£{totalBill + 6 - discountedAmount}</td>
+        </tr>
+      </tbody>
+    </table>
+  </Box>
+</Box>
+
         </div>
       </div>
     </Elements>

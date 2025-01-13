@@ -427,105 +427,96 @@ function MainNavigation(props) {
                   </svg>
                 </button>
                 <Drawer
-                  open={open}
-                  onClose={() => toggleDrawer(false)}
-                  className="mobile-navigation"
-                >
-                  <div class="offcanvas-header">
-                    <h6 class="offcanvas-title">Popular Categories</h6>
-                    <button
-                      class="text-white"
-                      aria-label="Close"
-                      onClick={() => toggleDrawer(false)}
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="18"
-                        height="18"
-                        fill="currentColor"
-                        class="bi bi-x-circle-fill"
-                        viewBox="0 0 16 16"
-                      >
-                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z" />
-                      </svg>
-                    </button>
-                  </div>
-                  <div class="offcanvas-body p-0">
-                    {homeStates.menu?.map((menuEle, i) => {
-                      let hasSubMenu = menuEle.brandList.length > 0;
+  open={open}
+  onClose={() => toggleDrawer(false)}
+  className="mobile-nav-drawer"
+>
+  {/* Header */}
+  <div className="mobile-nav-header d-flex justify-content-between align-items-center">
+    <h6 className="mobile-nav-title">Popular Categories</h6>
+    <button
+      className="mobile-nav-close-btn"
+      aria-label="Close"
+      onClick={() => toggleDrawer(false)}
+    >
+      <i className="fa-solid fa-times-circle"></i>
+    </button>
+  </div>
 
-                      return (
-                        <>
-                          <div class="accordion" id={i}>
-                            <div class="accordion-item">
-                              <div class="accordion-header">
-                                {/* {hasSubMenu ? ( */}
-                                <button
-                                  className={`${
-                                    !hasSubMenu ? "accordion-custom-button" : ""
-                                  } accordion-button collapsed`}
-                                  type="button"
-                                  data-bs-toggle="collapse"
-                                  data-bs-target={`#flush-${i}`}
-                                  aria-expanded="false"
-                                  aria-controls={`flush-${i}`}
-                                  onClick={() => {
-                                    if (!hasSubMenu && menuEle.id == 1) {
-                                      dispatch(setQuery("Trending"));
-                                      navigate("/products");
-                                      toggleDrawer(false);
-                                    } else if (!hasSubMenu) {
-                                      dispatch(setCategoryId(menuEle.id));
-                                      navigate("/products");
-                                      toggleDrawer(false);
-                                    }
-                                  }}
-                                >
-                                  {menuEle.name}
-                                </button>
-                              </div>
-                              {hasSubMenu
-                                ? menuEle.brandList?.map((subMenuEle) => {
-                                    return (
-                                      <>
-                                        <div
-                                          id={`flush-${i}`}
-                                          class="accordion-collapse collapse"
-                                          data-bs-parent={`${i}`}
-                                        >
-                                          <div class="accordion-body">
-                                            <ul>
-                                              <li
-                                                className="pointer"
-                                                // data-bs-dismiss="offcanvas"
-                                                // aria-label="Close"
-                                              >
-                                                <a
-                                                  onClick={() => {
-                                                    dispatch(
-                                                      setBrandId(subMenuEle.id)
-                                                    );
-                                                    navigate("/products");
-                                                    toggleDrawer(false);
-                                                  }}
-                                                >
-                                                  {subMenuEle.name}
-                                                </a>
-                                              </li>
-                                            </ul>
-                                          </div>
-                                        </div>
-                                      </>
-                                    );
-                                  })
-                                : ""}
-                            </div>
-                          </div>
-                        </>
-                      );
-                    })}
-                  </div>
-                </Drawer>
+  {/* Body */}
+  <div className="mobile-nav-body">
+    {homeStates.menu?.map((menuEle, i) => {
+      let hasSubMenu = menuEle.brandList.length > 0;
+
+      return (
+        <div className="mobile-nav-accordion" id={`mobile-nav-accordion-${i}`} key={i}>
+          <div className="mobile-nav-accordion-item">
+            {/* Menu Header */}
+            <div className="mobile-nav-accordion-header">
+              <button
+                className={`mobile-nav-accordion-button ${
+                  hasSubMenu ? "collapsed" : "mobile-nav-no-submenu"
+                }`}
+                type="button"
+                data-bs-toggle={hasSubMenu ? "collapse" : undefined}
+                data-bs-target={hasSubMenu ? `#mobile-nav-collapse-${i}` : undefined}
+                aria-expanded="false"
+                aria-controls={hasSubMenu ? `mobile-nav-collapse-${i}` : undefined}
+                onClick={() => {
+                  if (!hasSubMenu && menuEle.id === 1) {
+                    dispatch(setQuery("Trending"));
+                    navigate("/products");
+                    toggleDrawer(false);
+                  } else if (!hasSubMenu) {
+                    dispatch(setCategoryId(menuEle.id));
+                    navigate("/products");
+                    toggleDrawer(false);
+                  }
+                }}
+              >
+                <i className="fa-solid fa-list mobile-nav-menu-icon"></i>
+                {menuEle.name}
+                {hasSubMenu && (
+                  <i className="fa-solid fa-chevron-right mobile-nav-arrow-icon"></i>
+                )}
+              </button>
+            </div>
+
+            {/* Submenu */}
+            {hasSubMenu && (
+              <div
+                id={`mobile-nav-collapse-${i}`}
+                className="mobile-nav-accordion-collapse collapse"
+                data-bs-parent={`#mobile-nav-accordion-${i}`}
+              >
+                <div className="mobile-nav-accordion-body">
+                  <ul className="mobile-nav-submenu-list">
+                    {menuEle.brandList?.map((subMenuEle, subIndex) => (
+                      <li
+                        className="mobile-nav-submenu-item"
+                        key={subIndex}
+                        onClick={() => {
+                          dispatch(setBrandId(subMenuEle.id));
+                          navigate("/products");
+                          toggleDrawer(false);
+                        }}
+                      >
+                        <i className="fa-solid fa-tag mobile-nav-submenu-icon"></i>
+                        {subMenuEle.name}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      );
+    })}
+  </div>
+</Drawer>
+
+                
 
                 <img
                   className="pointer img-fluid"

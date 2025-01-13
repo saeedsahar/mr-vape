@@ -5,6 +5,7 @@ import productSliceReducer from "./Pages/Product/ProductSlice";
 import homeSlice from "./Pages/HomeSlice";
 import mainNavSlice from "./Component/MainNaivgationComp/MainNavSlice";
 import blogSlice from "./Pages/Blog/BlogSlice";
+import { createSlice } from '@reduxjs/toolkit';
 
 export const store = configureStore({
   reducer: {
@@ -16,3 +17,6 @@ export const store = configureStore({
     blog: blogSlice,
   },
 });
+
+
+

@@ -23,6 +23,7 @@ import {
   Card,
   CardHeader,
   Alert,
+  InputAdornment,
   AlertTitle,
   Skeleton,
   CircularProgress,
@@ -302,22 +303,49 @@ const Checkout = () => {
       <section className="checkout-area pb-80">
         {/* Contact Saved Info Section */}
         <div className="container-lg">
-          <Box sx={{ maxWidth: "75%", marginInline: "auto", my: 5 }}>
-            <Stepper activeStep={activeStep} alternativeLabel>
-              {steps.map((label) => (
-                <Step
-                  key={label}
-                  onClick={() =>
-                    setActiveStep(
-                      label == "Billing & Shipping" ? 1 : activeStep
-                    )
-                  }
-                >
-                  <StepLabel>{label}</StepLabel>
-                </Step>
-              ))}
-            </Stepper>
-          </Box>
+        <Box sx={{ maxWidth: "75%", marginInline: "auto", my: 5 }}>
+  <Stepper
+    activeStep={activeStep}
+    alternativeLabel
+    sx={{
+      "& .MuiStepLabel-label": {
+        fontSize: "16px", // Increase font size
+        fontWeight: "bold", // Bold text
+      },
+      "& .MuiStepIcon-root": {
+        width: "36px", // Slightly larger circle
+        height: "36px",
+      },
+      "& .MuiStepIcon-text": {
+        fontWeight: "bold", // Bold step number
+      },
+      "& .MuiStepIcon-root.Mui-active": {
+        color: "#fa4f09", // Active step color
+      },
+      "& .MuiStepIcon-root.Mui-completed": {
+        color: "#4caf50", // Completed step color
+      },
+      "& .MuiStepLabel-label.Mui-active": {
+        color: "#fa4f09", // Active step text color
+      },
+      "& .MuiStepLabel-label.Mui-completed": {
+        color: "#4caf50", // Completed step text color
+      },
+    }}
+  >
+    {steps.map((label) => (
+      <Step
+        key={label}
+        onClick={() =>
+          setActiveStep(label === "Billing & Shipping" ? 1 : activeStep)
+        }
+      >
+        <StepLabel>{label}</StepLabel>
+      </Step>
+    ))}
+  </Stepper>
+</Box>
+
           {activeStep === 1 ? (
             <div className="row">
               <div className="col-lg-8">
@@ -354,364 +382,522 @@ const Checkout = () => {
                 )}
 
                 {/* Shipping Methods */}
-                <Box component="section" sx={{ mb: 5 }}>
-                  <div className="pb-3 mb-4 border-bottom checkout-title">
-                    Shipping Methods
-                  </div>
-                  <FormControl
-                    sx={{ width: "100%", borderRadius: 2 }}
-                    className="border"
-                  >
-                    <RadioGroup defaultValue="1" name="radio-buttons-group">
-                      <FormControlLabel
-                        className="border-bottom w-100 m-0"
-                        sx={{ padding: 2, width: "100%" }}
-                        value="1"
-                        control={<Radio />}
-                        label={
-                          <>
-                            <p className="mb-0 fw-medium">
-                              Royal Mail Tracked 24
-                            </p>
-                            <small>
-                              <span className="fw-semibold">
-                                Delievery Tomorrow
-                              </span>
-                              , Friday Oct 25
-                            </small>
-                          </>
-                        }
-                      />
+                <Box
+  component="section"
+  sx={{
+    mb: 5,
+    backgroundColor: "#f9f9f9",
+    borderRadius: 2,
+    padding: "20px",
+    boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+  }}
+>
+  {/* Shipping Methods Title */}
+  <Typography
+    variant="h6"
+    sx={{
+      fontWeight: "bold",
+      color: "#333",
+      mb: 4,
+      textTransform: "uppercase",
+      borderBottom: "2px solid #ddd",
+      pb: 2,
+    }}
+  >
+    <i
+      className="fa-solid fa-truck-fast"
+      style={{ marginRight: "10px", color: "#fa4f09" }}
+    ></i>
+    Shipping Methods
+  </Typography>
 
-                      {/* <FormControlLabel
-                        className="border-bottom w-100 m-0"
-                        sx={{ padding: 2, width: "100%" }}
-                        value="2"
-                        control={<Radio />}
-                        label={
-                          <>
-                            <p className="mb-0 fw-medium">
-                              Royal Mail Tracked 24
-                            </p>
-                            <small>
-                              <span className="fw-semibold">
-                                Delievery Tomorrow
-                              </span>
-                              , Friday Oct 25
-                            </small>
-                          </>
-                        }
-                      /> */}
+  {/* Radio Group for Shipping Methods */}
+  <FormControl sx={{ width: "100%" }}>
+    <RadioGroup defaultValue="1" name="shipping-methods">
+      {/* First Shipping Method */}
+      <FormControlLabel
+        sx={{
+          border: "1px solid #ddd",
+          borderRadius: "8px",
+          padding: 2,
+          marginBottom: "12px",
+          display: "flex",
+          alignItems: "center",
+        }}
+        value="1"
+        control={<Radio sx={{ color: "#fa4f09" }} />}
+        label={
+          <Box sx={{ ml: 2 }}>
+            <Typography
+              variant="body1"
+              sx={{ fontWeight: "bold", color: "#333", mb: 0.5 }}
+            >
+              Royal Mail Tracked 24
+            </Typography>
+            <Typography variant="body2" sx={{ color: "#555" }}>
+              <i
+                className="fa-solid fa-calendar"
+                style={{ marginRight: "8px", color: "#4caf50" }}
+              ></i>
+              Delivery Tomorrow
+            </Typography>
+          </Box>
+        }
+      />
 
-                      {/* <FormControlLabel
-                        className="w-100 m-0"
-                        sx={{ padding: 2, width: "100%" }}
-                        value="3"
-                        control={<Radio />}
-                        label={
-                          <>
-                            <p className="mb-0 fw-medium">
-                              Royal Mail Tracked 24
-                            </p>
-                            <small>
-                              <span className="fw-semibold">
-                                Delievery Tomorrow
-                              </span>
-                              , Friday Oct 25
-                            </small>
-                          </>
-                        }
-                      /> */}
-                    </RadioGroup>
-                  </FormControl>
-                </Box>
+      {/* Second Shipping Method */}
+      <FormControlLabel
+        sx={{
+          border: "1px solid #ddd",
+          borderRadius: "8px",
+          padding: 2,
+          marginBottom: "12px",
+          display: "flex",
+          alignItems: "center",
+        }}
+        value="2"
+        control={<Radio sx={{ color: "#fa4f09" }} />}
+        label={
+          <Box sx={{ ml: 2 }}>
+            <Typography
+              variant="body1"
+              sx={{ fontWeight: "bold", color: "#333", mb: 0.5 }}
+            >
+              Royal Mail Tracked 48
+            </Typography>
+            <Typography variant="body2" sx={{ color: "#555" }}>
+              <i
+                className="fa-solid fa-calendar"
+                style={{ marginRight: "8px", color: "#2196f3" }}
+              ></i>
+              Delivery in 2 days
+            </Typography>
+          </Box>
+        }
+      />
+
+      {/* Third Shipping Method */}
+      <FormControlLabel
+        sx={{
+          border: "1px solid #ddd",
+          borderRadius: "8px",
+          padding: 2,
+          display: "flex",
+          alignItems: "center",
+        }}
+        value="3"
+        control={<Radio sx={{ color: "#fa4f09" }} />}
+        label={
+          <Box sx={{ ml: 2 }}>
+            <Typography
+              variant="body1"
+              sx={{ fontWeight: "bold", color: "#333", mb: 0.5 }}
+            >
+              Next-Day Delivery
+            </Typography>
+            <Typography variant="body2" sx={{ color: "#555" }}>
+              <i
+                className="fa-solid fa-calendar"
+                style={{ marginRight: "8px", color: "#e64500" }}
+              ></i>
+              Guaranteed by tomorrow
+            </Typography>
+          </Box>
+        }
+      />
+    </RadioGroup>
+  </FormControl>
+</Box>
+
 
                 {/* Shipping Address */}
                 <Box component="section" sx={{ mb: 5 }}>
-                  <div className="pb-3 mb-4 checkout-title border-bottom">
-                    Shipping Address
-                  </div>
-                  <div className="row">
-                    <div className="col-lg-6 mb-4">
-                      <TextField
-                        required
-                        label="First Name"
-                        name="firstName"
-                        fullWidth
-                        placeholder="First Name"
-                        size="medium"
-                        value={formData.firstName}
-                        onChange={handleChange}
-                        error={!!errors.firstName}
-                        helperText={errors.firstName}
-                      />
-                    </div>
-                    <div className="col-lg-6 mb-4">
-                      <TextField
-                        required
-                        label="Last Name"
-                        fullWidth
-                        name="lastName"
-                        placeholder="Last Name"
-                        size="medium"
-                        value={formData.lastName}
-                        onChange={handleChange}
-                        error={!!errors.lastName}
-                        helperText={errors.lastName}
-                      />
-                    </div>
-                    <div className="col-lg-6 mb-4">
-                      <TextField
-                        label="Company"
-                        fullWidth
-                        name="company"
-                        placeholder="Company"
-                        size="medium"
-                        value={formData.company}
-                        onChange={handleChange}
-                        error={!!errors.company}
-                        helperText={errors.company}
-                      />
-                    </div>
-                    <div className="col-lg-6 mb-4">
-                      <TextField
-                        required
-                        label="Phone Number"
-                        fullWidth
-                        name="phone"
-                        placeholder="Your Phone Number"
-                        size="medium"
-                        value={formData.phone}
-                        onChange={handleChange}
-                        error={!!errors.phone}
-                        helperText={errors.phone}
-                      />
-                    </div>
-                    <div className="col-lg-12 mb-4">
-                      <TextField
-                        select
-                        label="Country / Region"
-                        required
-                        fullWidth
-                        value={formData.country}
-                        onChange={handleChange}
-                        error={!!errors.country}
-                        helperText={errors.country}
-                        name="country"
-                      >
-                        <MenuItem value="">Select Country</MenuItem>
-                        <MenuItem value="United States">United States</MenuItem>
-                        <MenuItem value="United Kingdom">
-                          United Kingdom
-                        </MenuItem>
-                        <MenuItem value="Australia">Australia</MenuItem>
-                        <MenuItem value="Germany">Germany</MenuItem>
-                        <MenuItem value="France">France</MenuItem>
-                      </TextField>
-                    </div>
-                    <div className="col-lg-12 mb-4">
-                      <Box position="relative">
-                        <TextField
-                          required
-                          fullWidth
-                          label="Street Address"
-                          name="streetAddress"
-                          placeholder="1837 E Homer M Adams Pkwy"
-                          size="medium"
-                          value={formData.streetAddress}
-                          onChange={handleChange}
-                          error={!!errors.streetAddress}
-                          helperText={errors.streetAddress}
-                          InputProps={{
-                            endAdornment: loading ? (
-                              <CircularProgress size={20} />
-                            ) : null,
-                          }}
-                        />
-                        {open && (
-                          <Box
-                            sx={{
-                              position: "absolute",
-                              top: "100%",
-                              left: 0,
-                              right: 0,
-                              zIndex: 9,
-                              bgcolor: "background.paper",
-                              boxShadow: 1,
-                              maxHeight: "200px",
-                              overflowY: "auto",
-                            }}
-                          >
-                            {loading ? (
-                              Array.from(new Array(5)).map((_, index) => (
-                                <Skeleton
-                                  key={index}
-                                  variant="rectangular"
-                                  height={40}
-                                />
-                              ))
-                            ) : suggestions.length > 0 ? (
-                              suggestions.map((suggestion, index) => (
-                                <MenuItem
-                                  key={index}
-                                  onClick={() =>
-                                    handleSelectSuggestion(suggestion.address)
-                                  }
-                                >
-                                  {suggestion.address}
-                                </MenuItem>
-                              ))
-                            ) : (
-                              <MenuItem disabled>No results found</MenuItem>
-                            )}
-                          </Box>
-                        )}
-                      </Box>
-                    </div>
+  {/* Title */}
+  <Typography
+    variant="h6"
+    sx={{
+      fontWeight: "bold",
+      mb: 3,
+      pb: 2,
+      borderBottom: "2px solid #ddd",
+      color: "#333",
+      textTransform: "uppercase",
+    }}
+  >
+    <i
+      className="fa-solid fa-location-dot"
+      style={{ marginRight: "10px", color: "#fa4f09" }}
+    ></i>
+    Shipping Address
+  </Typography>
 
-                    <div className="col-lg-12 mb-4">
-                      <TextField
-                        required
-                        fullWidth
-                        label="Town / City"
-                        name="townCity"
-                        placeholder="Town / City"
-                        size="medium"
-                        value={formData.townCity}
-                        onChange={handleChange}
-                        error={!!errors.townCity}
-                        helperText={errors.townCity}
-                      />
-                    </div>
-                    <div className="col-lg-12 mb-4">
-                      <TextField
-                        required
-                        fullWidth
-                        label="Postal Code"
-                        name="postalCode"
-                        placeholder="Postal Code"
-                        size="medium"
-                        value={formData.postalCode}
-                        onChange={handleChange}
-                        error={!!errors.postalCode}
-                        helperText={errors.postalCode}
-                      />
-                    </div>
+  {/* Form Fields */}
+  <div className="row">
+    {/* First Name */}
+    <div className="col-lg-6 mb-4">
+      <TextField
+        required
+        label="First Name"
+        name="firstName"
+        fullWidth
+        placeholder="First Name"
+        size="medium"
+        value={formData.firstName}
+        onChange={handleChange}
+        error={!!errors.firstName}
+        helperText={errors.firstName}
+      />
+    </div>
 
-                    {/* Card Details */}
-                    {/* <section className="checkout-area pb-80"> */}
-        {/* <div className="container-lg"> */}
-          {/* <Box sx={{ maxWidth: "75%", marginInline: "auto", my: 5 }}> */}
-            {/* <Stepper activeStep={1} alternativeLabel>
-              {["Billing & Shipping", "Review & Confirm Order"].map((label) => (
-                <Step key={label}>
-                  <StepLabel>{label}</StepLabel>
-                </Step>
-              ))}
-            </Stepper> */}
-          {/* </Box> */}
-          {/* <div className="row"> */}
-            {/* <div className="col-lg-8"> */}
-            {/* <Box component="section" sx={{ mb: 5 }}>
-  <Elements stripe={stripePromise}>
-    <StripePaymentForm />
-  </Elements>
-</Box> */}
-            {/* </div> */}
-          {/* </div> */}
-        {/* </div> */}
-      {/* </section> */}
-                  </div>
-                </Box>
+    {/* Last Name */}
+    <div className="col-lg-6 mb-4">
+      <TextField
+        required
+        label="Last Name"
+        name="lastName"
+        fullWidth
+        placeholder="Last Name"
+        size="medium"
+        value={formData.lastName}
+        onChange={handleChange}
+        error={!!errors.lastName}
+        helperText={errors.lastName}
+      />
+    </div>
+
+    {/* Company */}
+    <div className="col-lg-6 mb-4">
+      <TextField
+        label="Company"
+        name="company"
+        fullWidth
+        placeholder="Company"
+        size="medium"
+        value={formData.company}
+        onChange={handleChange}
+        error={!!errors.company}
+        helperText={errors.company}
+      />
+    </div>
+
+    {/* Phone */}
+    <div className="col-lg-6 mb-4">
+      <TextField
+        required
+        label="Phone Number"
+        name="phone"
+        fullWidth
+        placeholder="Your Phone Number"
+        size="medium"
+        value={formData.phone}
+        onChange={handleChange}
+        error={!!errors.phone}
+        helperText={errors.phone}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <i className="fa-solid fa-phone" style={{ color: "#4caf50" }}></i>
+            </InputAdornment>
+          ),
+        }}
+      />
+    </div>
+
+    {/* Country */}
+    <div className="col-lg-12 mb-4">
+      <TextField
+        select
+        label="Country / Region"
+        required
+        name="country"
+        fullWidth
+        value={formData.country}
+        onChange={handleChange}
+        error={!!errors.country}
+        helperText={errors.country}
+        SelectProps={{
+          MenuProps: {
+            PaperProps: {
+              style: {
+                maxHeight: 200,
+              },
+            },
+          },
+        }}
+      >
+        <MenuItem value="">Select Country</MenuItem>
+        <MenuItem value="United States">United States</MenuItem>
+        <MenuItem value="United Kingdom">United Kingdom</MenuItem>
+        <MenuItem value="Australia">Australia</MenuItem>
+        <MenuItem value="Germany">Germany</MenuItem>
+        <MenuItem value="France">France</MenuItem>
+      </TextField>
+    </div>
+
+    {/* Street Address */}
+    <div className="col-lg-12 mb-4">
+      <Box position="relative">
+        <TextField
+          required
+          label="Street Address"
+          name="streetAddress"
+          fullWidth
+          placeholder="1837 E Homer M Adams Pkwy"
+          size="medium"
+          value={formData.streetAddress}
+          onChange={handleChange}
+          error={!!errors.streetAddress}
+          helperText={errors.streetAddress}
+          InputProps={{
+            endAdornment: loading ? (
+              <CircularProgress size={20} />
+            ) : null,
+          }}
+        />
+        {/* Suggestions Dropdown */}
+        {open && (
+          <Box
+            sx={{
+              position: "absolute",
+              top: "100%",
+              left: 0,
+              right: 0,
+              zIndex: 9,
+              bgcolor: "background.paper",
+              boxShadow: 1,
+              maxHeight: "200px",
+              overflowY: "auto",
+              border: "1px solid #ddd",
+              borderRadius: "8px",
+            }}
+          >
+            {loading ? (
+              Array.from(new Array(5)).map((_, index) => (
+                <Skeleton key={index} variant="rectangular" height={40} />
+              ))
+            ) : suggestions.length > 0 ? (
+              suggestions.map((suggestion, index) => (
+                <MenuItem
+                  key={index}
+                  onClick={() => handleSelectSuggestion(suggestion.address)}
+                >
+                  {suggestion.address}
+                </MenuItem>
+              ))
+            ) : (
+              <MenuItem disabled>No results found</MenuItem>
+            )}
+          </Box>
+        )}
+      </Box>
+    </div>
+
+    {/* Town / City */}
+    <div className="col-lg-12 mb-4">
+      <TextField
+        required
+        label="Town / City"
+        name="townCity"
+        fullWidth
+        placeholder="Town / City"
+        size="medium"
+        value={formData.townCity}
+        onChange={handleChange}
+        error={!!errors.townCity}
+        helperText={errors.townCity}
+      />
+    </div>
+
+    {/* Postal Code */}
+    <div className="col-lg-12 mb-4">
+      <TextField
+        required
+        label="Postal Code"
+        name="postalCode"
+        fullWidth
+        placeholder="Postal Code"
+        size="medium"
+        value={formData.postalCode}
+        onChange={handleChange}
+        error={!!errors.postalCode}
+        helperText={errors.postalCode}
+      />
+    </div>
+  </div>
+</Box>
+
               </div>
               <div className="col-lg-4">
-                <Box component="section" className="order-summary">
-                  <div className="pb-3 mb-4 border-bottom checkout-title">
-                    Order Summary
-                  </div>
+              <Box
+  component="section"
+  className="order-summary"
+  sx={{
+    borderRadius: 2,
+    padding: "20px",
+    backgroundColor: "#f9f9f9",
+    boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+  }}
+>
+  {/* Order Summary Title */}
+  <Typography
+    variant="h6"
+    sx={{
+      fontWeight: "bold",
+      color: "#333",
+      mb: 3,
+      textTransform: "uppercase",
+      borderBottom: "2px solid #ddd",
+      pb: 2,
+    }}
+  >
+    <i
+      className="fa-solid fa-list"
+      style={{ marginRight: "10px", color: "#fa4f09" }}
+    ></i>
+    Order Summary
+  </Typography>
 
-                  <Alert severity="info" icon={false} sx={{ mb: 4 }}>
-                    <AlertTitle>You have 50 points</AlertTitle>
-                    You don't have enough coins to redeem.
-                  </Alert>
+  {/* Points Alert */}
+  <Alert severity="info" icon={false} sx={{ mb: 4 }}>
+    <AlertTitle sx={{ fontWeight: "bold", fontSize: "16px" }}>
+      You have 50 points
+    </AlertTitle>
+    You don't have enough coins to redeem.
+  </Alert>
 
-                  {/* Product Lists === make sur to remove theses classes from the last child  "className="border-bottom pb-4 mb-4" */}
-                  <Stack>
-                    {orderItems.map((item, i) => {
-                      return (
-                        <Stack
-                          direction="row"
-                          useFlexGap
-                          spacing={1.5}
-                          className={
-                            i != orderItems?.length - 1
-                              ? "border-bottom pb-4 mb-4"
-                              : ""
-                          }
-                        >
-                          <Avatar
-                            className="img-thumbnail"
-                            sx={{ width: 80, height: 80 }}
-                            variant="rounded"
-                            alt="Cart Product"
-                            src={item.productImage}
-                          />
-                          <div className="product-info">
-                            <div className="product-title">
-                              {item.productName}
-                            </div>
-                            <small className="product-qty d-block mt-1">
-                              {item.flavour}
-                            </small>
-                          </div>
-                          <div
-                            className="price align-self-center fw-semibold"
-                            style={{ marginLeft: "auto" }}
-                          >
-                            £{item.price * item.quantity}
-                          </div>
-                        </Stack>
-                      );
-                    })}
-                  </Stack>
+  {/* Product List */}
+  <Stack>
+    {orderItems.map((item, i) => (
+      <Stack
+        key={i}
+        direction="row"
+        spacing={2}
+        sx={{
+          pb: i !== orderItems.length - 1 ? 2 : 0,
+          mb: i !== orderItems.length - 1 ? 2 : 0,
+          borderBottom: i !== orderItems.length - 1 ? "1px solid #ddd" : "none",
+        }}
+      >
+        {/* Product Image */}
+        <Avatar
+          className="img-thumbnail"
+          variant="rounded"
+          alt={item.productName}
+          src={item.productImage}
+          sx={{
+            width: 80,
+            height: 80,
+          }}
+        />
 
-                  {/* <Box mt={4} className="border-top pt-4">
-                    <div className="mb-2 checkout-title">Shipping Address</div>
-                    <p>
-                      2801 Lafayette Blvd, Norfolk, Vermont 23609, united state
-                    </p>
-                  </Box> */}
+        {/* Product Info */}
+        <Box>
+          <Typography
+            variant="body1"
+            sx={{
+              fontWeight: "bold",
+              color: "#333",
+            }}
+          >
+            {item.productName}
+          </Typography>
+          <Typography
+            variant="body2"
+            sx={{
+              color: "#555",
+              mt: 0.5,
+            }}
+          >
+            <i
+              className="fa-solid fa-flask"
+              style={{ marginRight: "6px", color: "#2196f3" }}
+            ></i>
+            {item.flavour}
+          </Typography>
+        </Box>
 
-                  <Box mt={4} className="border-top pt-4">
-                    <p>
-                      Your personal data will be used to process your order,
-                      support your experience throughout this website.
-                    </p>
-                  </Box>
-                  <Box mt={4} className="pt-4">
-                    <Button
-                      size="large"
-                      className="btn-primary btn-white"
-                      fullWidth
-                      variant="contained"
-                      onClick={handleNextStep}
-                      sx={{ paddingBlock: 2, borderRadius: 10 }}
-                    >
-                      Place Order
-                    </Button>
+        {/* Product Price */}
+        <Typography
+          variant="body1"
+          sx={{
+            fontWeight: "bold",
+            color: "#333",
+            marginLeft: "auto",
+            alignSelf: "center",
+          }}
+        >
+          £{item.price * item.quantity}
+        </Typography>
+      </Stack>
+    ))}
+  </Stack>
 
-                    <Button
-                      size="large"
-                      className="btn-dark"
-                      fullWidth
-                      variant="contained"
-                      sx={{ paddingBlock: 2, borderRadius: 10, mt: 2 }}
-                      onClick={() => navigate("/products")}
-                    >
-                      Continue Shopping
-                    </Button>
-                  </Box>
-                </Box>
+  {/* Disclaimer */}
+  <Box mt={4} className="border-top pt-4">
+    <Typography
+      variant="body2"
+      sx={{
+        color: "#777",
+        fontStyle: "italic",
+      }}
+    >
+      Your personal data will be used to process your order and support your
+      experience throughout this website.
+    </Typography>
+  </Box>
+
+  {/* Buttons */}
+  <Box mt={4}>
+    <Button
+      size="large"
+      className="btn-primary"
+      fullWidth
+      variant="contained"
+      onClick={handleNextStep}
+      sx={{
+        paddingBlock: 2,
+        borderRadius: "8px",
+        fontWeight: "bold",
+        backgroundColor: "#fa4f09",
+        "&:hover": {
+          backgroundColor: "#e64500",
+        },
+      }}
+    >
+      <i
+        className="fa-solid fa-check"
+        style={{ marginRight: "10px", color: "#fff" }}
+      ></i>
+      Place Order
+    </Button>
+
+    <Button
+      size="large"
+      className="btn-dark"
+      fullWidth
+      variant="outlined"
+      sx={{
+        paddingBlock: 2,
+        borderRadius: "8px",
+        fontWeight: "bold",
+        mt: 2,
+        color: "#333",
+        borderColor: "#ddd",
+        "&:hover": {
+          backgroundColor: "#f5f5f5",
+        },
+      }}
+      onClick={() => navigate("/products")}
+    >
+      <i
+        className="fa-solid fa-arrow-left"
+        style={{ marginRight: "10px", color: "#555" }}
+      ></i>
+      Continue Shopping
+    </Button>
+  </Box>
+</Box>
+
                
               </div>
             </div>

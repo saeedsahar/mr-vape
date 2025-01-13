@@ -1,8 +1,19 @@
 import React, { useState } from "react";
-import { useStripe, useElements, CardNumberElement, CardExpiryElement, CardCvcElement } from "@stripe/react-stripe-js";
-import { Box, Typography, Button, Alert } from "@mui/material";
+import {
+  useStripe,
+  useElements,
+  CardNumberElement,
+  CardExpiryElement,
+  CardCvcElement,
+} from "@stripe/react-stripe-js";
+import { Box, Typography, Button, Alert, InputAdornment, TextField } from "@mui/material";
+import CreditCardIcon from "@mui/icons-material/CreditCard";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import LockIcon from "@mui/icons-material/Lock";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import { base_url, getRequests, postRequests } from "../../axios/API";
+
 
 const StripePaymentForm = ({ onPaymentSuccess }) => {
   const stripe = useStripe();
@@ -34,12 +45,15 @@ const StripePaymentForm = ({ onPaymentSuccess }) => {
     setPaymentSuccess("");
 
     try {
+      // API endpoint for creating a payment intent (ensure HTTPS in production)
       const { data: { clientSecret } } = await axios.post(
-        "http://localhost:8081/api/payment-intent",
-        { amount: (totalBill + 6 - discountedAmount) * 100 }
+        "${base_url}/api/payment-intent",
+        { amount: (totalBill + 4 - discountedAmount) * 100 } // Amount in cents
       );
 
       const cardNumberElement = elements.getElement(CardNumberElement);
+
+      // Confirm the payment
       const { error } = await stripe.confirmCardPayment(clientSecret, {
         payment_method: {
           card: cardNumberElement,
@@ -63,13 +77,82 @@ const StripePaymentForm = ({ onPaymentSuccess }) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <Box sx={{ mt: 4 }}>
-        <Typography variant="subtitle1" sx={{ mb: 1 }}>Card Number</Typography>
-        <CardNumberElement />
-        <Typography variant="subtitle1" sx={{ mb: 1 }}>Expiry Date</Typography>
-        <CardExpiryElement />
-        <Typography variant="subtitle1" sx={{ mb: 1 }}>CVC</Typography>
-        <CardCvcElement />
+      <Box sx={{ mt: 4, p: 3, border: "1px solid #ddd", borderRadius: 2, backgroundColor: "#f9f9f9" }}>
+        <Typography variant="h6" sx={{ mb: 3, fontWeight: "bold", color: "#333" }}>
+          Payment Details
+        </Typography>
+
+        {/* Card Number Field */}
+        <Box sx={{ mb: 3 }}>
+          <Typography variant="subtitle1" sx={{ mb: 1, fontWeight: "bold" }}>
+            Card Number
+          </Typography>
+          <TextField
+            fullWidth
+            variant="outlined"
+            InputProps={{
+              inputComponent: CardNumberElement,
+              startAdornment: (
+                <InputAdornment position="start">
+                  <CreditCardIcon sx={{ color: "#fa4f09" }} />
+                </InputAdornment>
+              ),
+              style: {
+                fontSize: "16px",
+                padding: "10px",
+              },
+            }}
+            placeholder="Card Number"
+          />
+        </Box>
+
+        {/* Expiry Date Field */}
+        <Box sx={{ mb: 3 }}>
+          <Typography variant="subtitle1" sx={{ mb: 1, fontWeight: "bold" }}>
+            Expiry Date
+          </Typography>
+          <TextField
+            fullWidth
+            variant="outlined"
+            InputProps={{
+              inputComponent: CardExpiryElement,
+              startAdornment: (
+                <InputAdornment position="start">
+                  <CalendarMonthIcon sx={{ color: "#4caf50" }} />
+                </InputAdornment>
+              ),
+              style: {
+                fontSize: "16px",
+                padding: "10px",
+              },
+            }}
+            placeholder="MM/YY"
+          />
+        </Box>
+
+        {/* CVC Field */}
+        <Box>
+          <Typography variant="subtitle1" sx={{ mb: 1, fontWeight: "bold" }}>
+            CVC
+          </Typography>
+          <TextField
+            fullWidth
+            variant="outlined"
+            InputProps={{
+              inputComponent: CardCvcElement,
+              startAdornment: (
+                <InputAdornment position="start">
+                  <LockIcon sx={{ color: "#2196f3" }} />
+                </InputAdornment>
+              ),
+              style: {
+                fontSize: "16px",
+                padding: "10px",
+              },
+            }}
+            placeholder="CVC"
+          />
+        </Box>
       </Box>
 
       {paymentError && <Alert severity="error" sx={{ mt: 2 }}>{paymentError}</Alert>}
