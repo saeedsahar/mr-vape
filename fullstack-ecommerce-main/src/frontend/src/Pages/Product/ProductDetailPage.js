@@ -608,7 +608,8 @@ function ProductDetailPage(props) {
             </div>
             {/* product-details area end here */}
             {/* description review area start here */}
-            <div className="shop-singe-tab">
+            <div className="shop-single-tab">
+  {/* Tab Navigation */}
   <ul className="nav nav-pills mb-4 bor-top bor-bottom py-2">
     <li className="nav-item">
       <a
@@ -618,7 +619,13 @@ function ProductDetailPage(props) {
         }`}
         onClick={() => setSelectedTab(0)}
       >
-        <h4 className="text-uppercase">reviews</h4>
+        <h4 className="text-uppercase">
+          <i
+            className="fa-solid fa-star me-2"
+            style={{ color: "#fa4f09" }}
+          ></i>
+          Reviews
+        </h4>
       </a>
     </li>
     <li className="nav-item">
@@ -627,101 +634,150 @@ function ProductDetailPage(props) {
         className={`nav-link ${selectedTab == 1 ? "active" : ""}`}
         onClick={() => setSelectedTab(1)}
       >
-        <h4 className="text-uppercase">description</h4>
+        <h4 className="text-uppercase">
+          <i
+            className="fa-solid fa-file-lines me-2"
+            style={{ color: "#4caf50" }}
+          ></i>
+          Description
+        </h4>
       </a>
     </li>
   </ul>
+
+  {/* Tab Content */}
   <div className="tab-content">
+    {/* Description Tab */}
     <div
       id="description"
       className={`tab-pane ${
         selectedTab == 1 ? "show active" : "fade"
       }`}
     >
-      <p className="text-justify">
-                      <div
-                        style={{ color: "black" }}
-                        className="product-description"
-                        dangerouslySetInnerHTML={{
-                          __html: product.description,
-                        }}
-                      />
-                    </p>
+      <div
+        style={{ color: "#333", fontSize: "16px", lineHeight: "1.8" }}
+        className="product-description"
+        dangerouslySetInnerHTML={{
+          __html: product.description,
+        }}
+      />
     </div>
+
+    {/* Reviews Tab */}
     <div
       id="review"
       className={`tab-pane ${
         selectedTab == 0 ? "show active" : "fade"
       }`}
     >
+      {/* Write a Review Button */}
       <button
         onClick={() => {
           dispatch(setDialogStates({ type: "review", id: product.id }));
         }}
         style={{
-          padding: "5px",
-          marginBottom: "10px",
+          padding: "8px 16px",
+          marginBottom: "20px",
           border: "1px solid #d9d9d9",
-          borderRadius: "10px",
-          fontSize: "13px",
+          borderRadius: "20px",
+          fontSize: "14px",
+          color: "#fff",
+          backgroundColor: "#fa4f09",
+          fontWeight: "bold",
         }}
       >
-        Write a Review
+        <i className="fa-solid fa-pen me-2"></i> Write a Review
       </button>
+
+      {/* Reviews List */}
       <div className="review-wrp">
-        {reviews?.map((review, i) => {
-          return (
+        {reviews?.map((review, i) => (
+          <div
+            id={i}
+            className="review-item d-flex flex-wrap flex-md-nowrap align-items-start pb-4"
+            key={i}
+            style={{
+              borderBottom: i !== reviews.length - 1 ? "1px solid #ddd" : "none",
+              paddingBottom: "20px",
+              marginBottom: "20px",
+            }}
+          >
+            {/* Avatar */}
+            <div className="review-avatar me-4">
+              <Avatar
+                name={review.reviewer_name}
+                round={true}
+                size="50"
+                color="#fa4f09"
+              />
+            </div>
+
+            {/* Review Content */}
             <div
-              id={i}
-              className="abmin d-flex flex-wrap flex-md-nowrap align-items-center pb-4"
+              className="review-content position-relative p-4 bor shadow-sm"
+              style={{
+                width: "100%",
+                borderRadius: "10px",
+                backgroundColor: "#fff",
+                boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+              }}
             >
-              <div className="img pb-4 pb-md-0 me-4">
-                <Avatar name={review.reviewer_name} round={true} />
-              </div>
-              <div
-                className="content position-relative p-4 bor"
-                style={{ width: "100%" }}
-              >
-                <div className="head-wrp pb-1 d-flex flex-wrap justify-content-between">
-                  <a>
-                    <h4
-                      className="text-capitalize primary-color"
-                      style={{ color: "black" }}
-                    >
-                      {review.reviewer_name}
-                      <span
-                        className="sm-font ms-2 fw-normal"
-                        style={{ color: "black" }}
-                      >
-                        {review.date_time && review.date_time != "N/A"
-                          ? review.date_time
-                          : null}
-                      </span>
-                    </h4>
-                  </a>
+              {/* Header */}
+              <div className="review-header pb-2 d-flex flex-wrap justify-content-between">
+                <div className="review-author">
+                  <h5
+                    className="text-capitalize"
+                    style={{ fontWeight: "bold", color: "#333" }}
+                  >
+                    {review.reviewer_name}
+                  </h5>
+                  <span
+                    className="sm-font text-muted"
+                    style={{ fontSize: "12px" }}
+                  >
+                    <i className="fa-regular fa-clock me-1"></i>
+                    {review.date_time && review.date_time !== "N/A"
+                      ? review.date_time
+                      : "No date provided"}
+                  </span>
+                </div>
+
+                {/* Star Ratings */}
+                <div className="review-rating">
                   <StarRatings
                     rating={review.rating}
                     numberOfStars={5}
                     name="rating"
                     starRatedColor="#ff9200"
                     starDimension="20px"
-                    starSpacing="0px"
+                    starSpacing="2px"
                   />
                 </div>
-                <p
-                  className="text-justify"
-                  style={{ color: "black" }}
-                >
-                  {review.comment}
-                </p>
               </div>
+
+              {/* Comment */}
+              <p
+                className="review-comment text-justify"
+                style={{
+                  color: "#555",
+                  fontSize: "14px",
+                  lineHeight: "1.6",
+                }}
+              >
+                <i
+                  className="fa-solid fa-comment-dots me-2"
+                  style={{ color: "#4caf50" }}
+                ></i>
+                {review.comment}
+              </p>
             </div>
-          );
-        })}
+          </div>
+        ))}
       </div>
     </div>
   </div>
 </div>
+
 
           </div>
         </section>

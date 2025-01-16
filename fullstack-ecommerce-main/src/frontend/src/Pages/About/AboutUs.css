@@ -1,0 +1,136 @@
+/* About Us Page Styles */
+
+/* Hero Section */
+.about-us-hero {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 400px;
+  background-color: rgba(0, 0, 0, 0.6);
+  background-blend-mode: darken;
+  text-align: center;
+}
+
+.about-us-hero .hero-title {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #fff;
+  margin-bottom: 10px;
+}
+
+.about-us-hero .hero-subtitle {
+  font-size: 1.2rem;
+  color: #ddd;
+}
+
+/* About Us Content */
+.about-us-content {
+  background-color: #fff;
+  padding: 40px 20px;
+}
+
+.about-us-content .icon-box {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 80px;
+  height: 80px;
+  margin: 0 auto;
+  border-radius: 50%;
+  background-color: rgba(250, 79, 9, 0.1);
+}
+
+.about-us-content .icon-box i {
+  font-size: 40px;
+}
+
+/* Why Choose Us Section */
+.why-choose-us {
+  background-color: #f9f9f9;
+  padding: 40px 20px;
+}
+
+.why-choose-us .MuiAvatar-rounded {
+  margin-bottom: 10px;
+}
+
+.why-choose-us h6 {
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.why-choose-us p {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+/* Call-to-Action Section */
+.call-to-action {
+  text-align: center;
+  padding: 50px 20px;
+  background-color: #fa4f09;
+  color: #fff;
+}
+
+.call-to-action .btn {
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 10px 20px;
+  border-radius: 30px;
+  transition: all 0.3s ease;
+}
+
+.call-to-action .btn:hover {
+  background-color: #fff;
+  color: #fa4f09;
+  transform: scale(1.05);
+}
+
+/* General Styles */
+.about-us-main {
+  font-family: 'Arial', sans-serif;
+  line-height: 1.6;
+}
+
+.text-muted {
+  color: #777 !important;
+}
+
+.text-white {
+  color: #fff !important;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Roboto', sans-serif;
+  margin-bottom: 10px;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .about-us-hero {
+    height: 300px;
+  }
+
+  .about-us-hero .hero-title {
+    font-size: 2rem;
+  }
+
+  .about-us-hero .hero-subtitle {
+    font-size: 1rem;
+  }
+
+  .icon-box {
+    width: 60px;
+    height: 60px;
+  }
+
+  .icon-box i {
+    font-size: 30px;
+  }
+
+  .call-to-action .btn {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+  }
+}

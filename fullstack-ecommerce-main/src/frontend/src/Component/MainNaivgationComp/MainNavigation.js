@@ -396,10 +396,76 @@ function MainNavigation(props) {
 
   return (
     <>
-      <div class="order-message">
+<div className="delivery-message-bar py-3 text-center">
+  <style>
+    {`
+      .delivery-message-bar {
+        background: linear-gradient(90deg, #ffe8e8, #ffd6d6); /* Soft red gradient */
+        color: #a83232; /* Deep red text for contrast */
+        font-size: 16px;
+        font-weight: bold;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        border-radius: 8px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 10px 20px;
+        cursor: pointer;
+        transition: transform 0.2s ease, background-color 0.3s ease;
+        flex-wrap: nowrap; /* Prevent wrapping for web view */
+      }
+
+      .delivery-message-bar i {
+        color: #fa4f09; /* Vibrant orange for emphasis */
+        font-size: 20px;
+      }
+
+      .delivery-message-bar span {
+        text-align: center;
+        white-space: nowrap; /* Prevent text wrapping */
+      }
+
+      .delivery-message-bar:hover {
+        background: linear-gradient(90deg, #ffd1d1, #ffc3c3); /* Slightly darker red gradient on hover */
+        transform: scale(1.03); /* Small hover scale effect */
+      }
+
+      @media (max-width: 768px) {
+        .delivery-message-bar {
+          font-size: 14px; /* Smaller font size for better spacing */
+          gap: 6px; /* Reduced gap between icons */
+          flex-wrap: wrap; /* Allow wrapping for mobile */
+        }
+
+        .delivery-message-bar i {
+          font-size: 18px; /* Adjust icon size */
+        }
+      }
+    `}
+  </style>
+
+  {/* Delivery Icons */}
+  <i className="fa-solid fa-box"></i>
+  <i className="fa-solid fa-truck-fast"></i>
+
+  {/* Delivery Message */}
+  <span>
+    <strong>300 Deliveries</strong> Are <strong>FREE</strong>!{" "}
+    <span style={{ color: "#fa4f09" }}>Hurry Up!</span>
+  </span>
+</div>
+
+
+
+
+
+
+
+      {/* <div class="order-message">
         <i class="fas fa-truck delivery-header-icon"></i> Order within{" "}
         <strong>{timeLeft}</strong> for delivery tomorrow
-      </div>
+      </div> */}
       <div
         className="top__header black-area pt-30 pb-30"
         style={{ backgroundColor: "white" }}

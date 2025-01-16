@@ -39,7 +39,7 @@ function Footer(props) {
                       style={{ color: "#fff", fontSize: "16px" }}
                     >
                       <i className="fa-solid fa-phone me-2" style={{ color: "#4caf50" }} />
-                      +1 234 4777
+                      +44 7404 883716
                     </a>
                   </li>
                   <li>
@@ -151,32 +151,44 @@ function Footer(props) {
                 <h4 className="footer-title" style={{ color: "#fff" }}>
                   Get Newsletter
                 </h4>
-                <div className="subscribe">
-                  <input
-                    type="email"
-                    placeholder="Your Email"
-                    style={{
-                      borderRadius: "5px",
-                      border: "1px solid #fff",
-                      padding: "8px 12px",
-                      marginRight: "8px",
-                      width: "70%",
-                      color: "#000",
-                    }}
-                  />
-                  <button
-                    style={{
-                      backgroundColor: "#ff5722",
-                      border: "none",
-                      borderRadius: "5px",
-                      padding: "8px 12px",
-                      color: "#fff",
-                      cursor: "pointer",
-                    }}
-                  >
-                    <i className="fa-solid fa-paper-plane" />
-                  </button>
-                </div>
+                <div
+  className="subscribe"
+  style={{
+    display: "flex",
+    alignItems: "center", // Aligns items vertically
+    justifyContent: "center", // Aligns items horizontally
+    gap: "8px", // Space between input and button
+  }}
+>
+  <input
+    type="email"
+    placeholder="Your Email"
+    style={{
+      borderRadius: "5px",
+      border: "1px solid #fff",
+      padding: "8px 12px",
+      width: "70%",
+      color: "#000",
+      boxSizing: "border-box", // Ensures padding doesn't affect width
+    }}
+  />
+  <button
+    style={{
+      backgroundColor: "#ff5722",
+      border: "none",
+      borderRadius: "5px",
+      padding: "8px 12px",
+      color: "#fff",
+      cursor: "pointer",
+      display: "flex",
+      alignItems: "center", // Ensures icon is vertically centered
+      justifyContent: "center", // Ensures icon is horizontally centered
+    }}
+  >
+    <i className="fa-solid fa-paper-plane" />
+  </button>
+</div>
+
                 <div className="social-icon mt-40 d-flex justify-content-center gap-3">
                   <a href="https://www.facebook.com/Vapeplanet.co.uk" target="_blank" rel="noopener noreferrer">
                     <i className="fa-brands fa-facebook-f" style={{ color: "#4267B2", fontSize: "20px" }} />

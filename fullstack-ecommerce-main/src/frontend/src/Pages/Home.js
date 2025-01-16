@@ -634,128 +634,188 @@ function Home(props) {
         {/* Text slider area end here */}
         {/* Gallery area start here */}
 
-        <section className="news-blogs-section gallery-light black-area">
-  <div className="news-blogs-container container-lg">
+
+
+
+        <section
+  className="blogs-section-unique"
+  style={{
+    padding: "30px 0",
+    backgroundColor: "#f8f9fa",
+    textAlign: "center",
+  }}
+>
+  <div className="blogs-container-unique container-lg">
     {/* Header Section */}
-    <div>
-  <style>
-    {`
-      /* Header Container */
-      .news-blogs-header {
-        border-bottom: 2px solid #ececec;
-        padding-bottom: 15px;
-        margin-bottom: 30px;
-      }
-
-      /* Title Wrapper */
-      .news-blogs-title-wrapper {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
-      }
-
-      /* Icon Styling */
-      .news-blogs-title-icon-wrapper {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 40px;
-        height: 40px;
-        background-color: #fa4f09; /* Icon background color */
-        border-radius: 50%;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      }
-
-      .news-blogs-icon {
-        color: #fff;
-        font-size: 18px;
-      }
-
-      /* Title Styling */
-      .news-blogs-title {
-        font-size: 24px;
-        font-weight: bold;
-        color: #333;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-      }
-
-      /* Responsive Styles */
-      @media (max-width: 768px) {
-        .news-blogs-title {
-          font-size: 18px;
-        }
-
-        .news-blogs-title-icon-wrapper {
-          width: 30px;
-          height: 30px;
-        }
-
-        .news-blogs-icon {
-          font-size: 14px;
-        }
-      }
-    `}
-  </style>
-
-  <div className="news-blogs-header pb-30 mb-65 bor-bottom d-flex flex-wrap align-items-center justify-content-xl-between justify-content-center">
     <div
-      className="news-blogs-title-wrapper d-flex align-items-center wow fadeInUp"
-      data-wow-delay=".1s"
+      className="blogs-header-unique"
+      style={{
+        marginBottom: "20px",
+        paddingBottom: "0px",
+        borderBottom: "2px solid #ececec",
+      }}
     >
-      {/* Icon */}
-      <span className="news-blogs-title-icon-wrapper mr-10">
-        <i className="fa-solid fa-newspaper news-blogs-icon"></i>
-      </span>
-
-      {/* Title */}
-      <h2 className="news-blogs-title">News and Blogs</h2>
+      <div
+        className="blogs-title-wrapper-unique"
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: "10px",
+        }}
+      >
+        {/* Icon */}
+        <div
+          className="blogs-title-icon-wrapper-unique"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            width: "50px",
+            height: "50px",
+            backgroundColor: "#fa4f09",
+            borderRadius: "50%",
+            boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+          }}
+        >
+          <i
+            className="fa-solid fa-newspaper blogs-icon-unique"
+            style={{
+              color: "#fff",
+              fontSize: "20px",
+            }}
+          ></i>
+        </div>
+        {/* Title */}
+        <h2
+          className="blogs-title-unique"
+          style={{
+            fontSize: "24px",
+            fontWeight: "bold",
+            color: "#333",
+            textTransform: "uppercase",
+            letterSpacing: "0.5px",
+          }}
+        >
+          News and Blogs
+        </h2>
+      </div>
     </div>
-  </div>
-</div>
-
 
     {/* Swiper Component */}
     <SwiperComponentNavigation
-      slidesPerView={3}
-      swiperProduct={blogArray}
-      breakpoints={{
-        320: {
-          slidesPerView: 1,
-          spaceBetween: 20,
-        },
-        640: {
-          slidesPerView: 1,
-          spaceBetween: 20,
-        },
-        768: {
-          slidesPerView: 2,
-          spaceBetween: 20,
-        },
-        1366: {
-          slidesPerView: 3,
-          spaceBetween: 25,
-        },
-      }}
-      navigation={true}
-    />
+  slidesPerView={1}
+  swiperProduct={blogArray}
+  breakpoints={{
+    320: {
+      slidesPerView: 1,
+      spaceBetween: 15, // Adjust spacing for small screens
+    },
+    480: {
+      slidesPerView: 1,
+      spaceBetween: 15,
+    },
+    768: {
+      slidesPerView: 2,
+      spaceBetween: 20,
+    },
+    1366: {
+      slidesPerView: 3,
+      spaceBetween: 30,
+    },
+  }}
+  navigation={false} // Disable navigation arrows
+  customSwiperProduct={(blog) => (
+    <div className="blog-item-unique custom-swiper-card">
+      {/* Blog Image Wrapper */}
+      <div className="blog-image-wrapper-unique custom-image-wrapper">
+        <img
+          src={blog.image}
+          alt={blog.title}
+          className="blog-image-unique"
+          style={{
+            position: "absolute",
+            top: "0",
+            left: "0",
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            borderRadius: "10px 10px 0 0", // Rounded corners for the top of the image
+          }}
+          loading="lazy"
+        />
+      </div>
+      
+      {/* Blog Content */}
+      <div
+        className="blog-content-unique"
+        style={{
+          padding: "15px",
+          textAlign: "left",
+          backgroundColor: "#fff",
+          borderRadius: "0 0 10px 10px", // Rounded corners for content box
+          boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
+        }}
+      >
+        <h4
+          className="blog-title-unique"
+          style={{
+            fontWeight: "bold",
+            fontSize: "18px",
+            color: "#333",
+            marginBottom: "10px",
+          }}
+        >
+          {blog.title}
+        </h4>
+        <p
+          className="blog-description-unique"
+          style={{
+            fontSize: "14px",
+            color: "#666",
+            margin: "0",
+          }}
+        >
+          {blog.description}
+        </p>
+      </div>
+    </div>
+  )}
+  className="custom-swiper"
+/>
+
 
     {/* View All Blogs Link */}
-    <div className="news-blogs-view-all text-center mt-4">
+    <div className="blogs-view-all-unique" style={{ marginTop: "20px" }}>
       <h4
         onClick={() => navigate("/allBlogs")}
-        className="news-blogs-link d-inline-flex align-items-center pointer"
+        className="blogs-link-unique"
+        style={{
+          fontWeight: "bold",
+          fontSize: "18px",
+          color: "#fa4f09",
+          cursor: "pointer",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
       >
         View All Blogs And News{" "}
         <i
-          className="fa-solid fa-arrow-right ml-2 news-blogs-icon"
-          style={{ fontSize: "16px" }}
+          className="fa-solid fa-arrow-right blogs-icon-link-unique"
+          style={{ marginLeft: "8px", fontSize: "16px" }}
         ></i>
       </h4>
     </div>
   </div>
 </section>
+
+
+
+
+
+
+
 
         {/* Gallery area end here */}
         {/* Brand area start here */}

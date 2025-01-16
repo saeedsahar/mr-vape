@@ -387,3 +387,214 @@
     font-size: 12px;
   }
 }
+/* Blogs Section Styling */
+.blogs-section-unique {
+  padding: 50px 0;
+  background-color: #f8f9fa;
+  text-align: center;
+}
+
+.blogs-container-unique {
+  padding: 0 20px; /* Add space inside the container */
+}
+
+/* Header Styling */
+.blogs-header-unique {
+  margin-bottom: 30px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #ececec;
+}
+
+.blogs-title-wrapper-unique {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.blogs-title-icon-wrapper-unique {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  background-color: #fa4f09;
+  border-radius: 50%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.blogs-icon-unique {
+  color: #fff;
+  font-size: 20px;
+}
+
+.blogs-title-unique {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Blog Item Styling */
+.blog-item-unique {
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.blog-item-unique:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.blog-image-wrapper-unique {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+}
+
+.blog-image-unique {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.blog-image-unique:hover {
+  transform: scale(1.05);
+}
+
+/* Overlay Styling */
+.blog-overlay-unique {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  padding: 15px;
+  text-align: left;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.blog-item-unique:hover .blog-overlay-unique {
+  opacity: 1;
+}
+
+.blog-title-unique {
+  font-size: 16px;
+  font-weight: bold;
+  margin: 0 0 5px 0;
+  line-height: 1.2;
+  color: #fff;
+}
+
+.blog-description-unique {
+  font-size: 14px;
+  color: #ddd;
+}
+
+/* Mobile Adjustments */
+@media (max-width: 768px) {
+  .blog-image-wrapper-unique {
+    height: 150px;
+  }
+
+  .blogs-title-unique {
+    font-size: 20px;
+  }
+}
+.custom-swiper .swiper-wrapper {
+  padding: 0 !important; /* Override Swiper default padding */
+}
+
+/* Remove padding for Swiper containers */
+.swiper.mySwiper {
+  padding: 0 !important; /* Remove Swiper's default padding */
+}
+
+/* Optionally, handle any inherited paddings from other Swiper-related classes */
+.swiper-horizontal {
+  padding: 0 !important; /* Remove horizontal padding */
+  margin-right: 0 !important; /* Remove horizontal padding */
+
+}
+
+/* Custom Swiper Styling */
+.custom-swiper {
+  padding: 0; /* Remove extra padding */
+  margin: 0 auto; /* Center Swiper */
+}
+
+.custom-swiper-card {
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #f8f9fa; /* Subtle background color */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover effect */
+}
+
+.custom-swiper-card:hover {
+  transform: translateY(-5px); /* Slight lift on hover */
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
+}
+
+/* Image Wrapper for Aspect Ratio */
+.custom-image-wrapper {
+  position: relative;
+  width: 100%;
+  height: 0;
+  padding-bottom: 75%; /* Aspect ratio */
+  overflow: hidden;
+  border-radius: 10px 10px 0 0; /* Rounded top corners */
+}
+
+/* Blog Image Styling */
+.blog-image-unique {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px 10px 0 0;
+}
+
+/* Blog Content Styling */
+.blog-content-unique {
+  padding: 15px;
+  background-color: #fff;
+  border-radius: 0 0 10px 10px; /* Rounded bottom corners */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Blog Title */
+.blog-title-unique {
+  font-weight: bold;
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+/* Blog Description */
+.blog-description-unique {
+  font-size: 14px;
+  color: #666;
+  /* margin: 0; */
+}
+
+/* Swiper Adjustments for Small Screens */
+@media (max-width: 768px) {
+  .custom-swiper-card {
+    margin: 5px;
+  }
+
+  .custom-image-wrapper {
+    padding-bottom: 56.25%; /* Adjust ratio for smaller screens */
+  }
+}

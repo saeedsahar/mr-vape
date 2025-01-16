@@ -12,14 +12,14 @@
     display: none;
   }
   .img-fluid{
-    width: 185px;
+    width: 400px;
   }
 }
 
 @media (max-width : 400px){
 
   .img-fluid{
-    width: 140px !important;
+    width: 400px !important;
   }
 }
 
@@ -27,7 +27,7 @@
 @media (max-width : 400px){
 
   .img-fluidblogs{
-    width: 230px !important;
+    width: 400px !important;
   }
 }
 
@@ -36,7 +36,7 @@
     display: none;
   }
   .img-fluidblogs{
-    width: 240px;
+    width: 400px;
   }
 }
 

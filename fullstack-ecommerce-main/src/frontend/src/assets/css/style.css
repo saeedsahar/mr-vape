@@ -4527,8 +4527,8 @@ button,
   background-color: var(--primary-color);
   font-size: 17px;
   position: absolute;
-  top: 6px;
-  right: 6px;
+  top: 0px;
+  right: 0px;
 }
 .footer__copy-text {
   display: flex;

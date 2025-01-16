@@ -78,9 +78,30 @@ const StripePaymentForm = ({ onPaymentSuccess }) => {
   return (
     <form onSubmit={handleSubmit}>
   <Box sx={{ mt: 4, p: 3, border: "1px solid #ddd", borderRadius: 2, backgroundColor: "#f9f9f9" }}>
-    <Typography variant="h6" sx={{ mb: 3, fontWeight: "bold", color: "#333" }}>
-      Payment Details
-    </Typography>
+  <Typography variant="h6" sx={{ mb: 3, fontWeight: "bold", color: "#333" }}>
+  Payment Details
+  <Box
+    component="span"
+    sx={{
+      display: "flex",
+      alignItems: "center",
+      fontSize: "14px", // Small font size
+      color: "#888", // Muted text color
+      mt: 1, // Margin to create space below "Payment Details"
+    }}
+  >
+    <i
+      className="fa-solid fa-lock"
+      style={{
+        color: "#4caf50",
+        marginRight: "8px",
+        fontSize: "16px",
+      }}
+    ></i>
+    All transactions are secure and encrypted
+  </Box>
+</Typography>
+
 
     {/* Card Number Field */}
     <Box sx={{ mb: 3 }}>

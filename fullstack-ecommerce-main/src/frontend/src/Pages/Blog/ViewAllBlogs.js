@@ -709,7 +709,7 @@ function ViewAllBlogs(props) {
                       <a className="wishlist">
                         <i className="fa-regular fa-heart" />
                       </a>
-                      <a className="product__image pt-20 d-block">
+                      <a className="product__image  d-block">
                         <img
                           className="font-image img-fluidblogs"
                           src={item.image}
