@@ -48,7 +48,7 @@ const StripePaymentForm = ({ onPaymentSuccess }) => {
       // API endpoint for creating a payment intent (ensure HTTPS in production)
       const { data: { clientSecret } } = await axios.post(
         `${base_url}/api/payment-intent`,
-        { amount: (totalBill + 4 - discountedAmount) * 100 } // Amount in cents
+        { amount: (totalBill + 0 - discountedAmount) * 100 } // Amount in cents
       );
 
       const cardNumberElement = elements.getElement(CardNumberElement);

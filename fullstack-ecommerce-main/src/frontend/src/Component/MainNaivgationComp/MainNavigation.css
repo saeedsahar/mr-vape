@@ -12,14 +12,14 @@
     display: none;
   }
   .img-fluid{
-    width: 400px;
+    width: 175px;
   }
 }
 
 @media (max-width : 400px){
 
   .img-fluid{
-    width: 400px !important;
+    width: 175px !important;
   }
 }
 
@@ -148,6 +148,37 @@
 /* Arrow rotation on hover */
 .menu-item:hover .fa-angle-down {
   transform: rotate(180deg); /* Rotate the arrow when hovering */
+}
+
+
+/* Shared Styles */
+/* Cart Count Popup - Web */
+/* Cart Count Popup - Web */
+.cart-count {
+  position: absolute;
+  top: -9px !important; /* Adjusted for web */
+  right: 61px !important; /* Adjusted for web */
+  background-color: #dc3545;
+  color: white;
+  border-radius: 50%;
+  font-size: 12px;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+}
+
+/* Cart Count Popup - Mobile */
+@media screen and (max-width: 768px) {
+  .cart-count {
+    top: -16px !important; /* Adjusted for mobile */
+    right: -5px !important; /* Adjusted for mobile */
+    width: 16px; /* Smaller size for mobile */
+    height: 16px; /* Smaller size for mobile */
+    font-size: 10px;
+  }
 }
 
 

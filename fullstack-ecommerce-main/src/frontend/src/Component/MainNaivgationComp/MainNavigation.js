@@ -396,65 +396,109 @@ function MainNavigation(props) {
 
   return (
     <>
-<div className="delivery-message-bar py-3 text-center">
+
+
+
+<div className="delivery-message-bar text-center">
   <style>
     {`
+      /* Web Version */
       .delivery-message-bar {
-        background: linear-gradient(90deg, #ffe8e8, #ffd6d6); /* Soft red gradient */
-        color: #a83232; /* Deep red text for contrast */
-        font-size: 16px;
-        font-weight: bold;
+        background: #dc3545; /* Red background for web */
+        color: white; /* White text */
+        font-size: 14px; /* Font size for web */
+        font-weight: 600; /* Slightly bold for emphasis */
         display: flex;
-        justify-content: center;
+        justify-content: space-between; /* Align content with spacing */
+        align-items: center; /* Vertically align content */
+        padding: 8px 20px; /* Proper padding for spacing */
+        text-align: center;
+      }
+
+      .delivery-message-bar .left-content {
+        display: flex;
         align-items: center;
-        gap: 10px;
-        border-radius: 8px;
-        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-        padding: 10px 20px;
-        cursor: pointer;
-        transition: transform 0.2s ease, background-color 0.3s ease;
-        flex-wrap: nowrap; /* Prevent wrapping for web view */
+        gap: 10px; /* Spacing between truck icon and text */
+      }
+
+      .delivery-message-bar .right-content {
+        display: flex;
+        align-items: center;
+        gap: 15px; /* Spacing between links and phone info */
+      }
+
+      .delivery-message-bar .right-content a {
+        color: white; /* White links */
+        text-decoration: none; /* Remove underline */
+        font-weight: 600; /* Slightly bold */
+      }
+
+      .delivery-message-bar .right-content a:hover {
+        text-decoration: underline; /* Add underline on hover */
+      }
+
+      .delivery-message-bar .right-content span {
+        margin: 0 5px; /* Spacing between separators */
       }
 
       .delivery-message-bar i {
-        color: #fa4f09; /* Vibrant orange for emphasis */
-        font-size: 20px;
+        font-size: 16px; /* Icon size */
+        margin-right: 8px; /* Space between icon and text */
       }
 
-      .delivery-message-bar span {
-        text-align: center;
-        white-space: nowrap; /* Prevent text wrapping */
-      }
-
-      .delivery-message-bar:hover {
-        background: linear-gradient(90deg, #ffd1d1, #ffc3c3); /* Slightly darker red gradient on hover */
-        transform: scale(1.03); /* Small hover scale effect */
-      }
-
+      /* Mobile Version */
       @media (max-width: 768px) {
         .delivery-message-bar {
-          font-size: 14px; /* Smaller font size for better spacing */
-          gap: 6px; /* Reduced gap between icons */
-          flex-wrap: wrap; /* Allow wrapping for mobile */
+          background: #add8e6; /* Light blue background for mobile */
+          color: black; /* Black text */
+          font-size: 12px; /* Font size matching the image */
+          font-weight: 700; /* Bold font weight matching the image */
+          display: flex;
+          align-items: center;
+          justify-content: center; /* Center-align content for mobile */
+          padding: 2px 5px; /* Adjusted padding for clean spacing */
+          flex-wrap: wrap; /* Allow wrapping if necessary */
+          line-height: 1.5;
+        }
+
+        .delivery-message-bar .right-content {
+          display: none; /* Hide the links on mobile */
+        }
+
+        .delivery-message-bar .left-content {
+          justify-content: center;
+          text-align: center;
+          gap: 5px; /* Reduced gap for tighter layout */
         }
 
         .delivery-message-bar i {
-          font-size: 18px; /* Adjust icon size */
+          font-size: 18px; /* Slightly larger icon size to match the style */
         }
       }
     `}
   </style>
 
-  {/* Delivery Icons */}
-  <i className="fa-solid fa-box"></i>
-  <i className="fa-solid fa-truck-fast"></i>
+  {/* Left Content */}
+  <div className="left-content">
+    <i className="fa-solid fa-truck-fast"></i>
+    <span>
+      ONLINE VAPE STORE UK. FREE DELIVERY OVER £40 - SAME DAY DISPATCH - ORDER BY 2PM
+    </span>
+  </div>
 
-  {/* Delivery Message */}
-  <span>
-    <strong>300 Deliveries</strong> Are <strong>FREE</strong>!{" "}
-    <span style={{ color: "#fa4f09" }}>Hurry Up!</span>
-  </span>
+  {/* Right Content */}
+  <div className="right-content">
+    <a href="/track-order">Track order</a>
+    <span>|</span>
+    <a href="/blog">Blog</a>
+    <span>|</span>
+    <a href="/delivery">Delivery</a>
+    <span>|</span>
+    <i className="fa-solid fa-phone"></i>
+    <span>01772 230513 (9:00 AM - 6:00 PM)</span>
+  </div>
 </div>
+
 
 
 
@@ -466,327 +510,195 @@ function MainNavigation(props) {
         <i class="fas fa-truck delivery-header-icon"></i> Order within{" "}
         <strong>{timeLeft}</strong> for delivery tomorrow
       </div> */}
-      <div
-        className="top__header black-area pt-30 pb-30"
-        style={{ backgroundColor: "white" }}
-      >
-        <div className="container-lg">
-          <div className="top__wrapper row align-items-center">
-            <div className="col-auto">
-              <a className="main__logo" style={{ width: "100%" }}>
-                <button
-                  onClick={() => toggleDrawer(true)}
-                  class="px-2 d-lg-none"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="28"
-                    height="28"
-                    fill="currentColor"
-                    class="bi bi-list"
-                    viewBox="0 0 16 16"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"
-                    />
-                  </svg>
-                </button>
-                <Drawer
-  open={open}
-  onClose={() => toggleDrawer(false)}
-  className="mobile-nav-drawer"
+<div
+  className="top__header"
+  style={{
+    backgroundColor: "white",
+    borderBottom: "1px solid #e5e5e5",
+    padding: "10px 0",
+  }}
 >
-  {/* Header */}
-  <div className="mobile-nav-header d-flex justify-content-between align-items-center">
-    <h6 className="mobile-nav-title">Popular Categories</h6>
-    <button
-      className="mobile-nav-close-btn"
-      aria-label="Close"
-      onClick={() => toggleDrawer(false)}
-    >
-      <i className="fa-solid fa-times-circle"></i>
-    </button>
-  </div>
+  <div className="container-lg">
+    <div className="row align-items-center justify-content-between">
+      {/* Logo and Hamburger */}
+      <div className="col-auto d-flex align-items-center">
+        <button
+          onClick={() => toggleDrawer(true)}
+          className="hamburger-btn d-lg-none"
+          style={{
+            background: "none",
+            border: "none",
+            marginRight: "15px",
+            cursor: "pointer",
+          }}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="28"
+            height="28"
+            fill="currentColor"
+            viewBox="0 0 16 16"
+          >
+            <path
+              fillRule="evenodd"
+              d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5.5 0 0 1 0 1H3a.5.5.5 0 0 1-.5-.5"
+            />
+          </svg>
+        </button>
+        <a className="main__logo" style={{ display: "flex", alignItems: "center" }}>
+          <img
+            src="https://mrvape-frontend.s3.eu-west-2.amazonaws.com/VapePlanet+Logo.png"
+            alt="Vape Planet Logo"
+            style={{ maxHeight: "50px", cursor: "pointer" }}
+            onClick={() => navigate("/")}
+          />
+        </a>
+      </div>
 
-  {/* Body */}
-  <div className="mobile-nav-body">
-    {homeStates.menu?.map((menuEle, i) => {
-      let hasSubMenu = menuEle.brandList.length > 0;
+      {/* Search Bar */}
+      <div
+        className="col-lg-5 d-none d-lg-flex search-bar"
+        style={{
+          border: "1px solid #fa4f09",
+          borderRadius: "25px",
+          padding: "5px 10px",
+          maxWidth: "500px",
+          flexGrow: 1,
+        }}
+      >
+        <input
+          type="text"
+          placeholder="Search Products..."
+          style={{
+            border: "none",
+            outline: "none",
+            flex: 1,
+            padding: "5px",
+            fontSize: "14px",
+            color: "black",
+          }}
+        />
+        <button
+          style={{
+            background: "none",
+            border: "none",
+            cursor: "pointer",
+          }}
+        >
+          <i
+            className="fa-solid fa-search"
+            style={{ color: "#fa4f09", fontSize: "18px" }}
+          />
+        </button>
+      </div>
 
-      return (
-        <div className="mobile-nav-accordion" id={`mobile-nav-accordion-${i}`} key={i}>
-          <div className="mobile-nav-accordion-item">
-            {/* Menu Header */}
-            <div className="mobile-nav-accordion-header">
-              <button
-                className={`mobile-nav-accordion-button ${
-                  hasSubMenu ? "collapsed" : "mobile-nav-no-submenu"
-                }`}
-                type="button"
-                data-bs-toggle={hasSubMenu ? "collapse" : undefined}
-                data-bs-target={hasSubMenu ? `#mobile-nav-collapse-${i}` : undefined}
-                aria-expanded="false"
-                aria-controls={hasSubMenu ? `mobile-nav-collapse-${i}` : undefined}
-                onClick={() => {
-                  if (!hasSubMenu && menuEle.id === 1) {
-                    dispatch(setQuery("Trending"));
-                    navigate("/products");
-                    toggleDrawer(false);
-                  } else if (!hasSubMenu) {
-                    dispatch(setCategoryId(menuEle.id));
-                    navigate("/products");
-                    toggleDrawer(false);
-                  }
-                }}
-              >
-                <i className="fa-solid fa-list mobile-nav-menu-icon"></i>
-                {menuEle.name}
-                {hasSubMenu && (
-                  <i className="fa-solid fa-chevron-right mobile-nav-arrow-icon"></i>
-                )}
-              </button>
-            </div>
-
-            {/* Submenu */}
-            {hasSubMenu && (
-              <div
-                id={`mobile-nav-collapse-${i}`}
-                className="mobile-nav-accordion-collapse collapse"
-                data-bs-parent={`#mobile-nav-accordion-${i}`}
-              >
-                <div className="mobile-nav-accordion-body">
-                  <ul className="mobile-nav-submenu-list">
-                    {menuEle.brandList?.map((subMenuEle, subIndex) => (
-                      <li
-                        className="mobile-nav-submenu-item"
-                        key={subIndex}
-                        onClick={() => {
-                          dispatch(setBrandId(subMenuEle.id));
-                          navigate("/products");
-                          toggleDrawer(false);
-                        }}
-                      >
-                        <i className="fa-solid fa-tag mobile-nav-submenu-icon"></i>
-                        {subMenuEle.name}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            )}
+      {/* Support, Login, and Cart */}
+      <div className="col-auto d-flex align-items-center" style={{ gap: "21px" }}>
+        {/* Support */}
+        <div
+          className="d-none d-lg-flex align-items-center"
+          style={{
+            fontSize: "14px",
+            gap: "5px",
+            cursor: "pointer",
+          }}
+        >
+          <i
+            className="fa-solid fa-headset"
+            style={{
+              fontSize: "16px", // Exact icon size
+              color: "#333",
+            }}
+          />
+          <div style={{ lineHeight: "1" }}>
+            <span style={{ fontWeight: "bold", color: "#333" }}>CUSTOMER</span>
+            <br />
+            <span style={{ fontSize: "12px", color: "#777" }}>Support</span>
           </div>
         </div>
-      );
-    })}
-  </div>
-</Drawer>
 
-                
-
-                <img
-                  className="pointer img-fluid"
-                  onClick={() => navigate("/")}
-                  src="https://mrvape-frontend.s3.eu-west-2.amazonaws.com/VapePlanet+Logo.png"
-                  // style={{ width: "185px" }}
-                  alt="logo__image"
-                />
-              </a>
-            </div>
-            <div className="col-lg-5 search-div">
-              {" "}
-              <div
-                style={{ border: "1px solid #fa4f09", borderRadius: "30px" }}
-                className="search__wrp"
-                ref={searchWrapperRef}
-              >
-                <input
-                  placeholder="Search Products"
-                  aria-label="Search"
-                  onChange={onSearchChange}
-                  value={searchValue}
-                  style={{ color: "black" }}
-                  onClick={(e) => setAnchorEl(e.currentTarget)}
-                />
-                <button
-                  id="search-icon"
-                  onClick={() => setOpenSearchBar(!openSearchBar)}
-                >
-                  <i className="fa-solid fa-search" />
-                </button>
-                <Popper
-                  open={Boolean(anchorEl && searchValue.trim())}
-                  anchorEl={anchorEl}
-                  placement="bottom-start"
-                  style={{ zIndex: 1300 }}
-                  modifiers={{
-                    preventOverflow: {
-                      enabled: true,
-                      boundariesElement: "viewport",
-                    },
-                  }}
-                  onMouseDown={(e) => e.stopPropagation()}
-                >
-                  <div
-                    style={{
-                      width: anchorEl ? anchorEl.clientWidth : "100%",
-                      backgroundColor: "#fff",
-                      borderBottomLeftRadius: "20px", // Match with input's bottom left
-                      borderBottomRightRadius: "20px", // Match with input's bottom right
-                      borderTop: "none", // Remove top border to blend with input
-                      boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
-                      maxHeight: "300px",
-                      overflowY: "auto",
-                      padding: "10px 0", // Padding to avoid cutting off list items
-                      borderRadius: "10px",
-                    }}
-                    className="custom-scrollbar"
-                  >
-                    {/* Loading State */}
-                    {loading ? (
-                      <div>
-                        <Skeleton variant="text" width="100%" height={30} />
-                        <Skeleton variant="text" width="100%" height={30} />
-                        <Skeleton variant="text" width="100%" height={30} />
-                      </div>
-                    ) : (
-                      <List>
-                        {/* No Data Found */}
-                        {noResults ? (
-                          <ListItem>No data found</ListItem>
-                        ) : (
-                          // Render Search Results
-                          searchResults.map((item, index) => (
-                            <ListItem
-                              key={index}
-                              style={{
-                                color: "black",
-                                cursor: "pointer", // Pointer cursor on hover
-                                padding: "10px",
-                                transition: "background-color 0.2s ease", // Smooth hover effect
-                              }}
-                              onMouseEnter={(e) =>
-                                (e.currentTarget.style.backgroundColor =
-                                  "#f0f0f0")
-                              }
-                              onMouseLeave={(e) =>
-                                (e.currentTarget.style.backgroundColor =
-                                  "transparent")
-                              }
-                              onClick={() => {
-                                navigate(`/products/${item.id}`);
-                                setAnchorEl(null);
-                              }}
-                            >
-                              {item.name}{" "}
-                              {/* Assuming each result has a name */}
-                            </ListItem>
-                          ))
-                        )}
-                      </List>
-                    )}
-                  </div>
-                </Popper>
-              </div>
-              {openSearchBar && appWidth < 1200 ? (
-                <input
-                  placeholder="Search Products"
-                  aria-label="Search"
-                  onChange={onSearchChange}
-                  value={searchValue}
-                  style={{
-                    color: "black",
-                    borderRadius: "10px",
-                    paddingLeft: "10px",
-                    width: "50%",
-                    marginRight: "15px",
-                  }}
-                />
-              ) : null}
-            </div>
-            <div className="col-auto">
-              <div className="row">
-                <div className="account__wrap">
-                  <div className="account d-flex align-items-center">
-                    <div
-                      className="user__icon"
-                      onClick={() => !isLogged && navigate("/authenticate")}
-                    >
-                      <a>
-                        <i className="fa-regular fa-user" />
-                      </a>
-                    </div>
-                    <a className="acc__cont">
-                      {isLogged ? (
-                        <span className="text-white">{currentUser}</span>
-                      ) : (
-                        <span
-                          onClick={() => navigate("/authenticate")}
-                          className="text-white"
-                        >
-                          My Account
-                        </span>
-                      )}
-                    </a>
-                  </div>
-                  <div
-                    className="cart d-flex align-items-center cursror-pointer"
-                    onClick={() => setCartDrawerOpen(true)}
-                    style={{
-                      paddingLeft: "5px",
-                      // width: "120px",
-                      gap: "5px",
-                      justifyContent: "center",
-                    }}
-                    ref={containerRef}
-                  >
-                    {/* <span className="cart__icon">
-                      <i className="fa-regular fa-cart-shopping" />
-                    </span> */}
-                    <a className="c__one">
-                      <span className="text-white">
-                        £{cartStates.totalPrice}
-                      </span>
-                    </a>
-                    <Button
-                      onClick={() => setCartDrawerOpen(true)}
-                      style={{ height: "50px" }}
-                      aria-label="Shopping Cart"
-                      color="inherit"
-                      className="btn-light cart__icon"
-                      size="large"
-                    >
-                      <Badge
-                        badgeContent={
-                          cartStates?.total ? cartStates?.total : "0"
-                        }
-                        color="warning"
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="24"
-                          height="24"
-                          fill="currentColor"
-                          class="bi bi-bag-plus"
-                          viewBox="0 0 16 16"
-                          className="cart-icon"
-                          // style={{ color: "white" }}
-                        >
-                          <path
-                            fill-rule="evenodd"
-                            d="M8 7.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V12a.5.5 0 0 1-1 0v-1.5H6a.5.5 0 0 1 0-1h1.5V8a.5.5 0 0 1 .5-.5"
-                          />
-                          <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1m3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z" />
-                        </svg>
-                      </Badge>
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            </div>
+        {/* Login */}
+        <div
+          className="d-flex align-items-center"
+          onClick={() => navigate(isLogged ? "/account" : "/authenticate")}
+          style={{
+            fontSize: "14px",
+            gap: "5px", // Minimal spacing
+            cursor: "pointer",
+          }}
+        >
+          <i
+            className="fa-regular fa-user"
+            style={{
+              fontSize: "16px", // Exact icon size
+              color: "#333",
+            }}
+          />
+          <div className="d-none d-lg-block" style={{ lineHeight: "1" }}>
+            <span style={{ fontWeight: "bold", color: "#333" }}>
+              {isLogged ? "MY ACCOUNT" : "LOGIN"}
+            </span>
+            <br />
+            <span style={{ fontSize: "12px", color: "#777" }}>My Account</span>
           </div>
+        </div>
+
+        {/* Cart */}
+        <div
+          className="d-flex align-items-center position-relative"
+          onClick={() => setCartDrawerOpen(true)}
+          style={{
+            fontSize: "14px",
+            gap: "5px",
+            cursor: "pointer",
+          }}
+        >
+          <i
+            className="fa-solid fa-cart-shopping"
+            style={{
+              fontSize: "16px", // Exact icon size
+              color: "#333",
+            }}
+          />
+          <div className="d-none d-lg-block" style={{ lineHeight: "1" }}>
+            <span style={{ fontWeight: "bold", color: "#333" }}>MY CART</span>
+            <br />
+            <span style={{ fontSize: "12px", color: "#777" }}>
+              £{cartStates?.totalPrice || "0.00"}
+            </span>
+          </div>
+          <span
+            className="cart-count"
+            style={{
+              position: "absolute",
+              top: "-8px",
+              right: "-8px",
+              backgroundColor: "#dc3545",
+              color: "white",
+              borderRadius: "50%",
+              fontSize: "12px",
+              width: "18px",
+              height: "18px",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              fontWeight: "bold",
+            }}
+          >
+            {cartStates?.total || "0"}
+          </span>
         </div>
       </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+      
       <header className="header-section black-area">
         <div className="container-lg">
           <div className="header-wrapper">
