@@ -699,142 +699,118 @@ function MainNavigation(props) {
 
 
       
-      <header className="header-section black-area">
-        <div className="container-lg">
-          <div className="header-wrapper">
-            <div className="search__wrp d-lg-none py-2">
-              <div className="search-area">
-                <input
-                  placeholder="Search for"
-                  aria-label="Search"
-                  onChange={onSearchChange}
-                  value={searchValue}
-                  style={{ color: "black" }}
-                />
-                <button>
-                  <i className="fa-solid fa-search" />
-                </button>
+<header className="custom-header">
+  <div className="custom-container">
+    <div className="custom-header-wrapper">
+      {/* Mobile Search Bar */}
+      <div className="custom-mobile-search d-lg-none py-2">
+        <div className="custom-search-bar">
+          <input
+            placeholder="Search for"
+            aria-label="Search"
+            onChange={onSearchChange}
+            value={searchValue}
+            className="custom-mobile-search-input"
+          />
+          <button className="custom-mobile-search-btn">
+            <i className="fa-solid fa-search" />
+          </button>
+        </div>
+        <Popper
+          open={Boolean(anchorEl && searchValue.trim())}
+          anchorEl={anchorEl}
+          placement="bottom-start"
+          style={{ zIndex: 1300 }}
+          modifiers={{
+            preventOverflow: {
+              enabled: true,
+              boundariesElement: "viewport",
+            },
+          }}
+          onMouseDown={(e) => e.stopPropagation()}
+        >
+          <div className="custom-popper-container">
+            {/* Loading State */}
+            {loading ? (
+              <div>
+                <Skeleton variant="text" width="100%" height={30} />
+                <Skeleton variant="text" width="100%" height={30} />
+                <Skeleton variant="text" width="100%" height={30} />
               </div>
-              <Popper
-                open={Boolean(anchorEl && searchValue.trim())}
-                anchorEl={anchorEl}
-                placement="bottom-start"
-                style={{ zIndex: 1300 }}
-                modifiers={{
-                  preventOverflow: {
-                    enabled: true,
-                    boundariesElement: "viewport",
-                  },
-                }}
-                onMouseDown={(e) => e.stopPropagation()}
-              >
-                <div
-                  style={{
-                    width: anchorEl ? anchorEl.clientWidth : "100%",
-                    backgroundColor: "#fff",
-                    borderBottomLeftRadius: "20px", // Match with input's bottom left
-                    borderBottomRightRadius: "20px", // Match with input's bottom right
-                    borderTop: "none", // Remove top border to blend with input
-                    boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
-                    maxHeight: "300px",
-                    overflowY: "auto",
-                    padding: "10px 0", // Padding to avoid cutting off list items
-                    borderRadius: "10px",
-                  }}
-                  className="custom-scrollbar"
-                >
-                  {/* Loading State */}
-                  {loading ? (
-                    <div>
-                      <Skeleton variant="text" width="100%" height={30} />
-                      <Skeleton variant="text" width="100%" height={30} />
-                      <Skeleton variant="text" width="100%" height={30} />
-                    </div>
-                  ) : (
-                    <List>
-                      {/* No Data Found */}
-                      {noResults ? (
-                        <ListItem>No data found</ListItem>
-                      ) : (
-                        // Render Search Results
-                        searchResults.map((item, index) => (
-                          <ListItem
-                            key={index}
-                            style={{
-                              color: "black",
-                              cursor: "pointer", // Pointer cursor on hover
-                              padding: "10px",
-                              transition: "background-color 0.2s ease", // Smooth hover effect
-                            }}
-                            onMouseEnter={(e) =>
-                              (e.currentTarget.style.backgroundColor =
-                                "#f0f0f0")
-                            }
-                            onMouseLeave={(e) =>
-                              (e.currentTarget.style.backgroundColor =
-                                "transparent")
-                            }
-                            onClick={() => {
-                              navigate(`/products/${item.id}`);
-                              setAnchorEl(null);
-                            }}
-                          >
-                            {item.name} {/* Assuming each result has a name */}
-                          </ListItem>
-                        ))
-                      )}
-                    </List>
-                  )}
-                </div>
-              </Popper>
-            </div>
-            <ul className="main-menu pointer">
-              {homeStates.menu?.map((menuEle) => {
-                let hasSubMenu = menuEle.brandList.length > 0;
-                return (
-                  <li className="menu-item pointer" key={menuEle.id}>
-                    <a
+            ) : (
+              <List>
+                {/* No Data Found */}
+                {noResults ? (
+                  <ListItem>No data found</ListItem>
+                ) : (
+                  // Render Search Results
+                  searchResults.map((item, index) => (
+                    <ListItem
+                      key={index}
+                      className="custom-search-result-item"
                       onClick={() => {
-                        if (menuEle.id === 1) {
-                          dispatch(setQuery("Trending"));
-                          navigate("/products");
-                        } else if (!hasSubMenu) {
-                          dispatch(setCategoryId(menuEle.id));
-                          navigate("/products");
-                        }
+                        navigate(`/products/${item.id}`);
+                        setAnchorEl(null);
                       }}
                     >
-                      {menuEle.name}
-                      {hasSubMenu && (
-                        <i className="fa-regular fa-angle-down ms-1" />
-                      )}
-                    </a>
-
-                    {hasSubMenu && (
-                      <ul className="sub-menu">
-                        {menuEle.brandList?.map((subMenuEle) => {
-                          return (
-                            <li className="sub-menu-item" key={subMenuEle.id}>
-                              <a
-                                onClick={() => {
-                                  dispatch(setBrandId(subMenuEle.id));
-                                  navigate("/products");
-                                }}
-                              >
-                                {subMenuEle.name}
-                              </a>
-                            </li>
-                          );
-                        })}
-                      </ul>
-                    )}
-                  </li>
-                );
-              })}
-            </ul>
+                      {item.name}
+                    </ListItem>
+                  ))
+                )}
+              </List>
+            )}
           </div>
-        </div>
-      </header>
+        </Popper>
+      </div>
+
+      {/* Web Menu */}
+      <ul className="custom-web-menu d-none d-lg-flex">
+        {homeStates.menu?.map((menuEle) => {
+          let hasSubMenu = menuEle.brandList.length > 0;
+          return (
+            <li className="custom-menu-item" key={menuEle.id}>
+              <a
+                onClick={() => {
+                  if (menuEle.id === 1) {
+                    dispatch(setQuery("Trending"));
+                    navigate("/products");
+                  } else if (!hasSubMenu) {
+                    dispatch(setCategoryId(menuEle.id));
+                    navigate("/products");
+                  }
+                }}
+              >
+                {menuEle.name}
+                {hasSubMenu && <i className="fa-regular fa-angle-down ms-1" />}
+              </a>
+
+              {hasSubMenu && (
+                <ul className="custom-sub-menu">
+                  {menuEle.brandList?.map((subMenuEle) => (
+                    <li className="custom-sub-menu-item" key={subMenuEle.id}>
+                      <a
+                        onClick={() => {
+                          dispatch(setBrandId(subMenuEle.id));
+                          navigate("/products");
+                        }}
+                      >
+                        {subMenuEle.name}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  </div>
+</header>
+
+
+
+
       <Snackbar
         open={mainNavStates.open}
         autoHideDuration={6000}
