@@ -691,6 +691,47 @@ function MainNavigation(props) {
       </div>
     </div>
   </div>
+  {/* Drawer for Mobile */}
+  {/* Drawer */}
+  <Drawer
+        open={open}
+        onClose={() => toggleDrawer(false)}
+        className="header-mobile-drawer"
+      >
+        {/* Drawer Header */}
+        <div className="header-drawer-header">
+          <h6 className="header-drawer-title">Popular Vapes</h6>
+          <button
+            onClick={() => toggleDrawer(false)}
+            className="header-drawer-close"
+          >
+            <i className="fa-solid fa-times"></i>
+          </button>
+        </div>
+
+        {/* Drawer Body */}
+        <div className="header-drawer-body">
+          {homeStates.menu?.map((menuEle, i) => (
+            <div key={i} className="header-drawer-item">
+              <button
+                className="header-drawer-btn"
+                onClick={() => {
+                  if (!menuEle.brandList?.length) {
+                    dispatch(menuEle.id === 1 ? setQuery("Trending") : setCategoryId(menuEle.id));
+                    navigate("/products");
+                    toggleDrawer(false);
+                  }
+                }}
+              >
+                <span>{menuEle.name}</span>
+                {menuEle.brandList?.length > 0 && (
+                  <i className="fa-solid fa-chevron-down"></i>
+                )}
+              </button>
+            </div>
+          ))}
+        </div>
+      </Drawer>
 </div>
 
 

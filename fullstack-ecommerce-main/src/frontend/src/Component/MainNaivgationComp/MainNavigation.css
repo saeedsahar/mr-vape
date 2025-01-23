@@ -317,6 +317,74 @@
   background-color: #f0f0f0;
 }
 
+/* Drawer Styling */
+.header-mobile-drawer .MuiDrawer-paper {
+  width: 100%; /* Fullscreen on mobile */
+  max-width: 300px; /* Limit width */
+  background-color: #f8f9fa; /* Light background */
+  border-left: 1px solid #e5e5e5;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Drawer Header */
+.header-drawer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #333; /* Dark header */
+  color: white;
+  padding: 15px;
+}
+
+.header-drawer-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.header-drawer-close {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+/* Drawer Body */
+.header-drawer-body {
+  padding: 15px;
+}
+
+.header-drawer-item {
+  margin-bottom: 10px;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.header-drawer-btn {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 10px 0;
+  background: none;
+  border: none;
+  color: #333;
+  font-size: 16px;
+  font-weight: normal;
+  cursor: pointer;
+  text-align: left;
+}
+
+.header-drawer-btn:hover {
+  background-color: #f0f0f0;
+  border-radius: 5px;
+}
+
+/* Chevron Icon */
+.header-drawer-btn i {
+  font-size: 14px;
+  color: #777;
+}
 
 
 

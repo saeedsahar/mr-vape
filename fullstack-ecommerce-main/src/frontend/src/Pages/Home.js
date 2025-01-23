@@ -177,7 +177,7 @@ function Home(props) {
 
   return (
     <>
-      <section className="bg-dark">
+      {/* <section className="bg-dark">
         <div className="container-lg">
           <div className="row">
             <div
@@ -229,7 +229,18 @@ function Home(props) {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
+
+<div class="scroller-container">
+  <div class="scroller-content">
+    <span>BUY 1 GET 1 FREE</span>
+    <span>BUNDLE OFFERS</span>
+    <span>BUY 1 GET 1 FREE</span>
+    <span>SAME DAY DISPATCH - ORDER BY 2PM</span>
+    <span>BUNDLE OFFERS</span>
+    <span>BUY 1 GET 1 FREE</span>
+  </div>
+</div>
 
       <main>
         {/* Banner area start here */}
