@@ -64,10 +64,10 @@ CSS TABLE OF CONTENTS
 		eventLag: false,
 	};
 
-	// Pace.on("done", function () {
-	// 	$("#preloader").addClass("isdone");
-	// 	$(".loading").addClass("isdone");
-	// });
+	Pace.on("done", function () {
+		$("#preloader").addClass("isdone");
+		$(".loading").addClass("isdone");
+	});
 	// Preloader area end here ***
 
 	// Banner five slider area end here ***

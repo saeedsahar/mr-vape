@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { postRequests } from "../../axios/API"; // API call
-import { base_url } from "../../axios/API"; // Base URL
+import { postRequests } from "../../axios/API"; // Import your API function
+import { base_url } from "../../axios/API"; // Import your base URL
 
-function Register() {
+function Register(props) {
   const navigate = useNavigate();
 
   // Form state
@@ -16,46 +16,78 @@ function Register() {
   });
 
   // Validation errors state
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState({
+    name: false,
+    surname: false,
+    email: false,
+    password: false,
+    passwordRepeat: false,
+    passwordMatch: false,
+    userExists: false,
+  });
 
   // Handle input change
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
-    setErrors({ ...errors, [name]: "" }); // Clear errors on input change
   };
 
-  // Validation logic
-  const validateFields = () => {
-    const newErrors = {};
-    if (!form.name) newErrors.name = "First name is required.";
-    if (!form.surname) newErrors.surname = "Last name is required.";
+  // Validate email format
+  const validateEmail = () => {
     if (!form.email) {
-      newErrors.email = "Email is required.";
-    } else if (
-      !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(form.email)
-    ) {
-      newErrors.email = "Enter a valid email address.";
+      setErrors({ ...errors, email: "Email is required" });
+    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(form.email)) {
+      setErrors({ ...errors, email: "Invalid email address" });
+    } else {
+      setErrors({ ...errors, email: false });
     }
-    if (!form.password) {
-      newErrors.password = "Password is required.";
-    } else if (form.password.length < 6) {
-      newErrors.password = "Password must be at least 6 characters long.";
+  };
+
+  // Validate required fields
+  const validateField = (field) => {
+    if (!form[field]) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [field]: `${field} is required`,
+      }));
+    } else {
+      setErrors((prevErrors) => ({ ...prevErrors, [field]: false }));
     }
-    if (!form.passwordRepeat) {
-      newErrors.passwordRepeat = "Please confirm your password.";
-    } else if (form.password !== form.passwordRepeat) {
-      newErrors.passwordRepeat = "Passwords do not match.";
+  };
+
+  // Check if passwords match
+  const validatePasswordsMatch = () => {
+    if (form.password !== form.passwordRepeat) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        passwordMatch: "Passwords do not match",
+      }));
+    } else {
+      setErrors((prevErrors) => ({ ...prevErrors, passwordMatch: false }));
     }
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
   };
 
   // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (validateFields()) {
+    // Run all validations
+    validateEmail();
+    validateField("name");
+    validateField("surname");
+    validateField("password");
+    validateField("passwordRepeat");
+    validatePasswordsMatch();
+
+    // Check if all validations passed
+    if (
+      !errors.email &&
+      !errors.name &&
+      !errors.surname &&
+      !errors.password &&
+      !errors.passwordMatch
+    ) {
+      // API call to register user
       postRequests(
         `${base_url}/api/v1/auth/register`,
         JSON.stringify({
@@ -65,213 +97,165 @@ function Register() {
           password: form.password,
         })
       )
-        .then(() => {
+        .then((data) => {
           navigate("/authenticate");
         })
         .catch((error) => {
-          console.error("Registration error:", error);
-          setErrors((prev) => ({
-            ...prev,
-            email: "User with this email already exists.",
-          }));
+          console.log("Sign-up error", error);
+          setErrors({
+            ...errors,
+            userExists: true,
+          });
         });
+      console.log("Form Submitted", form);
     }
   };
 
   return (
-    <main>
-      {/* Banner Section */}
-      <section
-        style={{
-          backgroundImage:
-            "url('https://s3.eu-west-2.amazonaws.com/www.vapeplanet.co.uk/websitelayouts/SignIn-top-banner-v2.jpg')",
-          padding: "130px 0",
-          textAlign: "center",
-          backgroundSize: "cover",
-          color: "white",
-        }}
-      >
-        <h2>Create Account</h2>
-      </section>
+    <>
+      <main>
+        {/* Page banner area */}
+        <section
+          className="page-banner bg-image pt-130 pb-130"
+          style={{
+            backgroundImage: "url(https://s3.eu-west-2.amazonaws.com/www.vapeplanet.co.uk/websitelayouts/SignIn-top-banner-v2.jpg)",
+          }}
+        ></section>
 
-      {/* Registration Section */}
-      <section style={{ padding: "130px 0", backgroundColor: "#f8f9fa" }}>
-        <div style={{ maxWidth: "600px", margin: "0 auto" }}>
-          <div
-            style={{
-              backgroundColor: "white",
-              padding: "30px",
-              borderRadius: "10px",
-              boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
-            }}
-          >
-            <h3 style={{ textAlign: "center", marginBottom: "20px" }}>Sign Up</h3>
+        {/* Login area */}
+        <section className="login-area pt-130 pb-130">
+          <div className="container-lg">
+            <div className="login__item">
+              <div className="row g-4">
+                <div className="col-xxl-8">
+                  <div className="login__image">
+                    <img
+                      src="https://s3.eu-west-2.amazonaws.com/www.vapeplanet.co.uk/websitelayouts/Login-Box.jpg"
+                      alt="image"
+                    />
+                    <div className="btn-wrp pointer">
+                      <a
+                        style={{ color: "white", borderColor: "white" }}
+                        onClick={() => navigate("/authenticate")}
+                      >
+                        Sign In
+                      </a>
+                      <a className="active" style={{ color: "white" }}>
+                        Create Account
+                      </a>
+                    </div>
+                  </div>
+                </div>
 
-            <form onSubmit={handleSubmit}>
-              {/* First Name */}
-              <div style={{ marginBottom: "15px" }}>
-                <label htmlFor="name" style={{ display: "block", marginBottom: "5px" }}>
-                  First Name
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={form.name}
-                  onChange={handleInputChange}
-                  style={{
-                    width: "100%",
-                    padding: "10px",
-                    borderRadius: "5px",
-                    border: errors.name ? "1px solid #dc3545" : "1px solid #ccc",
-                  }}
-                  placeholder="Enter your first name"
-                />
-                {errors.name && (
-                  <span style={{ color: "#dc3545", fontSize: "14px" }}>{errors.name}</span>
-                )}
+                <div className="col-xxl-4">
+                  <div className="login__content">
+                    <h2 className="mb-65">Create Account</h2>
+                    <div className="form-area login__form">
+                      <form onSubmit={handleSubmit}>
+                        {/* Name Input */}
+                        <input
+                          type="text"
+                          name="name"
+                          placeholder="First Name"
+                          style={{ color: "black" }}
+                          value={form.name}
+                          onChange={handleInputChange}
+                          className={`mt-30 ${errors.name ? "error" : ""}`}
+                        />
+                        {errors.name && (
+                          <span className="error-text">{errors.name}</span>
+                        )}
+
+                        {/* Surname Input */}
+                        <input
+                          type="text"
+                          name="surname"
+                          placeholder="Last Name"
+                          style={{ color: "black" }}
+                          value={form.surname}
+                          onChange={handleInputChange}
+                          className={`mt-30 ${errors.surname ? "error" : ""}`}
+                        />
+                        {errors.surname && (
+                          <span className="error-text">{errors.surname}</span>
+                        )}
+
+                        {/* Email Input */}
+                        <input
+                          type="email"
+                          name="email"
+                          placeholder="Email"
+                          value={form.email}
+                          style={{ color: "black" }}
+                          onChange={handleInputChange}
+                          onBlur={validateEmail}
+                          className={`mt-30 ${errors.email ? "error" : ""}`}
+                        />
+                        {errors.email && (
+                          <span className="error-text">{errors.email}</span>
+                        )}
+
+                        {/* Password Input */}
+                        <input
+                          type="password"
+                          name="password"
+                          placeholder="Enter Password"
+                          style={{ color: "black" }}
+                          value={form.password}
+                          onChange={handleInputChange}
+                          className={`mt-30 ${errors.password ? "error" : ""}`}
+                        />
+                        {errors.password && (
+                          <span className="error-text">{errors.password}</span>
+                        )}
+
+                        {/* Confirm Password Input */}
+                        <input
+                          type="password"
+                          name="passwordRepeat"
+                          placeholder="Confirm Password"
+                          style={{ color: "black" }}
+                          value={form.passwordRepeat}
+                          onChange={handleInputChange}
+                          className={`mt-30 ${
+                            errors.passwordRepeat ? "error" : ""
+                          }`}
+                        />
+                        {errors.passwordMatch && (
+                          <span className="error-text">
+                            {errors.passwordMatch}
+                          </span>
+                        )}
+
+                        {/* Submit Button */}
+                        <button
+                          type="submit"
+                          className="mt-30"
+                          style={{ color: "white" }}
+                        >
+                          Create Account
+                        </button>
+                        {errors.userExists && (
+                          <span className="error-text">
+                            Failed to register user!
+                          </span>
+                        )}
+                        <div className="radio-btn mt-30">
+                          <span style={{ backgroundColor: "white" }} />
+                          <p style={{ color: "black" }}>
+                            I accept your terms &amp; conditions
+                          </p>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
               </div>
-
-              {/* Last Name */}
-              <div style={{ marginBottom: "15px" }}>
-                <label htmlFor="surname" style={{ display: "block", marginBottom: "5px" }}>
-                  Last Name
-                </label>
-                <input
-                  type="text"
-                  id="surname"
-                  name="surname"
-                  value={form.surname}
-                  onChange={handleInputChange}
-                  style={{
-                    width: "100%",
-                    padding: "10px",
-                    borderRadius: "5px",
-                    border: errors.surname ? "1px solid #dc3545" : "1px solid #ccc",
-                  }}
-                  placeholder="Enter your last name"
-                />
-                {errors.surname && (
-                  <span style={{ color: "#dc3545", fontSize: "14px" }}>
-                    {errors.surname}
-                  </span>
-                )}
-              </div>
-
-              {/* Email */}
-              <div style={{ marginBottom: "15px" }}>
-                <label htmlFor="email" style={{ display: "block", marginBottom: "5px" }}>
-                  Email Address
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={form.email}
-                  onChange={handleInputChange}
-                  style={{
-                    width: "100%",
-                    padding: "10px",
-                    borderRadius: "5px",
-                    border: errors.email ? "1px solid #dc3545" : "1px solid #ccc",
-                  }}
-                  placeholder="Enter your email"
-                />
-                {errors.email && (
-                  <span style={{ color: "#dc3545", fontSize: "14px" }}>{errors.email}</span>
-                )}
-              </div>
-
-              {/* Password */}
-              <div style={{ marginBottom: "15px" }}>
-                <label htmlFor="password" style={{ display: "block", marginBottom: "5px" }}>
-                  Password
-                </label>
-                <input
-                  type="password"
-                  id="password"
-                  name="password"
-                  value={form.password}
-                  onChange={handleInputChange}
-                  style={{
-                    width: "100%",
-                    padding: "10px",
-                    borderRadius: "5px",
-                    border: errors.password ? "1px solid #dc3545" : "1px solid #ccc",
-                  }}
-                  placeholder="Enter your password"
-                />
-                {errors.password && (
-                  <span style={{ color: "#dc3545", fontSize: "14px" }}>
-                    {errors.password}
-                  </span>
-                )}
-              </div>
-
-              {/* Confirm Password */}
-              <div style={{ marginBottom: "15px" }}>
-                <label
-                  htmlFor="passwordRepeat"
-                  style={{ display: "block", marginBottom: "5px" }}
-                >
-                  Confirm Password
-                </label>
-                <input
-                  type="password"
-                  id="passwordRepeat"
-                  name="passwordRepeat"
-                  value={form.passwordRepeat}
-                  onChange={handleInputChange}
-                  style={{
-                    width: "100%",
-                    padding: "10px",
-                    borderRadius: "5px",
-                    border: errors.passwordRepeat
-                      ? "1px solid #dc3545"
-                      : "1px solid #ccc",
-                  }}
-                  placeholder="Confirm your password"
-                />
-                {errors.passwordRepeat && (
-                  <span style={{ color: "#dc3545", fontSize: "14px" }}>
-                    {errors.passwordRepeat}
-                  </span>
-                )}
-              </div>
-
-              {/* Submit Button */}
-              <button
-                type="submit"
-                style={{
-                  width: "100%",
-                  padding: "10px",
-                  borderRadius: "5px",
-                  backgroundColor: "#007bff",
-                  color: "white",
-                  border: "none",
-                  fontSize: "16px",
-                }}
-              >
-                Create Account
-              </button>
-            </form>
-
-            <div style={{ textAlign: "center", marginTop: "20px" }}>
-              <p>
-                Already have an account?{" "}
-                <a
-                  href="#"
-                  onClick={() => navigate("/authenticate")}
-                  style={{ color: "#007bff", textDecoration: "underline" }}
-                >
-                  Sign In
-                </a>
-              </p>
             </div>
           </div>
-        </div>
-      </section>
-    </main>
+        </section>
+      </main>
+    </>
   );
 }
 

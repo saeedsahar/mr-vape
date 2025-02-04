@@ -10,20 +10,15 @@ import blogVapingDevicesBudget from "../assets/images/blog/vapingdevicesbudget.j
 
 import bannerBImg from "../assets/images/banner/banner-two-image1.jpg";
 import trustPilotWidget from "../assets/images/logo/widget-1.jpg";
-
 // import ProductDisplay from "../Component/HomePage/Product/ProductDisplay";
 import Product from "./Product/Product";
 import { useDispatch, useSelector } from "react-redux";
-
 import {
-  setBrandId,
   setCategoryId,
   setLoading,
   setProducts,
   setQuery,
   setTrendingProducts,
-  // setCategoryId,
-  // setQuery,
 } from "./Product/ProductSlice";
 import { base_url, getRequests } from "../axios/API";
 import ProductList from "./Product/ProductList";
@@ -45,8 +40,6 @@ function Home(props) {
   ];
   const navigate = useNavigate();
   let dispatch = useDispatch();
-    let homeStates = useSelector((state) => state.home);
-  
   const [productType, setProductType] = useState("Trending");
   const [selectedBannerImage, setSelectedBannerImage] = useState(
     // "https://mrvape-frontend.s3.eu-west-2.amazonaws.com/Skywalker-mob.jpg"
@@ -110,52 +103,11 @@ function Home(props) {
 
   let productState = useSelector((state) => state.product);
 
-  
   const setProductListType = (type) => {
     setProductType(type);
     fetchProducts(type, 0, 6);
   };
 
-  const [trustpilotData, setTrustpilotData] = useState(null);
-
-  useEffect(() => {
-    // Replace with your Trustpilot API key and Business Unit ID
-    const API_KEY = "YOUR_TRUSTPILOT_API_KEY";
-    const BUSINESS_UNIT_ID = "674a0a1bc6992161e87b4986";
-
-    const fetchTrustpilotData = async () => {
-      try {
-        const response = await fetch(
-          `https://api.trustpilot.com/v1/business-units/${BUSINESS_UNIT_ID}`,
-          {
-            headers: {
-              Authorization: `Bearer ${API_KEY}`,
-            },
-          }
-        );
-        const data = await response.json();
-        setTrustpilotData(data);
-      } catch (error) {
-        console.error("Error fetching Trustpilot data:", error);
-      }
-    };
-
-    fetchTrustpilotData();
-  }, []);
-
-  const getMenu = async () => {
-      try {
-        const response = await getRequests(`${base_url}/api/v1/category`);
-        let data = response.data;
-        dispatch(setMenu(data));
-      } catch (error) {
-        console.error("Error fetching menu", error);
-        dispatch(setMenu([]));
-      }
-    };
-   useEffect(() => {
-      homeStates?.menu?.length <= 0 && getMenu();
-    }, []);
   useEffect(() => {
     setProductListType("Trending");
   }, []);
@@ -290,59 +242,8 @@ function Home(props) {
   </div>
 </div>
 
-
-
-
-<section className="mobile-only-menu-photo-header">
-  <div className="mobile-only-menu-photo-container">
-    <ul className="mobile-only-menu-photo-list">
-      {homeStates.menu
-        ?.filter(
-          (menuEle) =>
-            menuEle.name !== "Top Products" &&
-            menuEle.name !== "Accessories" &&
-            menuEle.name !== "Wholesale"
-        ) // Exclude specific items
-        .map((menuEle) => (
-          <li className="mobile-only-menu-photo-item" key={menuEle.id}>
-            <a
-              className="mobile-only-menu-photo-item-link"
-              onClick={() => {
-                dispatch(
-                  menuEle.id === 1
-                    ? setQuery("Trending")
-                    : setCategoryId(menuEle.id)
-                );
-                navigate("/products");
-              }}
-            >
-              {/* Image */}
-              <div className="mobile-only-menu-photo-item-image-wrapper">
-                <img
-                  src={menuEle.image}
-                  alt={menuEle.name}
-                  className="mobile-only-menu-photo-item-image"
-                />
-              </div>
-              {/* Label */}
-              <div className="mobile-only-menu-photo-item-label">
-                {menuEle.name}
-              </div>
-            </a>
-          </li>
-        ))}
-    </ul>
-  </div>
-</section>
-
-
-
-
-
       <main>
         {/* Banner area start here */}
-
-        
         <section className="banner-two banner-two-light black-area">
           {/* <div className="swiper-wrapper">
             <div className="swiper banner-two__slider banner-media-class"> */}
@@ -350,11 +251,9 @@ function Home(props) {
             hideBreakPoint={true}
             slidesPerView={1}
             swiperProduct={[
-              "assets/images/banner/mega.png",
-              "assets/images/banner/mix.png",
-              "assets/images/banner/fal1.png",
-
-              // "https://mrvape-frontend.s3.eu-west-2.amazonaws.com/banners/Capsule+(1720+x+915).jpg",
+              "https://mrvape-frontend.s3.eu-west-2.amazonaws.com/banners/megabox.jpg",
+              // "https://mrvape-frontend.s3.eu-west-2.amazonaws.com/banners/Alien+Max+(1720+x+915).jpg",
+              "https://mrvape-frontend.s3.eu-west-2.amazonaws.com/banners/Capsule+(1720+x+915).jpg",
               // "https://mrvape-frontend.s3.eu-west-2.amazonaws.com/banners/Falcon_X_web_banner.jpg",
             ]}
             customSwiperProduct={customSwiperProductBanner}
@@ -376,139 +275,35 @@ function Home(props) {
   </div>
 </section>
 
-<section class="vape-info-section">
-  <div class="vape-info-container">
-    <h1 class="vape-info-title">Vape Planet ©</h1>
-    <h2 class="vape-info-subtitle">Online vape store UK</h2>
-    <p class="vape-info-text">
-      Vape Planet is a leading name in the vaping industry, recognized for offering a wide range of high-quality disposable vapes, e-liquids, vape kits, coils, and tanks. Our commitment to excellence and customer satisfaction is at the heart of everything we do. Every product we offer meets stringent safety and performance standards, ensuring you enjoy a superior vaping experience.
-    </p>
-    <p class="vape-info-text">
-      At Vape Planet, we understand that every vaper has unique preferences, which is why we offer an extensive selection of products to suit all tastes and needs. Whether you’re a beginner exploring vaping for the first time or an experienced vaper seeking the latest innovations, our carefully curated collection has something for everyone.
-    </p>
-  </div>
-</section>
-
-
-       
-
-
-        {/* Banner area end here */}
-
-
-{/* menu bottom start here */}
-
-
-<section className="menu-photo-header">
-  <div className="menu-photo-container">
-    <ul className="menu-photo-list">
-      {homeStates.menu
-        ?.filter(
-          (menuEle) =>
-            menuEle.name !== "Top Products" &&
-            menuEle.name !== "Accessories" &&
-            menuEle.name !== "Wholesale"
-        ) // Exclude specific items
-        .map((menuEle) => (
-          <li className="menu-photo-item" key={menuEle.id}>
-            <a
-              className="menu-photo-item-link"
-              onClick={() => {
-                dispatch(
-                  menuEle.id === 1
-                    ? setQuery("Trending")
-                    : setCategoryId(menuEle.id)
-                );
-                navigate("/products");
-              }}
-            >
-              {/* Image */}
-              <div className="menu-photo-item-image-wrapper">
-                <img
-                  src={menuEle.image}
-                  alt={menuEle.name}
-                  className="menu-photo-item-image"
-                />
+        <section className=" bg-image category-area black-area category-two ">
+          <div className="container-lg">
+            <div className="bor-bottom pb-50">
+              <div
+                className="sub-title text-center wow fadeInUp"
+                data-wow-delay=".1s"
+              >
+                <h3>
+                  <span className="title-icon" /> Vape Planet ©{" "}
+                  <span className="title-icon" />
+                </h3>
+                <p>Your Premier Online Vape Store in the UK</p>
+                <p>
+                  Welcome to Vape Planet, your trusted source for premium vaping
+                  products. We offer a wide range of disposable vapes,
+                  e-liquids, vape kits, coils, and tanks, all meeting strict
+                  safety standards. Whether you're new to vaping or an
+                  experienced vaper, our curated selection has something to suit
+                  your needs.
+                </p>
               </div>
-              {/* Label */}
-              <div className="menu-photo-item-label">{menuEle.name}</div>
-            </a>
-          </li>
-        ))}
-    </ul>
-  </div>
-</section>
-
-
-
-
-
-
-{/* menu bottom end here */}
-
-
-{/* icon section here  */}
-
-<section className="info-card-section">
-  <div className="info-card-container">
-    {/* Free Next Day Delivery */}
-    <div className="info-card" style={{backgroundColor: "#dff0e9"}}>
-      <div className="info-card-icon green-bg">
-        <i className="fa-solid fa-truck green-icon"></i>
-      </div>
-      <div className="info-card-content">
-        <h4>Free Next Day Delivery</h4>
-        <p>ON ALL ORDERS OVER £40</p>
-      </div>
-    </div>
-
-    {/* Customer Support */}
-    <div className="info-card" style={{backgroundColor: "#e0f7fd"}}>
-      <div className="info-card-icon blue-bg">
-        <i className="fa-solid fa-headset blue-icon"></i>
-      </div>
-      <div className="info-card-content">
-        <h4>Customer Support</h4>
-        <p>We're Here 7 Days a Week.</p>
-      </div>
-    </div>
-
-    {/* Same Day Dispatch */}
-    <div className="info-card" style={{backgroundColor: "#fff6d7"}}>
-      <div className="info-card-icon yellow-bg">
-        <i className="fa-solid fa-clock yellow-icon"></i>
-      </div>
-      <div className="info-card-content">
-        <h4>Same Day Dispatch</h4>
-        <p>Order By 2PM</p>
-      </div>
-    </div>
-
-    {/* Hassle Free Return */}
-    <div className="info-card" style={{backgroundColor: "#e3f0ff"}}>
-      <div className="info-card-icon light-blue-bg">
-        <i className="fa-solid fa-rotate-left light-blue-icon"></i>
-      </div>
-      <div className="info-card-content">
-        <h4>Hassle Free Return</h4>
-        <p>Quick & Simple Returns</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-
-{/* icon section end here  */}
-
-
-
-
-
+            </div>
+          </div>
+        </section>
+        {/* Banner area end here */}
         {/* Category area start here */}
         <section className="category-area black-area category-two ">
           <div className="container-lg">
-            <div className="bor-bottom" style={{paddingBottom:"28px;"}}>
+            <div className="bor-bottom pb-130">
               <div
                 className="sub-title text-center mb-65 wow fadeInUp"
                 data-wow-delay=".1s"
@@ -647,7 +442,6 @@ function Home(props) {
                 <span className="title-icon mr-10" />
                 <h2>Vaping Trends</h2>
               </div>
-              
               <ul className="nav nav-pills mt-4 mt-xl-0 justify-content-center">
   {/* Latest Item */}
   <li className="nav-item wow fadeInUp" data-wow-delay=".1s">
@@ -676,7 +470,7 @@ function Home(props) {
   </li>
 
   {/* Top Rating */}
-   <li className="nav-item wow fadeInUp" data-wow-delay=".2s">
+  <li className="nav-item wow fadeInUp" data-wow-delay=".2s">
     <a
       data-bs-toggle="tab"
       className={`nav-link px-4 d-flex align-items-center ${
@@ -699,8 +493,7 @@ function Home(props) {
       ></i>
       Top Rating
     </a>
-  </li> 
-
+  </li>
 
   {/* Featured Products */}
   {/* <li className="nav-item wow fadeInUp" data-wow-delay=".3s">
@@ -730,10 +523,6 @@ function Home(props) {
 </ul>
 
             </div>
-            <p className="vaping-description mt-3">
-            The vaping industry is evolving with innovative devices, diverse flavors, and nicotine alternatives like nicotine salts and tobacco-free nicotine (TFN). A strong focus on harm reduction has led to safer, more customizable options, catering to both new and experienced users.
-
-Sustainability and compliance are also shaping the market, with brands adopting eco-friendly materials and stricter safety standards. As regulations tighten, staying informed about industry trends is essential for both enthusiasts and businesses in this rapidly advancing space.</p>
             <ProductList />
           </div>
         </section>
@@ -850,7 +639,6 @@ Sustainability and compliance are also shaping the market, with brands adopting 
             </ul>
           </div>
         </div> */}
-        
         <div className="container-lg">
           <div className="bor-top pb-65" />
         </div>
@@ -871,77 +659,59 @@ Sustainability and compliance are also shaping the market, with brands adopting 
   <div className="blogs-container-unique container-lg">
     {/* Header Section */}
     <div
-  className="blogs-header-unique"
-  style={{
-    marginBottom: "20px",
-    paddingBottom: "0px",
-    borderBottom: "2px solid #ececec",
-  }}
->
-  <div
-    className="blogs-title-wrapper-unique"
-    style={{
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      gap: "10px",
-    }}
-  >
-    {/* Icon */}
-    <div
-      className="blogs-title-icon-wrapper-unique"
+      className="blogs-header-unique"
       style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        width: "50px",
-        height: "50px",
-        backgroundColor: "#fa4f09",
-        borderRadius: "50%",
-        boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+        marginBottom: "20px",
+        paddingBottom: "0px",
+        borderBottom: "2px solid #ececec",
       }}
     >
-      <i
-        className="fa-solid fa-newspaper blogs-icon-unique"
+      <div
+        className="blogs-title-wrapper-unique"
         style={{
-          color: "#fff",
-          fontSize: "20px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: "10px",
         }}
-      ></i>
+      >
+        {/* Icon */}
+        <div
+          className="blogs-title-icon-wrapper-unique"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            width: "50px",
+            height: "50px",
+            backgroundColor: "#fa4f09",
+            borderRadius: "50%",
+            boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+          }}
+        >
+          <i
+            className="fa-solid fa-newspaper blogs-icon-unique"
+            style={{
+              color: "#fff",
+              fontSize: "20px",
+            }}
+          ></i>
+        </div>
+        {/* Title */}
+        <h2
+          className="blogs-title-unique"
+          style={{
+            fontSize: "24px",
+            fontWeight: "bold",
+            color: "#333",
+            textTransform: "uppercase",
+            letterSpacing: "0.5px",
+          }}
+        >
+          News and Blogs
+        </h2>
+      </div>
     </div>
-    {/* Title */}
-    <h2
-      className="blogs-title-unique"
-      style={{
-        fontSize: "24px",
-        fontWeight: "bold",
-        color: "#333",
-        textTransform: "uppercase",
-        letterSpacing: "0.5px",
-      }}
-    >
-      News and Blogs
-    </h2>
-  </div>
-
-  {/* Description */}
-  <p
-    className="blogs-description-unique"
-    style={{
-      fontSize: "16px",
-      color: "#666",
-      textAlign: "center",
-      marginTop: "10px",
-      maxWidth: "600px",
-      marginLeft: "auto",
-      marginRight: "auto",
-    }}
-  >
-    Stay updated with the latest trends, reviews, and expert insights from the vaping world.  
-    Discover new flavors, device innovations, and guides to enhance your vaping experience.
-  </p>
-</div>
-
 
     {/* Swiper Component */}
     <SwiperComponentNavigation

@@ -78,7 +78,6 @@ function SwiperComponent(props) {
 export const SwiperComponentCustom = (props) => {
   return (
     <Swiper
-    
       slidesPerView={props.slidesPerView}
       spaceBetween={50}
       // pagination={{

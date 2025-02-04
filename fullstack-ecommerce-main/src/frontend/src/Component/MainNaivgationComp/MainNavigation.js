@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useLocation,Link } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import {
@@ -34,7 +34,6 @@ import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import { Close } from "@mui/icons-material";
 import { removeItem } from "../../Pages/Cart/CartSlice";
-import { account } from "../../Pages/Register/AccountPage";
 import VapeDialog from "../Dialog/Dialog";
 import StarRatings from "react-star-ratings";
 
@@ -96,21 +95,11 @@ function MainNavigation(props) {
       dispatch(setMenu([]));
     }
   };
-  const [openMenuId, setOpenMenuId] = useState(null); // Track open menu
 
   const handleResize = () => {
     setAppWidth(window.innerWidth);
   };
 
-
-  const [openMenus, setOpenMenus] = useState({});
-
-  const toggleSubMenu = (index) => {
-    setOpenMenus((prevState) => ({
-      ...prevState,
-      [index]: !prevState[index], // Toggle submenu open/close
-    }));
-  };
   useEffect(() => {
     const targetHour = 21; // 9 PM in 24-hour format
 
@@ -195,8 +184,6 @@ function MainNavigation(props) {
       setAnchorEl(null); // Hide dropdown if input is empty
     }
   };
-
-  const [menuOpen, setMenuOpen] = useState(false);
 
   const searchAPI = async (query) => {
     setLoading(true);
@@ -419,19 +406,19 @@ function MainNavigation(props) {
       .delivery-message-bar {
         background: #dc3545; /* Red background for web */
         color: white; /* White text */
-        font-size: 13px; /* Font size for web */
+        font-size: 14px; /* Font size for web */
         font-weight: 600; /* Slightly bold for emphasis */
         display: flex;
         justify-content: space-between; /* Align content with spacing */
         align-items: center; /* Vertically align content */
-        padding: 0px 20px; /* Proper padding for spacing */
+        padding: 8px 20px; /* Proper padding for spacing */
         text-align: center;
       }
 
       .delivery-message-bar .left-content {
         display: flex;
         align-items: center;
-        gap: 0px; /* Spacing between truck icon and text */
+        gap: 10px; /* Spacing between truck icon and text */
       }
 
       .delivery-message-bar .right-content {
@@ -481,7 +468,7 @@ function MainNavigation(props) {
         .delivery-message-bar .left-content {
           justify-content: center;
           text-align: center;
-          gap: 0px; /* Reduced gap for tighter layout */
+          gap: 5px; /* Reduced gap for tighter layout */
         }
 
         .delivery-message-bar i {
@@ -492,10 +479,6 @@ function MainNavigation(props) {
   </style>
 
   {/* Left Content */}
-
-
-
-  
   <div className="left-content">
     <i className="fa-solid fa-truck-fast"></i>
     <span>
@@ -505,14 +488,14 @@ function MainNavigation(props) {
 
   {/* Right Content */}
   <div className="right-content">
-    <a href="/fastDelivery">Track order</a>
+    <a href="/track-order">Track order</a>
     <span>|</span>
-    <a href="/allBlogs">Blog</a>
+    <a href="/blog">Blog</a>
     <span>|</span>
-    <a href="/fastDelivery">Delivery</a>
-    
-    <i className="fa-solid fa-phone" style={{ marginLeft: "60px" }}></i>
-    <span>07404 883716 (9:00 AM - 6:00 PM)</span>
+    <a href="/delivery">Delivery</a>
+    <span>|</span>
+    <i className="fa-solid fa-phone"></i>
+    <span>01772 230513 (9:00 AM - 6:00 PM)</span>
   </div>
 </div>
 
@@ -574,43 +557,40 @@ function MainNavigation(props) {
 
       {/* Search Bar */}
       <div
-  className="col-lg-5 d-none d-lg-flex search-bar"
-  style={{
-    border: "1px solid #fa4f09",
-    borderRadius: "25px",
-    padding: "5px 10px",
-    maxWidth: "500px",
-    flexGrow: 1,
-  }}
->
-  <input
-    type="text"
-    placeholder="Search Products..."
-    onChange={onSearchChange} // Attach the handler here
-    style={{
-      border: "none",
-      outline: "none",
-      flex: 1,
-      padding: "5px",
-      fontSize: "14px",
-      color: "black",
-    }}
-  />
-  <button
-    style={{
-      background: "none",
-      border: "none",
-      cursor: "pointer",
-    }}
-  >
-    <i
-      className="fa-solid fa-search"
-      style={{ color: "#fa4f09", fontSize: "18px" }}
-    />
-  </button>
-</div>
-
-
+        className="col-lg-5 d-none d-lg-flex search-bar"
+        style={{
+          border: "1px solid #fa4f09",
+          borderRadius: "25px",
+          padding: "5px 10px",
+          maxWidth: "500px",
+          flexGrow: 1,
+        }}
+      >
+        <input
+          type="text"
+          placeholder="Search Products..."
+          style={{
+            border: "none",
+            outline: "none",
+            flex: 1,
+            padding: "5px",
+            fontSize: "14px",
+            color: "black",
+          }}
+        />
+        <button
+          style={{
+            background: "none",
+            border: "none",
+            cursor: "pointer",
+          }}
+        >
+          <i
+            className="fa-solid fa-search"
+            style={{ color: "#fa4f09", fontSize: "18px" }}
+          />
+        </button>
+      </div>
 
       {/* Support, Login, and Cart */}
       <div className="col-auto d-flex align-items-center" style={{ gap: "21px" }}>
@@ -626,7 +606,7 @@ function MainNavigation(props) {
           <i
             className="fa-solid fa-headset"
             style={{
-              fontSize: "30px", // Exact icon size
+              fontSize: "16px", // Exact icon size
               color: "#333",
             }}
           />
@@ -650,22 +630,17 @@ function MainNavigation(props) {
           <i
             className="fa-regular fa-user"
             style={{
-              fontSize: "30px", // Exact icon size
+              fontSize: "16px", // Exact icon size
               color: "#333",
             }}
           />
           <div className="d-none d-lg-block" style={{ lineHeight: "1" }}>
-        {isLogged ? (
-          // ✅ Make "Logged In" a clickable link
-          <Link to="/account" style={{ textDecoration: "none", color: "inherit" }}>
-            <span style={{ fontWeight: "bold", color: "#333" }}>Logged In</span>
-          </Link>
-        ) : (
-          <span style={{ fontWeight: "bold", color: "#333" }}>LOGIN</span>
-        )}
-        <br />
-        <span style={{ fontSize: "12px", color: "#777" }}>My Account</span>
-      </div>
+            <span style={{ fontWeight: "bold", color: "#333" }}>
+              {isLogged ? "MY ACCOUNT" : "LOGIN"}
+            </span>
+            <br />
+            <span style={{ fontSize: "12px", color: "#777" }}>My Account</span>
+          </div>
         </div>
 
         {/* Cart */}
@@ -681,7 +656,7 @@ function MainNavigation(props) {
           <i
             className="fa-solid fa-cart-shopping"
             style={{
-              fontSize: "30px", // Exact icon size
+              fontSize: "16px", // Exact icon size
               color: "#333",
             }}
           />
@@ -718,63 +693,45 @@ function MainNavigation(props) {
   </div>
   {/* Drawer for Mobile */}
   {/* Drawer */}
-  <Drawer open={open} onClose={() => toggleDrawer(false)} className="header-mobile-drawer">
-  {/* Drawer Header */}
-  <div className="header-drawer-header">
-    <h6 className="header-drawer-title">Popular Vapes</h6>
-    <button onClick={() => toggleDrawer(false)} className="header-drawer-close">
-      <i className="fa-solid fa-times"></i>
-    </button>
-  </div>
+  <Drawer
+        open={open}
+        onClose={() => toggleDrawer(false)}
+        className="header-mobile-drawer"
+      >
+        {/* Drawer Header */}
+        <div className="header-drawer-header">
+          <h6 className="header-drawer-title">Popular Vapes</h6>
+          <button
+            onClick={() => toggleDrawer(false)}
+            className="header-drawer-close"
+          >
+            <i className="fa-solid fa-times"></i>
+          </button>
+        </div>
 
-  {/* Drawer Body */}
-  <div className="header-drawer-body">
-    {homeStates.menu?.map((menuEle, i) => (
-      <div key={i} className="header-drawer-item">
-        {/* Parent Button */}
-        <button
-          className="header-drawer-btn"
-          onClick={() => {
-            if (!menuEle.brandList?.length) {
-              dispatch(menuEle.id === 1 ? setQuery("Trending") : setCategoryId(menuEle.id));
-              navigate("/products");
-              toggleDrawer(false);
-            } else {
-              toggleSubMenu(i); // Toggle submenu visibility
-            }
-          }}
-        >
-          <span>{menuEle.name}</span>
-          {menuEle.brandList?.length > 0 && (
-            <i className={`fa-solid fa-chevron-${openMenus[i] ? "up" : "down"}`}></i>
-          )}
-        </button>
-
-        {/* ✅ Show Submenu if `brandList` Exists and is Open */}
-        {menuEle.brandList?.length > 0 && openMenus[i] && (
-          <div className="header-drawer-submenu">
-            {menuEle.brandList.map((brand, index) => (
+        {/* Drawer Body */}
+        <div className="header-drawer-body">
+          {homeStates.menu?.map((menuEle, i) => (
+            <div key={i} className="header-drawer-item">
               <button
-                key={index}
-                className="header-drawer-subitem"
+                className="header-drawer-btn"
                 onClick={() => {
-                  dispatch(setQuery(brand.name));
-                  navigate("/products");
-                  toggleDrawer(false);
+                  if (!menuEle.brandList?.length) {
+                    dispatch(menuEle.id === 1 ? setQuery("Trending") : setCategoryId(menuEle.id));
+                    navigate("/products");
+                    toggleDrawer(false);
+                  }
                 }}
               >
-                <i className="fa-solid fa-circle-dot child-icon"></i> {/* ✅ Added Icon */}
-                {brand.name}
+                <span>{menuEle.name}</span>
+                {menuEle.brandList?.length > 0 && (
+                  <i className="fa-solid fa-chevron-down"></i>
+                )}
               </button>
-            ))}
-          </div>
-        )}
-      </div>
-    ))}
-  </div>
-</Drawer>
-
-
+            </div>
+          ))}
+        </div>
+      </Drawer>
 </div>
 
 
@@ -833,7 +790,6 @@ function MainNavigation(props) {
                       key={index}
                       className="custom-search-result-item"
                       onClick={() => {
-                        setSearchValue("");
                         navigate(`/products/${item.id}`);
                         setAnchorEl(null);
                       }}
@@ -850,51 +806,45 @@ function MainNavigation(props) {
 
       {/* Web Menu */}
       <ul className="custom-web-menu d-none d-lg-flex">
-      {homeStates.menu?.map((menuEle) => {
-        let hasSubMenu = menuEle.brandList.length > 0;
-        return (
-          <li
-            className="custom-menu-item"
-            key={menuEle.id}
-            onMouseEnter={() => hasSubMenu && setOpenMenuId(menuEle.id)} // Open submenu on hover
-            onMouseLeave={() => setOpenMenuId(null)} // Close submenu when leaving
-          >
-            <a
-              onClick={() => {
-                if (menuEle.id === 1) {
-                  dispatch(setQuery("Trending"));
-                  navigate("/products");
-                } else if (!hasSubMenu) {
-                  dispatch(setCategoryId(menuEle.id));
-                  navigate("/products");
-                }
-              }}
-            >
-              {menuEle.name}
-              {hasSubMenu && <i className="fa-regular fa-angle-down ms-1" />}
-            </a>
+        {homeStates.menu?.map((menuEle) => {
+          let hasSubMenu = menuEle.brandList.length > 0;
+          return (
+            <li className="custom-menu-item" key={menuEle.id}>
+              <a
+                onClick={() => {
+                  if (menuEle.id === 1) {
+                    dispatch(setQuery("Trending"));
+                    navigate("/products");
+                  } else if (!hasSubMenu) {
+                    dispatch(setCategoryId(menuEle.id));
+                    navigate("/products");
+                  }
+                }}
+              >
+                {menuEle.name}
+                {hasSubMenu && <i className="fa-regular fa-angle-down ms-1" />}
+              </a>
 
-            {hasSubMenu && openMenuId === menuEle.id && (
-              <ul className="custom-sub-menu">
-                {menuEle.brandList?.map((subMenuEle) => (
-                  <li className="custom-sub-menu-item" key={subMenuEle.id}>
-                    <a
-                      onClick={() => {
-                        dispatch(setBrandId(subMenuEle.id));
-                        setOpenMenuId(null); // ✅ Close submenu when clicked
-                        navigate("/products"); // ✅ Navigate after closing
-                      }}
-                    >
-                      {subMenuEle.name}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </li>
-        );
-      })}
-    </ul>
+              {hasSubMenu && (
+                <ul className="custom-sub-menu">
+                  {menuEle.brandList?.map((subMenuEle) => (
+                    <li className="custom-sub-menu-item" key={subMenuEle.id}>
+                      <a
+                        onClick={() => {
+                          dispatch(setBrandId(subMenuEle.id));
+                          navigate("/products");
+                        }}
+                      >
+                        {subMenuEle.name}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </li>
+          );
+        })}
+      </ul>
     </div>
   </div>
 </header>

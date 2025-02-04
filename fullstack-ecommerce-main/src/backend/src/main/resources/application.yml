@@ -9,7 +9,7 @@ server:
 #    key-store-password: changeit  # Use your actual password
 #    key-alias: royalmail
 #    key-store-type: JKS # Use the alias for your key entry # Specify the alias of the key entry
-  port: 8081
+  port: 80
   address: 0.0.0.0
 
 spring:
@@ -48,5 +48,3 @@ web:
 
   stripe:
     api:
-      secret-key: "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" # Replace with your actual secret key
-      publishable-key: "pk_live_51NgU8ZKmvY8D2mUAc9aPKbuGa2BXcHq0WaRpqfpT28XLbctdKFJqEyYg8yiag1LzCNoU5gJK6lf4PpQiqVlbfVkx00iq9cF8ME" # Replace with your actual publishable key

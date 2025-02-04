@@ -598,371 +598,42 @@
     padding-bottom: 56.25%; /* Adjust ratio for smaller screens */
   }
 }
-/* Header Container */
-.menu-photo-header {
-  background-color: #ffffff;
-  border-bottom: 1px solid #e5e5e5;
-  padding: 20px 0;
-  position: relative; /* Not sticky */
-  z-index: 1;
-}
-
-/* Menu Container */
-.menu-photo-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
-}
-
-/* Menu Wrapper */
-.menu-photo-header-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-/* Grid Styling */
-.menu-photo-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px; /* Space between blocks */
-  justify-content: space-between;
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.menu-photo-item:hover {
-  transform: translateY(-5px); /* Slight hover effect */
-}
-
-/* Individual Block Styling */
-.menu-photo-item {
-  flex: 1 1 calc(16% - 20px); /* 6 items in a row with spacing adjustments */
-  max-width: 16%; /* Prevents items from stretching */
-  background: #f3f3f3;
-  text-align: center;
-  border: 1px solid #e5e5e5;
-  border-radius: 5px;
+/* Scroller Container */
+/* Scroller Container */
+.scroller-container {
+  background-color: #b3e5fc; /* Light blue background */
   overflow: hidden;
-  position: relative;
-  transition: transform 0.2s ease;
-}
-
-
-/* Image Wrapper */
-.menu-photo-item-image-wrapper {
-  background-color: lightgray;
-  padding: 10px;
-  height: 180px; /* Fixed height for consistency */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-/* Label Styling */
-.menu-photo-item-label {
-  background-color: #333;
-  color: #fff;
-  font-size: 14px;
-  font-weight: 600;
-  padding: 10px 5px;
-  text-transform: uppercase;
+  white-space: nowrap; /* Prevent line breaks */
   width: 100%;
-  text-align: center;
-  line-height: 1.4;
-  position: absolute;
-  bottom: 0;
-}
-
-.menu-photo-item-image {
-  max-height: 100%;
-  max-width: 100%;
-  object-fit: contain;
-  background-color: lightgray;
-}
-
-/* Link Styling */
-.menu-photo-item-link {
-  text-decoration: none;
-  color: inherit;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-}
-
-.menu-photo-item-link:hover {
-  color: #fa4f09;
-}
-
-/* Hide Web Menu on Mobile */
-@media (max-width: 992px) {
-  .menu-photo-list {
-    display: none;
-  }
-}
-
-
-
-/* Info Card Section */
-.info-card-section {
-  margin: 0 auto;
-  padding: 40px 20px; /* Page margins */
-  max-width: 1200px;
-}
-
-/* Info Card Container */
-.info-card-container {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr); /* Four columns for web */
-  gap: 20px;
-}
-
-/* Info Card */
-.info-card {
-  /* background: white; */
-  border-radius: 8px;
+  height: 40px; /* Height of the scroller */
   display: flex;
   align-items: center;
-  padding: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease;
-  cursor: pointer;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  position: relative;
 }
 
-.info-card:hover {
-  transform: scale(1.03); /* Slight hover effect */
-}
-
-/* Info Card Icon */
-.info-card-icon {
-  width: 60px;
-  height: 60px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 50%;
-  margin-right: 15px;
-}
-
-/* Background Colors */
-.green-bg {
-  background-color: white;
-}
-
-.blue-bg {
-  background-color: white;
-}
-
-.yellow-bg {
-  background-color: white;
-}
-
-.light-blue-bg {
-  background-color: white;
-}
-
-/* Icon Colors */
-.green-icon {
-  color: #228b22;
-  font-size: 24px;
-}
-
-.blue-icon {
-  color: #00a2ff;
-  font-size: 24px;
-}
-
-.yellow-icon {
-  color: #ffbf00;
-  font-size: 24px;
-}
-
-.light-blue-icon {
-  color: #0066cc;
-  font-size: 24px;
-}
-
-/* Info Card Content */
-.info-card-content h4 {
-  font-size: 18px;
-  font-weight: 600;
-  color: #333;
-  margin: 0;
-}
-
-.info-card-content p {
-  font-size: 14px;
-  color: #777;
-  margin: 5px 0 0;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .info-card-container {
-    grid-template-columns: repeat(1, 1fr); /* One column for mobile */
-    gap: 15px;
-    padding: 0 15px; /* Add left/right margins for mobile */
-  }
-
-  .info-card {
-    padding: 15px;
-  }
-
-  .info-card-icon {
-    width: 50px;
-    height: 50px;
-  }
-
-  .info-card-content h4 {
-    font-size: 16px; /* Slightly smaller font size for mobile */
-  }
-
-  .info-card-content p {
-    font-size: 12px; /* Adjusted font size */
-  }
-}
-
-
-/* Hide on web (desktop and larger devices) */
-.mobile-only-menu-photo-header {
-  display: none;
-}
-
-@media (max-width: 768px) {
-  /* Show only on mobile (max-width: 768px) */
-  .mobile-only-menu-photo-header {
-    display: block;
-    background-color: #f9f9f9;
-    padding: 10px 0;
-  }
-
-  .mobile-only-menu-photo-container {
-    overflow-x: auto;
-    white-space: nowrap; /* Horizontal scrolling */
-    padding: 10px 15px;
-  }
-
-  .mobile-only-menu-photo-container::-webkit-scrollbar {
-    height: 8px; /* Thin scrollbar */
-  }
-
-  .mobile-only-menu-photo-container::-webkit-scrollbar-thumb {
-    background: #e0e0e0; /* Light grey scrollbar */
-    border-radius: 10px; /* Rounded scrollbar */
-  }
-
-  .mobile-only-menu-photo-list {
-    display: flex;
-    gap: 20px; /* Space between items */
-    padding: 0;
-    margin: 0;
-    list-style: none;
-  }
-
-  .mobile-only-menu-photo-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 80px; /* Consistent item size */
-    text-align: center;
-  }
-
-  .mobile-only-menu-photo-item-image-wrapper {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%; /* Circular shape */
-    overflow: hidden;
-    background-color: #fff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: 2px solid #e0e0e0; /* Circle border */
-  }
-
-  .mobile-only-menu-photo-item-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* Fit image within circle */
-  }
-
-  .mobile-only-menu-photo-item-label {
-    margin-top: 8px;
-    font-size: 12px;
-    font-weight: 500;
-    color: #333;
-    text-transform: capitalize;
-    line-height: 1.2;
-  }
-}
-
-.vape-info-section {
-  text-align: center;
-  padding: 40px 20px;
-}
-
-.vape-info-container {
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-.vape-info-title {
-  font-size: 28px;
-  font-weight: 700;
-  color: black;
-  margin-bottom: 10px;
-}
-
-.vape-info-subtitle {
-  font-size: 18px;
-  font-weight: 600;
-  color: black;
-  margin-bottom: 20px;
-}
-
-.vape-info-text {
-  font-size: 16px;
-  line-height: 1.8;
-  color: black;
-  margin-bottom: 20px;
-}
-
-
-/* Horizontal Scroll Container */
-.scrollable-nav-container {
-  overflow-x: auto;
+/* Scrolling Content */
+.scroller-content {
+  display: inline-block;
   white-space: nowrap;
-  padding: 10px 0;
-  margin-bottom: 20px;
+  animation: scroll 20s linear infinite; /* Infinite scrolling effect */
 }
 
-.scrollable-nav-container::-webkit-scrollbar {
-  height: 6px;
+.scroller-content span {
+  font-family: Arial, sans-serif; /* Match the font from the image */
+  font-weight: 600; /* Match boldness */
+  color: #000; /* Black text color */
+  margin: 0 30px; /* Space between items */
+  font-size: 14px; /* Text size */
 }
 
-.scrollable-nav-container::-webkit-scrollbar-thumb {
-  background: #fa4f09;
-  border-radius: 10px;
+/* Scrolling Keyframes */
+@keyframes scroll {
+  from {
+    transform: translateX(100%); /* Start from right edge */
+  }
+  to {
+    transform: translateX(-100%); /* End at left edge */
+  }
 }
-
-.scrollable-nav-container::-webkit-scrollbar-track {
-  background: #ddd;
-}
-
-.nav {
-  display: flex;
-  justify-content: flex-start;
-  gap: 10px;
-}
-
-.nav-item {
-  flex-shrink: 0;
-}
-
-.vaping-description {
-  font-size: 1rem;
-  color: #666;
-  line-height: 1.6;
-}
-
