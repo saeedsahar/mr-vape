@@ -19,6 +19,8 @@ import SameDayDispatch from "./Pages/AccessOptionPages/SameDayDispatch";
 import Support from "./Pages/AccessOptionPages/Support";
 import FreeShipping from "./Pages/AccessOptionPages/FreeShipping";
 import ViewAllBlogs from "./Pages/Blog/ViewAllBlogs";
+import AccountPage from "./Pages/Register/AccountPage";
+
 import AgeVerificationPopup from "./Pages/AgeVerificationPopup/AgeVerificationPopup"; // Make sure this import is correct!
 
 
@@ -58,6 +60,7 @@ function App() {
         { path: "/sameDayDispatch", element: <FastDelivery /> },
         { path: "/support", element: <FastDelivery /> },
         { path: "/freeShipping", element: <FastDelivery /> },
+        { path: "/account", element: <AccountPage /> },
       ],
     },
   ]);

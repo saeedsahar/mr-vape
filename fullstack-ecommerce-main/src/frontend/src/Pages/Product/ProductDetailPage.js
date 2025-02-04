@@ -28,10 +28,18 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import { FreeMode, Navigation, Thumbs } from "swiper/modules";
 import { Swiper } from "swiper/react";
-// import comment1 from "../../assets/images/about/comment1.png";
-// import comment2 from "../../assets/images/about/comment2.png";
-// import comment3 from "../../assets/images/about/comment3.png";
-// import comment4 from "../../assets/images/about/comment4.png";
+import {
+  setBrandId,
+  setCategoryId,
+  setLoading,
+  setProducts,
+  setQuery,
+  setTrendingProducts,
+  // setCategoryId,
+  // setQuery,
+} from "./ProductSlice";
+import ProductList from "./ProductList";
+
 import Avatar from "react-avatar";
 import StarRatings from "react-star-ratings";
 
@@ -54,8 +62,62 @@ function ProductDetailPage(props) {
   let authStates = useSelector((state) => state.auth);
   let dispatch = useDispatch();
   let navigate = useNavigate();
+  const [productType, setProductType] = useState("Trending");
+  
+  const setProductListType = (type) => {
+    setProductType(type);
+    fetchProducts(type, 0, 6);
+  };
+
+    const [trustpilotData, setTrustpilotData] = useState(null);
+  
+    useEffect(() => {
+      // Replace with your Trustpilot API key and Business Unit ID
+      const API_KEY = "YOUR_TRUSTPILOT_API_KEY";
+      const BUSINESS_UNIT_ID = "674a0a1bc6992161e87b4986";
+  
+      const fetchTrustpilotData = async () => {
+        try {
+          const response = await fetch(
+            `https://api.trustpilot.com/v1/business-units/${BUSINESS_UNIT_ID}`,
+            {
+              headers: {
+                Authorization: `Bearer ${API_KEY}`,
+              },
+            }
+          );
+          const data = await response.json();
+          setTrustpilotData(data);
+        } catch (error) {
+          console.error("Error fetching Trustpilot data:", error);
+        }
+      };
+  
+      fetchTrustpilotData();
+    }, []);
+
+    const fetchProducts = async (query, pageIndex, pageSize) => {
+      dispatch(setLoading(true));
+      try {
+        const response = await getRequests(
+          `${base_url}/api/v1/product?q=${query}&pageNumber=${pageIndex}&pageSize=${pageSize}`
+        ); // Assuming productService.products$ returns list and total
+        let { list, total } = response.data;
+        dispatch(setProducts({ products: list, length: total }));
+      } catch (error) {
+        console.error("Error fetching products", error);
+        dispatch(setProducts({ products: [], length: 0 }));
+      } finally {
+        dispatch(setLoading(false));
+      }
+    };
 
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
+
+  useEffect(() => {
+    // Set the default product list type when the page loads
+    setProductListType("Trending"); // or "TopRating", as per your requirement
+  }, []); 
 
   useEffect(() => {
     // Fetch product details
@@ -133,15 +195,10 @@ function ProductDetailPage(props) {
     return (
       <main>
         {/* Page banner area start here */}
-        <section
-          className="page-banner bg-image pt-130 pb-130"
-          style={{
-            backgroundImage: `url(https://s3.eu-west-2.amazonaws.com/www.vapeplanet.co.uk/websitelayouts/Product-Detail-Banner.jpg)`,
-          }}
-        ></section>
+        
         {/* Page banner area end here */}
         {/* Shop single area start here */}
-        <section className="shop-single pt-130 pb-130">
+        <section className="shop-single pt-130 ">
           <div className="container-lg" style={{ paddingBottom: "10px" }}>
             <div
               className="breadcrumb-list wow fadeInUp"
@@ -170,49 +227,65 @@ function ProductDetailPage(props) {
             {/* product-details area start here */}
             <div className="product-details-single pb-40">
               <div className="row g-4">
-                <div className="col-lg-5">
-                  <Swiper
-                    style={{
-                      "--swiper-navigation-color": "#fa4f09",
-                      "--swiper-pagination-color": "#fff",
-                      height: "auto",
-                      width: "100%",
-                      marginBottom: "20px",
-                      objectFit: "cover",
-                    }}
-                    spaceBetween={10}
-                    navigation={true}
-                    thumbs={{ swiper: thumbsSwiper }}
-                    modules={[FreeMode, Navigation, Thumbs]}
-                    className="mySwiper2"
-                    // style={{height : "520px"}}
-                  >
-                    {product.productImages?.map((item) => {
-                      return (
-                        <SwiperSlide>
-                          <img src={item.image} className="img-fluid" />
-                        </SwiperSlide>
-                      );
-                    })}
-                  </Swiper>
-                  <Swiper
-                    onSwiper={setThumbsSwiper}
-                    spaceBetween={20}
-                    slidesPerView={4}
-                    freeMode={true}
-                    watchSlidesProgress={true}
-                    modules={[FreeMode, Navigation, Thumbs]}
-                    className="mySwiper"
-                  >
-                    {product.productImages?.map((item) => {
-                      return (
-                        <SwiperSlide>
-                          <img className="img-fluid" src={item.image} />
-                        </SwiperSlide>
-                      );
-                    })}
-                  </Swiper>
-                </div>
+              <div className="col-lg-5">
+  {/* Main Swiper for Product Images */}
+  <Swiper
+    style={{
+      "--swiper-navigation-color": "#fa4f09",
+      "--swiper-pagination-color": "#fff",
+      height: "auto",
+      width: "100%",
+      marginBottom: "20px",
+    }}
+    spaceBetween={10}
+    navigation={true}
+    thumbs={{ swiper: thumbsSwiper }}
+    modules={[FreeMode, Navigation, Thumbs]}
+    className="mySwiper2"
+  >
+    {product.productImages?.map((item, index) => (
+      <SwiperSlide key={index}>
+        <img
+          src={item.image}
+          alt={`Product ${index + 1}`}
+          style={{
+            width: "100%", // Adjust to the container width
+            height: "auto", // Maintain aspect ratio
+            objectFit: "contain", // Ensure the image fits without cropping
+          }}
+        />
+      </SwiperSlide>
+    ))}
+  </Swiper>
+
+  {/* Thumbnail Swiper */}
+  <Swiper
+    onSwiper={setThumbsSwiper}
+    spaceBetween={20}
+    slidesPerView={4}
+    freeMode={true}
+    watchSlidesProgress={true}
+    modules={[FreeMode, Navigation, Thumbs]}
+    className="mySwiper"
+  >
+    {product.productImages?.map((item, index) => (
+      <SwiperSlide key={index}>
+        <img
+          src={item.image}
+          alt={`Thumbnail ${index + 1}`}
+          style={{
+            width: "100%",
+            height: "auto",
+            objectFit: "contain",
+            border: "1px solid #ddd", // Optional border for thumbnails
+            borderRadius: "4px", // Rounded corners for thumbnails
+          }}
+        />
+      </SwiperSlide>
+    ))}
+  </Swiper>
+</div>
+
 
                 <div className="col-lg-7">
                   <div className="content h24">
@@ -312,7 +385,7 @@ function ProductDetailPage(props) {
 </Stack>
 
 
-                        <Stack
+                        {/* <Stack
   direction="row"
   gap={2}
   alignItems="center"
@@ -372,7 +445,7 @@ function ProductDetailPage(props) {
       },
     }}
   />
-</Stack>
+</Stack> */}
 
 
 <Stack
@@ -502,7 +575,7 @@ function ProductDetailPage(props) {
   <h6
     style={{
       fontSize: "16px",
-      color: "black", // Vibrant orange
+      color: "black",
       fontWeight: "bold",
       textTransform: "uppercase",
       margin: "0",
@@ -518,26 +591,27 @@ function ProductDetailPage(props) {
     alignItems="center"
     justifyContent="center"
     sx={{
-      borderRadius: "8px", // Subtle rounded edges for the container
+      borderRadius: "8px",
       padding: "8px 12px",
-      backgroundColor: "#f0f4f8", // Subtle background for contrast
+      backgroundColor: "#f7f8fa", // Subtle background
       display: "inline-flex",
-      gap: "24px", // More space between buttons and value
+      gap: "12px", // Reduced space between buttons and value
     }}
   >
     {/* Decrease Button */}
     <Button
       onClick={() => dispatch(decreaseItemQuantity(selectedFlavour))}
       sx={{
-        backgroundColor: "#ff6b6b", // Vibrant red
-        color: "#fff",
-        minWidth: "48px",
-        height: "48px",
-        borderRadius: "50%", // Circular button
-        fontSize: "20px",
+        backgroundColor: "#f0f0f0", // Elegant light grey
+        color: "#ff6b6b", // Subtle red for the icon
+        minWidth: "40px", // Reduced width
+        height: "40px", // Square shape
+        borderRadius: "8px", // Slightly rounded for elegance
+        fontSize: "18px", // Elegant icon size
         fontWeight: "bold",
+        boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)", // Soft shadow for elegance
         "&:hover": {
-          backgroundColor: "#e63946", // Darker hover color
+          backgroundColor: "#eaeaea", // Lighter hover effect
         },
       }}
     >
@@ -547,7 +621,7 @@ function ProductDetailPage(props) {
     {/* Quantity Value */}
     <span
       style={{
-        fontSize: "24px", // Larger and bold value
+        fontSize: "20px", // Elegant and bold
         fontWeight: "bold",
         color: "#333", // Dark text for better readability
       }}
@@ -559,15 +633,16 @@ function ProductDetailPage(props) {
     <Button
       onClick={() => dispatch(incrementItemQuantity(selectedFlavour))}
       sx={{
-        backgroundColor: "#38b000", // Vibrant green
-        color: "#fff",
-        minWidth: "48px",
-        height: "48px",
-        borderRadius: "50%", // Circular button
-        fontSize: "20px",
+        backgroundColor: "#f0f0f0", // Elegant light grey
+        color: "#38b000", // Subtle green for the icon
+        minWidth: "40px", // Reduced width
+        height: "40px", // Square shape
+        borderRadius: "8px", // Slightly rounded for elegance
+        fontSize: "18px", // Elegant icon size
         fontWeight: "bold",
+        boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)", // Soft shadow for elegance
         "&:hover": {
-          backgroundColor: "#2a9200", // Darker hover color
+          backgroundColor: "#eaeaea", // Lighter hover effect
         },
       }}
     >
@@ -578,34 +653,87 @@ function ProductDetailPage(props) {
 
 
 
+<a
+  className="d-block text-center btn-two mt-40"
+  onClick={() => {
+    dispatch(addItemQuantity(selectedFlavour));
+    dispatch(
+      setSnackBar({
+        open: true,
+        message: "Item Added to Cart!",
+        type: "success",
+      })
+    );
+  }}
+  style={{ marginBottom: "16px" }} // Add space below the button
+>
+  <span className="pointer">
+    <i className="fa-solid fa-basket-shopping pe-2" />
+    add to cart
+  </span>
+</a>
+
+<div
+  className="trustpilot-widget"
+  data-locale="en-GB"
+  data-template-id="56278e9abfbbba0bdcd568bc"
+  data-businessunit-id="674a0a1bc6992161e87b4986"
+  data-style-height="52px"
+  data-style-width="100%"
+  style={{ marginTop: "16px" }} // Add space above the widget
+>
+  <a
+    href="https://uk.trustpilot.com/review/vapeplanet.co.uk"
+    target="_blank"
+    rel="noopener"
+  >
+    Trustpilot
+  </a>
+</div>
+<div
+      style={{
+        backgroundColor: "#f8f9f8",
+        padding: "12px 16px",
+        borderRadius: "5px",
+        fontFamily: "Arial, sans-serif",
+        color: "#2e6b3f",
+        fontSize: "16px",
+        border: "1px solid #ddd",
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          padding: "10px 0",
+          borderBottom: "1px solid #ddd",
+        }}
+      >
+        <span style={{ marginRight: "8px" }}>✈️</span>
+        <span>Track status of your package online</span>
+      </div>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          padding: "10px 0",
+        }}
+      >
+        <span style={{ marginRight: "8px" }}>⏱️</span>
+        <span>Same-day dispatch for orders before 2 PM (Mon to Fri)</span>
+      </div>
+    </div>
 
 
-
-
-                        <a
-                          className="d-block text-center btn-two mt-40"
-                          onClick={() => {
-                            dispatch(addItemQuantity(selectedFlavour));
-                            dispatch(
-                              setSnackBar({
-                                open: true,
-                                message: "Item Added to Cart!",
-                                type: "success",
-                              })
-                            );
-                          }}
-                        >
-                          <span className="pointer">
-                            <i className="fa-solid fa-basket-shopping pe-2" />
-                            add to cart
-                          </span>
-                        </a>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
+              
             </div>
+
+            
             {/* product-details area end here */}
             {/* description review area start here */}
             <div className="shop-single-tab">
@@ -781,6 +909,24 @@ function ProductDetailPage(props) {
 
           </div>
         </section>
+
+        <section className="product-area pt-80">
+      <div className="container-lg">
+        <div className="product__wrp pb-30 mb-65 bor-bottom d-flex flex-wrap align-items-center justify-content-center">
+          {/* Section Header */}
+          <div
+            className="section-header d-flex align-items-center wow fadeInUp"
+            data-wow-delay=".1s"
+          >
+            <span className="title-icon mr-10" />
+            <h2>Disposable Vapes</h2>
+          </div>
+        </div>
+
+        {/* Product List */}
+        <ProductList />
+      </div>
+    </section>
       </main>
     );
   }

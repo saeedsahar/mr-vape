@@ -2992,7 +2992,7 @@ button,
 }
 .banner-two .hero-banner {
   width: 100%;
-  height: auto;
+  height: 50%;
   object-fit: cover;
 }
 

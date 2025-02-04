@@ -22,6 +22,8 @@ function Product(props) {
   let homeStates = useSelector((state) => state.home);
   let productState = useSelector((state) => state.product);
   const [mainTile, setMainTitle] = useState("Search results");
+  const [openMenu, setOpenMenu] = useState(null); // ✅ Track open submenu
+
 
   useEffect(() => {
     if (productState.categoryId && productState.categoryId != "") {
@@ -175,73 +177,71 @@ function Product(props) {
   <div id="latest-item" className="tab-pane fade show active">
     <div className="row">
       {/* Filter Products Menu */}
-      <div className="col-lg-3 product-filter-menu-unique d-none d-lg-block">
-        {homeStates.menu?.map((menuEle, i) => {
-          let hasSubMenu = menuEle.brandList.length > 0;
+      <div className="col-lg-3 product-filter-menu d-none d-lg-block">
+      {homeStates.menu?.map((menuEle, i) => {
+        const hasSubMenu = menuEle.brandList?.length > 0;
+        const isOpen = openMenu === i; // ✅ Check if submenu is open
 
-          return (
-            <div className="menu-accordion-unique mb-3" id={`menu-accordion-${i}`} key={i}>
-              <div className="menu-accordion-item-unique">
-                <div className="menu-accordion-header-unique d-flex align-items-center">
-                  {/* Icon */}
-                  <i className="fa-solid fa-tag menu-icon-unique"></i>
+        return (
+          <div className="menu-accordion mb-4" key={i}>
+            {/* Parent Menu Item */}
+            <div className="menu-accordion-item">
+              <div className="menu-accordion-header d-flex align-items-center">
+                {/* Smooth Colored Icon for Parent */}
+                <i className="fa-solid fa-layer-group menu-icon"></i>
 
-                  {/* Menu Item */}
-                  <button
-                    className={`menu-accordion-button-unique ${
-                      !hasSubMenu ? "no-submenu-unique" : "collapsed"
-                    }`}
-                    type="button"
-                    data-bs-toggle={hasSubMenu ? "collapse" : undefined}
-                    data-bs-target={hasSubMenu ? `#menu-collapse-${i}` : undefined}
-                    aria-expanded="false"
-                    aria-controls={hasSubMenu ? `menu-collapse-${i}` : undefined}
-                    onClick={() => {
-                      if (!hasSubMenu && menuEle.id === 1) {
+                {/* Parent Button */}
+                <button
+                  className={`menu-accordion-button ${isOpen ? "" : "collapsed"}`}
+                  type="button"
+                  aria-expanded={isOpen}
+                  onClick={() => {
+                    if (!hasSubMenu) {
+                      if (menuEle.id === 1) {
                         dispatch(setQuery("Trending"));
-                      } else if (!hasSubMenu) {
+                      } else {
                         dispatch(setCategoryId(menuEle.id));
                       }
-                    }}
-                  >
-                    {menuEle.name}
-                    {/* Arrow for submenus only */}
-                    {hasSubMenu && (
-                      <i className="fa-solid fa-chevron-right menu-arrow-icon-unique"></i>
-                    )}
-                  </button>
-                </div>
-
-                {/* Submenu */}
-                {hasSubMenu && (
-                  <div
-                    id={`menu-collapse-${i}`}
-                    className="menu-accordion-collapse-unique collapse"
-                    data-bs-parent={`#menu-accordion-${i}`}
-                  >
-                    <div className="menu-accordion-body-unique">
-                      <ul className="submenu-list-unique">
-                        {menuEle.brandList?.map((subMenuEle, subIndex) => (
-                          <li
-                            className="submenu-item-unique pointer"
-                            key={subIndex}
-                            onClick={() => {
-                              dispatch(setBrandId(subMenuEle.id));
-                            }}
-                          >
-                            <i className="fa-solid fa-circle-dot submenu-icon-unique"></i>
-                            {subMenuEle.name}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-                )}
+                    } else {
+                      setOpenMenu(isOpen ? null : i); // ✅ Toggle submenu
+                    }
+                  }}
+                >
+                  {menuEle.name}
+                  {hasSubMenu && (
+                    <i className={`fa-solid fa-chevron-down menu-arrow-icon ${isOpen ? "open" : ""}`}></i>
+                  )}
+                </button>
               </div>
+
+              {/* Submenu for Children */}
+              {hasSubMenu && isOpen && (
+                <div className="menu-accordion-collapse show">
+                  <div className="menu-accordion-body">
+                    <ul className="submenu-list">
+                      {menuEle.brandList.map((subMenuEle, subIndex) => (
+                        <li
+                          className="submenu-item pointer"
+                          key={subIndex}
+                          onClick={(e) => {
+                            e.stopPropagation(); // ✅ Prevent menu collapse
+                            dispatch(setBrandId(subMenuEle.id));
+                          }}
+                        >
+                          {/* Smooth Colored Submenu Icon */}
+                          <i className="fa-regular fa-circle menu-submenu-icon"></i>
+                          <strong>{subMenuEle.name}</strong>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              )}
             </div>
-          );
-        })}
-      </div>
+          </div>
+        );
+      })}
+    </div>
 
       {/* Product Display Section */}
       <div className="col-lg-9 product-display-section-unique">
