@@ -27,7 +27,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
 import StripePaymentForm from './StripePaymentForm'; // Import StripePaymentForm
 
-const stripePromise = loadStripe("");
+const stripePromise = loadStripe("pk_live_51NgU8ZKmvY8D2mUAc9aPKbuGa2BXcHq0WaRpqfpT28XLbctdKFJqEyYg8yiag1LzCNoU5gJK6lf4PpQiqVlbfVkx00iq9cF8ME");
 
 const ReviewDetails = (props) => {
   const [discountCode, setDiscountCode] = useState("");

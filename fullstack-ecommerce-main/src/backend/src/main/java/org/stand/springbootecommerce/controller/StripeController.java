@@ -1,5 +1,6 @@
 package org.stand.springbootecommerce.controller;
 
+import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
 import com.stripe.model.Charge;
 import com.stripe.model.PaymentIntent;
@@ -43,35 +44,106 @@ public class StripeController {
     }
 
 
+//    @PostMapping("/payment-intent")
+//    public ResponseEntity<Map<String, String>> createPaymentIntent(@RequestBody Map<String, Object> requestBody) {
+//        try {
+//            // Retrieve amount, currency, and optional PaymentIntent ID from the request
+//            int amount = (int) requestBody.get("amount"); // Amount in cents
+//            String currency = (String) requestBody.getOrDefault("currency", "gbp");
+//            String paymentIntentId = (String) requestBody.getOrDefault("paymentIntentId", null);
+//
+//            PaymentIntent paymentIntent;
+//
+//            if (paymentIntentId != null) {
+//                try {
+//                    // Attempt to retrieve the existing PaymentIntent
+//                    paymentIntent = PaymentIntent.retrieve(paymentIntentId);
+//                    System.out.println("Retrieved existing PaymentIntent: " + paymentIntent.getId());
+//                } catch (StripeException e) {
+//                    // If the PaymentIntent doesn't exist, log and create a new one
+//                    System.err.println("PaymentIntent does not exist or is invalid. Creating a new one...");
+//                    paymentIntent = createNewPaymentIntent(amount, currency);
+//                }
+//            } else {
+//                // Create a new PaymentIntent if no ID is provided
+//                paymentIntent = createNewPaymentIntent(amount, currency);
+//            }
+//
+//            // Respond with the client secret
+//            Map<String, String> response = new HashMap<>();
+//            response.put("clientSecret", paymentIntent.getClientSecret());
+//            response.put("paymentIntentId", paymentIntent.getId());
+//            return ResponseEntity.ok(response);
+//
+//        } catch (StripeException e) {
+//            // Log error for debugging
+//            e.printStackTrace();
+//
+//            // Respond with an error message
+//            Map<String, String> errorResponse = new HashMap<>();
+//            errorResponse.put("error", "Failed to create or retrieve payment intent: " + e.getMessage());
+//            return ResponseEntity.badRequest().body(errorResponse);
+//        }
+//    }
+
+
+
+//    // Helper method to create a new PaymentIntent
+//    private PaymentIntent createNewPaymentIntent(int amount, String currency) throws StripeException {
+//        Map<String, Object> params = new HashMap<>();
+//        params.put("amount", amount); // Amount in cents
+//        params.put("currency", currency); // Currency
+//        params.put("payment_method_types", new String[]{"card"}); // Payment method types
+//        return PaymentIntent.create(params); // Create and return the new PaymentIntent
+//    }
+
+
     @PostMapping("/payment-intent")
-    public ResponseEntity<Map<String, String>> createPaymentIntent(@RequestBody Map<String, Object> requestBody) {
+    public ResponseEntity<Map<String, String>> createOrValidatePaymentIntent(@RequestBody Map<String, Object> requestBody) {
+        Stripe.apiKey = ""; // Replace with your live secret key
+
+        String paymentIntentId = (String) requestBody.getOrDefault("paymentIntentId", null);
+        int amount = (int) requestBody.get("amount"); // Amount in cents
+        String currency = (String) requestBody.getOrDefault("currency", "gbp");
+
         try {
-            // Retrieve the amount and currency from the request
-            int amount = (int) requestBody.get("amount"); // Amount should be in cents
-            String currency = (String) requestBody.getOrDefault("currency", "gbp");
+            PaymentIntent paymentIntent;
+            if (paymentIntentId != null) {
+                try {
+                    // Try to retrieve the PaymentIntent
+                    paymentIntent = PaymentIntent.retrieve(paymentIntentId);
+                    System.out.println("Retrieved existing PaymentIntent: " + paymentIntent.getId());
+                } catch (StripeException e) {
+                    // If the PaymentIntent doesn't exist, create a new one
+                    System.out.println("PaymentIntent not found. Creating a new one...");
+                    paymentIntent = createNewPaymentIntent(amount, currency);
+                }
+            } else {
+                // If no PaymentIntent ID is provided, create a new one
+                paymentIntent = createNewPaymentIntent(amount, currency);
+            }
 
-            // Create a payment intent
-            Map<String, Object> params = new HashMap<>();
-            params.put("amount", amount);
-            params.put("currency", currency);
-            params.put("payment_method_types", new String[]{"card"});
-
-            PaymentIntent paymentIntent = PaymentIntent.create(params);
-
-            // Respond with the client secret
+            // Return the client secret
             Map<String, String> response = new HashMap<>();
-            response.put("clientSecret", paymentIntent.getClientSecret());
+//            response.put("clientSecret", paymentIntent.getClientSecret());
+            response.put("paymentIntentId", paymentIntent.getId());
             return ResponseEntity.ok(response);
 
         } catch (StripeException e) {
-            // Log error for debugging
             e.printStackTrace();
-
-            // Respond with an error message
             Map<String, String> errorResponse = new HashMap<>();
-            errorResponse.put("error", "Failed to create payment intent: " + e.getMessage());
+            errorResponse.put("error", "Failed to create or retrieve PaymentIntent: " + e.getMessage());
             return ResponseEntity.badRequest().body(errorResponse);
         }
+    }
+
+    // Helper method to create a new PaymentIntent
+    private PaymentIntent createNewPaymentIntent(int amount, String currency) throws StripeException {
+        Map<String, Object> params = new HashMap<>();
+        params.put("amount", amount);
+        params.put("currency", currency);
+        params.put("payment_method_types", new String[]{"card"});
+        return PaymentIntent.create(params);
     }
 }
 
